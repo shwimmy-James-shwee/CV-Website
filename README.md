@@ -27,14 +27,15 @@ Many companies & lots of open-source projects.
 
 Check out some of them:
 
-1. [Polaris](https://github.com/Shopify/polaris) - Shopify's design system
-2. [Electron](https://github.com/electron/electron) - Build desktop apps with JS/TS
-3. [Amplication](https://github.com/amplication/amplication/) - SaaS platform that generates secure & scalable backend code based on your database schema
-4. [Vercel](https://github.com/vercel/vercel) - You don't know Vercel !?
-5. [Supabase](https://github.com/supabase/supabase) - Open-source Firebase alternative built for PostgresSQL
-6. [APITable](https://github.com/apitable/apitable) - Open-source alternative to Airtable
-7. [Grafana](https://github.com/grafana/grafana) - Data visualisation & Observability tool
-8. [Cube.dev](https://github.com/cube-js/cube) - Semantic API layer for data analytic apps
+1. [AWS CDK](https://github.com/aws/aws-cdk) - Cloud development kit for AWS
+2. [Polaris](https://github.com/Shopify/polaris) - Shopify's design system
+3. [Electron](https://github.com/electron/electron) - Build desktop apps with JS/TS
+4. [Amplication](https://github.com/amplication/amplication/) - SaaS platform that generates secure & scalable backend code based on your database schema
+5. [Vercel](https://github.com/vercel/vercel) - You don't know Vercel !?
+6. [Supabase](https://github.com/supabase/supabase) - Open-source Firebase alternative built for PostgresSQL
+7. [APITable](https://github.com/apitable/apitable) - Open-source alternative to Airtable
+9. [Grafana](https://github.com/grafana/grafana) - Data visualisation & Observability tool
+9. [Cube.dev](https://github.com/cube-js/cube) - Semantic API layer for data analytic apps
 
 ## 💸 How can this template help you with YOUR engagements & workflows?
 
