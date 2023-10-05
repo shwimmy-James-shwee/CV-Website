@@ -51,10 +51,28 @@ Check out some of them:
 | Validating environment variables                                    | [Zod](https://github.com/colinhacks/zod) & [t3-env](https://github.com/t3-oss/t3-env)                                                                            |
 | Make sure your peers are documenting what they're doing for each PR | Pull Request template in `/.github` folder                                                                                                                       |
 
-## 🎨 Templates
+## 🎨 Template Recommendations
 
-| Business need   | Tech stack                                   | Reasoning |
-| :-------------- | :------------------------------------------- | :-------- |
-| Simple web-apps | Next.js + tRPC + Zod + Tailwind CSS          | ...       |
-| Dedicated APIs  | NestJS + Zod + RxJS + Neverthrow             | ...       |
-| Serverless APIs | Node.js + Azure Functions + Zod + Neverthrow | ...       |
+We are, by no means, forcing you to choose the following tools for your projects. They're simply genuine recommendations (from experience) so that you can be more productive & also produce code that're self-documenting, maintainable & scalable.
+
+If you happen to know any tools we can add to the list of recommendations, make a PR & let's talk:)
+
+| Business need   | Tech stack                                   |
+| :-------------- | :------------------------------------------- |
+| Simple web-apps | Next.js + tRPC + Zod + Tailwind CSS          |
+| Dedicated APIs  | NestJS + Zod + RxJS + Neverthrow             |
+| Serverless APIs | Node.js + Azure Functions + Zod + Neverthrow |
+
+## 🙋‍♂️ Reasonings
+
+### 🎨 Simple web-apps
+
+Definition: Web applications that processuser-inputs on a relatively tiny scale with simple business logics (CRUD, etc)
+| Tools | Why this tool |
+|:--|:--|
+| Next.js | React-based framework, provides out-of-box page-routing, SSR allows us building simple APIs without having to deploy separate backends |
+| tRPC | REST APIs aren't the easiest document, and enforcing type-safety on them can be an overkill. tRPC allows you to execute backend functions directly from frontend with type-safety built-in by default & it has nice integrations with Next.js, which not only helps bringing simplicity to your APIs, but you're also documenting them automatically |
+| Zod | Form entries & API controllers/services require input validations. Instead of writing custom functions for validation on both frontend and backend, you can create a single source-of-truth for validation logic using **Zod schemas** where you can specify custom fields & error messages in one place & infer type definitions, which you can then share them across both frontend and backend on any applications built with Next.js & tRPC|
+| Tailwind CSS | Writing inline CSS & having separate CSS files for React components isn't maintainable, it becomes even more troublesome when you had to make them responsive. Tailwind introduces simplicity with inline classes & enables lightweight production build bundles. You're wlesome to use Tailwind with any component library of your choice |
+
+### 🚀 Dedicated APIs
