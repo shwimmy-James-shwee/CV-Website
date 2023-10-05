@@ -85,10 +85,13 @@ Definition: APIs (Servers) that must be available at all times for critical busi
 | Neverthrow | We often use `try catch` or `then catch` blocks when working with code from 3rd parties & our own. This isn't inheritly harmful, but it makes \_\_\_ What if we can encode failures into the functions we write? What if we can identify errors simply by doing `functionCall.isOk` or `functionCall.isErr`? Neverthrow introduces this style of error-handling to your Typesccript projects (inspired by Rust), which makes your codebase more readable, modular, scalable & more enjoyable to work with |
 
 ### Serverless APIs
+
 TBD
 
 ### 📚 Folder naming recommendations
+
 Currently, the template names packages (projects) are named like the following:
+
 ```shell
 -/packages/
 --/template-nextjs-trpc
@@ -96,6 +99,7 @@ Currently, the template names packages (projects) are named like the following:
 ```
 
 By the time you start a new engagement, we recommend naming your projects like so:
+
 ```shell
 # Imagine you're working on an engagement with Te Whatu Ora on their HR portal
 
