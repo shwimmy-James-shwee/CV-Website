@@ -19,7 +19,7 @@ There are areas in software engineering that're important to get right, but not 
 
 And a lot more...
 
-Setting up a monorepo to address some of these issues not only helps us to build software the proper way (for the most part), but also enables us to focus on work that creates more value to our clients. 
+Setting up a monorepo to address some of these issues not only helps us to build software the proper way (for the most part), but also enables us to focus on work that creates more value to our clients.
 
 ## 😎 Who's using monorepo?
 
