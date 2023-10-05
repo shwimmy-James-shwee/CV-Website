@@ -47,7 +47,7 @@ Check out some of them:
 | Seperating code-related files apart from configuration files        | Using dedicated `/src` folder for each project under `/packages` folder                                                                                          |
 | Reduce confusion when importing code from other folders/files       | Absolute path-mapping. For e.g, `import { UserService } from '@/services/user.service.ts'` not `import { UserService } from '../../../services/user.service.ts'` |
 | Validating environment variables                                    | [Zod](https://github.com/colinhacks/zod) & [t3-env](https://github.com/t3-oss/t3-env)                                                                            |
-| Make sure your peers are documenting what they're doing for each PR | Pull Request template in `/.github` folder                                                                                                                        |
+| Make sure your peers are documenting what they're doing for each PR | Pull Request template in `/.github` folder                                                                                                                       |
 
 ## 🎨 Templates
 
