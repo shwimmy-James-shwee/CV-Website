@@ -60,7 +60,7 @@ If you happen to know any tools we can add to the list of recommendations, make 
 | Business need   | Examples                                         | Tech stack                                   |
 | :-------------- | :----------------------------------------------- | :------------------------------------------- |
 | Simple web-apps | Web portals & one-off full-stack apps            | Next.js + tRPC + Zod + Tailwind CSS          |
-| Dedicated APIs  | Data processing systems, complex APIs, CRON jobs | NestJS + Zod + RxJS + Neverthrow             |
+| Dedicated APIs  | Data processing systems, complex APIs, CRON jobs | NestJS + Zod + Neverthrow                    |
 | Serverless APIs | Ad-doc event triggers, webhooks                  | Node.js + Azure Functions + Zod + Neverthrow |
 
 ## 🙋‍♂️ Reasonings
@@ -79,3 +79,7 @@ Definition: Web applications that process user-inputs on a relatively tiny scale
 ### 🚀 Dedicated APIs
 
 Definition: APIs (Servers) that must be available at all times for critical business use-cases
+| Tools | Why this tool |
+|:--|:--|
+| NestJS | Node.js alternative for the SpringBoot framework (Java/Kotlin). NestJS provides standardised solutions for architecture, API toolings (REST/Swagger/Routing controllers, GraphQL, gRPC), validators, HTTP, exception filters, caching, pipes, middlewares, interceptors, security, microservices, event-streaming, etc. Saving you time deciding which one of the 6 million+ NPM packages to use if you're working on plain Node/Express projects. Similar frameworks/packages: [Ts.ed](https://github.com/tsedio/tsed), [Inversify](https://github.com/inversify/InversifyJS), [routing-controllers](https://github.com/typestack/routing-controllers), [TypeGraphQL](https://typegraphql.com/)|
+| Neverthrow | We often use `try catch` or `then catch` blocks when working with code from 3rd parties & our own. This isn't inheritly harmful, but it makes ___ What if we can encode failures into the functions we write? What if we can identify errors simply by doing `functionCall.isOk` or `functionCall.isErr`? Neverthrow introduces this style of error-handling to your Typesccript projects (inspired by Rust), which makes your codebase more readable, modular, scalable & more enjoyable to work with |
