@@ -34,7 +34,7 @@ Check out some of them:
 5. [Vercel](https://github.com/vercel/vercel) - You don't know Vercel !?
 6. [Supabase](https://github.com/supabase/supabase) - Open-source Firebase alternative built for PostgresSQL
 7. [APITable](https://github.com/apitable/apitable) - Open-source alternative to Airtable
-9. [Grafana](https://github.com/grafana/grafana) - Data visualisation & Observability tool
+8. [Grafana](https://github.com/grafana/grafana) - Data visualisation & Observability tool
 9. [Cube.dev](https://github.com/cube-js/cube) - Semantic API layer for data analytic apps
 
 ## 💸 How can this template help you with YOUR engagements & workflows?
