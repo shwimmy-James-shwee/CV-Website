@@ -82,7 +82,7 @@ Definition: APIs (Servers) that must be available at all times for critical busi
 | Tools | Why this tool |
 |:--|:--|
 | NestJS | Node.js alternative for the SpringBoot framework (Java/Kotlin). NestJS provides standardised solutions for architecture, API toolings (REST/Swagger/Routing controllers, GraphQL, gRPC), validators, HTTP, exception filters, caching, pipes, middlewares, interceptors, security, microservices, event-streaming, etc. Saving you time deciding which one of the 6 million+ NPM packages to use if you're working on plain Node/Express projects. Similar frameworks/packages: [Ts.ed](https://github.com/tsedio/tsed), [Inversify](https://github.com/inversify/InversifyJS), [routing-controllers](https://github.com/typestack/routing-controllers), [TypeGraphQL](https://typegraphql.com/)|
-| Neverthrow | We often use `try catch` or `then catch` blocks when working with code from 3rd parties & our own. This isn't inheritly harmful, but it makes \_\_\_ What if we can encode failures into the functions we write? What if we can identify errors simply by doing `functionCall.isOk` or `functionCall.isErr`? Neverthrow introduces this style of error-handling to your Typesccript projects (inspired by Rust), which makes your codebase more readable, modular, scalable & more enjoyable to work with |
+| Neverthrow | We often use `try catch` or `then catch` blocks when working with code from 3rd parties & our own. This isn't inheritly harmful, but it bloats your code. What if we can encode failures into the functions we write? What if we can identify errors simply by doing `functionCall.isOk` or `functionCall.isErr` - just to begin with? Neverthrow introduces the functional-programming style for error-handling to your Typescript projects (inspired by Rust), which makes your codebase more readable, modular, scalable & more enjoyable to work with |
 
 ### Serverless APIs
 
@@ -104,11 +104,12 @@ By the time you start a new engagement, we recommend naming your projects like s
 # Imagine you're working on an engagement with Te Whatu Ora on their HR portal
 
 -/packages/
-  # nextjs + trpc web app
---/core-portal
-
-  # nestjs API
---/core-server
+--/core-portal # nextjs + trpc web app
+--/core-server # nestjs API
 ```
 
-In general, we **do recommend** having a common prefix for each project, because it helps us identifying the nature of the project & what it belongs to. Of course, everyone has different opinions on this topic (and you are allowed to). Afterall, you are taking the lead of your engagements, it is important that you're doing things in ways that makes (work) life easier for you & engagement partners/team members.
+In general, we **do recommend** having a common prefix for each project, because it helps us identifying the nature of the project & what it belongs to.
+
+For more examples, checkout how these teams structure their projects: [AWS CDK](https://github.com/aws/aws-cdk/tree/main/packages/aws-cdk-lib), [Amplication](https://github.com/amplication/amplication/tree/master/packages), [Polkadot.js](https://github.com/polkadot-js/api/tree/master/packages), etc.
+
+Of course, everyone has different opinions on this topic (and you are allowed to). Afterall, you are taking the lead for your engagements, it is important that you're doing things in ways that makes (work) life easier for you & your engagement partners/team members.
