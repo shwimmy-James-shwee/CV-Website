@@ -89,7 +89,7 @@ Definition: APIs (Servers) that must be available at all times for critical busi
 
 TBD
 
-### 📚 Folder naming recommendations
+### 📚 Recommendations - Folder naming conventions
 
 Currently, the template names packages (projects) are named like the following:
 
@@ -107,6 +107,8 @@ By the time you start a new engagement, we recommend naming your projects like s
 -/packages/
 --/core-portal # nextjs + trpc web app
 --/core-server # nestjs API
+--/core-serverless # Azure functions / serverless APIs
+--/core-lib # library of pure functions & SDKs to use across all other packages
 ```
 
 In general, we **do recommend** having a common prefix for each project, because it helps us identifying the nature of the project & what it belongs to.
@@ -114,3 +116,6 @@ In general, we **do recommend** having a common prefix for each project, because
 For more examples, checkout how these teams structure their projects: [AWS CDK](https://github.com/aws/aws-cdk/tree/main/packages/aws-cdk-lib), [Amplication](https://github.com/amplication/amplication/tree/master/packages), [Polkadot.js](https://github.com/polkadot-js/api/tree/master/packages), etc.
 
 Of course, everyone has different opinions on this topic (and you are allowed to). Afterall, you are taking the lead for your engagements, it is important that you're doing things in ways that makes (work) life easier for you & your engagement partners/team members.
+
+### 📚 Recommendations - File-naming conventions
+TBD
