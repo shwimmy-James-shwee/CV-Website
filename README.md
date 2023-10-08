@@ -58,11 +58,12 @@ We are, by no means, forcing you to choose the following tools for your projects
 
 If you happen to know any tools we can add to the list of recommendations, make a PR & let's talk:)
 
-| Business need   | Examples                                         | Tech stack                                   |
-| :-------------- | :----------------------------------------------- | :------------------------------------------- |
-| Simple web-apps | Web portals & one-off full-stack apps            | Next.js + tRPC + Zod + Tailwind CSS          |
-| Dedicated APIs  | Data processing systems, complex APIs, CRON jobs | NestJS + Zod + Neverthrow                    |
-| Serverless APIs | Ad-doc event triggers, webhooks                  | Node.js + Azure Functions + Zod + Neverthrow |
+| Business need                                | Examples                                         | Tech stack                                   | Template                                                  |
+| :------------------------------------------- | :----------------------------------------------- | :------------------------------------------- | :-------------------------------------------------------- |
+| Simple web-apps                              | Web portals & one-off full-stack apps            | Next.js + tRPC + Zod + Tailwind CSS          | [template-nextjs-trpc](./packages//template-nextjs-trpc/) |
+| Dedicated APIs - Object-Oriented Programming | Data processing systems, complex APIs, CRON jobs | NestJS + Zod + Neverthrow                    | [template-nestjs](./packages//template-nestjs/)           |
+| Dedicated APIs - Functional Programming      | Same as above                                    | Node.js + Express + Zod + Neverthrow         | [template-node-fp](./packages//template-node-fp/)         |
+| Serverless APIs                              | Event-driven systems, triggers, webhooks, ect    | Node.js + Azure Functions + Zod + Neverthrow | TBD                                                       |
 
 ## 🙋‍♂️ Reasonings
 
@@ -84,6 +85,7 @@ Definition: APIs (Servers) that must be available at all times for critical busi
 |:--|:--|
 | NestJS | Node.js alternative for the SpringBoot framework (Java/Kotlin). NestJS provides standardised solutions for architecture, API toolings (REST/Swagger/Routing controllers, GraphQL, gRPC), validators, HTTP, exception filters, caching, pipes, middlewares, interceptors, security, microservices, event-streaming, etc. Saving you time deciding which one of the 6 million+ NPM packages to use if you're working on plain Node/Express projects. Similar frameworks/packages: [Ts.ed](https://github.com/tsedio/tsed), [Inversify](https://github.com/inversify/InversifyJS), [routing-controllers](https://github.com/typestack/routing-controllers), [TypeGraphQL](https://typegraphql.com/)|
 | Neverthrow | We often use `try catch` or `then catch` blocks when working with code from 3rd parties & our own. This isn't inheritly harmful, but it bloats your code. What if we can encode failures into the functions we write? What if we can identify errors simply by doing `functionCall.isOk` or `functionCall.isErr` - just to begin with? Neverthrow introduces the functional-programming style for error-handling to your Typescript projects (inspired by Rust), which makes your codebase more readable, modular, scalable & more enjoyable to work with |
+|Zod| We can use Zod in Node.js evenronments to validate HTTP reuqest inputs & map responses |
 
 ### Serverless APIs
 
@@ -117,6 +119,30 @@ For more examples, checkout how these teams structure their projects: [AWS CDK](
 
 Of course, everyone has different opinions on this topic (and you are allowed to). Afterall, you are taking the lead for your engagements, it is important that you're doing things in ways that makes (work) life easier for you & your engagement partners/team members.
 
-### 📚 Recommendations - File-naming conventions
+## ✍️ Prerequisites:
 
-TBD
+1. Install [Node.js](https://nodejs.org/en)
+2. Install [PNPM](https://pnpm.io/)
+3. Install [Git](https://git-scm.com/downloads)
+
+## 📝 How to use this template?
+
+1. Click `Use this template` green button on the GitHub repo page
+2. Give it a name
+3. Make sure the `owner` is `kpmg-nz` or whichever other KPMG firm you're working for
+4. Confirm you have created a brand new repo + go to that repo
+5. Clone the repo locally
+6. Install packages -> `pnpm `
+7. Rename any templates insider `/packages` folder to cater to your engagement. For e.g,
+
+|Folder name before|Folder name after|
+|:--|:--|
+|`template-nextjs-trpc`|`core-portal`|
+|`template-nextjs-trpc`|`core-web`|
+|`template-nextjs-trpc`|`core-frontend`|
+|`template-nestjs`|`core-server`|
+|`template-nestjs`|`core-api`|
+|`template-nestjs`|`core-backend`|
+|`template-node-fp`|`core-server`|
+|`template-node-fp`|`core-api`|
+|`template-node-fp`|`core-backend`|
