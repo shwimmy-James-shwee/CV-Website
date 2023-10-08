@@ -118,4 +118,5 @@ For more examples, checkout how these teams structure their projects: [AWS CDK](
 Of course, everyone has different opinions on this topic (and you are allowed to). Afterall, you are taking the lead for your engagements, it is important that you're doing things in ways that makes (work) life easier for you & your engagement partners/team members.
 
 ### 📚 Recommendations - File-naming conventions
+
 TBD
