@@ -52,7 +52,18 @@ Check out some of them:
 | Validating environment variables                                    | [Zod](https://github.com/colinhacks/zod) & [t3-env](https://github.com/t3-oss/t3-env)                                                                            |
 | Make sure your peers are documenting what they're doing for each PR | Pull Request template in `/.github` folder                                                                                                                       |
 
-## 🎨 Template Recommendations
+## 🏗️ Template Architecture
+```mermaid
+classDiagram
+  Packages --|> MonorepoTemplate
+  template-nextjs-trpc --|> Packages
+  template-nestjs --|> Packages
+  template-node-ts --|> Packages
+  Shared --|> MonorepoTemplate
+  eslint-config-custom --|> Shared
+  tsconfig --|> Shared
+```
+## 🎨 Recommendations - Code Templates
 
 We are, by no means, forcing you to choose the following tools for your projects. They're simply genuine recommendations (from experience) so that you can be more productive & also produce code that're self-documenting, maintainable & scalable.
 
@@ -135,14 +146,14 @@ Of course, everyone has different opinions on this topic (and you are allowed to
 6. Install packages -> `pnpm `
 7. Rename any templates insider `/packages` folder to cater to your engagement. For e.g,
 
-|Folder name before|Folder name after|
-|:--|:--|
-|`template-nextjs-trpc`|`core-portal`|
-|`template-nextjs-trpc`|`core-web`|
-|`template-nextjs-trpc`|`core-frontend`|
-|`template-nestjs`|`core-server`|
-|`template-nestjs`|`core-api`|
-|`template-nestjs`|`core-backend`|
-|`template-node-fp`|`core-server`|
-|`template-node-fp`|`core-api`|
-|`template-node-fp`|`core-backend`|
+| Folder name before     | Folder name after |
+| :--------------------- | :---------------- |
+| `template-nextjs-trpc` | `core-portal`     |
+| `template-nextjs-trpc` | `core-web`        |
+| `template-nextjs-trpc` | `core-frontend`   |
+| `template-nestjs`      | `core-server`     |
+| `template-nestjs`      | `core-api`        |
+| `template-nestjs`      | `core-backend`    |
+| `template-node-fp`     | `core-server`     |
+| `template-node-fp`     | `core-api`        |
+| `template-node-fp`     | `core-backend`    |
