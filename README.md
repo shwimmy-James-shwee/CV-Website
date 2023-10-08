@@ -53,6 +53,7 @@ Check out some of them:
 | Make sure your peers are documenting what they're doing for each PR | Pull Request template in `/.github` folder                                                                                                                       |
 
 ## 🏗️ Template Architecture
+
 ```mermaid
 classDiagram
   Packages --|> MonorepoTemplate
@@ -63,6 +64,7 @@ classDiagram
   eslint-config-custom --|> Shared
   tsconfig --|> Shared
 ```
+
 ## 🎨 Recommendations - Code Templates
 
 We are, by no means, forcing you to choose the following tools for your projects. They're simply genuine recommendations (from experience) so that you can be more productive & also produce code that're self-documenting, maintainable & scalable.
