@@ -15,7 +15,8 @@ There are areas in software engineering that're important to get right, but not 
 3. How do we know if we forgot to inlcude environment variables before pushing code to production?
 4. How can we gracefully handle runtime errors?
 5. How do we spend less time on repetitive & indifferentiated code (CRUD logic, API documentation, etc) & deliver more client-value?
-6. How do we track what each pull request is doing without having to review the code itself?
+6. How can we make sure the inputs & outputs on our REST API endpoints are type-safe without spending too much time on writing type definitions?
+7. How do we track what each pull request is doing without having to review the code itself?
 
 And a lot more...
 
