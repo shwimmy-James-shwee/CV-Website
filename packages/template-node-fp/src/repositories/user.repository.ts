@@ -15,7 +15,6 @@ export type CreateUserResBody = CreateUserReqBody & {
 export const createUser = async (
   args: CreateUserReqBody,
 ): Promise<ResultAsync<CreateUserResBody, unknown>> => {
-
   // Mock DB ORM
   const db = {
     // Mock user entity
