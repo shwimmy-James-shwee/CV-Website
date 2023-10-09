@@ -44,12 +44,13 @@ Check out some of them:
 | Reduce bugs                                                         | Typescript!                                                                                                                                                      |
 | Reduce installation time for NPM packages                           | [PNPM](https://pnpm.io/)                                                                                                                                         |
 | Scaffolding the monorepo                                            | [Turborepo](https://turbo.build/)                                                                                                                                |
-| Shared coding syntax rules                                          | [Eslint]()                                                                                                                                                       |
-| Shared code formatting rules                                        | [Prettier]()                                                                                                                                                     |
+| Shared coding syntax rules                                          | [Eslint]() rules in `/shared` folder                                                                                                                             |
+| Shared code formatting rules                                        | [Prettier]() rules in `.prettierrc` file                                                                                                                         |
 | Automatic code formatting & linting on each commit                  | [Husky precommit hook]()                                                                                                                                         |
 | Seperating code-related files apart from configuration files        | Using dedicated `/src` folder for each project under `/packages` folder                                                                                          |
 | Reduce confusion when importing code from other folders/files       | Absolute path-mapping. For e.g, `import { UserService } from '@/services/user.service.ts'` not `import { UserService } from '../../../services/user.service.ts'` |
 | Validating environment variables                                    | [Zod](https://github.com/colinhacks/zod) & [t3-env](https://github.com/t3-oss/t3-env)                                                                            |
+| Validate form input & API input                                     | [Zod](https://github.com/colinhacks/zod)                                                                                                                         |
 | Make sure your peers are documenting what they're doing for each PR | Pull Request template in `/.github` folder                                                                                                                       |
 
 ## 🎨 Recommendations - Code Templates
@@ -58,12 +59,12 @@ We are, by no means, forcing you to choose the following tools for your projects
 
 If you happen to know any tools we can add to the list of recommendations, make a PR & let's talk:)
 
-| Business need                                | Examples                                         | Tech stack                                   | Template                                                  |
-| :------------------------------------------- | :----------------------------------------------- | :------------------------------------------- | :-------------------------------------------------------- |
-| Simple web-apps                              | Web portals & one-off full-stack apps            | Next.js + tRPC + Zod + Tailwind CSS          | [template-nextjs-trpc](./packages//template-nextjs-trpc/) |
-| Dedicated APIs - Object-Oriented Programming | Data processing systems, complex APIs, CRON jobs | NestJS + Zod + Neverthrow                    | [template-nestjs](./packages//template-nestjs/)           |
-| Dedicated APIs - Functional Programming      | Same as above                                    | Node.js + Express + Zod + Neverthrow         | [template-node-fp](./packages//template-node-fp/)         |
-| Serverless APIs                              | Event-driven systems, triggers, webhooks, ect    | Node.js + Azure Functions + Zod + Neverthrow | TBD                                                       |
+| Business need   | Examples                                         | Tech stack                                                    | Template                                                  |
+| :-------------- | :----------------------------------------------- | :------------------------------------------------------------ | :-------------------------------------------------------- |
+| Simple web-apps | Web portals & one-off full-stack apps            | Next.js + tRPC + Zod + Tailwind CSS                           | [template-nextjs-trpc](./packages//template-nextjs-trpc/) |
+| Dedicated APIs  | Complex APIs, Data processing systems, CRON jobs | NestJS + Zod + RxJS (OOP + Reactive Programming)              | [template-nestjs](./packages//template-nestjs/)           |
+| Dedicated APIs  | Same as above                                    | Node.js + Express + Zod + Neverthrow (Functional Programming) | [template-node-fp](./packages//template-node-fp/)         |
+| Serverless APIs | Event-driven systems, triggers, webhooks, ect    | Node.js + Azure Functions + Zod + Neverthrow                  | TBD                                                       |
 
 ## 🙋‍♂️ Reasonings
 
@@ -85,7 +86,7 @@ Definition: APIs (Servers) that must be available at all times for critical busi
 |:--|:--|
 | NestJS | Node.js alternative for the SpringBoot framework (Java/Kotlin). NestJS provides standardised solutions for architecture, API toolings (REST/Swagger/Routing controllers, GraphQL, gRPC), validators, HTTP, exception filters, caching, pipes, middlewares, interceptors, security, microservices, event-streaming, etc. Saving you time deciding which one of the 6 million+ NPM packages to use if you're working on plain Node/Express projects. Similar frameworks/packages: [Ts.ed](https://github.com/tsedio/tsed), [Inversify](https://github.com/inversify/InversifyJS), [routing-controllers](https://github.com/typestack/routing-controllers), [TypeGraphQL](https://typegraphql.com/)|
 | Neverthrow | We often use `try catch` or `then catch` blocks when working with code from 3rd parties & our own. This isn't inheritly harmful, but it bloats your code. What if we can encode failures into the functions we write? What if we can identify errors simply by doing `functionCall.isOk` or `functionCall.isErr` - just to begin with? Neverthrow introduces the functional-programming style for error-handling to your Typescript projects (inspired by Rust), which makes your codebase more readable, modular, scalable & more enjoyable to work with |
-|Zod| We can use Zod in Node.js evenronments to validate HTTP reuqest inputs & map responses |
+|Zod| We can use Zod in Node.js environments to validate HTTP reuqest inputs & map responses |
 
 ### Serverless APIs
 
