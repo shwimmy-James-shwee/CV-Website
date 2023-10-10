@@ -101,6 +101,7 @@ Currently, the template names packages (projects) are named like the following:
 -/packages/
 --/template-nextjs-trpc
 --/template-nestjs
+--/template-node-fp
 ```
 
 By the time you start a new engagement, we recommend naming your projects like so:
