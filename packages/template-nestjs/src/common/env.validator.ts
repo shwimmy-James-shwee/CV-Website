@@ -1,4 +1,6 @@
 import { z } from 'zod';
+import * as dotenv from 'dotenv'; 
+dotenv.config();
 
 export const EnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'production']).default('development'),
@@ -10,11 +12,13 @@ export const EnvSchema = z.object({
 
 export type Env = z.infer<typeof EnvSchema>;
 
-export const validate = (args: Record<string, unknown>) => {
-  const parsed = EnvSchema.safeParse(args);
+const validator = () => {
+  const parsed = EnvSchema.safeParse(process.env);
   if (parsed.success === false) {
     throw parsed.error;
   } else {
     return parsed.data;
   }
 };
+
+export const env: Env = validator();
