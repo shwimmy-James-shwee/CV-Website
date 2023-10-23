@@ -5,6 +5,7 @@
   ],
   "compilerOptions": {
     "strictNullChecks": true,
+    "preserveSymlinks": true,
     "baseUrl": ".",
     "paths": {
       "@/*": [
