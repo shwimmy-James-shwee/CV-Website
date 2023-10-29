@@ -60,12 +60,12 @@ We are, by no means, forcing you to choose the following tools for your projects
 
 If you happen to know any tools we can add to the list of recommendations, make a PR & let's talk:)
 
-| Business need   | Examples                                         | Tech stack                                                    | Template                                                  |
-| :-------------- | :----------------------------------------------- | :------------------------------------------------------------ | :-------------------------------------------------------- |
-| Simple web-apps | Web portals & one-off full-stack apps            | Next.js + tRPC + Zod + Tailwind CSS                           | [template-nextjs-trpc](./packages//template-nextjs-trpc/) |
-| Dedicated APIs  | Complex APIs, Data processing systems, CRON jobs | NestJS + Zod + RxJS (OOP + Reactive Programming)              | [template-nestjs](./packages//template-nestjs/)           |
-| Dedicated APIs  | Same as above                                    | Node.js + Express + Zod + Neverthrow (Functional Programming) | [template-node-fp](./packages//template-node-fp/)         |
-| Infrastructure-as-code | Event-driven systems, triggers, webhooks, ect    | Node.js + Pulumi + Typescript + Azure       | [template-infrastructure](./packages//template-infrastructure/)                                                       |
+| Business need          | Examples                                         | Tech stack                                                    | Template                                                        |
+| :--------------------- | :----------------------------------------------- | :------------------------------------------------------------ | :-------------------------------------------------------------- |
+| Simple web-apps        | Web portals & one-off full-stack apps            | Next.js + tRPC + Zod + Tailwind CSS                           | [template-nextjs-trpc](./packages//template-nextjs-trpc/)       |
+| Dedicated APIs         | Complex APIs, Data processing systems, CRON jobs | NestJS + Zod + RxJS (OOP + Reactive Programming)              | [template-nestjs](./packages//template-nestjs/)                 |
+| Dedicated APIs         | Same as above                                    | Node.js + Express + Zod + Neverthrow (Functional Programming) | [template-node-fp](./packages//template-node-fp/)               |
+| Infrastructure-as-code | Event-driven systems, triggers, webhooks, ect    | Node.js + Pulumi + Typescript + Azure                         | [template-infrastructure](./packages//template-infrastructure/) |
 
 ## 🙋‍♂️ Reasonings
 
@@ -90,6 +90,7 @@ Definition: APIs (Servers) that must be available at all times for critical busi
 |Zod| We can use Zod in Node.js environments to validate HTTP reuqest inputs & map responses |
 
 ### 🏗️ Infrastructure-as-code
+
 We're already using Azure for cloud infrastructures, managing Azure resources using Typescript witht the help of Pulumi makes our job easier as devs than if we use terraform or Bicep
 
 ### 📚 Recommendations - Folder naming conventions
@@ -138,16 +139,16 @@ Of course, everyone has different opinions on this topic (and you are allowed to
 6. Install packages -> `pnpm `
 7. Rename any templates insider `/packages` folder to cater to your engagement. For e.g,
 
-| Folder name before     | Folder name after |
-| :--------------------- | :---------------- |
-| `template-nextjs-trpc` | `core-portal`     |
-| `template-nextjs-trpc` | `core-web`        |
-| `template-nextjs-trpc` | `core-frontend`   |
-| `template-nestjs`      | `core-server`     |
-| `template-nestjs`      | `core-api`        |
-| `template-nestjs`      | `core-backend`    |
-| `template-node-fp`     | `core-server`     |
-| `template-node-fp`     | `core-api`        |
-| `template-node-fp`     | `core-backend`    |
-| `template-infrastructure`     | `core-infrastructure`    |
-| `template-infrastructure`     | `core-iac`    |
+| Folder name before        | Folder name after     |
+| :------------------------ | :-------------------- |
+| `template-nextjs-trpc`    | `core-portal`         |
+| `template-nextjs-trpc`    | `core-web`            |
+| `template-nextjs-trpc`    | `core-frontend`       |
+| `template-nestjs`         | `core-server`         |
+| `template-nestjs`         | `core-api`            |
+| `template-nestjs`         | `core-backend`        |
+| `template-node-fp`        | `core-server`         |
+| `template-node-fp`        | `core-api`            |
+| `template-node-fp`        | `core-backend`        |
+| `template-infrastructure` | `core-infrastructure` |
+| `template-infrastructure` | `core-iac`            |
