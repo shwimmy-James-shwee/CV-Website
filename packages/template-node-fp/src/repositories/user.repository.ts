@@ -15,28 +15,24 @@ export type CreateUserResBody = CreateUserReqBody & {
 export const createUser = async (
   args: CreateUserReqBody,
 ): Promise<ResultAsync<CreateUserResBody, unknown>> => {
-  // Mock DB ORM
-  const db = {
-    // Mock user entity
-    user: {
-      // Mock creating user
-      create: async (args: CreateUserReqBody): Promise<CreateUserResBody> => {
-        setTimeout(() => {
-          console.log(`Waited 0.8s`);
-        }, 800);
-        return {
-          ...args,
-          id: crypto.randomUUID(),
-          password: Helpers.hashPassword(args.email),
-          createdAt: new Date(),
-        };
-      },
-    },
+  // Mock DB insertion action
+  const formUser = async (
+    args: CreateUserReqBody,
+  ): Promise<CreateUserResBody> => {
+    setTimeout(() => {
+      console.log(`Waited 0.8s`);
+    }, 800);
+    return {
+      ...args,
+      id: crypto.randomUUID(),
+      password: Helpers.hashPassword(args.email),
+      createdAt: new Date(),
+    };
   };
 
   // handle result & map errors
   const putResult = await ResultAsync.fromPromise(
-    db.user.create(args),
+    formUser(args),
     (error: any) => {
       return error;
     },

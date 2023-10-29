@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { StatusCodes } from 'http-status-codes';
-import * as HTTP from '../common/http';
+import * as HTTP from '../common/http-error';
 import * as UserService from '../services/user.service';
 import { wrapHandlerWithValidation } from '../common/validation-wrapper';
 

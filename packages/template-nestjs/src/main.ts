@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { INestApplication } from '@nestjs/common';
-import { AppModule } from '@/modules/app.module';
-import { env } from '@/common/env.validator';
+import { AppModule } from '@/app.module';
+import { env } from '@/env';
 
-async function bootstrap() {
+const bootstrap = async () => {
   const app = await NestFactory.create<INestApplication>(AppModule);
   await app.listen(env.PORT);
-}
+};
 
 bootstrap();

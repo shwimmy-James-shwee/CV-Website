@@ -2,6 +2,7 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Default",
   "compilerOptions": {
+    "esModuleInterop": true,
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
@@ -21,5 +22,5 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "./dist/**/*"]
 }
