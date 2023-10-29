@@ -65,7 +65,7 @@ If you happen to know any tools we can add to the list of recommendations, make 
 | Simple web-apps | Web portals & one-off full-stack apps            | Next.js + tRPC + Zod + Tailwind CSS                           | [template-nextjs-trpc](./packages//template-nextjs-trpc/) |
 | Dedicated APIs  | Complex APIs, Data processing systems, CRON jobs | NestJS + Zod + RxJS (OOP + Reactive Programming)              | [template-nestjs](./packages//template-nestjs/)           |
 | Dedicated APIs  | Same as above                                    | Node.js + Express + Zod + Neverthrow (Functional Programming) | [template-node-fp](./packages//template-node-fp/)         |
-| Serverless APIs | Event-driven systems, triggers, webhooks, ect    | Node.js + Azure Functions + Zod + Neverthrow                  | TBD                                                       |
+| Infrastructure-as-code | Event-driven systems, triggers, webhooks, ect    | Node.js + Pulumi + Typescript + Azure       | [template-infrastructure](./packages//template-infrastructure/)                                                       |
 
 ## 🙋‍♂️ Reasonings
 
@@ -89,9 +89,8 @@ Definition: APIs (Servers) that must be available at all times for critical busi
 | Neverthrow | We often use `try catch` or `then catch` blocks when working with code from 3rd parties & our own. This isn't inheritly harmful, but it bloats your code. What if we can encode failures into the functions we write? What if we can identify errors simply by doing `functionCall.isOk` or `functionCall.isErr` - just to begin with? Neverthrow introduces the functional-programming style for error-handling to your Typescript projects (inspired by Rust), which makes your codebase more readable, modular, scalable & more enjoyable to work with |
 |Zod| We can use Zod in Node.js environments to validate HTTP reuqest inputs & map responses |
 
-### Serverless APIs
-
-TBD
+### 🏗️ Infrastructure-as-code
+We're already using Azure for cloud infrastructures, managing Azure resources using Typescript witht the help of Pulumi makes our job easier as devs than if we use terraform or Bicep
 
 ### 📚 Recommendations - Folder naming conventions
 
@@ -99,6 +98,7 @@ Currently, the template names packages (projects) are named like the following:
 
 ```shell
 -/packages/
+--/template-infrastructure
 --/template-nextjs-trpc
 --/template-nestjs
 --/template-node-fp
@@ -149,3 +149,5 @@ Of course, everyone has different opinions on this topic (and you are allowed to
 | `template-node-fp`     | `core-server`     |
 | `template-node-fp`     | `core-api`        |
 | `template-node-fp`     | `core-backend`    |
+| `template-infrastructure`     | `core-infrastructure`    |
+| `template-infrastructure`     | `core-iac`    |
