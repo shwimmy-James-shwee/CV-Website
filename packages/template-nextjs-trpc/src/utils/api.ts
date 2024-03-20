@@ -13,7 +13,10 @@ import { type AppRouter } from '@/server/root';
 
 const getBaseUrl = () => {
   if (typeof window !== 'undefined') return ''; // browser should use relative url
+
+  /* eslint-disable-next-line */
   if (process.env['VERCEL_URL']) return `https://${process.env['VERCEL_URL']}`; // SSR should use vercel url
+  /* eslint-disable-next-line */
   return `http://localhost:${process.env['PORT'] ?? 3000}`; // dev SSR should use localhost
 };
 
@@ -36,6 +39,7 @@ export const api = createTRPCNext<AppRouter>({
       links: [
         loggerLink({
           enabled: (opts) =>
+            /* eslint-disable-next-line */
             process.env['NODE_ENV'] === 'development' ||
             (opts.direction === 'down' && opts.result instanceof Error),
         }),

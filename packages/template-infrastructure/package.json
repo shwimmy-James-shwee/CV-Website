@@ -6,11 +6,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@pulumi/pulumi": "3.0.0",
+    "@pulumi/pulumi": "3.109.0",
     "@pulumi/azure-native": "2.21.2"
   },
   "devDependencies": {
-    "@types/node": "16",
+    "@types/node": "20",
     "tsconfig": "workspace:*",
     "eslint-config-custom": "workspace:*"
   }
