@@ -10,7 +10,7 @@
     "@pulumi/azure-native": "2.21.2"
   },
   "devDependencies": {
-    "@types/node": "16",
+    "@types/node": "20",
     "tsconfig": "workspace:*",
     "eslint-config-custom": "workspace:*"
   }
