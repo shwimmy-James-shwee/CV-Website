@@ -25,10 +25,10 @@
     "zod": "3.22.4"
   },
   "devDependencies": {
-    "@types/node": "20.10.4",
+    "@types/node": "20.11.30",
     "azure-functions-core-tools": "4.0.5455",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
-    "typescript": "5.3.3"
+    "typescript": "5.4.3"
   }
 }
