@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    // Important for azure function
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "module": "CommonJS",
+    "target": "es6",
+
+    "sourceMap": true,
+    "inlineSources": true,
+
+    // if you're using TypeGraphQL
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+
+    // Standard project config
+    "declaration": false,
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
+
+    // absolute import path mapping
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}

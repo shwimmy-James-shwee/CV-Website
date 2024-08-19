@@ -1,0 +1,22 @@
+{
+    "name": "functions",
+    "scripts": {
+      "build": "tsc",
+      "watch": "tsc --watch",
+      "clean": "rimraf dist",
+      "dev": "concurrently \"pnpm:watch\"  \"func start --enableAuth\"",
+      "test": "vitest",
+      "lint": "eslint . --ext ts,tsx"
+    },
+    "dependencies": {
+      "@azure/functions": "4.5.0"
+    },
+    "devDependencies": {
+      "@types/node": "20.14.15",
+      "azure-functions-core-tools": "4.0.5907",
+      "concurrently": "8.2.2",
+      "rimraf": "6.0.1",
+      "typescript": "5.5.4"
+    },
+    "main": "dist/src/*.js"
+  }
