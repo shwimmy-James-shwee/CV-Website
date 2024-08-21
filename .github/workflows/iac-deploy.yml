@@ -1,0 +1,201 @@
+# IaC Deploy Workflow
+
+# This GitHub Actions workflow is responsible for deploying Infrastructure as Code (IaC) changes to a specified environment. It consists of three jobs: `Preview`, `ManualApprove`, and `Deploy`.
+
+## Preview
+
+# The `Preview` job executes the IaC preview command to generate a preview of the proposed infrastructure changes. It operates on the `opch` runner and is initiated when the workflow is manually dispatched with the `environment` input set to dev (modify this according to your project's needs). This job configures the necessary environment variables and dependencies, logs into Azure CLI, prepares the state backend credentials, and utilizes the Pulumi GitHub Actions action to execute the preview.
+
+## ManualApprove
+
+# The `ManualApprove` job is a manual approval step that waits for the `Preview` job to complete. It runs on the `ubuntu-latest` runner and is triggered automatically when the `Preview` job finishes. This job is responsible for manual approval of the infrastructure changes before proceeding to deployment.
+
+## Deploy
+
+# The `Deploy` job runs the IaC deploy command to apply the infrastructure changes. It runs on the `opch` runner and is triggered automatically when the `ManualApprove` job is approved. Similar to the `Preview` job, it sets up the environment variables and dependencies, logs in to Azure CLI, prepares the state backend credentials, and uses the Pulumi GitHub Actions action to perform the deployment.
+
+name: IaC Deploy Workflow
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: which env to deploy the changes to
+        options:
+          - dev
+          # - uat
+          # - prod
+jobs:
+  Preview:
+    name: Run IaC Preview
+    runs-on: opch
+    environment: ${{github.event.inputs.environment}} # this will decide the environment to run the job on and will use the variable and secrets defined in the github environment setting
+    env:
+      ENV: ${{ vars.ENV }}
+      PROJECT_NAME_ABBREVIATION: ${{ vars.PROJECT_NAME_ABBREVIATION }} # this is the abbreviation of the project name, should be repo level instead of environment level
+      AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+      AZURE_RESOURCE_LOCATION: ${{ vars.AZURE_RESOURCE_LOCATION }}
+      AZURE_STORAGE_CONTAINER: pulumistate
+      PULUMI_CONFIG_PASSPHRASE: ${{ vars.PULUMI_CONFIG_PASSPHRASE }}
+      PRIVATE_ENDPOINT_SUBNET: ${{ vars.PRIVATE_ENDPOINT_SUBNET }}
+      SERVICE_ENDPOINT_SUBNET: ${{ vars.SERVICE_ENDPOINT_SUBNET }}
+      POSTGRES_ADMIN_PASSWORD: ${{ vars.POSTGRES_ADMIN_PASSWORD }}
+      AZURE_STORAGE_ACCOUNT: ${{ vars.PROJECT_NAME_ABBREVIATION }}codedeploy${{ vars.ENV }}
+      B2C_TENANT_NAME: ${{ vars.B2C_TENANT_NAME }}
+      B2C_CLIENT_ID: ${{ vars.B2C_CLIENT_ID }}
+      B2C_POLICY_NAME: ${{ vars.B2C_POLICY_NAME }}
+
+    steps:
+      - name: Check PROJECT_NAME_ABBREVIATION
+        run: |
+          if [[ ! $PROJECT_NAME_ABBREVIATION =~ ^([a-zA-Z0-9]){1,8}$ ]]; then
+            echo "Error: PROJECT_NAME_ABBREVIATION <$PROJECT_NAME_ABBREVIATION> does not match the required pattern ^([a-zA-Z0-9]){1,8}$"
+            exit 1
+          fi
+      - uses: actions/checkout@v2
+      - name: Branch name
+        run: |
+          echo running on branch ${GITHUB_REF##*/} - ${{github.event.inputs.environment}}
+
+      - name: Set up NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21.1.0
+
+      - name: Install node dependencies
+        shell: bash
+        # if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          yarn install
+          yarn global add ts-node
+
+          # curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+          # sudo apt install -y jq
+          # sudo apt install -y docker docker-compose
+          ls -l
+          pwd
+
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Prepare environment variables
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          # Parse Azure secret into env variables
+          echo "ARM_CLIENT_ID=$( jq -r '.clientId' <<< $AZURE_CREDENTIALS )" >> $GITHUB_ENV;
+          echo "ARM_CLIENT_SECRET=$( jq -r '.clientSecret' <<< $AZURE_CREDENTIALS )" >> $GITHUB_ENV;
+          echo "ARM_SUBSCRIPTION_ID=$( jq -r '.subscriptionId' <<< $AZURE_CREDENTIALS )" >> $GITHUB_ENV;
+          echo "ARM_TENANT_ID=$( jq -r '.tenantId' <<< $AZURE_CREDENTIALS )" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Prepare State Backend Credentials
+        id: PrepareState
+        run: |
+          export AZURE_STORAGE_KEY=$(az storage account keys list -n $AZURE_STORAGE_ACCOUNT -g ${{ vars.AZURE_RESOURCE_GROUP }} -o tsv --query '[0].value')
+
+          echo "AZURE_STORAGE_KEY=$AZURE_STORAGE_KEY" >> $GITHUB_ENV
+
+      - uses: pulumi/actions@v4
+        with:
+          command: preview
+          cloud-url: 'azblob://pulumistate'
+          stack-name: ${{ github.event.inputs.environment }} # When using an individual account, only use stack-name.
+          upsert: true
+          refresh: true
+          diff: true
+
+  ManualApprove:
+    needs: Preview
+    environment:
+      name: ${{ github.event.inputs.environment }}-approve
+    runs-on: ubuntu-latest
+    steps:
+      - name: manual approve
+        run: |
+          echo "Manually approved"
+
+  Deploy:
+    needs: ManualApprove
+    name: Run IaC Deploy
+    runs-on: opch
+    environment: ${{github.event.inputs.environment}}
+    env:
+      ENV: ${{ vars.ENV }}
+      PROJECT_NAME_ABBREVIATION: ${{ vars.PROJECT_NAME_ABBREVIATION }}
+      AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+      AZURE_RESOURCE_LOCATION: ${{ vars.AZURE_RESOURCE_LOCATION }}
+      AZURE_STORAGE_CONTAINER: pulumistate
+      PULUMI_CONFIG_PASSPHRASE: ${{ vars.PULUMI_CONFIG_PASSPHRASE }}
+      PRIVATE_ENDPOINT_SUBNET: ${{ vars.PRIVATE_ENDPOINT_SUBNET }}
+      SERVICE_ENDPOINT_SUBNET: ${{ vars.SERVICE_ENDPOINT_SUBNET }}
+      POSTGRES_ADMIN_PASSWORD: ${{ vars.POSTGRES_ADMIN_PASSWORD }}
+      AZURE_STORAGE_ACCOUNT: ${{ vars.PROJECT_NAME_ABBREVIATION }}codedeploy${{ vars.ENV }}
+      B2C_TENANT_NAME: ${{ vars.B2C_TENANT_NAME }}
+      B2C_CLIENT_ID: ${{ vars.B2C_CLIENT_ID }}
+      B2C_POLICY_NAME: ${{ vars.B2C_POLICY_NAME }}
+
+    steps:
+      - name: Check PROJECT_NAME_ABBREVIATION
+        run: |
+          if [[ ! $PROJECT_NAME_ABBREVIATION =~ ^([a-zA-Z0-9]){1,8}$ ]]; then
+            echo "Error: PROJECT_NAME_ABBREVIATION <$PROJECT_NAME_ABBREVIATION> does not match the required pattern ^([a-zA-Z0-9]){1,8}$"
+            exit 1
+          fi
+
+      - uses: actions/checkout@v2
+      - name: Branch name
+        run: echo running on branch ${GITHUB_REF##*/} - ${{github.event.inputs.environment}}
+
+      - name: Set up NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21.1.0
+
+      - name: Install node dependencies
+        shell: bash
+        # if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          yarn install
+          yarn global add ts-node
+
+          # curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+          # sudo apt install -y jq
+          # sudo apt install -y docker docker-compose
+          ls -l
+          pwd
+
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Prepare environment variables
+        env:
+          AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+        run: |
+          # Parse Azure secret into env variables
+          echo "ARM_CLIENT_ID=$( jq -r '.clientId' <<< $AZURE_CREDENTIALS )" >> $GITHUB_ENV;
+          echo "ARM_CLIENT_SECRET=$( jq -r '.clientSecret' <<< $AZURE_CREDENTIALS )" >> $GITHUB_ENV;
+          echo "ARM_SUBSCRIPTION_ID=$( jq -r '.subscriptionId' <<< $AZURE_CREDENTIALS )" >> $GITHUB_ENV;
+          echo "ARM_TENANT_ID=$( jq -r '.tenantId' <<< $AZURE_CREDENTIALS )" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Prepare State Backend Credentials
+        id: PrepareState
+        run: |
+
+          export AZURE_STORAGE_KEY=$(az storage account keys list -n $AZURE_STORAGE_ACCOUNT -g ${{ vars.AZURE_RESOURCE_GROUP }} -o tsv --query '[0].value')
+
+          echo "AZURE_STORAGE_KEY=$AZURE_STORAGE_KEY" >> $GITHUB_ENV
+
+      - uses: pulumi/actions@v4
+        with:
+          command: up
+          cloud-url: 'azblob://pulumistate'
+          stack-name: ${{ github.event.inputs.environment }} # When using an individual account, only use stack-name.
+          upsert: true
+          refresh: true
+          diff: true

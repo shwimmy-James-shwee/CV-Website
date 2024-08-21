@@ -1,0 +1,22 @@
+{
+  "name": "infrastructure",
+  "main": "src/index.ts",
+  "scripts": {
+    "make:codedeploy": "ts-node src/utils/make-code-deploy.ts",
+    "make:b2c": "ts-node src/utils/make-policy.ts",
+    "preivew": "pulumi preview",
+    "up": "pulumi up --yes"
+  },
+  "dependencies": {
+    "@pulumi/azure": "5.86.0",
+    "@pulumi/azure-native": "2.53.0",
+    "@pulumi/pulumi": "3.128.0",
+    "dotenv": "16.4.5",
+    "cross-env": "7.0.3",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.15",
+    "typescript": "5.5.4"
+  }
+}
