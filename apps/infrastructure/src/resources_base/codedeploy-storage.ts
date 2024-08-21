@@ -55,9 +55,18 @@ new insights.DiagnosticSetting(
   `${envBase.CODEDEPLOY_STORAGE_NAME}-blob-pept-diagnostic`,
   {
     name: `${envBase.CODEDEPLOY_STORAGE_NAME}-blob-pept-diagnostic`,
-    resourceUri: codeDeployBlobPept.then(
-      (v) => v.networkInterfaces[0].id || '',
-    ),
+    resourceUri: codeDeployBlobPept.then((v) => {
+      if (v) {
+        if (v.networkInterfaces) {
+          if (v.networkInterfaces[0]) {
+            if (v.networkInterfaces[0]?.id) {
+              return v.networkInterfaces[0].id;
+            }
+          }
+        }
+      }
+      return ``;
+    }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem,
   },
