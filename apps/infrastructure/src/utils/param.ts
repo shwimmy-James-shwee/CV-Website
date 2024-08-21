@@ -7,7 +7,10 @@ const bannedPws = fs
   .split('\n');
 
 const bannedPwsXml = bannedPws
-  .map((password) => `                    <InputParameter Id="${password}" DataType="string" Value="true" />`)
+  .map(
+    (password) =>
+      `                    <InputParameter Id="${password}" DataType="string" Value="true" />`,
+  )
   .join('\n');
 
 export const replaceParams = {
@@ -19,7 +22,8 @@ export const replaceParams = {
   localAccountAppClientId: 'dummyid',
   localAccountAppObjectId: 'dummyid',
   localAccountAppAudienceResourceId: 'dummyid',
-  passwordHistoryCheckEndpoint: 'https://taxct-be-dev-staging.azurewebsites.net/api/v1/pwd-history-check',
+  passwordHistoryCheckEndpoint:
+    'https://taxct-be-dev-staging.azurewebsites.net/api/v1/pwd-history-check', // to update
   passwordExpireInSeconds: '3600', // prod should be 90days X 3600 X 24
   bannedPasswordsXML: bannedPwsXml,
   AppInsightInstrumentationKeyForB2C: 'dummy-app-insight-inst-key',

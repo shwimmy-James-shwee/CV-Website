@@ -29,7 +29,7 @@ const storageKey = new keyvault.Key(dataStorageAccountName, {
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
   vaultName: envBase.KEYVAULT_NAME,
   properties: {
-    kty: 'RSA',
+    kty: `RSA`,
   },
 });
 
@@ -78,18 +78,18 @@ export const dataStorage = new storage.StorageAccount(dataStorageAccountName, {
 });
 
 const storageIgnoreList = [
-  'tags',
-  'defaultEncryptionScope',
-  'denyEncryptionScopeOverride',
-  'publicAccess',
-  'etag',
-  'hasImmutabilityPolicy',
-  'hasLegalHold',
-  'lastModifiedTime',
-  'leaseState',
-  'leaseStatus',
-  'legalHold',
-  'remainingRetentionDays',
+  `tags`,
+  `defaultEncryptionScope`,
+  `denyEncryptionScopeOverride`,
+  `publicAccess`,
+  `etag`,
+  `hasImmutabilityPolicy`,
+  `hasLegalHold`,
+  `lastModifiedTime`,
+  `leaseState`,
+  `leaseStatus`,
+  `legalHold`,
+  `remainingRetentionDays`,
 ];
 // create storage blob
 export const dataBlobContainer = new storage.BlobContainer(
@@ -112,7 +112,7 @@ export const dataBlobContainer = new storage.BlobContainer(
 new storage.BlobServiceProperties(`${dataStorageAccountName}-service`, {
   accountName: dataStorage.name.apply((v) => v),
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-  blobServicesName: 'default',
+  blobServicesName: `default`,
   deleteRetentionPolicy: {
     allowPermanentDelete: false,
     days: 30,
@@ -153,12 +153,12 @@ const dataStoragePept = new network.PrivateEndpoint(
       {
         name: `${dataStorageAccountName}-plink`,
         privateLinkServiceId: dataStorage.id,
-        groupIds: ['web'],
+        groupIds: [`web`],
       },
     ],
   },
   {
-    ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+    ignoreChanges: [`tags`, `privateLinkServiceConnections`],
   },
 );
 
@@ -177,12 +177,12 @@ const dataBlobPept = new network.PrivateEndpoint(
       {
         name: `${dataStorageAccountName}-blob-plink`,
         privateLinkServiceId: dataStorage.id,
-        groupIds: ['blob'],
+        groupIds: [`blob`],
       },
     ],
   },
   {
-    ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+    ignoreChanges: [`tags`, `privateLinkServiceConnections`],
   },
 );
 
@@ -201,12 +201,12 @@ const dataQueuePept = new network.PrivateEndpoint(
       {
         name: `${dataStorageAccountName}-queue-plink`,
         privateLinkServiceId: dataStorage.id,
-        groupIds: ['queue'],
+        groupIds: [`queue`],
       },
     ],
   },
   {
-    ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+    ignoreChanges: [`tags`, `privateLinkServiceConnections`],
   },
 );
 
@@ -215,7 +215,18 @@ new insights.DiagnosticSetting(
   `${dataStorageAccountName}-pept-diagnostic`,
   {
     name: `${dataStorageAccountName}-pept-diagnostic`,
-    resourceUri: dataStoragePept.networkInterfaces.apply((networkInterfaces) => networkInterfaces[0].id || ''),
+    resourceUri: dataStoragePept.networkInterfaces.apply(
+      (networkInterfaces) => {
+        if (networkInterfaces) {
+          if (networkInterfaces[0]) {
+            if (networkInterfaces[0]?.id) {
+              return networkInterfaces[0].id;
+            }
+          }
+        }
+        return ``;
+      },
+    ),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem,
   },
@@ -230,7 +241,16 @@ new insights.DiagnosticSetting(
   `${dataStorageAccountName}-blob-pept-diagnostic`,
   {
     name: `${dataStorageAccountName}-blob-pept-diagnostic`,
-    resourceUri: dataBlobPept.networkInterfaces.apply((networkInterfaces) => networkInterfaces[0].id || ''),
+    resourceUri: dataBlobPept.networkInterfaces.apply((networkInterfaces) => {
+      if (networkInterfaces) {
+        if (networkInterfaces[0]) {
+          if (networkInterfaces[0]?.id) {
+            return networkInterfaces[0].id;
+          }
+        }
+      }
+      return ``;
+    }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem,
   },
@@ -245,7 +265,16 @@ new insights.DiagnosticSetting(
   `${dataStorageAccountName}-queue-pept-diagnostic`,
   {
     name: `${dataStorageAccountName}-queue-pept-diagnostic`,
-    resourceUri: dataQueuePept.networkInterfaces.apply((networkInterfaces) => networkInterfaces[0].id || ''),
+    resourceUri: dataQueuePept.networkInterfaces.apply((networkInterfaces) => {
+      if (networkInterfaces) {
+        if (networkInterfaces[0]) {
+          if (networkInterfaces[0]?.id) {
+            return networkInterfaces[0].id;
+          }
+        }
+      }
+      return ``;
+    }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem,
   },
@@ -330,9 +359,23 @@ new insights.DiagnosticSetting(
 
 export const dataStorageKey = dataStorage.name
   .apply((name) => {
-    return storage.listStorageAccountKeys({ resourceGroupName: envBase.AZURE_RESOURCE_GROUP, accountName: name });
+    return storage.listStorageAccountKeys({
+      resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
+      accountName: name,
+    });
   })
-  .apply((keysRes) => keysRes.keys[0].value);
+  .apply((keysRes) => {
+    if (keysRes) {
+      if (keysRes?.keys) {
+        if (keysRes?.keys[0]) {
+          if (keysRes?.keys[0]?.value) {
+            return keysRes.keys[0].value;
+          }
+        }
+      }
+    }
+    return ``;
+  });
 
 export const dataStorageConnectionString = dataStorageKey.apply((key) => {
   return `DefaultEndpointsProtocol=https;AccountName=${dataStorageAccountName};AccountKey=${key};EndpointSuffix=core.windows.net`;

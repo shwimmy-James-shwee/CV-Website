@@ -25,7 +25,9 @@ follow the tutorial to create the the `IdentityExperienceFramework` and `ProxyId
 note down the `IdentityExperienceFramework` clientId as `localAccountAppAudienceResourceId` in the `param.py` for replace script later, also the same for `ProxyIdentityExperienceFramework` clientId as `localAccountAppClientId` and objectId as `localAccountAppObjectId`
 
 ## Step 3: complete and run the param.py with correct values
+
 Clone the [params-sample.py](../params-sample.py) to `param.py` then update the values.
+
 ```json
 {
     "b2cTenantName": "taxctdev",
@@ -69,7 +71,6 @@ in order
 1. password is not in the X history, return 200
 2. password is in the X hisotry, return 409 with json return
 
-
 ```prisma
 # object structure for the pwd api
 model PasswordHistory {
@@ -86,41 +87,49 @@ model PasswordHistory {
 const PASS_PASSWORD_COUNT = 14;
 
 type PasswordHistoryBody = PasswordHistoryGetPayload & { passphrase: string };
-@Controller("/pwd-history-check")
+@Controller('/pwd-history-check')
 export class PasswordHistory {
-  @Post("/")
+  @Post('/')
   @Returns(200)
-  @Returns(409).Description("Duplicate")
+  @Returns(409).Description('Duplicate')
   @Example({
-    username: "freeguy",
-    hash: "awfqwfbc123",
-    passphrase: "passphrase",
+    username: 'freeguy',
+    hash: 'awfqwfbc123',
+    passphrase: 'passphrase',
   })
   public async checkPasswordHash(
     @Req() request: Req,
     @Res() response: Res,
-    @BodyParams() @Groups("creation") body: PasswordHistoryBody
+    @BodyParams() @Groups('creation') body: PasswordHistoryBody,
   ) {
     if (env.KPMG_SSO_IDENTIFIER !== body.passphrase) {
-      return new BadRequest("missing passphrase");
+      return new BadRequest('missing passphrase');
     }
     if (!body.username || !body.hash) {
-      return new BadRequest("missing username or hash");
+      return new BadRequest('missing username or hash');
     }
-    const existingPasswordHash = await dao.findInLast({ username: body.username, lastCount: PASS_PASSWORD_COUNT });
-    const hashInHistory = existingPasswordHash.some((pwd) => pwd.hash === body.hash);
+    const existingPasswordHash = await dao.findInLast({
+      username: body.username,
+      lastCount: PASS_PASSWORD_COUNT,
+    });
+    const hashInHistory = existingPasswordHash.some(
+      (pwd) => pwd.hash === body.hash,
+    );
 
     const duplicateReturn = {
-      version: "1.0.0",
+      version: '1.0.0',
       status: 409,
-      code: "HISTORY001",
+      code: 'HISTORY001',
       userMessage: `You cannot reuse the past ${PASS_PASSWORD_COUNT} passwords`,
-      developerMessage: "User password found in history list",
+      developerMessage: 'User password found in history list',
       requestId: request.id,
       moreInfo: null,
     };
     if (!hashInHistory) {
-      await dao.create({ username: body.username, hash: body.hash } as PasswordHistoryGetPayload);
+      await dao.create({
+        username: body.username,
+        hash: body.hash,
+      } as PasswordHistoryGetPayload);
       return;
     }
     return response.status(409).send(duplicateReturn);
@@ -136,21 +145,26 @@ export const create = async (payload: PasswordHistoryGetPayload) => {
     hash: payload.hash,
     updatedAt: undefined,
     createdAt: undefined,
-    id: undefined
+    id: undefined,
   };
   return await prisma.passwordHistory.create({ data: createPayload });
 };
 
-export const findInLast = async ({ username, lastCount }: { username: string; lastCount: number }) => {
+export const findInLast = async ({
+  username,
+  lastCount,
+}: {
+  username: string;
+  lastCount: number;
+}) => {
   return await prisma.passwordHistory.findMany({
     where: {
-      username: username
+      username: username,
     },
     orderBy: {
-      createdAt: "desc"
+      createdAt: 'desc',
     },
-    take: lastCount
+    take: lastCount,
   });
 };
-
 ```

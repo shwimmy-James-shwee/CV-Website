@@ -17,7 +17,7 @@ const frontendKey = new keyvault.Key(frontendUISBStorageName, {
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
   vaultName: envBase.KEYVAULT_NAME,
   properties: {
-    kty: 'RSA',
+    kty: `RSA`,
   },
 });
 
@@ -67,7 +67,7 @@ export const frontendUISBStorage = new storage.StorageAccount(
     },
   },
   {
-    ignoreChanges: ['tags'],
+    ignoreChanges: [`tags`],
   },
 );
 
@@ -77,11 +77,11 @@ new storage.StorageAccountStaticWebsite(
   {
     accountName: frontendUISBStorage.name,
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    indexDocument: 'index.html',
-    error404Document: 'index.html',
+    indexDocument: `index.html`,
+    error404Document: `index.html`,
   },
   {
-    ignoreChanges: ['tags'],
+    ignoreChanges: [`tags`],
   },
 );
 
@@ -101,12 +101,12 @@ const frontendUIPept = new network.PrivateEndpoint(
       {
         name: `${frontendUISBStorageName}-plink`,
         privateLinkServiceId: frontendUISBStorage.id,
-        groupIds: ['web'],
+        groupIds: [`web`],
       },
     ],
   },
   {
-    ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+    ignoreChanges: [`tags`, `privateLinkServiceConnections`],
   },
 );
 
@@ -125,12 +125,12 @@ const frontendUIBlobPept = new network.PrivateEndpoint(
       {
         name: `${frontendUISBStorageName}-blob-plink`,
         privateLinkServiceId: frontendUISBStorage.id,
-        groupIds: ['blob'],
+        groupIds: [`blob`],
       },
     ],
   },
   {
-    ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+    ignoreChanges: [`tags`, `privateLinkServiceConnections`],
   },
 );
 
@@ -139,7 +139,16 @@ new insights.DiagnosticSetting(
   `${frontendUISBStorageName}-pept-diagnostic`,
   {
     name: `${frontendUISBStorageName}-pept-diagnostic`,
-    resourceUri: frontendUIPept.networkInterfaces.apply((networkInterfaces) => networkInterfaces[0].id || ''),
+    resourceUri: frontendUIPept.networkInterfaces.apply((networkInterfaces) => {
+      if (networkInterfaces) {
+        if (networkInterfaces[0]) {
+          if (networkInterfaces[0]?.id) {
+            return networkInterfaces[0].id;
+          }
+        }
+      }
+      return ``;
+    }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem,
   },
@@ -154,7 +163,18 @@ new insights.DiagnosticSetting(
   `${frontendUISBStorageName}-blob-pept-diagnostic`,
   {
     name: `${frontendUISBStorageName}-blob-pept-diagnostic`,
-    resourceUri: frontendUIBlobPept.networkInterfaces.apply((networkInterfaces) => networkInterfaces[0].id || ''),
+    resourceUri: frontendUIBlobPept.networkInterfaces.apply(
+      (networkInterfaces) => {
+        if (networkInterfaces) {
+          if (networkInterfaces[0]) {
+            if (networkInterfaces[0]?.id) {
+              return networkInterfaces[0].id;
+            }
+          }
+        }
+        return ``;
+      },
+    ),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem,
   },
@@ -183,7 +203,9 @@ new insights.DiagnosticSetting(
   `${frontendUISBStorageName}-blob-diagnostic`,
   {
     name: `${frontendUISBStorageName}-blob-diagnostic`,
-    resourceUri: frontendUISBStorage.id.apply((v) => `${v}/blobServices/default`),
+    resourceUri: frontendUISBStorage.id.apply(
+      (v) => `${v}/blobServices/default`,
+    ),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
     metrics: dsSettings.storageDSMetricsItem,
@@ -197,7 +219,9 @@ new insights.DiagnosticSetting(
   `${frontendUISBStorageName}-file-diagnostic`,
   {
     name: `${frontendUISBStorageName}-file-diagnostic`,
-    resourceUri: frontendUISBStorage.id.apply((v) => `${v}/fileServices/default`),
+    resourceUri: frontendUISBStorage.id.apply(
+      (v) => `${v}/fileServices/default`,
+    ),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
     metrics: dsSettings.storageDSMetricsItem,
@@ -211,7 +235,9 @@ new insights.DiagnosticSetting(
   `${frontendUISBStorageName}-table-diagnostic`,
   {
     name: `${frontendUISBStorageName}-table-diagnostic`,
-    resourceUri: frontendUISBStorage.id.apply((v) => `${v}/tableServices/default`),
+    resourceUri: frontendUISBStorage.id.apply(
+      (v) => `${v}/tableServices/default`,
+    ),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
     metrics: dsSettings.storageDSMetricsItem,
@@ -226,7 +252,9 @@ new insights.DiagnosticSetting(
   `${frontendUISBStorageName}-queue-diagnostic`,
   {
     name: `${frontendUISBStorageName}-queue-diagnostic`,
-    resourceUri: frontendUISBStorage.id.apply((v) => `${v}/queueServices/default`),
+    resourceUri: frontendUISBStorage.id.apply(
+      (v) => `${v}/queueServices/default`,
+    ),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
     metrics: dsSettings.storageDSMetricsItem,

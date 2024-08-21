@@ -7,9 +7,12 @@ fs.readFile(path, 'utf8', (err, data) => {
     console.error(err);
     return;
   }
-  const result = data.replace(/"main": "index.ts"/, '"main": "codedeploy/index.ts"');
+  const result = data.replace(
+    /"main": "index.ts"/,
+    '"main": "codedeploy/index.ts"',
+  );
 
-  fs.writeFile(path, result, 'utf8', (err) => {
+  fs.writeFile(path, result, `utf8`, (err) => {
     if (err) {
       // eslint-disable-next-line no-console
       console.error(err);

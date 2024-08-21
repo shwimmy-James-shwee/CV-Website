@@ -7,6 +7,7 @@ The Identity should be use by service that need to access particular resources t
 import { insights, operationalinsights } from '@pulumi/azure-native';
 import { envBase } from '../env-base';
 import { dsSettings } from './diagnostic-setting-configs';
+
 const logAnalyticsWorkspaceName = `${envBase.PROJECT_NAME_ABBREVIATION}-log-analytic-workspace-${envBase.ENV}`;
 
 export const logAnalyticsWorkspace = new operationalinsights.Workspace(
@@ -17,13 +18,15 @@ export const logAnalyticsWorkspace = new operationalinsights.Workspace(
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     retentionInDays: 90,
     sku: {
-      name: 'PerGB2018',
+      name: `PerGB2018`,
     },
-    publicNetworkAccessForQuery: operationalinsights.PublicNetworkAccessType.Enabled,
-    publicNetworkAccessForIngestion: operationalinsights.PublicNetworkAccessType.Enabled,
+    publicNetworkAccessForQuery:
+      operationalinsights.PublicNetworkAccessType.Enabled,
+    publicNetworkAccessForIngestion:
+      operationalinsights.PublicNetworkAccessType.Enabled,
   },
   {
-    ignoreChanges: ['tags'],
+    ignoreChanges: [`tags`],
   },
 );
 

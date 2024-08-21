@@ -19,16 +19,16 @@ export const postgresqlCluster = new dbforpostgresql.Cluster(
     nodeStorageQuotaInMb: envExtend.nodeStorageQuotaInMb,
     nodeVCores: envExtend.nodeVcores,
     enableShardsOnCoordinator: envExtend.shardsOnCoordinatorEnabled,
-    postgresqlVersion: '16',
-    citusVersion: '12.1',
+    postgresqlVersion: `16`,
+    citusVersion: `12.1`,
     enableHa: envExtend.haEnabled,
   },
   {
-    ignoreChanges: ['tags'],
+    ignoreChanges: [`tags`],
     customTimeouts: {
-      create: '30m',
-      update: '30m',
-      delete: '30m',
+      create: `30m`,
+      update: `30m`,
+      delete: `30m`,
     },
     protect: true,
   },
@@ -48,7 +48,7 @@ const postgresqlPrivateEndpoint = new network.PrivateEndpoint(
       {
         name: `${postgresqlName}-plink`,
         privateLinkServiceId: postgresqlCluster.id.apply((id) => id),
-        groupIds: ['coordinator'],
+        groupIds: [`coordinator`],
       },
     ],
   },
@@ -63,7 +63,16 @@ new insights.DiagnosticSetting(
   {
     name: `${postgresqlName}-pept-diagnostic`,
     resourceUri: postgresqlPrivateEndpoint.networkInterfaces.apply(
-      (networkInterfaces) => networkInterfaces[0].id || '',
+      (networkInterfaces) => {
+        if (networkInterfaces) {
+          if (networkInterfaces[0]) {
+            if (networkInterfaces[0]?.id) {
+              return networkInterfaces[0].id;
+            }
+          }
+        }
+        return ``;
+      },
     ),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem,
@@ -75,7 +84,9 @@ new insights.DiagnosticSetting(
 );
 
 // exporting the postgres connection string
-export const postgresConnectionString = postgresqlCluster.serverNames.apply((serverNames) => {
-  const firstServerName = serverNames[0];
-  return `postgres://citus:${envExtend.POSTGRES_ADMIN_PASSWORD}@${firstServerName.fullyQualifiedDomainName}/citus?sslmode=require&schema=application`;
-});
+export const postgresConnectionString = postgresqlCluster.serverNames.apply(
+  (serverNames) => {
+    const firstServerName = serverNames[0];
+    return `postgres://citus:${envExtend.POSTGRES_ADMIN_PASSWORD}@${firstServerName?.fullyQualifiedDomainName}/citus?sslmode=require&schema=application`;
+  },
+);

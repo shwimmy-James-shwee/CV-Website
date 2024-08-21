@@ -57,26 +57,26 @@ interface ContainerParams {
   avMemory: string;
 }
 
-const mainParams = conf.requireObject<MainParams>('mainParams');
-const webappParams = conf.requireObject<WebappParams>('webappParams');
-const dbParams = conf.requireObject<DbParams>('dbParams');
-const containerParams = conf.requireObject<ContainerParams>('containerParams');
+const mainParams = conf.requireObject<MainParams>(`mainParams`);
+const webappParams = conf.requireObject<WebappParams>(`webappParams`);
+const dbParams = conf.requireObject<DbParams>(`dbParams`);
+const containerParams = conf.requireObject<ContainerParams>(`containerParams`);
 
 const EnvSchema = z.object({
-  SENDGRID_KEY: z.string().default('placeholder'),
+  SENDGRID_KEY: z.string().default(`placeholder`),
   PRIVATE_ENDPOINT_SUBNET: z.string().default(envBase.PRIVATE_ENDPOINT_SUBNET),
   SERVICE_ENDPOINT_SUBNET: z.string(),
-  ACI_SERVICE_ENDPOINT_SUBNET: z.string().default('placeholder'),
+  ACI_SERVICE_ENDPOINT_SUBNET: z.string().default(`placeholder`),
 
   POSTGRES_ADMIN_PASSWORD: z.string(),
-  ENABLE_ALERTS: z.boolean().default(envBase.ENV == 'prd'),
-  CREATE_ALERT_RESOURCES: z.boolean().default(envBase.ENV == 'prd'),
+  ENABLE_ALERTS: z.boolean().default(envBase.ENV == `prd`),
+  CREATE_ALERT_RESOURCES: z.boolean().default(envBase.ENV == `prd`),
 
-  B2C_TENANT_NAME: z.string().default('placeholder'),
-  B2C_CLIENT_ID: z.string().default('placeholder'),
-  B2C_POLICY_NAME: z.string().default('placeholder'),
+  B2C_TENANT_NAME: z.string().default(`placeholder`),
+  B2C_CLIENT_ID: z.string().default(`placeholder`),
+  B2C_POLICY_NAME: z.string().default(`placeholder`),
 
-  FRONTEND_URL: z.string().default('placeholder'),
+  FRONTEND_URL: z.string().default(`placeholder`),
 });
 export type Env = z.infer<typeof EnvSchema>;
 
@@ -89,4 +89,10 @@ export const validateEnvs = (): Env => {
   }
 };
 
-export const envExtend = { ...validateEnvs(), ...mainParams, ...webappParams, ...containerParams, ...dbParams };
+export const envExtend = {
+  ...validateEnvs(),
+  ...mainParams,
+  ...webappParams,
+  ...containerParams,
+  ...dbParams,
+};

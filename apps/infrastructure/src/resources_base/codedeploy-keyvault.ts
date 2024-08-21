@@ -39,8 +39,19 @@ new insights.DiagnosticSetting(
   `${envBase.KEYVAULT_NAME}-pept-diagnostic`,
   {
     name: `${envBase.KEYVAULT_NAME}-pept-diagnostic`,
-    // resourceUri: pulumi.output(vaultPept).apply((v) => v.networkInterfaces[0].id || ''),
-    resourceUri: vaultPept.then((v) => v.networkInterfaces[0].id || ''),
+    // resourceUri: pulumi.output(vaultPept).apply((v) => v.networkInterfaces[0].id || ``),
+    resourceUri: vaultPept.then((v) => {
+      if (v) {
+        if (v.networkInterfaces) {
+          if (v.networkInterfaces[0]) {
+            if (v.networkInterfaces[0]?.id) {
+              return v.networkInterfaces[0].id;
+            }
+          }
+        }
+      }
+      return ``;
+    }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem,
   },

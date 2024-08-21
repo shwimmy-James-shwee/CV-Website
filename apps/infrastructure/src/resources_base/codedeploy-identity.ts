@@ -17,6 +17,8 @@ export const managedIdentity = managedidentity.getUserAssignedIdentity({
  * use by spreading it to the identity object
  * ...managedIdentityKeyVal
  */
-export const managedIdentityKeyVal = pulumi.output(managedIdentity).apply((v) => {
-  return { [`${v.id}`]: {} };
-});
+export const managedIdentityKeyVal = pulumi
+  .output(managedIdentity)
+  .apply((v) => {
+    return { [`${v.id}`]: {} };
+  });

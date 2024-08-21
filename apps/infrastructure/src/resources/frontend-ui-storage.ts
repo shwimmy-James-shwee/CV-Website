@@ -17,7 +17,7 @@ const frontendKey = new keyvault.Key(frontendUIStorageName, {
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
   vaultName: envBase.KEYVAULT_NAME,
   properties: {
-    kty: 'RSA',
+    kty: `RSA`,
   },
 });
 
@@ -67,7 +67,7 @@ export const frontendUIStorage = new storage.StorageAccount(
     },
   },
   {
-    ignoreChanges: ['tags'],
+    ignoreChanges: [`tags`],
   },
 );
 
@@ -78,11 +78,11 @@ new storage.StorageAccountStaticWebsite(
   {
     accountName: frontendUIStorage.name,
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    indexDocument: 'index.html',
-    error404Document: 'index.html',
+    indexDocument: `index.html`,
+    error404Document: `index.html`,
   },
   {
-    ignoreChanges: ['tags'],
+    ignoreChanges: [`tags`],
   },
 );
 
@@ -102,12 +102,12 @@ const frontendUIPept = new network.PrivateEndpoint(
       {
         name: `${frontendUIStorageName}-plink`,
         privateLinkServiceId: frontendUIStorage.id,
-        groupIds: ['web'],
+        groupIds: [`web`],
       },
     ],
   },
   {
-    ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+    ignoreChanges: [`tags`, `privateLinkServiceConnections`],
   },
 );
 
@@ -126,12 +126,12 @@ const frontendUIBlobPept = new network.PrivateEndpoint(
       {
         name: `${frontendUIStorageName}-blob-plink`,
         privateLinkServiceId: frontendUIStorage.id,
-        groupIds: ['blob'],
+        groupIds: [`blob`],
       },
     ],
   },
   {
-    ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+    ignoreChanges: [`tags`, `privateLinkServiceConnections`],
   },
 );
 
@@ -140,7 +140,16 @@ new insights.DiagnosticSetting(
   `${frontendUIStorageName}-pept-diagnostic`,
   {
     name: `${frontendUIStorageName}-pept-diagnostic`,
-    resourceUri: frontendUIPept.networkInterfaces.apply((networkInterfaces) => networkInterfaces[0].id || ''),
+    resourceUri: frontendUIPept.networkInterfaces.apply((networkInterfaces) => {
+      if (networkInterfaces) {
+        if (networkInterfaces[0]) {
+          if (networkInterfaces[0]?.id) {
+            return networkInterfaces[0].id;
+          }
+        }
+      }
+      return ``;
+    }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem,
   },
@@ -155,7 +164,18 @@ new insights.DiagnosticSetting(
   `${frontendUIStorageName}-blob-pept-diagnostic`,
   {
     name: `${frontendUIStorageName}-blob-pept-diagnostic`,
-    resourceUri: frontendUIBlobPept.networkInterfaces.apply((networkInterfaces) => networkInterfaces[0].id || ''),
+    resourceUri: frontendUIBlobPept.networkInterfaces.apply(
+      (networkInterfaces) => {
+        if (networkInterfaces) {
+          if (networkInterfaces[0]) {
+            if (networkInterfaces[0]?.id) {
+              return networkInterfaces[0].id;
+            }
+          }
+        }
+        return ``;
+      },
+    ),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem,
   },
@@ -212,7 +232,9 @@ new insights.DiagnosticSetting(
   `${frontendUIStorageName}-table-diagnostic`,
   {
     name: `${frontendUIStorageName}-table-diagnostic`,
-    resourceUri: frontendUIStorage.id.apply((v) => `${v}/tableServices/default`),
+    resourceUri: frontendUIStorage.id.apply(
+      (v) => `${v}/tableServices/default`,
+    ),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
     metrics: dsSettings.storageDSMetricsItem,
@@ -227,7 +249,9 @@ new insights.DiagnosticSetting(
   `${frontendUIStorageName}-queue-diagnostic`,
   {
     name: `${frontendUIStorageName}-queue-diagnostic`,
-    resourceUri: frontendUIStorage.id.apply((v) => `${v}/queueServices/default`),
+    resourceUri: frontendUIStorage.id.apply(
+      (v) => `${v}/queueServices/default`,
+    ),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
     metrics: dsSettings.storageDSMetricsItem,
@@ -238,4 +262,6 @@ new insights.DiagnosticSetting(
   },
 );
 
-export const frontendUrl = frontendUIStorage.primaryEndpoints.web.apply((web) => web.slice(0, web.length - 1));
+export const frontendUrl = frontendUIStorage.primaryEndpoints.web.apply((web) =>
+  web.slice(0, web.length - 1),
+);

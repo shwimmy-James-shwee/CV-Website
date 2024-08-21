@@ -6,7 +6,12 @@ When first time create docker image it will need to wait for the private endpoin
 If the private endpoint is created, it takes about 10 mins for the DNS to resolve.
 
 */
-import { insights, keyvault, network, containerregistry } from '@pulumi/azure-native';
+import {
+  insights,
+  keyvault,
+  network,
+  containerregistry,
+} from '@pulumi/azure-native';
 import { envBase } from '../env-base';
 import { managedIdentity, managedIdentityKeyVal } from './codedeploy-identity';
 import { logAnalyticsWorkspace } from './log-analytic-workspace';
@@ -22,11 +27,11 @@ const containerKey = new keyvault.Key(
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     vaultName: envBase.KEYVAULT_NAME,
     properties: {
-      kty: 'RSA',
+      kty: `RSA`,
     },
   },
   {
-    ignoreChanges: ['tags'],
+    ignoreChanges: [`tags`],
   },
 );
 
@@ -37,7 +42,7 @@ export const containerRegistry = new containerregistry.Registry(
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     registryName: containerRegistryName,
     sku: {
-      name: 'Premium',
+      name: `Premium`,
     },
     adminUserEnabled: true,
     publicNetworkAccess: containerregistry.PublicNetworkAccess.Disabled,
@@ -57,7 +62,7 @@ export const containerRegistry = new containerregistry.Registry(
     },
   },
   {
-    ignoreChanges: ['tags'],
+    ignoreChanges: [`tags`],
   },
 );
 
@@ -91,12 +96,12 @@ const containerRegistryPept = new network.PrivateEndpoint(
       {
         name: `${containerRegistryName}-pept-connection`,
         privateLinkServiceId: containerRegistry.id.apply((id) => id),
-        groupIds: ['registry'],
+        groupIds: [`registry`],
       },
     ],
   },
   {
-    ignoreChanges: ['tags'],
+    ignoreChanges: [`tags`],
     dependsOn: [containerRegistry],
   },
 );
@@ -106,7 +111,18 @@ new insights.DiagnosticSetting(
   `${containerRegistryName}-pept-diagnostic`,
   {
     name: `${containerRegistryName}-pept-diagnostic`,
-    resourceUri: containerRegistryPept.networkInterfaces.apply((networkInterfaces) => networkInterfaces[0].id || ''),
+    resourceUri: containerRegistryPept.networkInterfaces.apply(
+      (networkInterfaces) => {
+        if (networkInterfaces) {
+          if (networkInterfaces[0]) {
+            if (networkInterfaces[0]?.id) {
+              return networkInterfaces[0].id;
+            }
+          }
+        }
+        return ``;
+      },
+    ),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem,
   },

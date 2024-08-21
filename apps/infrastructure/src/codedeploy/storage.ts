@@ -20,17 +20,17 @@ import { identityPolicy, managedIdentity } from './identity';
 import { PrivateEndpoint } from '@pulumi/azure-native/network';
 
 const codeDeployStorageKey = new Key(
-  'code-deploy-storage-key',
+  `code-deploy-storage-key`,
   {
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    keyName: 'code-deploy-storage-key',
+    keyName: `code-deploy-storage-key`,
     properties: {
-      kty: 'RSA',
+      kty: `RSA`,
     },
     vaultName: envBase.KEYVAULT_NAME,
   },
   {
-    ignoreChanges: ['tags'],
+    ignoreChanges: [`tags`],
     dependsOn: [vault, vaultPept],
   },
 );
@@ -70,7 +70,9 @@ const codeDeployStorage = new StorageAccount(
       requireInfrastructureEncryption: true,
       keyVaultProperties: {
         keyName: codeDeployStorageKey.name,
-        keyVaultUri: vault.name.apply((name) => `https://${name}.vault.azure.net`),
+        keyVaultUri: vault.name.apply(
+          (name) => `https://${name}.vault.azure.net`,
+        ),
       },
       encryptionIdentity: {
         encryptionUserAssignedIdentity: managedIdentity.id.apply((id) => id),
@@ -78,9 +80,15 @@ const codeDeployStorage = new StorageAccount(
     },
   },
   {
-    dependsOn: [codeDeployStorageKey, vault, vaultPept, managedIdentity, identityPolicy],
+    dependsOn: [
+      codeDeployStorageKey,
+      vault,
+      vaultPept,
+      managedIdentity,
+      identityPolicy,
+    ],
     protect: true,
-    ignoreChanges: ['tags'],
+    ignoreChanges: [`tags`],
   },
 );
 
@@ -95,7 +103,7 @@ const codeDeployPept = new PrivateEndpoint(
     privateLinkServiceConnections: [
       {
         name: `${envBase.CODEDEPLOY_STORAGE_NAME}-blob-pept-connection`,
-        groupIds: ['blob'],
+        groupIds: [`blob`],
         privateLinkServiceId: codeDeployStorage.id,
       },
     ],
@@ -103,19 +111,22 @@ const codeDeployPept = new PrivateEndpoint(
       id: envBase.PRIVATE_ENDPOINT_SUBNET,
     },
   },
-  { ignoreChanges: ['tags', 'privateLinkServiceConnections'], dependsOn: [codeDeployStorage] },
+  {
+    ignoreChanges: [`tags`, `privateLinkServiceConnections`],
+    dependsOn: [codeDeployStorage],
+  },
 );
 
 new BlobContainer(
   `${envBase.PROJECT_NAME_ABBREVIATION}-pulumi-state`,
   {
-    containerName: 'pulumistate',
+    containerName: `pulumistate`,
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     accountName: codeDeployStorage.name,
     publicAccess: PublicAccess.None,
   },
   {
     dependsOn: [codeDeployStorage, codeDeployPept],
-    ignoreChanges: ['tags'],
+    ignoreChanges: [`tags`],
   },
 );

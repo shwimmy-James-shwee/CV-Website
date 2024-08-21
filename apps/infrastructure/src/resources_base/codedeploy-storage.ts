@@ -55,7 +55,9 @@ new insights.DiagnosticSetting(
   `${envBase.CODEDEPLOY_STORAGE_NAME}-blob-pept-diagnostic`,
   {
     name: `${envBase.CODEDEPLOY_STORAGE_NAME}-blob-pept-diagnostic`,
-    resourceUri: codeDeployBlobPept.then((v) => v.networkInterfaces[0].id || ''),
+    resourceUri: codeDeployBlobPept.then(
+      (v) => v.networkInterfaces[0].id || '',
+    ),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem,
   },
