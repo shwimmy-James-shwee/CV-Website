@@ -1,21 +1,21 @@
 module.exports = {
-    root: true,
-    extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:react-hooks/recommended', 'prettier', 'plugin:storybook/recommended', '@repo/eslint-config/react-internal'],
-    parserOptions: {
-        ecmaFeatures: {
-            jsx: true,
-        },
-        ecmaVersion: 'latest',
-        sourceType: 'module',
+  root: true,
+  extends: ["@repo/eslint-config/typescript", "plugin:react-hooks/recommended", "plugin:storybook/recommended"],
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true
     },
-    ignorePatterns: ['dist', '.eslintrc.cjs', 'src/server/*', 'src/shared/'],
-    plugins: ['react-refresh', 'react', 'react-hooks', '@typescript-eslint', 'prettier'],
-    settings: {
-        'import/resolver': {
-            typescript: {},
-        },
-        react: {
-            version: 'detect',
-        },
+    ecmaVersion: "latest",
+    sourceType: "module"
+  },
+  ignorePatterns: ["dist", ".eslintrc.cjs"],
+  plugins: ["react-refresh", "react", "react-hooks"],
+  settings: {
+    "import/resolver": {
+      typescript: {}
     },
+    react: {
+      version: "detect"
+    }
+  }
 };

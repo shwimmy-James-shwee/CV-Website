@@ -51,6 +51,9 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../../libs/eslint-config
+      '@repo/tsconfig':
+        specifier: workspace:*
+        version: link:../../libs/tsconfig
       '@types/express':
         specifier: 4.17.17
         version: 4.17.17
@@ -97,6 +100,9 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../../libs/eslint-config
+      '@repo/tsconfig':
+        specifier: workspace:*
+        version: link:../../libs/tsconfig
       '@types/react':
         specifier: 18.3.3
         version: 18.3.3
@@ -128,6 +134,12 @@ importers:
         specifier: 4.5.0
         version: 4.5.0
     devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../libs/eslint-config
+      '@repo/tsconfig':
+        specifier: workspace:*
+        version: link:../../libs/tsconfig
       '@types/node':
         specifier: 20.14.15
         version: 20.14.15
@@ -168,6 +180,12 @@ importers:
         specifier: 3.23.8
         version: 3.23.8
     devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../libs/eslint-config
+      '@repo/tsconfig':
+        specifier: workspace:*
+        version: link:../../libs/tsconfig
       '@types/node':
         specifier: 20.14.15
         version: 20.14.15
@@ -207,6 +225,8 @@ importers:
       typescript:
         specifier: 5.4.5
         version: 5.4.5
+
+  libs/tsconfig: {}
 
 packages:
 

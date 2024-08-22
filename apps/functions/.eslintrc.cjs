@@ -12,7 +12,7 @@ module.exports = {
     node: true,
     jest: true
   },
-  ignorePatterns: [".eslintrc.js", "*.prisma"],
+  ignorePatterns: ["dist", ".eslintrc.cjs"],
   rules: {
     "@typescript-eslint/no-inferrable-types": 0,
     "@typescript-eslint/no-unused-vars": [

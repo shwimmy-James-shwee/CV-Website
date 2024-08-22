@@ -2,6 +2,7 @@
   "name": "infrastructure",
   "main": "src/index.ts",
   "scripts": {
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "make:codedeploy": "ts-node src/utils/make-code-deploy.ts",
     "make:b2c": "ts-node src/utils/make-policy.ts",
     "pulumi:init": "pulumi stack init",
@@ -23,6 +24,7 @@
     "zod": "3.23.8"
   },
   "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
     "@types/node": "20.14.15",
     "typescript": "5.5.4"
   }
