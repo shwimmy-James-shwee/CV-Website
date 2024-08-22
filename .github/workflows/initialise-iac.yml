@@ -118,7 +118,7 @@ jobs:
         if: ${{ github.event.inputs.first == 'false' }}
         # Note: We have to use absolute path instead of relative path to run pulumi command because of some config issues on OPCH-Runner.
         run: |
-          cd codedeploy
+          cd src/codedeploy
           export AZURE_STORAGE_KEY=$(az storage account keys list -n $AZURE_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
 
           /home/lnxadmin/.pulumi/bin/pulumi login --local
@@ -146,7 +146,7 @@ jobs:
 
       - name: Upload State
         run: |
-          cd codedeploy
+          cd src/codedeploy
 
           export AZURE_STORAGE_KEY=$(az storage account keys list -n $AZURE_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
           /home/lnxadmin/.pulumi/bin/pulumi stack export --file storage-states.json
