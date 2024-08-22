@@ -2,7 +2,6 @@
 
 This is a template iac to deploy the base resources to support the webapp.
 
-
 ## Lite TID and Solution Diagram
 
 - [Editable Draw.io Diagram](./documents/SDTWebAppTemplate.drawio)
@@ -60,7 +59,6 @@ Update the `PULUMI_CONFIG_PASSPHRASE` in the github environment variables/secret
 
 <br>
 
-
 ## Deployment
 
 ### Environment Variables
@@ -79,7 +77,7 @@ SERVICE_ENDPOINT_SUBNET: ${{ vars.SERVICE_ENDPOINT_SUBNET }}
 POSTGRES_ADMIN_PASSWORD: ${{ vars.POSTGRES_ADMIN_PASSWORD }}
 AZURE_STORAGE_ACCOUNT: ${{ vars.PROJECT_NAME_ABBREVIATION }}codedeploy${{ vars.ENV }}
 # below come from B2C Tenant, leave dummy value until B2C is setup
-B2C_TENANT_NAME: ${{ vars.B2C_TENANT_NAME }} 
+B2C_TENANT_NAME: ${{ vars.B2C_TENANT_NAME }}
 B2C_CLIENT_ID: ${{ vars.B2C_CLIENT_ID }}
 B2C_POLICY_NAME: ${{ vars.B2C_POLICY_NAME }}
 ```
