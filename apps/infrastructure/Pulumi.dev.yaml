@@ -1,0 +1,27 @@
+encryptionsalt: v1:zO0pddkZoA0=:v1:hlp7Hx47YUxRop24:N5TiLO+BuS/iztR9hVALToSC7FsoKg==
+
+config:
+  azure-native:location: AustraliaEast
+
+  infra-iac:mainParams:
+    logRetentionDays: 0
+
+  infra-iac:webappParams:
+    pricingTier: B2 # remember to remove slot first (do 2 deployment, by changing the addSlot to false first) before moving to a lower tier that doenst support slots
+    maxCapacity: 1
+    minCapacity: 1
+    addSlot: False
+
+  infra-iac:containerParams:
+    avCPU: 1
+    avMemory: 1.5
+
+  infra-iac:dbParams:
+    coordinatorServerEdition: 'BurstableMemoryOptimized'
+    coordinatorStorageQuotaInMb: 32768
+    coordinatorVcoreCount: 1
+    haEnabled: False
+    nodeCount: 0
+    nodeStorageQuotaInMb: 524288
+    nodeVcores: 4
+    shardsOnCoordinatorEnabled: True

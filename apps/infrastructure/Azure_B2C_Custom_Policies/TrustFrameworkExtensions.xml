@@ -1,0 +1,669 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TrustFrameworkPolicy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.microsoft.com/online/cpim/schemas/2013/06" PolicySchemaVersion="0.3.0.0" TenantId="b2cTenantName.onmicrosoft.com" PolicyId="B2C_1A_TrustFrameworkExtensions" PublicPolicyUri="http://b2cTenantName.onmicrosoft.com/B2C_1A_TrustFrameworkExtensions">
+
+    <BasePolicy>
+        <TenantId>b2cTenantName.onmicrosoft.com</TenantId>
+        <PolicyId>B2C_1A_TrustFrameworkLocalization</PolicyId>
+    </BasePolicy>
+    <BuildingBlocks>
+        <ClaimsSchema>
+            <ClaimType Id="identityProviderAccessToken">
+                <DisplayName>Identity Provider Access Token</DisplayName>
+                <DataType>string</DataType>
+                <AdminHelpText>Stores the access token of the identity provider.</AdminHelpText>
+            </ClaimType>
+
+            <ClaimType Id="upn">
+                <DisplayName>upn</DisplayName>
+                <DataType>string</DataType>
+                <AdminHelpText>Stores the UserPrincipalName shorthand.</AdminHelpText>
+            </ClaimType>
+
+            <ClaimType Id="jobTitle">
+                <DisplayName>Job Title</DisplayName>
+                <DataType>string</DataType>
+                <DefaultPartnerClaimTypes>
+                    <Protocol Name="OAuth2" PartnerClaimType="jobTitle" />
+                    <Protocol Name="OpenIdConnect" PartnerClaimType="jobTitle" />
+                    <Protocol Name="SAML2" PartnerClaimType="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/jobTitle" />
+                </DefaultPartnerClaimTypes>
+                <UserHelpText>Job Title</UserHelpText>
+                <UserInputType>TextBox</UserInputType>
+            </ClaimType>
+
+            <!--for Banned Password list -->
+            <ClaimType Id="dummy">
+                <DisplayName>hide me</DisplayName>
+                <DataType>string</DataType>
+            </ClaimType>
+            <ClaimType Id="dummyTrue">
+                <DisplayName>hide me</DisplayName>
+                <DataType>string</DataType>
+            </ClaimType>
+            <ClaimType Id="bannedPassword">
+                <DisplayName>bannedPassword</DisplayName>
+                <DataType>string</DataType>
+            </ClaimType>
+            <ClaimType Id="banned">
+                <DisplayName>bannedPassword</DisplayName>
+                <DataType>boolean</DataType>
+            </ClaimType>
+            <ClaimType Id="samePassword">
+                <DisplayName>samePassword</DisplayName>
+                <DataType>boolean</DataType>
+            </ClaimType>
+
+            <!-- For password expire over 90 days -->
+            <!--Sample: The system current date and time-->
+            <ClaimType Id="currentDateTime">
+                <DisplayName>Current date and time</DisplayName>
+                <DataType>dateTime</DataType>
+                <UserHelpText>Current date and time</UserHelpText>
+            </ClaimType>
+
+            <!--Sample: The last time user reset the password-->
+            <ClaimType Id="extension_passwordResetOn">
+                <DisplayName>Password reset on</DisplayName>
+                <DataType>dateTime</DataType>
+                <UserHelpText>The last time user reset the password</UserHelpText>
+            </ClaimType>
+
+            <!--Sample: Indicates whether password reset is required, based on date comparison -->
+            <ClaimType Id="isPasswordResetOnGreaterThanNow">
+                <DisplayName>Indicates whether password reset is required</DisplayName>
+                <DataType>boolean</DataType>
+            </ClaimType>
+
+            <!--Sample: Indicates whether password reset exists -->
+            <ClaimType Id="isPasswordResetOnPresent">
+                <DisplayName>Is password reset on presented</DisplayName>
+                <DataType>boolean</DataType>
+            </ClaimType>
+
+            <!--Sample: Indicates whether password reset is required or not, based on date comparison and if extension_passwordResetOn is null -->
+            <ClaimType Id="skipPasswordReset">
+                <DisplayName>Skip password reset</DisplayName>
+                <DataType>boolean</DataType>
+            </ClaimType>
+
+            <!-- password history -->
+            <ClaimType Id="IsPasswordValid">
+                <DisplayName>password is valid</DisplayName>
+                <DataType>boolean</DataType>
+                <UserHelpText>password is not one of past 5 passwords</UserHelpText>
+            </ClaimType>
+            <ClaimType Id="userPassHash">
+                <DisplayName>request JSON body for user password hash info</DisplayName>
+                <DataType>string</DataType>
+                <UserHelpText>request JSON body for user password hash info</UserHelpText>
+            </ClaimType>
+            <ClaimType Id="hashedPassword">
+                <DisplayName>Hashed password</DisplayName>
+                <DataType>string</DataType>
+            </ClaimType>
+
+        </ClaimsSchema>
+        <ClaimsTransformations>
+            <ClaimsTransformation Id="CreateDisplayNameFromFirstNameAndLastName" TransformationMethod="FormatStringMultipleClaims">
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="givenName" TransformationClaimType="inputClaim1" />
+                    <InputClaim ClaimTypeReferenceId="surName" TransformationClaimType="inputClaim2" />
+                </InputClaims>
+                <InputParameters>
+                    <InputParameter Id="stringFormat" DataType="string" Value="{0} {1}" />
+                </InputParameters>
+                <OutputClaims>
+                    <OutputClaim ClaimTypeReferenceId="displayName" TransformationClaimType="outputClaim" />
+                </OutputClaims>
+            </ClaimsTransformation>
+
+
+            <!-- Compares the new password to these input values to determine if it is on the banned list.
+                        If there is a match bannedPassword=true. If there is not match, bannedPassword does not exist
+                        in the claimes pipeline -->
+            <ClaimsTransformation Id="passwordToMatchBanList" TransformationMethod="LookupValue">
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="newPassword" TransformationClaimType="inputParameterId" />
+                </InputClaims>
+                <InputParameters>
+bannedPasswordsXML
+                    <InputParameter Id="errorOnFailedLookup" DataType="boolean" Value="false" />
+                </InputParameters>
+                <OutputClaims>
+                    <OutputClaim ClaimTypeReferenceId="bannedPassword" TransformationClaimType="outputClaim" />
+                </OutputClaims>
+            </ClaimsTransformation>
+
+            <!-- Compares bannedPassword with dummy claim set to True. If these match then we have a banned password.
+                            If they dont match, then the banned claim is output as false. This is to counter the fact
+                            that the lookup claimsTransformation does not output a claim when there isnt a match -->
+            <ClaimsTransformation Id="CheckBannedPasswordValue" TransformationMethod="CompareClaims">
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="bannedPassword" TransformationClaimType="inputClaim1" />
+                    <InputClaim ClaimTypeReferenceId="dummyTrue" TransformationClaimType="inputClaim2" />
+                </InputClaims>
+                <InputParameters>
+                    <InputParameter Id="operator" DataType="string" Value="EQUAL" />
+                    <InputParameter Id="ignoreCase" DataType="string" Value="true" />
+                </InputParameters>
+                <OutputClaims>
+                    <OutputClaim ClaimTypeReferenceId="banned" TransformationClaimType="outputClaim" />
+                </OutputClaims>
+            </ClaimsTransformation>
+
+            <!-- Compares the value of banned to false. If banned is false, then no error is thrown, the user did
+                        not use a banned pwd. If banned is true, then it will not match to "false" and thus we throw an error
+                        that the password is weak -->
+            <ClaimsTransformation Id="AssertBannedPasswordFalse" TransformationMethod="AssertBooleanClaimIsEqualToValue">
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="banned" TransformationClaimType="inputClaim" />
+                </InputClaims>
+                <InputParameters>
+                    <InputParameter Id="valueToCompareTo" DataType="boolean" Value="false" />
+                </InputParameters>
+            </ClaimsTransformation>
+
+            <!-- For password expire over 90 days -->
+            <!--Sample: Set the current UTC date and time to extension_passwordResetOn claim type-->
+            <ClaimsTransformation Id="SetPasswordResetOn" TransformationMethod="GetCurrentDateTime">
+                <OutputClaims>
+                    <OutputClaim ClaimTypeReferenceId="extension_passwordResetOn" TransformationClaimType="currentDateTime" />
+                </OutputClaims>
+            </ClaimsTransformation>
+
+            <!--Sample: Set the current UTC date and time to currentDateTime claim type-->
+            <ClaimsTransformation Id="SetCurrentDateTime" TransformationMethod="GetCurrentDateTime">
+                <OutputClaims>
+                    <OutputClaim ClaimTypeReferenceId="currentDateTime" TransformationClaimType="currentDateTime" />
+                </OutputClaims>
+            </ClaimsTransformation>
+
+            <!--Sample: Compare the dates and check if password reset is required -->
+            <ClaimsTransformation Id="ComparePasswordResetOnWithCurrentDateTime" TransformationMethod="DateTimeComparison">
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="currentDateTime" TransformationClaimType="firstDateTime" />
+                    <InputClaim ClaimTypeReferenceId="extension_passwordResetOn" TransformationClaimType="secondDateTime" />
+                </InputClaims>
+                <InputParameters>
+                    <!--Sample: We check if the first date (current) minus 90 day is later than second date (password reset on).
+          If yes, it means that at least 90 days passed from the time user reset the password.
+          Note: the first date must contain a value. So, we use the current datetime. Don't change the order -->
+                    <InputParameter Id="operator" DataType="string" Value="earlier than" />
+                    <!--Deom Action Required: Change the time span according to 60 or 90 days (in seconds)-->
+                    <InputParameter Id="timeSpanInSeconds" DataType="int" Value="-passwordExpireInSeconds" />
+                </InputParameters>
+                <OutputClaims>
+                    <OutputClaim ClaimTypeReferenceId="isPasswordResetOnGreaterThanNow" TransformationClaimType="result" />
+                </OutputClaims>
+            </ClaimsTransformation>
+
+            <!--Sample: Check if extension_passwordResetOn is existed in user account. -->
+            <ClaimsTransformation Id="CheckIfPasswordResetOnPresent" TransformationMethod="DoesClaimExist">
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="extension_passwordResetOn" TransformationClaimType="inputClaim" />
+                </InputClaims>
+                <OutputClaims>
+                    <OutputClaim ClaimTypeReferenceId="isPasswordResetOnPresent" TransformationClaimType="outputClaim" />
+                </OutputClaims>
+            </ClaimsTransformation>
+
+            <!--Sample: Check if datetime comparison is true and also the PasswordResetOn is presented in the user account. If both of them are true, user doesn't need to reset the password-->
+            <ClaimsTransformation Id="CheckWhetherPasswordResetCanBeSkipped" TransformationMethod="AndClaims">
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="isPasswordResetOnGreaterThanNow" TransformationClaimType="inputClaim1" />
+                    <InputClaim ClaimTypeReferenceId="isPasswordResetOnPresent" TransformationClaimType="inputClaim2" />
+                </InputClaims>
+                <OutputClaims>
+                    <OutputClaim ClaimTypeReferenceId="skipPasswordReset" TransformationClaimType="outputClaim" />
+                </OutputClaims>
+            </ClaimsTransformation>
+
+
+
+            <!-- Password History -->
+            <ClaimsTransformation Id="HashPasswordWithObjectID" TransformationMethod="Hash">
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="newPassword" TransformationClaimType="plaintext" />
+                    <InputClaim ClaimTypeReferenceId="objectid" TransformationClaimType="salt" />
+                </InputClaims>
+                <InputParameters>
+                    <InputParameter Id="randomizerSecret" DataType="string" Value="B2C_1A_AccountTransformSecret" />
+                </InputParameters>
+                <OutputClaims>
+                    <OutputClaim ClaimTypeReferenceId="hashedPassword" TransformationClaimType="hash" />
+                </OutputClaims>
+            </ClaimsTransformation>
+
+            <ClaimsTransformation Id="GeneratePassHashBody" TransformationMethod="GenerateJson">
+                <InputClaims>
+                    <InputClaim ClaimTypeReferenceId="objectid" TransformationClaimType="username" />
+                    <InputClaim ClaimTypeReferenceId="hashedPassword" TransformationClaimType="hash" />
+                </InputClaims>
+                <InputParameters>
+                    <InputParameter Id="passphrase" DataType="string" Value="kpmgSSOTenantId"/>
+                </InputParameters>
+                <OutputClaims>
+                    <OutputClaim ClaimTypeReferenceId="userPassHash" TransformationClaimType="outputClaim"/>
+                </OutputClaims>
+            </ClaimsTransformation>
+
+        </ClaimsTransformations>
+
+        <ContentDefinitions>
+            <!-- This content definition is to render an error page that displays unhandled errors. -->
+            <ContentDefinition Id="api.selfasserted">
+                <LoadUri>~/tenant/templates/MSA/selfAsserted.cshtml</LoadUri>
+                <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+                <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.9</DataUri>
+                <Metadata>
+                    <Item Key="DisplayName">Collect information from user page</Item>
+                </Metadata>
+            </ContentDefinition>
+
+            <ContentDefinition Id="api.error">
+                <LoadUri>~/tenant/templates/MSA/exception.cshtml</LoadUri>
+                <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+                <DataUri>urn:com:microsoft:aad:b2c:elements:contract:globalexception:1.2.5</DataUri>
+                <Metadata>
+                    <Item Key="DisplayName">Error page</Item>
+                </Metadata>
+            </ContentDefinition>
+
+            <ContentDefinition Id="api.idpselections">
+                <LoadUri>~/tenant/templates/MSA/idpSelector.cshtml</LoadUri>
+                <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+                <DataUri>urn:com:microsoft:aad:b2c:elements:contract:providerselection:1.2.5</DataUri>
+                <Metadata>
+                    <Item Key="DisplayName">Idp selection page</Item>
+                    <Item Key="language.intro">Sign in</Item>
+                </Metadata>
+            </ContentDefinition>
+
+            <ContentDefinition Id="api.idpselections.signup">
+                <LoadUri>~/tenant/templates/MSA/idpSelector.cshtml</LoadUri>
+                <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+                <DataUri>urn:com:microsoft:aad:b2c:elements:contract:providerselection:1.2.5</DataUri>
+                <Metadata>
+                    <Item Key="DisplayName">Idp selection page</Item>
+                    <Item Key="language.intro">Sign up</Item>
+                </Metadata>
+            </ContentDefinition>
+
+            <ContentDefinition Id="api.signuporsignin">
+                <LoadUri>~/tenant/templates/MSA/unified.cshtml</LoadUri>
+                <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+                <DataUri>urn:com:microsoft:aad:b2c:elements:contract:unifiedssp:2.1.9</DataUri>
+                <Metadata>
+                    <Item Key="DisplayName">Signin and Signup</Item>
+                </Metadata>
+            </ContentDefinition>
+
+            <ContentDefinition Id="api.localaccountpasswordreset">
+                <LoadUri>~/tenant/templates/MSA/selfAsserted.cshtml</LoadUri>
+                <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+                <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.9</DataUri>
+                <Metadata>
+                    <Item Key="DisplayName">Local account change password page</Item>
+                </Metadata>
+            </ContentDefinition>
+
+            <ContentDefinition Id="api.selfasserted.profileupdate">
+                <LoadUri>~/tenant/templates/MSA/selfAsserted.cshtml</LoadUri>
+                <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+                <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.9</DataUri>
+                <Metadata>
+                    <Item Key="DisplayName">Collect information from user page</Item>
+                </Metadata>
+            </ContentDefinition>
+
+            <ContentDefinition Id="api.localaccountsignup">
+                <LoadUri>~/tenant/templates/MSA/selfAsserted.cshtml</LoadUri>
+                <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+                <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.9</DataUri>
+                <Metadata>
+                    <Item Key="DisplayName">Local account sign up page</Item>
+                </Metadata>
+            </ContentDefinition>
+
+            <ContentDefinition Id="api.socialccountsignup">
+                <LoadUri>~/tenant/templates/MSA/selfAsserted.cshtml</LoadUri>
+                <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+                <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.9</DataUri>
+                <Metadata>
+                    <Item Key="DisplayName">Collect information from user page</Item>
+                </Metadata>
+            </ContentDefinition>
+
+            <ContentDefinition Id="api.localaccountsignin">
+                <LoadUri>~/tenant/templates/MSA/selfAsserted.cshtml</LoadUri>
+                <RecoveryUri>~/common/default_page_error.html</RecoveryUri>
+                <DataUri>urn:com:microsoft:aad:b2c:elements:contract:selfasserted:2.1.9</DataUri>
+                <Metadata>
+                    <Item Key="DisplayName">Collect information from user page</Item>
+                </Metadata>
+            </ContentDefinition>
+        </ContentDefinitions>
+
+    </BuildingBlocks>
+
+    <ClaimsProviders>
+
+        <!-- disable email verification before process -->
+        <!-- <ClaimsProvider>
+            <DisplayName>Password reset overrides</DisplayName>
+            <TechnicalProfiles>
+                <TechnicalProfile Id="LocalAccountDiscoveryUsingEmailAddress">
+                    <Metadata>
+                        <Item Key="EnforceEmailVerification">false</Item>
+                    </Metadata>
+                </TechnicalProfile>
+            </TechnicalProfiles>
+        </ClaimsProvider> -->
+        <!-- Password History -->
+        <ClaimsProvider>
+            <DisplayName>Technical Profiles For Checking Password History</DisplayName>
+            <TechnicalProfiles>
+                <TechnicalProfile Id="REST-PasswordHistoryCheck">
+                    <DisplayName>Validate that new password is not one of past passwords</DisplayName>
+                    <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.RestfulProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"></Protocol>
+                    <Metadata>
+                        <!--Sample: update the ServiceUrl with the Url to your password hash service, e.g. passhash.azurewebsites.net -->
+                        <Item Key="ServiceUrl">passwordHistoryCheckEndpoint</Item>
+                        <Item Key="AuthenticationType">None</Item>
+                        <Item Key="AllowInsecureAuthInProduction">true</Item>
+                        <Item Key="SendClaimsIn">Body</Item>
+                        <Item Key="ClaimUsedForRequestPayload">userPassHash</Item>
+                        <Item Key="DefaultUserMessageIfRequestFailed">Cannot process your request right now, please try again later.</Item>
+                    </Metadata>
+                    <InputClaimsTransformations>
+                        <InputClaimsTransformation ReferenceId="HashPasswordWithObjectID" />
+                        <InputClaimsTransformation ReferenceId="GeneratePassHashBody" />
+                    </InputClaimsTransformations>
+                    <InputClaims>
+                        <InputClaim ClaimTypeReferenceId="userPassHash" />
+                    </InputClaims>
+                </TechnicalProfile>
+            </TechnicalProfiles>
+        </ClaimsProvider>
+
+        <ClaimsProvider>
+            <DisplayName>Local Account SignIn</DisplayName>
+            <TechnicalProfiles>
+                <TechnicalProfile Id="login-NonInteractive">
+                    <Metadata>
+                        <Item Key="client_id">localAccountAppClientId</Item>
+                        <Item Key="IdTokenAudience">localAccountAppAudienceResourceId</Item>
+                    </Metadata>
+                    <InputClaims>
+                        <InputClaim ClaimTypeReferenceId="client_id" DefaultValue="localAccountAppClientId" />
+                        <InputClaim ClaimTypeReferenceId="resource_id" PartnerClaimType="resource" DefaultValue="localAccountAppAudienceResourceId" />
+                    </InputClaims>
+                </TechnicalProfile>
+            </TechnicalProfiles>
+        </ClaimsProvider>
+
+        <ClaimsProvider>
+            <DisplayName>Self Asserted</DisplayName>
+            <TechnicalProfiles>
+
+                <TechnicalProfile Id="SelfAsserted-Social">
+                    <InputClaims>
+                        <InputClaim ClaimTypeReferenceId="jobTitle" />
+                    </InputClaims>
+                    <OutputClaims>
+                        <OutputClaim ClaimTypeReferenceId="jobTitle" />
+                        <OutputClaim ClaimTypeReferenceId="otherMails" />
+                    </OutputClaims>
+                </TechnicalProfile>
+
+                <TechnicalProfile Id="SelfAsserted-ProfileUpdate">
+                    <InputClaims>
+                        <InputClaim ClaimTypeReferenceId="jobTitle" />
+                    </InputClaims>
+                    <OutputClaims>
+                        <OutputClaim ClaimTypeReferenceId="jobTitle" />
+                    </OutputClaims>
+                </TechnicalProfile>
+            </TechnicalProfiles>
+        </ClaimsProvider>
+
+        <ClaimsProvider>
+            <DisplayName>Azure Active Directory</DisplayName>
+            <TechnicalProfiles>
+
+                <!-- social logins, signup -->
+                <TechnicalProfile Id="AAD-UserWriteUsingAlternativeSecurityId">
+                    <PersistedClaims>
+                        <PersistedClaim ClaimTypeReferenceId="jobTitle" />
+                    </PersistedClaims>
+                    <OutputClaims>
+                        <OutputClaim ClaimTypeReferenceId="otherMails" />
+                    </OutputClaims>
+                </TechnicalProfile>
+
+                <TechnicalProfile Id="AAD-UserWriteProfileUsingObjectId">
+                    <PersistedClaims>
+                        <PersistedClaim ClaimTypeReferenceId="jobTitle" />
+                    </PersistedClaims>
+                    <OutputClaims>
+                        <OutputClaim ClaimTypeReferenceId="otherMails" />
+                    </OutputClaims>
+                </TechnicalProfile>
+
+
+                <TechnicalProfile Id="AAD-UserReadUsingAlternativeSecurityId-NoError">
+                    <OutputClaims>
+                        <OutputClaim ClaimTypeReferenceId="jobTitle" />
+                    </OutputClaims>
+                </TechnicalProfile>
+
+
+                <!-- local accounts singup, sign in  -->
+                <TechnicalProfile Id="AAD-UserReadUsingObjectId">
+                    <OutputClaims>
+                        <OutputClaim ClaimTypeReferenceId="jobTitle" />
+                        <OutputClaim ClaimTypeReferenceId="otherMails" />
+
+                        <!-- 90 day pwd exp -->
+                        <OutputClaim ClaimTypeReferenceId="extension_passwordResetOn" />
+                    </OutputClaims>
+                    <!-- 90 day pwd exp -->
+                    <OutputClaimsTransformations>
+                        <OutputClaimsTransformation ReferenceId="SetCurrentDateTime" />
+                        <OutputClaimsTransformation ReferenceId="ComparePasswordResetOnWithCurrentDateTime" />
+                        <OutputClaimsTransformation ReferenceId="CheckIfPasswordResetOnPresent" />
+                        <OutputClaimsTransformation ReferenceId="CheckWhetherPasswordResetCanBeSkipped" />
+                    </OutputClaimsTransformations>
+                </TechnicalProfile>
+
+                <TechnicalProfile Id="LocalAccountSignUpWithLogonEmail">
+                    <OutputClaims>
+                        <OutputClaim ClaimTypeReferenceId="email" PartnerClaimType="Verified.Email" Required="true" />
+                        <OutputClaim ClaimTypeReferenceId="newPassword" Required="true" />
+                        <OutputClaim ClaimTypeReferenceId="reenterPassword" Required="true" />
+
+                        <!-- Optional claims, to be collected from the user -->
+                        <OutputClaim ClaimTypeReferenceId="givenName" />
+                        <OutputClaim ClaimTypeReferenceId="surName" />
+                        <OutputClaim ClaimTypeReferenceId="jobTitle" />
+                        <OutputClaim ClaimTypeReferenceId="otherMails" />
+                    </OutputClaims>
+                </TechnicalProfile>
+
+                <!-- Technical profiles for local accounts -->
+                <TechnicalProfile Id="AAD-UserWriteUsingLogonEmail">
+                    <InputClaimsTransformations>
+                        <InputClaimsTransformation ReferenceId="CreateOtherMailsFromEmail" />
+                        <InputClaimsTransformation ReferenceId="CreateDisplayNameFromFirstNameAndLastName" />
+
+                        <!--Sample: Get current date and time, 90 day pwd exp -->
+                        <InputClaimsTransformation ReferenceId="SetPasswordResetOn" />
+                    </InputClaimsTransformations>
+                    <PersistedClaims>
+                        <PersistedClaim ClaimTypeReferenceId="otherMails" />
+                        <PersistedClaim ClaimTypeReferenceId="jobTitle" />
+
+                        <!--Sample: On sign-up, set the 'password reset on' attribute with the current date and time -->
+                        <PersistedClaim ClaimTypeReferenceId="extension_passwordResetOn" />
+                    </PersistedClaims>
+                    <OutputClaims>
+                        <OutputClaim ClaimTypeReferenceId="otherMails" />
+                    </OutputClaims>
+                </TechnicalProfile>
+
+                <!-- 90 day pwd exp -->
+                <TechnicalProfile Id="AAD-Common">
+                    <DisplayName>Azure Active Directory</DisplayName>
+                    <!--  Demo action required: Provide objectId and appId before using extension properties. -->
+                    <Metadata>
+                        <Item Key="ApplicationObjectId">localAccountAppObjectId</Item>
+                        <Item Key="ClientId">localAccountAppClientId</Item>
+                    </Metadata>
+                    <!-- /Demo -->
+                </TechnicalProfile>
+                <TechnicalProfile Id="AAD-UserWritePasswordUsingObjectId">
+                    <InputClaimsTransformations>
+                        <!--Sample: Get current date and time -->
+                        <InputClaimsTransformation ReferenceId="SetPasswordResetOn" />
+                    </InputClaimsTransformations>
+                    <PersistedClaims>
+                        <!--Sample: On sign-up, set the 'password reset on' extension attribute with the current date and time -->
+                        <PersistedClaim ClaimTypeReferenceId="extension_passwordResetOn" />
+                    </PersistedClaims>
+                </TechnicalProfile>
+
+            </TechnicalProfiles>
+
+
+        </ClaimsProvider>
+
+        <ClaimsProvider>
+            <DisplayName>Token Issuer</DisplayName>
+            <TechnicalProfiles>
+                <TechnicalProfile Id="JwtIssuer">
+                    <Metadata>
+                        <Item Key="token_lifetime_secs">900</Item>
+                        <Item Key="id_token_lifetime_secs">900</Item>
+                        <Item Key="refresh_token_lifetime_secs"></Item>
+                        <Item Key="rolling_refresh_token_lifetime_secs">86400</Item>
+                    </Metadata>
+                </TechnicalProfile>
+            </TechnicalProfiles>
+        </ClaimsProvider>
+
+        <ClaimsProvider>
+            <DisplayName>Banned Password Profile</DisplayName>
+            <TechnicalProfiles>
+                <!-- Validates that the old password is good by authenticating in the background
+                            Logic to check new password is not the same as old password
+                                Validates that the new password is not on the banned list-->
+                <TechnicalProfile Id="LocalAccountWritePasswordUsingObjectId-ViaBannedList">
+                    <DisplayName>Change password (username)</DisplayName>
+                    <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+                    <Metadata>
+                        <!-- Allow the user multiple attempts to counter the prospect of encountering
+                                        errors due to the restrictions (bad pwd, banned pwd, complexity)-->
+                        <!-- <Item Key="setting.retryLimit">10</Item> -->
+                        <Item Key="ContentDefinitionReferenceId">api.selfasserted</Item>
+                        <Item Key="UserMessageIfClaimsTransformationBooleanValueIsNotEqual">This password is too weak, try another.</Item>
+                    </Metadata>
+                    <CryptographicKeys>
+                        <Key Id="issuer_secret" StorageReferenceId="B2C_1A_TokenSigningKeyContainer" />
+                    </CryptographicKeys>
+                    <InputClaims>
+                        <InputClaim ClaimTypeReferenceId="objectId" />
+                        <InputClaim ClaimTypeReferenceId="dummyTrue" DefaultValue="true" />
+                    </InputClaims>
+                    <OutputClaims>
+                        <OutputClaim ClaimTypeReferenceId="newPassword" Required="true" />
+                        <OutputClaim ClaimTypeReferenceId="reenterPassword" Required="true" />
+                        <OutputClaim ClaimTypeReferenceId="IsPasswordValid" DefaultValue="true" />
+                    </OutputClaims>
+                    <ValidationTechnicalProfiles>
+                        <ValidationTechnicalProfile ReferenceId="CheckPassword" ContinueOnError="false" />
+                        <ValidationTechnicalProfile ReferenceId="REST-PasswordHistoryCheck" />
+                        <ValidationTechnicalProfile ReferenceId="AAD-UserWritePasswordUsingObjectId">
+                            <Preconditions>
+                                <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+                                    <Value>banned</Value>
+                                    <Value>True</Value>
+                                    <Action>SkipThisValidationTechnicalProfile</Action>
+                                </Precondition>
+                            </Preconditions>
+                        </ValidationTechnicalProfile>
+                    </ValidationTechnicalProfiles>
+                </TechnicalProfile>
+
+                <!-- Runs claimsTransformations to make sure new and old passwords differ and not a banned 
+                            password for password reset only -->
+                <TechnicalProfile Id="CheckPassword">
+                    <DisplayName>Compare Email And Verify Email</DisplayName>
+                    <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.ClaimsTransformationProtocolProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+                    <OutputClaims>
+                        <OutputClaim ClaimTypeReferenceId="dummy" />
+                    </OutputClaims>
+                    <OutputClaimsTransformations>
+                        <OutputClaimsTransformation ReferenceId="passwordToMatchBanList" />
+                        <OutputClaimsTransformation ReferenceId="CheckBannedPasswordValue" />
+                        <OutputClaimsTransformation ReferenceId="AssertBannedPasswordFalse" />
+                    </OutputClaimsTransformations>
+                </TechnicalProfile>
+
+                <!-- Add logic to check banned password list
+                        Only write the account if the password is not banned -->
+                <TechnicalProfile Id="LocalAccountSignUpWithLogonEmail_Custom">
+                    <DisplayName>Email signup</DisplayName>
+                    <Protocol Name="Proprietary" Handler="Web.TPEngine.Providers.SelfAssertedAttributeProvider, Web.TPEngine, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
+                    <Metadata>
+                        <Item Key="IpAddressClaimReferenceId">IpAddress</Item>
+                        <Item Key="ContentDefinitionReferenceId">api.localaccountsignup</Item>
+                        <Item Key="UserMessageIfClaimsTransformationBooleanValueIsNotEqual">This password is too weak, try another.</Item>
+                    </Metadata>
+                    <InputClaims>
+                        <InputClaim ClaimTypeReferenceId="email" />
+                        <InputClaim ClaimTypeReferenceId="dummyTrue" DefaultValue="true" />
+                    </InputClaims>
+                    <OutputClaims>
+                        <OutputClaim ClaimTypeReferenceId="objectId" />
+                        <OutputClaim ClaimTypeReferenceId="email" PartnerClaimType="Verified.Email" Required="true" />
+                        <OutputClaim ClaimTypeReferenceId="newPassword" Required="true" />
+                        <OutputClaim ClaimTypeReferenceId="reenterPassword" Required="true" />
+                        <OutputClaim ClaimTypeReferenceId="executed-SelfAsserted-Input" DefaultValue="true" />
+                        <OutputClaim ClaimTypeReferenceId="authenticationSource" />
+                        <OutputClaim ClaimTypeReferenceId="newUser" />
+
+                        <!-- Optional claims, to be collected from the user -->
+                        <OutputClaim ClaimTypeReferenceId="givenName" />
+                        <OutputClaim ClaimTypeReferenceId="surName" />
+                        <OutputClaim ClaimTypeReferenceId="jobTitle" />
+                        <OutputClaim ClaimTypeReferenceId="otherMails" />
+                        <OutputClaim ClaimTypeReferenceId="banned" DefaultValue="false" />
+                    </OutputClaims>
+                    <ValidationTechnicalProfiles>
+                        <ValidationTechnicalProfile ReferenceId="CheckPassword" ContinueOnError="false" />
+                        <ValidationTechnicalProfile ReferenceId="AAD-UserWriteUsingLogonEmail">
+                            <Preconditions>
+                                <Precondition Type="ClaimEquals" ExecuteActionsIf="true">
+                                    <Value>banned</Value>
+                                    <Value>True</Value>
+                                    <Action>SkipThisValidationTechnicalProfile</Action>
+                                </Precondition>
+                            </Preconditions>
+                        </ValidationTechnicalProfile>
+                    </ValidationTechnicalProfiles>
+                    <UseTechnicalProfileForSessionManagement ReferenceId="SM-AAD" />
+                </TechnicalProfile>
+
+            </TechnicalProfiles>
+        </ClaimsProvider>
+
+    </ClaimsProviders>
+
+
+    <!--UserJourneys>
+	
+	</UserJourneys-->
+
+</TrustFrameworkPolicy>
