@@ -33,6 +33,10 @@ jobs:
           echo "Manually approved"
 
   deploy:
+    runs-on: opch
+    defaults:
+      run:
+        working-directory: ./apps/infrastructure
     needs: ManualApprove
     name: Set up IaC States backend and Cores
     runs-on: opch
@@ -57,6 +61,7 @@ jobs:
             exit 1
           fi
       - uses: actions/checkout@v2
+      - uses: pnpm/action-setup@v4
       - name: Branch name
         run: |
           echo running on branch ${GITHUB_REF##*/} - ${{github.ref_name}}
@@ -77,15 +82,15 @@ jobs:
         shell: bash
         # if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          yarn install
-          yarn global add ts-node
+          pnpm install
+          npm install -g ts-node
           # curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
           curl -fsSL https://get.pulumi.com | sh -s -- --version 3.74.0
           # sudo apt install -y jq
           # sudo apt install -y docker docker-compose
           ls -l
           pwd
-          yarn make:codedeploy
+          pnpm make:codedeploy
           cat ./package.json
 
       - name: 'Login via Azure CLI'
@@ -106,9 +111,9 @@ jobs:
         if: ${{ github.event.inputs.first == 'true' }}
         # Note: We have to use absolute path instead of relative path to run pulumi command because of some config issues on OPCH-Runner.
         run: |
-          /home/lnxadmin/.pulumi/bin/pulumi login --local
-          /home/lnxadmin/.pulumi/bin/pulumi stack init ${{ vars.ENV }}
-          /home/lnxadmin/.pulumi/bin/pulumi up --yes
+          pnpm pulumi login --local
+          pnpm pulumi stack init ${{ vars.ENV }}
+          pnpm pulumi up --yes
 
       - name: Have Existing State Deploy
         if: ${{ github.event.inputs.first == 'false' }}
@@ -117,14 +122,14 @@ jobs:
           cd codedeploy
           export AZURE_STORAGE_KEY=$(az storage account keys list -n $AZURE_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
 
-          /home/lnxadmin/.pulumi/bin/pulumi login --local
-          /home/lnxadmin/.pulumi/bin/pulumi stack init ${{ vars.ENV }}
+          pnpm pulumi login --local
+          pnpm pulumi stack init ${{ vars.ENV }}
 
           az storage blob download -f storage-states.json -n storage-states.json --container-name pulumistate --account-key $AZURE_STORAGE_KEY --account-name $AZURE_STORAGE_ACCOUNT --overwrite
 
-          /home/lnxadmin/.pulumi/bin/pulumi stack import --file storage-states.json
-          /home/lnxadmin/.pulumi/bin/pulumi refresh --yes
-          /home/lnxadmin/.pulumi/bin/pulumi up --yes
+          pnpm pulumi stack import --file storage-states.json
+          pnpm pulumi refresh --yes
+          pnpm pulumi up --yes
 
       - name: Wait for CodeDeploy to be ready
         run: |
@@ -145,7 +150,7 @@ jobs:
           cd codedeploy
 
           export AZURE_STORAGE_KEY=$(az storage account keys list -n $AZURE_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
-          /home/lnxadmin/.pulumi/bin/pulumi stack export --file storage-states.json
+          pnpm pulumi stack export --file storage-states.json
           echo "-----------------------------------Display State--------------------------------------------"
           cat storage-states.json
           echo "--------------------------------------------------------------------------------------------"

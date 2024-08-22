@@ -8,8 +8,8 @@ fs.readFile(path, 'utf8', (err, data) => {
     return;
   }
   const result = data.replace(
-    /"main": "index.ts"/,
-    '"main": "codedeploy/index.ts"',
+    /"main": "src\/index.ts"/,
+    '"main": "src/codedeploy/index.ts"',
   );
 
   fs.writeFile(path, result, `utf8`, (err) => {

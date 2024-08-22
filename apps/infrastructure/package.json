@@ -2,10 +2,16 @@
   "name": "infrastructure",
   "main": "src/index.ts",
   "scripts": {
-    "make:codedeploy": "ts-node src/utils/make-code-deploy.ts",
-    "make:b2c": "ts-node src/utils/make-policy.ts",
-    "preview": "pulumi preview",
-    "up": "pulumi up --yes"
+    "make:codedeploy": "ts-node utils/make-code-deploy.ts",
+    "make:b2c": "ts-node utils/make-policy.ts",
+    "pulumi:init": "pulumi stack init",
+    "pulumi": "pulumi",
+    "pulumi:select": "pulumi stack select",
+    "pulumi:version": "pulumi version",
+    "pulumi:login": "pulumi login azblob://pulumistate",
+    "pulumi:refresh": "pulumi refresh --diff --color auto --non-interactive --fully-qualify-stack-names --yes",
+    "pulumi:preview": "pulumi preview --diff --color auto --exec-kind auto.local --non-interactive --fully-qualify-stack-names",
+    "pulumi:up": "pulumi up --diff --color auto --non-interactive --fully-qualify-stack-names --yes"
   },
   "dependencies": {
     "@pulumi/azure": "5.86.0",
