@@ -1,6 +1,5 @@
 {
-  "name": "monorepo-template-kpmg",
-  "private": true,
+  "name": "template-webapp-monorepo",
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
