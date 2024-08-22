@@ -39,7 +39,6 @@ jobs:
         working-directory: ./apps/infrastructure
     needs: ManualApprove
     name: Set up IaC States backend and Cores
-    runs-on: opch
     environment: ${{ github.event.inputs.environment }} # this will decide the environment to run the job on and will use the variable and secrets defined in the github environment setting
 
     env:
