@@ -53,13 +53,13 @@ jobs:
       PULUMI_CONFIG_PASSPHRASE: ${{ vars.PULUMI_CONFIG_PASSPHRASE }}
 
     steps:
+      - uses: actions/checkout@v2
       - name: Check PROJECT_NAME_ABBREVIATION
         run: |
           if [[ ! $PROJECT_NAME_ABBREVIATION =~ ^([a-zA-Z0-9]){1,8}$ ]]; then
             echo "Error: PROJECT_NAME_ABBREVIATION <$PROJECT_NAME_ABBREVIATION> does not match the required pattern ^([a-zA-Z0-9]){1,8}$"
             exit 1
           fi
-      - uses: actions/checkout@v2
       - uses: pnpm/action-setup@v4
       - name: Branch name
         run: |
