@@ -14,15 +14,16 @@ Nte: This repo is stil a WIP
 /libs
   /core-db
   /core-utils
-  /eslit-config
+  /eslint-config
   /tsconfig
 ```
 
 ## Prerequisites for setting up the project locally
 
-1. Install npm
-2. Install pnpm
-3. Install docker desktop
+1. Install Node.js - `v20.15.1`
+2. Install npm - `10.7.0`
+3. Install pnpm - `9.7.1`
+4. Install docker desktop
 
 ## How to setup the project locally?
 
