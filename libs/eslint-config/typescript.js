@@ -70,5 +70,6 @@ module.exports = {
     "@typescript-eslint/no-unsafe-assignment": "error",
 
     "prettier/prettier": ["error"]
-  }
+  },
+  ignorePatterns: ["dist", ".eslintrc.cjs"]
 };
