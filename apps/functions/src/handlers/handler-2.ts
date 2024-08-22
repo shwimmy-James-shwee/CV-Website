@@ -1,15 +1,6 @@
-import {
-  app,
-  HttpHandler,
-  HttpRequest,
-  HttpResponseInit,
-  InvocationContext,
-} from '@azure/functions';
+import { app, HttpHandler, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
 
-const handler: HttpHandler = async (
-  request: HttpRequest,
-  context: InvocationContext,
-): Promise<HttpResponseInit> => {
+const handler: HttpHandler = async (request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> => {
   const message = `Http function processed the following request:  ${request?.method} ${request?.url}`;
   context.log(message);
 
@@ -21,5 +12,5 @@ const handler: HttpHandler = async (
 app.http(`handler-2`, {
   methods: [`GET`, `POST`],
   authLevel: `anonymous`,
-  handler,
+  handler
 });
