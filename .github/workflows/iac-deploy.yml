@@ -62,6 +62,8 @@ jobs:
         with:
           node-version: 21.1.0
 
+      - uses: pnpm/action-setup@v4
+
       - name: Install node dependencies
         shell: bash
         # if: steps.cache.outputs.cache-hit != 'true'
