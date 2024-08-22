@@ -1,27 +1,26 @@
 {
   "compilerOptions": {
-    // vite config
-    "jsx": "react-jsx",
-    "allowSyntheticDefaultImports": true,
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
     "isolatedModules": true,
-    "module": "ES2022",
-    "moduleResolution": "Node",
-    "sourceMap": true,
-    "inlineSources": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-
-    // Standard project config
-    "declaration": false,
-    "noUncheckedIndexedAccess": true,
-    "strictNullChecks": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  }
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src", "src/tests/setupTest.ts"],
+  //   "exclude": ["src/**/__tests__/*.tsx"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

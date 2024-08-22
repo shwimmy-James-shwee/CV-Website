@@ -3,6 +3,7 @@
 Nte: This repo is stil a WIP
 
 ## Project Structure
+
 ```
 /apps
   /frontend
@@ -18,11 +19,13 @@ Nte: This repo is stil a WIP
 ```
 
 ## Prerequisites for setting up the project locally
+
 1. Install npm
 2. Install pnpm
 3. Install docker desktop
 
 ## How to setup the project locally?
+
 1. Clone the repo
 2. In root folder, run `pnpm install`
 3. In root folder, run `pnpm build` (for now, build might fail due to eslint issues, but it doesn't prevent apps from running)
