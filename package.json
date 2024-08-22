@@ -8,7 +8,7 @@
     "prettier": "prettier **/*.{ts,js,json,md,cjs,mjs} --write"
   },
   "devDependencies": {
-    "eslint": "^8.57.0",
+    "eslint": "8.57.0",
     "prettier": "3.2.5",
     "turbo": "2.0.14",
     "typescript": "5.4.5"
