@@ -1,5 +1,5 @@
 import { UserAssignedIdentity } from '@pulumi/azure-native/managedidentity';
-import { envBase } from '@/env-base';
+import { envBase } from './../env-base';
 import { vault, vaultPept } from './keyvault';
 import { AccessPolicy } from '@pulumi/azure-native/keyvault';
 import { finalPolicy } from './policies';
