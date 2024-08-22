@@ -1,7 +1,3 @@
-const { resolve } = require("node:path");
-
-// const project = resolve(process.cwd(), 'tsconfig.json');
-
 /*
  * This is a custom ESLint configuration for use with
  * Next.js apps.
@@ -11,38 +7,10 @@ const { resolve } = require("node:path");
  *
  */
 
-// module.exports = {
-//     extends: [
-//         'plugin:@typescript-eslint/recommended',
-//         require.resolve('eslint-config-turbo'),
-//     ],
-//     parser: '@typescript-eslint/parser',
-//     parserOptions: {
-//         project,
-//     },
-//     globals: {
-//         React: true,
-//         JSX: true,
-//     },
-//     settings: {
-//         'import/resolver': {
-//             typescript: {
-//                 project,
-//             },
-//         },
-//     },
-//     ignorePatterns: ['node_modules/', 'dist/', '.eslintrc.js'],
-//     // add rules configurations here
-//     rules: {
-//         'import/no-default-export': 'off',
-//     },
-// };
-
 module.exports = {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     project: "tsconfig.json",
-    // tsconfigRootDir: __dirname,
     tsconfigRootDir: process.cwd(),
     sourceType: "module"
   },
@@ -55,8 +23,15 @@ module.exports = {
       }
     }
   },
-  plugins: ["@typescript-eslint/eslint-plugin"],
-  extends: ["plugin:@typescript-eslint/recommended", "plugin:prettier/recommended", "eslint-config-turbo"],
+  plugins: ["@typescript-eslint/eslint-plugin", "@typescript-eslint"],
+  extends: [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "eslint-config-turbo",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
   root: true,
   env: {
     browser: true,
@@ -64,7 +39,6 @@ module.exports = {
     node: true,
     jest: true
   },
-  ignorePatterns: [".eslintrc.js", "!prisma/*.ts"],
   rules: {
     camelcase: "error",
     "@typescript-eslint/no-inferrable-types": 0,
@@ -88,7 +62,14 @@ module.exports = {
     "@typescript-eslint/interface-name-prefix": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-explicit-any": "off",
+
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-unsafe-call": "error",
+    "@typescript-eslint/no-unsafe-argument": "error",
+    "@typescript-eslint/no-unsafe-member-access": "error",
+    "@typescript-eslint/no-unsafe-assignment": "error",
+
     "prettier/prettier": ["error"]
-  }
+  },
+  ignorePatterns: ["dist", ".eslintrc.cjs"]
 };
