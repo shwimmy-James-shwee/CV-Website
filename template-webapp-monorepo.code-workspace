@@ -48,5 +48,18 @@
         "overviewRulerColor": "rgba(255,189,42,0.8)"
       }
     ]
+  },
+  "extensions": {
+    "recommendations": [
+      "ipatalas.vscode-postfix-ts",
+      "pkief.material-icon-theme",
+      "wayou.vscode-todo-highlight",
+      "esbenp.prettier-vscode",
+      "prisma.prisma",
+      "styled-components.vscode-styled-components",
+      "ms-azuretools.vscode-azurefunctions",
+      "iuyoy.highlight-string-code",
+      "pulumi.pulumi-lsp-client"
+    ]
   }
 }
