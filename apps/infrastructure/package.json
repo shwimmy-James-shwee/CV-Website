@@ -2,8 +2,8 @@
   "name": "infrastructure",
   "main": "src/index.ts",
   "scripts": {
-    "make:codedeploy": "ts-node utils/make-code-deploy.ts",
-    "make:b2c": "ts-node utils/make-policy.ts",
+    "make:codedeploy": "ts-node src/utils/make-code-deploy.ts",
+    "make:b2c": "ts-node src/utils/make-policy.ts",
     "pulumi:init": "pulumi stack init",
     "pulumi": "pulumi",
     "pulumi:select": "pulumi stack select",
