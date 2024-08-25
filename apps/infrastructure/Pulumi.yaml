@@ -1,4 +1,4 @@
-name: infrastructure
+name: infra-iac
 runtime:
   name: nodejs
   options:
