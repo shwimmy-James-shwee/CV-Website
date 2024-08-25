@@ -14,13 +14,17 @@ RUN apt update \
   && apt upgrade -y \
   && apt install -y python3 git curl openssh-server 
 
+# Install PNPM globally
+RUN npm install -g pnpm
 
-RUN yarn global add pm2 ts-node typescript dotenv-cli husky\
+# Use PNPM for installation and building
+RUN pnpm install --frozen-lockfile \ 
+  && pnpm build
+
+RUN npm install -g pnpm pm2 ts-node typescript dotenv-cli\
   && rm -rf node_modules \
-  && yarn install --immutable --immutable-cache --check-cache --ignore-scripts \ 
-  && yarn prisma:generate \
-  && yarn build
-
+  && pnpm install --frozen-lockfile \ 
+  && pnpm build
 
 # Deployment Build
 FROM node:lts-slim AS production
@@ -40,10 +44,8 @@ RUN apt update \
   && apt install -y python3 git curl openssh-server \
   && echo "$SSH_PASSWD" | chpasswd 
 
-
 RUN rm -rf node_modules \
-  && yarn install --ignore-scripts --production\
-  && yarn prisma:generate
+  && pnpm install --ignore-scripts --production\
 
 COPY --from=development /src/app/dist ./dist
 
