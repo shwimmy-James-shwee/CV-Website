@@ -52,7 +52,7 @@ jobs:
           docker ps -a
           docker image ls -a
 
-          docker-compose -f /apps/backend/docker-compose-base.yml build
+          docker-compose -f ./apps/backend/docker-compose-base.yml build
 
           docker tag node-base $AZURE_CONTAINER_REGISTRY/node-base
           docker push $AZURE_CONTAINER_REGISTRY/node-base
