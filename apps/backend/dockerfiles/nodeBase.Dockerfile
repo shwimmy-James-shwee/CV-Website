@@ -11,10 +11,13 @@ WORKDIR /usr/src/app
 FROM base AS build
 
 # Copy the project files to the working directory
-COPY . /usr/src/app
+COPY /usr/src/app
+
+# Copy over the package.json
+COPY ./package/json package.json
 
 # Install packages at the root level (including shared monorepo packages)
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --shamefully-hoist --global --prefix /usr/src/app
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --shamefully-hoist --global
 
 # Run the build commands
 RUN pnpm run -r build
