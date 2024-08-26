@@ -1,19 +1,17 @@
-FROM node:lts-slim
+FROM node:20-slim AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
-ENV WORKDIR /src/app
+FROM base AS build
+COPY . /usr/src/app
+WORKDIR /usr/src/app
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm run -r build
+RUN pnpm deploy --filter=backend --prod
 
-RUN mkdir -p /src/app 
-WORKDIR $WORKDIR
-COPY ./package.json ./package.json
-COPY ../../../pnpm-lock.yaml ./pnpm-lock.yaml
-
-RUN apt update \
-  && apt upgrade -y \
-  && apt install -y python3 git curl openssh-server 
-
-
-RUN yarn global add pm2 ts-node typescript dotenv-cli husky\
-  && rm -rf node_modules \
-  && yarn install --immutable --immutable-cache --check-cache
-
-# ssh
+FROM base AS backend
+COPY --from=build /prod/backend /prod/backend
+WORKDIR /prod/backend
+EXPOSE 8000
+CMD [ "pnpm", "start" ]
