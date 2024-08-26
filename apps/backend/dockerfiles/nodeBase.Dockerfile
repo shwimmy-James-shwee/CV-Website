@@ -14,7 +14,7 @@ FROM base AS build
 COPY /usr/src/app
 
 # Copy over the package.json
-COPY ./package/json package.json
+COPY ./package/json usr/app/package.json
 
 # Install packages at the root level (including shared monorepo packages)
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --shamefully-hoist --global
