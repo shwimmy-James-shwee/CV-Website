@@ -59,6 +59,8 @@ jobs:
 
       - name: Build And Push
         run: |
+          # Create the target directory if it does not exist
+          mkdir -p ./dockerfiles/
 
           # git log -1 --pretty=%s >> git_commit_msg.txt
           git log -4 --date=format-local:'%Y-%m-%d %H:%M:%S' >> git_commit_msg.txt
@@ -68,7 +70,7 @@ jobs:
 
           # get use the dynamic base file from different env
           cp ./apps/backend/dockerfiles/node.Dockerfile ./dockerfiles/node.Dockerfile ;\
-          sed -i "s|FROM $NODE_DOCKER_IMAGE|FROM $AZURE_CONTAINER_REGISTRY/node-base:latest|g" ./apps/backend/dockerfiles/node.Dockerfile
+          sed -i "s|FROM $NODE_DOCKER_IMAGE|FROM $AZURE_CONTAINER_REGISTRY/node-base:latest|g" ./dockerfiles/node.Dockerfile
           cat ./apps/backend/dockerfiles/node.Dockerfile
 
           docker ps -a
