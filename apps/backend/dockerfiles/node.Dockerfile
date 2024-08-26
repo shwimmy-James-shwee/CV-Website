@@ -1,67 +1,52 @@
-# Build phase
-FROM node:lts-slim AS development
+FROM node:18-alpine AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
-ENV WORKDIR /src/app
-ENV DISABLE_ERD true
-# ENV NODE_ENV production
-# ENV CI false
+# The web Dockerfile is copy-pasted into our main docs at /docs/handbook/deploying-with-docker.
+# Make sure you update this Dockerfile, the Dockerfile in the web workspace and copy that over to Dockerfile in the docs.
 
-RUN mkdir -p /src/app 
-WORKDIR $WORKDIR
-
-# Copy package.json and pnpm-lock.yaml from root folder
-COPY package.json ./
-COPY pnpm-lock.yaml ./
-
-COPY . .
-
-RUN apt update \
-  && apt upgrade -y \
-  && apt install -y python3 git curl openssh-server 
-
-# Install PNPM globally
-RUN npm install -g pnpm
-
-# Use PNPM for installation and building
-RUN pnpm install \ 
-  && pnpm build
-
-RUN npm install -g pnpm pm2 ts-node typescript dotenv-cli\
-  && rm -rf node_modules \
-  && pnpm install --shamefully-hoist --global \ 
-  && pnpm build
-
-# Deployment Build
-FROM node:lts-slim AS production
-
-ENV WORKDIR /src/app
-ENV DISABLE_ERD true
-ENV SSH_PASSWD "root:Docker!"
-
-RUN mkdir -p $WORKDIR
-WORKDIR $WORKDIR
+FROM base AS builder
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+RUN apk update
+# Set working directory
+WORKDIR /app
+RUN pnpm install turbo --global
 
 COPY . .
+RUN turbo prune backend --docker
 
-RUN apt update \
-  && apt upgrade -y \
-  && apt install -y python3 git curl openssh-server \
-  && echo "$SSH_PASSWD" | chpasswd
+# Add lockfile and package.json's of isolated subworkspace
+FROM base AS installer
+RUN apk add --no-cache libc6-compat
+RUN apk update
+WORKDIR /app
 
-# Install PNPM globally
-RUN npm install -g pnpm
+# First install dependencies (as they change less often)
+COPY --from=builder /app/out/json/ .
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+RUN pnpm install
 
-RUN pnpm install --ignore-scripts --production
+# Build the project and its dependencies
+COPY --from=builder /app/out/full/ .
 
-COPY --from=development /src/app/dist ./dist
+# Uncomment and use build args to enable remote caching
+# ARG TURBO_TEAM
+# ENV TURBO_TEAM=$TURBO_TEAM
 
-# ssh
-COPY sshd_config /etc/ssh/
-COPY init.sh /usr/local/bin/
-RUN chmod u+x /usr/local/bin/init.sh
+# ARG TURBO_TOKEN
+# ENV TURBO_TOKEN=$TURBO_TOKEN
 
-EXPOSE 8080 2222 80
+RUN pnpm turbo build --filter=backend...
 
-# CMD ["pm2-runtime", "start", "processes.config.js", "--env", "production"]
+FROM base AS runner
+WORKDIR /app
 
-ENTRYPOINT ["init.sh"]
+# Don't run production as root
+RUN addgroup --system --gid 1001 nestjs
+RUN adduser --system --uid 1001 nestjs
+USER nestjs
+COPY --from=installer /app .
+
+CMD node apps/backend/dist/index.js
