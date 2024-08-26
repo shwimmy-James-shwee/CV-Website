@@ -5,7 +5,7 @@ ENV WORKDIR /src/app
 RUN mkdir -p /src/app 
 WORKDIR $WORKDIR
 COPY ./package.json ./package.json
-COPY ../../pnpm-lock.yaml ./pnpm-lock.yaml
+COPY ../../../pnpm-lock.yaml ./pnpm-lock.yaml
 
 RUN apt update \
   && apt upgrade -y \
