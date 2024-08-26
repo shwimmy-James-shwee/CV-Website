@@ -23,8 +23,8 @@ RUN npx pnpm install --global pnpm
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --shamefully-hoist --global
 
 # Run the build commands
-RUN pnpm run -r build
 RUN pnpm install --filter=backend
+RUN pnpm run -r build
 
 # Create the final stage for the backend
 FROM base AS backend
