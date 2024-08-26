@@ -1,0 +1,14 @@
+name: Deploy Azure Functions
+on:
+  push:
+    branches: [main, dev, ci-dev, ci-qa, ci-staging, ci-prod]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Placeholder step
+    runs-on: opch
+    steps:
+      - name: 'Placeholder step'
+        run: |
+          echo Placeholder
