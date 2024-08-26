@@ -18,17 +18,16 @@ RUN apt update \
 RUN npm install -g pnpm
 
 # Use PNPM for installation and building
-RUN pnpm install --frozen-lockfile \ 
+RUN pnpm install \ 
   && pnpm build
 
 RUN npm install -g pnpm pm2 ts-node typescript dotenv-cli\
   && rm -rf node_modules \
-  && pnpm install --frozen-lockfile \ 
+  && pnpm install --shamefully-hoist --global \ 
   && pnpm build
 
 # Deployment Build
 FROM node:lts-slim AS production
-
 
 ENV WORKDIR /src/app
 ENV DISABLE_ERD true
@@ -42,7 +41,10 @@ COPY . .
 RUN apt update \
   && apt upgrade -y \
   && apt install -y python3 git curl openssh-server \
-  && echo "$SSH_PASSWD" | chpasswd 
+  && echo "$SSH_PASSWD" | chpasswd
+
+# Install PNPM globally
+RUN npm install -g pnpm
 
 RUN pnpm install --ignore-scripts --production
 
