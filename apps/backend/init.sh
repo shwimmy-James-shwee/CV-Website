@@ -4,4 +4,4 @@ set -e
 echo "Starting SSH ..."
 service ssh start
 
-yarn start:prod
+pnpm start:prod

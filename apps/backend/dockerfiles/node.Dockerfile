@@ -44,8 +44,7 @@ RUN apt update \
   && apt install -y python3 git curl openssh-server \
   && echo "$SSH_PASSWD" | chpasswd 
 
-RUN rm -rf node_modules \
-  && pnpm install --ignore-scripts --production\
+RUN pnpm install --ignore-scripts --production
 
 COPY --from=development /src/app/dist ./dist
 
