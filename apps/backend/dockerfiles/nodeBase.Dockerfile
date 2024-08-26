@@ -24,7 +24,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --shamefully-hois
 
 # Run the build commands
 RUN pnpm run -r build
-RUN pnpm deploy --filter=backend
+RUN pnpm install --filter=backend
 
 # Create the final stage for the backend
 FROM base AS backend
