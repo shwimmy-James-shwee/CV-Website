@@ -76,7 +76,7 @@ jobs:
           docker ps -a
           docker image ls -a
 
-          docker-compose -f .apps/backend/docker-compose-deployment.yml up --build -d --force-recreate
+          docker-compose -f ./apps/backend/docker-compose-deployment.yml up --build -d --force-recreate
           docker ps -a
           docker image ls
           docker container ls
