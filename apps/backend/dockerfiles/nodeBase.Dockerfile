@@ -3,10 +3,14 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
+WORKDIR /usr/src/app
+
 FROM base AS build
 COPY . /usr/src/app
-WORKDIR /usr/src/app
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --ignore-scripts
+
+# Install packages at the root level (including shared monorepo packages)
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --shamefully-hoist -global
+
 RUN pnpm run -r build
 RUN pnpm deploy --filter=backend --prod
 
