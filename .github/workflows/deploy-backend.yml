@@ -1,7 +1,7 @@
 name: Deploy Backend
 on:
   push:
-    branches: [main, dev, ci-dev, ci-qa, ci-staging, ci-prod]
+    branches: [dev, prod]
   workflow_dispatch:
 
 jobs:
