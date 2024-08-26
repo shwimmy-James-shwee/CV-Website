@@ -6,7 +6,7 @@ RUN corepack enable
 FROM base AS build
 COPY . /usr/src/app
 WORKDIR /usr/src/app
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --shamefully-hoist
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --shamefully-hoist --ignore-scripts
 RUN pnpm run -r build
 RUN pnpm deploy --filter=backend --prod
 
