@@ -8,6 +8,11 @@ ENV DISABLE_ERD true
 
 RUN mkdir -p /src/app 
 WORKDIR $WORKDIR
+
+# Copy package.json and pnpm-lock.yaml from root folder
+COPY package.json ./
+COPY pnpm-lock.yaml ./
+
 COPY . .
 
 RUN apt update \
