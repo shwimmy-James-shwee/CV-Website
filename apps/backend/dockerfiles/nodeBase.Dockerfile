@@ -14,7 +14,7 @@ FROM base AS build
 COPY . /usr/src/app
 
 # Install packages at the root level (including shared monorepo packages)
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --shamefully-hoist --global
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --shamefully-hoist --global --prefix /usr/src/app
 
 # Run the build commands
 RUN pnpm run -r build
