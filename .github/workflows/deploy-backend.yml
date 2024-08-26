@@ -1,0 +1,108 @@
+name: Deploy Backend API
+on:
+  push:
+    branches: [main, dev, ci-dev, ci-qa, ci-staging, ci-prod]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Build Docker
+    runs-on: opch
+    environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
+    env:
+      AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
+      AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
+      NODE_DOCKER_IMAGE: 'node:lts-slim'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Branch name
+        run: echo running on branch ${GITHUB_REF##*/} - ${{github.ref_name}} - ${{ github.event.inputs.name }}
+
+      # - name: Set Dependencies
+      #   run: |
+      #     curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+      #     apt install -y docker docker-compose
+
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # only need to run this once, so we can comment it out after the first run
+      # - name: Set Permission to Docker Compose
+      #   run: |
+      #     sudo chmod +x /usr/local/bin/docker-compose;
+      #     sudo usermod -aG docker $USER
+      #     sudo chgrp docker /usr/local/bin/docker-compose
+      #     sudo chmod 750 /usr/local/bin/docker-compose
+
+      - name: Check Base
+        id: check
+        continue-on-error: true
+        run: |
+          echo $AZURE_CONTAINER_REGISTRY_NAME
+          az acr login --name $AZURE_CONTAINER_REGISTRY_NAME
+          docker pull $AZURE_CONTAINER_REGISTRY/node-base:latest
+
+      - name: Build Base
+        if: steps.check.outcome != 'success'
+        run: |
+          echo "Base not found, build from scratch"
+          docker system prune -f -a
+          docker ps -a
+          docker image ls -a
+
+          docker-compose -f docker-compose-base.yml build
+
+          docker tag node-base $AZURE_CONTAINER_REGISTRY/node-base
+          docker push $AZURE_CONTAINER_REGISTRY/node-base
+
+      - name: Build And Push
+        run: |
+
+          # git log -1 --pretty=%s >> git_commit_msg.txt
+          git log -4 --date=format-local:'%Y-%m-%d %H:%M:%S' >> git_commit_msg.txt
+          command git --no-pager log -1 --format="%ai" >> git_commit_msg.txt
+          echo ${{ github.run_id }} >> git_commit_msg.txt
+
+
+          # get use the dynamic base file from different env
+          cp ./dockerfiles/node.Dockerfile ./dockerfiles/node.Dockerfile_og ;\
+          sed -i "s|FROM $NODE_DOCKER_IMAGE|FROM $AZURE_CONTAINER_REGISTRY/node-base:latest|g" ./dockerfiles/node.Dockerfile
+          cat ./dockerfiles/node.Dockerfile
+
+          docker ps -a
+          docker image ls -a
+
+          docker-compose -f docker-compose-deployment.yml up --build -d --force-recreate
+          docker ps -a
+          docker image ls
+          docker container ls
+          docker tag webappapi $AZURE_CONTAINER_REGISTRY/webappapi:${{ github.run_id }}
+          docker tag webappapi $AZURE_CONTAINER_REGISTRY/webappapi
+
+          # publish image to acr
+          docker push $AZURE_CONTAINER_REGISTRY/webappapi:${{ github.run_id }}
+          docker push  $AZURE_CONTAINER_REGISTRY/webappapi
+
+      - name: Deploy to Staging
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: '${{ vars.PROJECT_NAME_ABBREVIATION }}-be-${{ vars.ENV }}'
+          slot-name: ${{ vars.ENV == 'prod' && 'staging' || 'production' }}
+          images: '${{ env.AZURE_CONTAINER_REGISTRY }}/webappapi:${{ github.run_id }}'
+          # ${{ github.run_id }}
+
+      - name: Remove old images/container
+        id: remove
+        if: success() || failure()
+        continue-on-error: true
+        run: |
+          # ! this does not work any more due to KPMG Global policy change disabling public access, workers cant reach ACR
+          # az acr run --cmd "acr purge --filter 'webappapi:.*' --ago 1d --untagged --keep 10" --registry $AZURE_CONTAINER_REGISTRY_NAME /dev/null
+          docker-compose -f docker-compose-deployment.yml down --remove-orphans
+          docker ps -aq | xargs docker rm -f
+          docker images | grep -v 'base' | awk '{print $1":"$2}' | tail -n +2 | xargs -r docker rmi
+          docker image ls
+          docker container ls
+          docker volume ls
