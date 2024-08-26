@@ -1,5 +1,5 @@
 FROM node:lts AS builder
-# RUN apk update
+
 # Set working directory
 WORKDIR /app
 RUN
@@ -10,7 +10,7 @@ RUN turbo prune --scope=backend --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM node:lts AS installer
-# RUN apk update
+
 WORKDIR /app
 
 # First install dependencies (as they change less often)
@@ -25,13 +25,9 @@ RUN npx turbo run build --filter=backend
 FROM node:lts AS runner
 WORKDIR /app
 
-# # Don't run production as root
-# RUN addgroup --system --gid 1001 expressjs
-# RUN adduser --system --uid 1001 expressjs
-# USER expressjs
 COPY --from=installer /app .
 
 WORKDIR /app/apps/backend
 
 EXPOSE 8080
-CMD [ "pnpm", "start" ]
+CMD ["pnpm", "start"]
