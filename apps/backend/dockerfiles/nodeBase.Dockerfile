@@ -16,6 +16,9 @@ COPY . .
 # Copy over the package.json from the project folder
 COPY package.json /usr/src/app/package.json
 
+# Install pnpm
+RUN npx pnpm install --global pnpm
+
 # Install packages at the root level (including shared monorepo packages)
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --shamefully-hoist --global
 
