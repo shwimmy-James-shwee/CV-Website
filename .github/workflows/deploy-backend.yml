@@ -67,8 +67,8 @@ jobs:
 
 
           # get use the dynamic base file from different env
-          cp ./apps/backend/dockerfiles/node.Dockerfile ./apps/backend/dockerfiles/node.Dockerfile ;\
-          sed -i "s|FROM $NODE_DOCKER_IMAGE|FROM $AZURE_CONTAINER_REGISTRY/node-base:latest|g" ./dockerfiles/node.Dockerfile
+          cp ./apps/backend/dockerfiles/node.Dockerfile ./dockerfiles/node.Dockerfile ;\
+          sed -i "s|FROM $NODE_DOCKER_IMAGE|FROM $AZURE_CONTAINER_REGISTRY/node-base:latest|g" ./apps/backend/dockerfiles/node.Dockerfile
           cat ./apps/backend/dockerfiles/node.Dockerfile
 
           docker ps -a
