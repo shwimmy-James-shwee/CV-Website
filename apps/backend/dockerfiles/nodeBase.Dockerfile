@@ -11,10 +11,10 @@ WORKDIR /usr/src/app
 FROM base AS build
 
 # Copy the project files to the working directory
-COPY /usr/src/app
+COPY . .
 
-# Copy over the package.json
-COPY ./package/json usr/app/package.json
+# Copy over the package.json from the project folder
+COPY package.json /usr/src/app/package.json
 
 # Install packages at the root level (including shared monorepo packages)
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --shamefully-hoist --global
@@ -36,4 +36,4 @@ WORKDIR /prod/backend
 EXPOSE 8000
 
 # Start the backend service
-CMD [  "pnpm", "start"  ]
+CMD ["pnpm", "start"]
