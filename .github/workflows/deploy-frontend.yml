@@ -1,9 +1,10 @@
 name: Deploy Frontend
 on:
   push:
-    branches: ['dev', 'develop', 'uat', 'qa'] #, 'prod']
+    branches: ["dev", "develop", "uat", "qa"] #, 'prod']
     paths:
       - "apps/frontend/**"
+      - ".github/workflow/*frontend*"
   workflow_dispatch:
     inputs:
       name:
@@ -43,20 +44,19 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v3.7.0
         with:
-          node-version: '20.x'
+          node-version: "20.x"
           # cache: 'yarn'
 
       - uses: pnpm/action-setup@v4
 
       - name: PNPM Install and Build
-        working-directory: apps/frontend
         run: |
-          pnpm install --ignore-scripts
-          pnpm build
+          pnpm install --frozen-lockfile
+          pnpm run build --filter="./apps/frontend/"
         env:
           CI: true
 
-      - name: 'Login via Azure CLI'
+      - name: "Login via Azure CLI"
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}

@@ -3,6 +3,9 @@ name: Deploy Functions App
 on:
   push:
     branches: ["develop", "dev", "uat", "qa"]
+    paths:
+      - "apps/functions/**"
+      - ".github/workflow/*function*"
   workflow_dispatch:
 
 env:

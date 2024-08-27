@@ -4,6 +4,7 @@ on:
     branches: [dev, develop, uat, qa] #, prod, main]
     paths:
       - "apps/backend/**"
+      - ".github/workflow/*backend*"
   workflow_dispatch:
 
 jobs:
