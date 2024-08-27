@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/node.Dockerfile
+    image: webappapi
+    ports:
+      - "8080:8080"
