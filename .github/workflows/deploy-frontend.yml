@@ -47,6 +47,7 @@ jobs:
       - uses: pnpm/action-setup@v4
 
       - name: PNPM Install and Build
+        working-directory: ./apps/frontend
         run: |
           pnpm install --ignore-scripts
           pnpm build
@@ -62,7 +63,7 @@ jobs:
         run: |
           export AZURE_STORAGE_KEY=$(az storage account keys list -n $FE_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
           az storage account show -n $FE_STORAGE_ACCOUNT --query networkRuleSet
-          az storage blob upload-batch --account-name $FE_STORAGE_ACCOUNT --auth-mode key -d '$web' -s "dist" --overwrite
+          az storage blob upload-batch --account-name $FE_STORAGE_ACCOUNT --auth-mode key -d '$web' -s "./apps/frontend/dist" --overwrite
 
       # - name: Storybook Build
       #   continue-on-error: true
