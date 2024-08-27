@@ -32,7 +32,7 @@ jobs:
         shell: bash # For Linux, use bash
         run: |
           pnpm install --ignore-scripts
-          pnpm build --if-present
+          pnpm build
           popd
 
       - name: "Login via Azure CLI"
