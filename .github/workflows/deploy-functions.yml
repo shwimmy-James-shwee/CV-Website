@@ -30,7 +30,7 @@ jobs:
       - uses: pnpm/action-setup@v4
 
       - name: "Resolve Project Dependencies"
-        working-directory: ./apps/functions
+        working-directory: apps/functions
         shell: bash # For Linux, use bash
         run: |
           pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'

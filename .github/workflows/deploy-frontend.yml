@@ -49,7 +49,7 @@ jobs:
       - uses: pnpm/action-setup@v4
 
       - name: PNPM Install and Build
-        working-directory: ./apps/frontend
+        working-directory: apps/frontend
         run: |
           pnpm install --ignore-scripts
           pnpm build
