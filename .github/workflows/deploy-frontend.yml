@@ -1,14 +1,77 @@
 name: Deploy Frontend
 on:
   push:
-    branches: [dev, prod]
+    branches: ['dev', 'develop', 'uat', 'qa'] #, 'prod']
   workflow_dispatch:
-
+    inputs:
+      name:
+        type: choice
+        description: which env to deploy the changes to
+        options:
+          - dev
+          - uat
+          - main
+        default: null
+      deploy_storybook:
+        type: boolean
+        description: deploy storybook
+        default: true
 jobs:
   deploy:
-    name: Placeholder step
+    name: Deploy to Cloud
     runs-on: opch
+    environment: ${{github.event.inputs.name || (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
+    env:
+      FE_STORAGE_ACCOUNT: ${{ vars.PROJECT_NAME_ABBREVIATION }}fe${{ vars.ENV }}
+      FE_SB_STORAGE_ACCOUNT: ${{ vars.PROJECT_NAME_ABBREVIATION }}sbfe${{ vars.ENV }}
+      AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+      VITE_B2C_CLIENT_ID: ${{ vars.VITE_B2C_CLIENT_ID }}
+      VITE_B2C_TENANT_NAME: ${{ vars.VITE_B2C_TENANT_NAME }}
+      VITE_POLICY_NAME_EDIT_PROFILE: ${{ vars.VITE_POLICY_NAME_EDIT_PROFILE }}
+      VITE_POLICY_NAME_RESET: ${{ vars.VITE_POLICY_NAME_RESET }}
+      VITE_POLICY_NAME_SIGN_IN_UP: ${{ vars.VITE_POLICY_NAME_SIGN_IN_UP }}
+      VITE_API_URL: ${{ vars.VITE_API_URL }}
+
     steps:
-      - name: 'Placeholder step'
+      - uses: actions/checkout@v3
+
+      - name: Branch name
+        run: echo running on branch ${GITHUB_REF##*/} - ${{github.ref_name}} - ${{github.event.inputs.name || (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.7.0
+        with:
+          node-version: '20.x'
+          # cache: 'yarn'
+
+      - uses: pnpm/action-setup@v4
+
+      - name: PNPM Install and Build
         run: |
-          echo Placeholder
+          pnpm install --ignore-scripts
+          pnpm build
+        env:
+          CI: true
+
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Push to FE Storage
+        run: |
+          export AZURE_STORAGE_KEY=$(az storage account keys list -n $FE_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
+          az storage account show -n $FE_STORAGE_ACCOUNT --query networkRuleSet
+          az storage blob upload-batch --account-name $FE_STORAGE_ACCOUNT --auth-mode key -d '$web' -s "dist" --overwrite
+
+      # - name: Storybook Build
+      #   continue-on-error: true
+      #   run: |
+      #     yarn build-storybook
+
+      # - name: Push to Storybook FE Storage
+      #   continue-on-error: true
+      #   run: |
+      #     export AZURE_STORAGE_KEY=$(az storage account keys list -n $FE_SB_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
+      #     az storage account show -n $FE_SB_STORAGE_ACCOUNT --query networkRuleSet
+      #     az storage blob upload-batch --account-name $FE_SB_STORAGE_ACCOUNT --auth-mode key -d '$web' -s "storybook-static" --overwrite
