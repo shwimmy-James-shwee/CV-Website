@@ -32,9 +32,9 @@ jobs:
         shell: bash
         run: |
           pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          npm install -g typescript
+          npm install -g typescript pnpm
           pnpm install --frozen-lockfile --filter="./apps/functions/"
-          pnpm run build --filter="./apps/functions/"
+          pnpm build --filter="./apps/functions/"
           popd
 
       - name: "Run Azure Functions Action"
