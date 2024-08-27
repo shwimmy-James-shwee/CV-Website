@@ -2,6 +2,8 @@ name: Deploy Frontend
 on:
   push:
     branches: ['dev', 'develop', 'uat', 'qa'] #, 'prod']
+    paths:
+      - "apps/frontend/**"
   workflow_dispatch:
     inputs:
       name:
