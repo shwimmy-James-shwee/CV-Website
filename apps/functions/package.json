@@ -5,9 +5,9 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "clean": "rimraf dist",
-    "dev": "concurrently \"pnpm:watch\"  \"func start --typescript\"",
+    "dev": "func start",
     "test": "vitest",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\""
+    "lint": "eslint ."
   },
   "dependencies": {
     "@azure/functions": "4.5.0"
@@ -16,7 +16,6 @@
     "@repo/eslint-config": "file:../../libs/eslint-config",
     "@types/node": "20.14.15",
     "azure-functions-core-tools": "4.0.5907",
-    "concurrently": "8.2.2",
     "rimraf": "6.0.1",
     "typescript": "5.5.4"
   }
