@@ -4,7 +4,6 @@ on:
     branches: ["dev", "develop", "uat", "qa"] #, 'prod']
     paths:
       - "apps/frontend/**"
-      - ".github/workflow/*frontend*"
   workflow_dispatch:
     inputs:
       name:
