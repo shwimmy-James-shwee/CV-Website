@@ -39,7 +39,7 @@ jobs:
         run: pnpm install
 
       - name: Build
-        run: pnpm build -F backend
+        run: pnpm build -F functions
 
       - name: "Resolve Project Dependencies Using Npm"
         shell: bash
@@ -48,7 +48,6 @@ jobs:
           rm -rf node_modules
           ls
           sed -i '/eslint-config/,/tsconfig/d' package.json
-          npm cache clean
           npm install --install-links
           npm run build --if-present
           popd
