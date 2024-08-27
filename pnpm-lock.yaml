@@ -116,9 +116,6 @@ importers:
         specifier: 4.5.0
         version: 4.5.0
     devDependencies:
-      '@repo/eslint-config':
-        specifier: file:../../libs/eslint-config
-        version: file:libs/eslint-config
       '@types/node':
         specifier: 20.14.15
         version: 20.14.15
@@ -1061,9 +1058,6 @@ packages:
 
   '@pulumi/query@0.3.0':
     resolution: {integrity: sha512-xfo+yLRM2zVjVEA4p23IjQWzyWl1ZhWOGobsBqRpIarzLvwNH/RAGaoehdxlhx4X92302DrpdIFgTICMN4P38w==}
-
-  '@repo/eslint-config@file:libs/eslint-config':
-    resolution: {directory: libs/eslint-config, type: directory}
 
   '@rollup/rollup-android-arm-eabi@4.20.0':
     resolution: {integrity: sha512-TSpWzflCc4VGAUJZlPpgAJE1+V60MePDQnBd7PPkpuEmOy8i87aL6tinFGKBFKuEDikYpig72QzdT3QPYIi+oA==}
@@ -5443,8 +5437,6 @@ snapshots:
       - supports-color
 
   '@pulumi/query@0.3.0': {}
-
-  '@repo/eslint-config@file:libs/eslint-config': {}
 
   '@rollup/rollup-android-arm-eabi@4.20.0':
     optional: true
