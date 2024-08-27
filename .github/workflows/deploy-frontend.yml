@@ -25,7 +25,7 @@ jobs:
     runs-on: opch
     environment: ${{github.event.inputs.name || (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
     env:
-      FE_STORAGE_ACCOUNT: ${{ vars.PROJECT_NAME_ABBREVIATION }}-fe-${{ vars.ENV }}
+      FE_STORAGE_ACCOUNT: ${{ vars.PROJECT_NAME_ABBREVIATION }}fe${{ vars.ENV }}
       FE_SB_STORAGE_ACCOUNT: ${{ vars.PROJECT_NAME_ABBREVIATION }}sbfe${{ vars.ENV }}
       AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
       VITE_B2C_CLIENT_ID: ${{ vars.VITE_B2C_CLIENT_ID }}
