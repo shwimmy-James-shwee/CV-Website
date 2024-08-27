@@ -31,7 +31,7 @@ jobs:
         working-directory: ./apps/functions
         shell: bash # For Linux, use bash
         run: |
-          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           pnpm install --ignore-scripts
           pnpm build --if-present
           popd
