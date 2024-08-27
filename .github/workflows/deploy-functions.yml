@@ -48,6 +48,7 @@ jobs:
           rm -rf node_modules
           ls
           sed -i '/eslint-config/,/tsconfig/d' package.json
+          npm cache clean
           npm install --install-links
           npm run build --if-present
           popd
