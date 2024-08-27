@@ -20,13 +20,13 @@ jobs:
       - name: "Checkout GitHub Action"
         uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-
       - name: Setup Node.js Environment - Version ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
+
+      - uses: pnpm/action-setup@v4
 
       - name: "Resolve Project Dependencies Using Npm"
         shell: bash
