@@ -48,13 +48,8 @@ jobs:
           rm -rf node_modules
           ls
           sed -i '/eslint-config/,/tsconfig/d' package.json
-          # Delete the package "@repo/eslint-config" from "devDependencies" in package.json
-          jq 'del(.devDependencies[ "@repo/eslint-config" ])' package.json > temp.json && mv temp.json package.json
-
-          # Perform npm install to generate a new lockfile
+          cat package.json
           npm install --install-links
-
-          # Run npm build if present
           npm run build --if-present
           popd
 
