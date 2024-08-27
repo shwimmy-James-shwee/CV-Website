@@ -27,28 +27,12 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
 
-      - name: Install dependencies
-        run: pnpm install
-
-        # Need to update this step once we start using shared packages in function app
-      - name: Build shared packages
-        run: echo "Placeholder step"
-
-      - name: Install dependencies with pre-built shared packages
-        run: pnpm install
-
-      - name: Build
-        run: pnpm build -F backend
-
       - name: "Resolve Project Dependencies Using Npm"
         shell: bash
         run: |
           pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          rm -rf node_modules
-          ls
-          sed -i '/eslint-config/,/tsconfig/d' package.json
-          npm install --install-links
-          npm run build --if-present
+          pnpm install --frozen-lockfile --filter="./apps/functions/"
+          pnpm run build --filter="./apps/functions/"
           popd
 
       - name: "Run Azure Functions Action"
