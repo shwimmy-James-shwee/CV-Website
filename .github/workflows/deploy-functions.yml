@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: "apps/functions" # set this to the path to your function app project, defaults to the repository root
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "/apps/functions" # set this to the path to your function app project, defaults to the repository root
   NODE_VERSION: "20.15.1" # set this to the node version to use (e.g. '8.x', '10.x', '12.x')
 
 jobs:
@@ -28,7 +28,7 @@ jobs:
       - uses: pnpm/action-setup@v4
 
       - name: "Resolve Project Dependencies"
-        working-directory: apps/functions
+        working-directory: /apps/functions
         shell: bash # For Linux, use bash
         run: |
           pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
