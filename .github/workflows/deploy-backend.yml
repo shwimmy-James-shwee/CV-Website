@@ -2,6 +2,8 @@ name: Deploy Backend API
 on:
   push:
     branches: [dev, develop, uat, qa] #, prod, main]
+    paths:
+      - "apps/backend/**"
   workflow_dispatch:
 
 jobs:
