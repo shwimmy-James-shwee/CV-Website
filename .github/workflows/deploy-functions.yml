@@ -2,7 +2,7 @@ name: Deploy Functions App
 
 on:
   push:
-    branches: ["develop", "dev", "uat", "qa"]
+    branches: ["dev", "qa", "staging"]
     paths:
       - "apps/functions/**"
       - ".github/workflows/deploy-functions.yml"
