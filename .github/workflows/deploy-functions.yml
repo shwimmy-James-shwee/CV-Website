@@ -47,8 +47,6 @@ jobs:
           pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           rm -rf node_modules
           ls
-          sed -i '/eslint-config/,/tsconfig/d' package.json
-          cat package.json
           npm install --install-links
           npm run build --if-present
           popd
