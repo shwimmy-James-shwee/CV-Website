@@ -8,7 +8,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module"
   },
-  plugins: [],
+  plugins: ["react-refresh", "react", "react-hooks"],
   settings: {
     "import/resolver": {
       typescript: {}
