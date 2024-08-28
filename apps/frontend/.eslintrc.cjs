@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ["@repo/eslint-config/typescript", "plugin:react-hooks/recommended", "plugin:storybook/recommended"],
+  extends: ["@repo/eslint-config/typescript"],
   parserOptions: {
     ecmaFeatures: {
       jsx: true
@@ -8,7 +8,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module"
   },
-  plugins: ["react-refresh", "react", "react-hooks"],
+  plugins: [],
   settings: {
     "import/resolver": {
       typescript: {}

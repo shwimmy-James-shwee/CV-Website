@@ -1,9 +1,10 @@
 name: Deploy Frontend
 on:
   push:
-    branches: ["dev", "develop", "uat", "qa"] #, 'prod']
+    branches: ["dev", "qa", "staging"]
     paths:
       - "apps/frontend/**"
+      - ".github/workflows/deploy-frontend.yml"
   workflow_dispatch:
     inputs:
       name:
@@ -50,7 +51,7 @@ jobs:
 
       - name: PNPM Install and Build
         run: |
-          pnpm install --frozen-lockfile
+          pnpm install --frozen-lockfile --filter="./apps/frontend/"
           pnpm run build --filter="./apps/frontend/"
         env:
           CI: true

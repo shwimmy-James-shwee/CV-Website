@@ -2,7 +2,7 @@
   "name": "infrastructure",
   "main": "src/index.ts",
   "scripts": {
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
+    "lint": "eslint .",
     "make:codedeploy": "ts-node src/utils/make-code-deploy.ts",
     "make:b2c": "ts-node src/utils/make-policy.ts",
     "pulumi:init": "pulumi stack init",
