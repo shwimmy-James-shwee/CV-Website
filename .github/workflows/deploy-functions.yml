@@ -36,26 +36,28 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
 
-      - name: Install dependencies 
-        run: |
-          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
-        env:
-          CI: true
+      # - name: Install dependencies 
+      #   run: |
+      #   env:
+      #     CI: true
 
-      - name: built function app
-        run: |
-          pnpm build --filter="./libs/**/" --filter="./apps/functions/"
-        env:
-          CI: true
+      # - name: built function app
+      #   run: |
+      #     pnpm build --filter="./libs/**/" --filter="./apps/functions/"
+      #   env:
+      #     CI: true
 
       - name: "Resolve Project Dependencies Using Npm"
         shell: bash
         run: |
           pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          rm -rf node_modules
-          ls
-          npm install --install-links
-          npm run build --if-present
+          # rm -rf node_modules
+          # ls
+          # npm install --install-links
+          # npm run build --if-present
+          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
+          pnpm build --filter="./libs/**/" --filter="./apps/functions/"
+
           popd
 
       - name: "Login via Azure CLI"
