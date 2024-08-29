@@ -1,7 +1,7 @@
 import { insights, keyvault, network, web } from "@pulumi/azure-native";
 import { envBase } from "../env-base";
 import { logAnalyticsWorkspace } from "../resources_base/log-analytic-workspace";
-import { frontendUIStorage, frontendUrl } from "./frontend-ui-storage";
+import { frontendUIStorage, frontendUrls } from "./frontend-ui-storage";
 import { appServicePlan } from "../resources_base/app-service-plan";
 import { envExtend } from "../env-extend";
 import { acrCredentials, containerRegistry } from "../resources_base/container-registry";
@@ -31,13 +31,6 @@ const webappInsight = new insights.Component(
   }
 );
 
-const cors = frontendUrl.apply((url) => {
-  const urls = [url];
-  if (envBase.ENV == `dev`) {
-    urls.push(`http://localhost:3000`);
-  }
-  return urls;
-});
 const appSettings: input.web.NameValuePairArgs[] = [
   // unless needed, try use keyvault to store other secrets and configs, changing these will cause the app to restart
   // app service settings
@@ -140,10 +133,10 @@ const restAPI = new web.WebApp(
       numberOfWorkers: 2,
       linuxFxVersion: `DOCKER|nginx:latest`,
       healthCheckPath: `/`,
-      //   cors: {
-      //     allowedOrigins: cors.apply((urls) => urls),
-      //     supportCredentials: true
-      //   },
+      cors: {
+        allowedOrigins: frontendUrls,
+        supportCredentials: true
+      },
       httpLoggingEnabled: true,
       logsDirectorySizeLimit: 35,
       appSettings: appSettings
@@ -269,7 +262,7 @@ if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase()) && e
         linuxFxVersion: `DOCKER|nginx:latest`,
         healthCheckPath: `/`,
         cors: {
-          allowedOrigins: cors.apply((urls) => urls),
+          allowedOrigins: frontendUrls,
           supportCredentials: true
         },
         httpLoggingEnabled: true,

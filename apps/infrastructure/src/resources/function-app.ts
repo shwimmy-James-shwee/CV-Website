@@ -6,7 +6,7 @@ import { envExtend } from "../env-extend";
 import { dataBlobContainer, dataQueue, dataStorage, dataStorageConnectionString } from "./data-storage-account";
 import { dsSettings } from "../resources_base/diagnostic-setting-configs";
 import { postgresConnectionString } from "./cosmosdb-postgres";
-import { frontendUrl } from "./frontend-ui-storage";
+import { frontendUrls } from "./frontend-ui-storage";
 
 const functionAppServiceName = `${envBase.PROJECT_NAME_ABBREVIATION}-fa-${envBase.ENV}`;
 
@@ -96,7 +96,7 @@ const functionApp = new web.WebApp(
         },
         {
           name: `FRONTEND_URL`,
-          value: frontendUrl.apply((url) => url)
+          value: frontendUrls[0]
         },
         {
           name: `AZURE_KEY_VAULT_NAME`,
