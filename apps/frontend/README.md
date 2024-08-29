@@ -3,35 +3,36 @@
 This is a template webapp frontend is built using React in Typescript.
 
 ### To use this repo
+
 1. Create repo using this template and select `Include all branches`
 2. Settings->Rules->Rulesets then import all the rules from the folder [rulesets](./rulesets)
-3. To do development, branch out from `release_candidate`, make changes to the `feature-branch`, push `feature-branch` to dev for development test, push to `UAT` for QA testing, push to `release_candidate` for prod release later and delete `feature-branch`. Once given green light, push `release_candidate` to `prod` to do the release. 
+3. To do development, branch out from `release_candidate`, make changes to the `feature-branch`, push `feature-branch` to dev for development test, push to `UAT` for QA testing, push to `release_candidate` for prod release later and delete `feature-branch`. Once given green light, push `release_candidate` to `prod` to do the release.
 
 ### Setting variables/secrets for github action
-1. Repo level 
+
+1. Repo level
    - `PROJECT_NAME_ABBREVIATION`(Var): it determine what resource name does the github action deploy the webapp to. It need to be the same as the `IaC` repo
 2. Environment level
    - `AZURE_CREDENTIALS`(Secret): from ITS cloud team, which give deployment permission to cloud resource.
    - `AZURE_RESOURCE_GROUP` (Var): from the resource group created by the ITS cloud team.
    - `ENV`(Var): name for the environment (dev,uat,prd...).
    - `VITE_API_URL`(Var): url endpoint to your backend server.
-        #### below are use for MSAL login integration
+     #### below are use for MSAL login integration
    - `VITE_B2C_CLIENT_ID`(Var): B2C app registration client id.
    - `VITE_B2C_TENANT_NAME`(Var): B2C tenant name.
    - `VITE_POLICY_NAME_EDIT_PROFILE`(Var): Edit profile policy name.
    - `VITE_POLICY_NAME_RESET`(Var): Reset password policy name.
    - `VITE_POLICY_NAME_SIGN_IN_UP`(Var): Signup/Signin policy.
 
-
 ## Getting started
+
 > Within KPMG network you will run into restrictions on most of the network request - [To solve ssl issues](https://dlh-portal.kpmg.co.nz/docs/docs/Guides%20and%20Training/KPMG/certs#wsl---ubuntu)
->  - general ssl problem - `WSL - Ubuntu`
->  - general request ssl problem - `Requests/Poetry`
->  - nodejs ssl problem - similar to `Requests/Poetry`, but use `NODE_EXTRA_CA_CERTS` instead of `REQUESTS_CA_BUNDLE`
+>
+> - general ssl problem - `WSL - Ubuntu`
+> - general request ssl problem - `Requests/Poetry`
+> - nodejs ssl problem - similar to `Requests/Poetry`, but use `NODE_EXTRA_CA_CERTS` instead of `REQUESTS_CA_BUNDLE`
 
 > you will need to have [nodejs 20+ LTS](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04) installed, for nodejs, preferably using [fnm](https://github.com/Schniz/fnm) or [nvm](https://github.com/nvm-sh/nvm) to manage the node versions
-> 
-
 
 ```bash
 
@@ -63,7 +64,7 @@ yarn start
 
 ## To make changes locally
 
-### 1. updating Components 
+### 1. updating Components
 
 #### Components (Component Library)
 
@@ -78,6 +79,7 @@ yarn storybook
 ```
 
 #### Page Components (Business UIs)
+
 > When there is new endpoint added, the new [endpoints.ts](src/shared/endpoints.ts) and [schema.ts](src/shared/schema.ts) need to be cloned from the backend repo.
 
 > Components that is not consider generic and pretty much bespoke for a business logic.
@@ -89,15 +91,15 @@ yarn storybook
 ```bash
 # if there is any error to the test/lint, it will fail the PR Check
 # to run full test watch (press `a` after to trigger all test)
-yarn test 
+yarn test
 
 # to run test once only
 yarn coverage
 
-# to run lint test 
+# to run lint test
 yarn lint
 
-# to run storybook test 
+# to run storybook test
 yarn test-storybook
 ```
 
