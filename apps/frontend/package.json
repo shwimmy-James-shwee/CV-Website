@@ -13,6 +13,7 @@
     "test-storybook": "test-storybook --coverage --verbose && npx nyc report"
   },
   "dependencies": {
+    "@core/utils": "workspace:*",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "@azure/msal-common": "14.14.2",

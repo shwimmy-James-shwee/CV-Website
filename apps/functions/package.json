@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@core/utils": "file:../../libs/core-utils",
     "@azure/functions": "4.5.0"
   },
   "devDependencies": {

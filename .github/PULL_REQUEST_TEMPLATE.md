@@ -33,9 +33,8 @@ Briefly outline the changes you made in bullet points, so you reviewer can prior
 2. Does this PR require a deployment of the backend app? - Yes/No
 3. Does this PR require a deployment of the functions app? - Yes/No
 4. Does this PR involve a change of any parts of our infrastructures? - Yes/No
-5. Does this PR require a deployment of the frontend app? - Yes/No
-6. Have I wrote tests for the changes I made? Yes/No
-7. Am I breaking any existing beaviours of any parts of the system due to this PR? Yes/No
+5. Have I wrote tests for the changes I made? Yes/No
+6. Am I breaking any existing beaviours of any parts of the system due to this PR? Yes/No
 
 ## ☝️ Special notes to the reviewer (s)
 
