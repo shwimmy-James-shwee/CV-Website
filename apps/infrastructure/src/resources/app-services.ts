@@ -64,89 +64,89 @@ const restAPI = new web.WebApp(
       //     supportCredentials: true
       //   },
       httpLoggingEnabled: true,
-      logsDirectorySizeLimit: 35
-      //   appSettings: [
-      //     // unless needed, try use keyvault to store other secrets and configs, changing these will cause the app to restart
-      //     // app service settings
-      //     {
-      //       name: `APPINSIGHTS_INSTRUMENTATIONKEY`,
-      //       value: webappInsight.instrumentationKey.apply((key) => key)
-      //     },
-      //     {
-      //       name: `APPLICATIONINSIGHTS_CONNECTION_STRING`,
-      //       value: webappInsight.connectionString.apply((conn) => conn)
-      //     },
-      //     {
-      //       name: `ApplicationInsightsAgent_EXTENSION_VERSION`,
-      //       value: `~3`
-      //     },
-      //     {
-      //       name: `DiagnosticServices_EXTENSION_VERSION`,
-      //       value: `~3`
-      //     },
-      //     {
-      //       name: `InstrumentationEngine_EXTENSION_VERSION`,
-      //       value: `disabled`
-      //     },
-      //     {
-      //       name: `XDT_MicrosoftApplicationInsights_BaseExtensions`,
-      //       value: `disabled`
-      //     },
-      //     {
-      //       name: `XDT_MicrosoftApplicationInsights_Mode`,
-      //       value: `recommended`
-      //     },
-      //     {
-      //       name: `XDT_MicrosoftApplicationInsights_PreemptSdk`,
-      //       value: `disabled`
-      //     },
-      //     {
-      //       name: `WEBSITE_PULL_IMAGE_OVER_VNET`,
-      //       value: `true`
-      //     },
-      //     // docker registry settings
-      //     {
-      //       name: `DOCKER_REGISTRY_SERVER_URL`,
-      //       value: containerRegistry.loginServer.apply((server) => `https://${server}`)
-      //     },
-      //     {
-      //       name: `DOCKER_REGISTRY_SERVER_USERNAME`,
-      //       value: acrCredentials.apply((creds) => creds.username || ``)
-      //     },
-      //     {
-      //       name: `DOCKER_REGISTRY_SERVER_PASSWORD`,
-      //       value: acrCredentials.apply((creds) => {
-      //         if (creds) {
-      //           if (creds?.passwords) {
-      //             if (creds?.passwords?.[0]) {
-      //               if (creds.passwords?.[0].value) {
-      //                 return creds.passwords?.[0].value;
-      //               }
-      //             }
-      //           }
-      //         }
-      //         return ``;
-      //       })
-      //     },
-      //     // application settings
-      //     {
-      //       name: `AZURE_KEY_VAULT_NAME`,
-      //       value: vault.then((resVault) => resVault.name)
-      //     },
-      //     {
-      //       name: `PORT`,
-      //       value: `80`
-      //     },
-      //     {
-      //       name: `APP_PORT`,
-      //       value: `80`
-      //     },
-      //     {
-      //       name: `WEBSITES_PORT`,
-      //       value: `80`
-      //     }
-      //     // unless needed, try use keyvault to store other secrets and configs, changing these will cause the app to restart
-      //   ]
+      logsDirectorySizeLimit: 35,
+      appSettings: [
+        // unless needed, try use keyvault to store other secrets and configs, changing these will cause the app to restart
+        // app service settings
+        {
+          name: `APPINSIGHTS_INSTRUMENTATIONKEY`,
+          value: webappInsight.instrumentationKey.apply((key) => key)
+        },
+        {
+          name: `APPLICATIONINSIGHTS_CONNECTION_STRING`,
+          value: webappInsight.connectionString.apply((conn) => conn)
+        },
+        {
+          name: `ApplicationInsightsAgent_EXTENSION_VERSION`,
+          value: `~3`
+        },
+        {
+          name: `DiagnosticServices_EXTENSION_VERSION`,
+          value: `~3`
+        },
+        {
+          name: `InstrumentationEngine_EXTENSION_VERSION`,
+          value: `disabled`
+        },
+        {
+          name: `XDT_MicrosoftApplicationInsights_BaseExtensions`,
+          value: `disabled`
+        },
+        {
+          name: `XDT_MicrosoftApplicationInsights_Mode`,
+          value: `recommended`
+        },
+        {
+          name: `XDT_MicrosoftApplicationInsights_PreemptSdk`,
+          value: `disabled`
+        },
+        {
+          name: `WEBSITE_PULL_IMAGE_OVER_VNET`,
+          value: `true`
+        },
+        // docker registry settings
+        {
+          name: `DOCKER_REGISTRY_SERVER_URL`,
+          value: containerRegistry.loginServer.apply((server) => `https://${server}`)
+        },
+        {
+          name: `DOCKER_REGISTRY_SERVER_USERNAME`,
+          value: acrCredentials.apply((creds) => creds.username || ``)
+        },
+        {
+          name: `DOCKER_REGISTRY_SERVER_PASSWORD`,
+          value: acrCredentials.apply((creds) => {
+            if (creds) {
+              if (creds?.passwords) {
+                if (creds?.passwords?.[0]) {
+                  if (creds.passwords?.[0].value) {
+                    return creds.passwords?.[0].value;
+                  }
+                }
+              }
+            }
+            return ``;
+          })
+        },
+        // application settings
+        {
+          name: `AZURE_KEY_VAULT_NAME`,
+          value: vault.then((resVault) => resVault.name)
+        },
+        {
+          name: `PORT`,
+          value: `80`
+        },
+        {
+          name: `APP_PORT`,
+          value: `80`
+        },
+        {
+          name: `WEBSITES_PORT`,
+          value: `80`
+        }
+        // unless needed, try use keyvault to store other secrets and configs, changing these will cause the app to restart
+      ]
     }
   },
   {
