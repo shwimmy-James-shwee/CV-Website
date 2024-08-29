@@ -39,10 +39,15 @@ jobs:
       - name: Install dependencies 
         run: |
           pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
+        env:
+          CI: true
+
       - name: built function app
         run: |
           pnpm build --filter="./libs/**/" --filter="./apps/functions/"
-          
+        env:
+          CI: true
+
       - name: "Resolve Project Dependencies Using Npm"
         shell: bash
         run: |
