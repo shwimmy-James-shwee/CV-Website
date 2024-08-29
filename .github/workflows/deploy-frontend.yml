@@ -41,13 +41,12 @@ jobs:
       - name: Branch name
         run: echo running on branch ${GITHUB_REF##*/} - ${{github.ref_name}} - ${{github.event.inputs.name || (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
 
+      - uses: pnpm/action-setup@v4
       - name: Setup Node.js Environment - Version ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
-
-      - uses: pnpm/action-setup@v4
 
       - name: PNPM Install and Build
         run: |
