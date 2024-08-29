@@ -29,9 +29,6 @@ jobs:
   Preview:
     name: Run IaC Preview
     runs-on: opch
-    defaults:
-      run:
-        working-directory: ./apps/infrastructure
     environment: ${{github.event.inputs.environment}} # this will decide the environment to run the job on and will use the variable and secrets defined in the github environment setting
     env:
       ENV: ${{ vars.ENV }}
@@ -71,14 +68,8 @@ jobs:
         shell: bash
         # if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          pnpm install
           npm install -g ts-node
-
-          # curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          # sudo apt install -y jq
-          # sudo apt install -y docker docker-compose
-          ls -l
-          pwd
+          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/infrastructure/" 
 
       - name: "Login via Azure CLI"
         uses: azure/login@v1
@@ -106,6 +97,7 @@ jobs:
       - uses: pulumi/actions@v5.4.0
         with:
           command: preview
+          pulumi-version: 3.130.0
           cloud-url: "azblob://pulumistate"
           stack-name: ${{ github.event.inputs.environment }} # When using an individual account, only use stack-name.
           upsert: true
@@ -127,9 +119,6 @@ jobs:
     needs: ManualApprove
     name: Run IaC Deploy
     runs-on: opch
-    defaults:
-      run:
-        working-directory: ./apps/infrastructure
     environment: ${{github.event.inputs.environment}}
     env:
       ENV: ${{ vars.ENV }}
@@ -169,14 +158,8 @@ jobs:
         shell: bash
         # if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          pnpm install
           npm install -g ts-node
-
-          # curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          # sudo apt install -y jq
-          # sudo apt install -y docker docker-compose
-          ls -l
-          pwd
+          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/infrastructure/" 
 
       - name: "Login via Azure CLI"
         uses: azure/login@v1
@@ -205,6 +188,7 @@ jobs:
       - uses: pulumi/actions@v5.4.0
         with:
           command: up
+          pulumi-version: 3.130.0
           cloud-url: "azblob://pulumistate"
           stack-name: ${{ github.event.inputs.environment }} # When using an individual account, only use stack-name.
           upsert: true
