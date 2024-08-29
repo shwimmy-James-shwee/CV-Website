@@ -5,7 +5,7 @@ const handler: HttpHandler = async (request: HttpRequest, context: InvocationCon
   const message = `Http function processed the following request:  ${request?.method} ${request?.url}`;
   context.log(message);
 
-  const utilsPackageTestMessage = `Testing usage of function from @core/utils in this app: ${utils.arrayIsEmpty.name}([1]) -> ${utils.arrayIsEmpty([1])}`
+  const utilsPackageTestMessage = `Testing usage of function from @core/utils in this app: ${utils.arrayIsEmpty.name}([1]) -> ${utils.arrayIsEmpty([1])}`;
 
   const body: string = JSON.stringify({ message, utilsPackageTestMessage });
 
