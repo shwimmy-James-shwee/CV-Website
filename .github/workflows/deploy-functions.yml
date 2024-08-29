@@ -17,7 +17,7 @@ on:
           # - main
         default: dev
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: "./apps/functions" # set this to the path to your function app project, defaults to the repository root
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: "./prod/functions" # set this to the path to your function app project, defaults to the repository root
   NODE_VERSION: "v20.15.1"
 
 jobs:
@@ -50,6 +50,7 @@ jobs:
         run: |
           pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
           pnpm build --filter="./libs/**/" --filter="./apps/functions/"
+          pnpm deploy --filter="./apps/functions/" --prod ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
 
           # pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
 
