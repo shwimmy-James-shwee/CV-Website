@@ -8,7 +8,6 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module"
   },
-  plugins: [],
   settings: {
     "import/resolver": {
       typescript: {}

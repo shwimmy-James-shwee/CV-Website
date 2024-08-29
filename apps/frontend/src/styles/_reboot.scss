@@ -1,0 +1,33 @@
+@import './variables';
+@import './../components/fade_scrollbar';
+html {
+  height: 100vh;
+  @media screen and (max-width: 576px) {
+    font-size: 80%;
+  }
+}
+
+body {
+  font-family: $font-family-base;
+  color: var(--default-font-color);
+  font-size: 14px;
+  background: var(--body-background);
+  height: 100vh;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--default-font-color);
+  cursor: pointer;
+}
+.reorder-ul {
+  list-style-type: none;
+
+  //   li {
+  //     //   this will mess up the drag and drop animation
+  //     transform: translate3d(0, 0, 0) scale(1, 1) !important;
+  //   }
+}

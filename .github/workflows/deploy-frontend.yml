@@ -67,14 +67,14 @@ jobs:
           az storage account show -n $FE_STORAGE_ACCOUNT --query networkRuleSet
           az storage blob upload-batch --account-name $FE_STORAGE_ACCOUNT --auth-mode key -d '$web' -s "./apps/frontend/dist" --overwrite
 
-      # - name: Storybook Build
-      #   continue-on-error: true
-      #   run: |
-      #     yarn build-storybook
+      - name: Storybook Build
+        continue-on-error: true
+        run: |
+          pnpm run build-storybook --filter="./apps/frontend/"
 
-      # - name: Push to Storybook FE Storage
-      #   continue-on-error: true
-      #   run: |
-      #     export AZURE_STORAGE_KEY=$(az storage account keys list -n $FE_SB_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
-      #     az storage account show -n $FE_SB_STORAGE_ACCOUNT --query networkRuleSet
-      #     az storage blob upload-batch --account-name $FE_SB_STORAGE_ACCOUNT --auth-mode key -d '$web' -s "storybook-static" --overwrite
+      - name: Push to Storybook FE Storage
+        continue-on-error: true
+        run: |
+          export AZURE_STORAGE_KEY=$(az storage account keys list -n $FE_SB_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
+          az storage account show -n $FE_SB_STORAGE_ACCOUNT --query networkRuleSet
+          az storage blob upload-batch --account-name $FE_SB_STORAGE_ACCOUNT --auth-mode key -d '$web' -s "./apps/frontend/storybook-static" --overwrite

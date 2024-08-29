@@ -1,0 +1,112 @@
+$kpmg-blue: #00338d;
+$cobalt-blue: #1e49e2;
+$light-blue: #aceaff;
+$pacific-blue: #00b8f5;
+$dark-blue: #0c233c;
+$purple: #7213ea;
+$pink: #fd349c;
+$red: #ed2124;
+$dark-red: #bd0507;
+$green: #269924;
+$state-blue-light: #e9edff;
+
+$white: #ffffff;
+$black: #000000;
+
+$light-4: #fafafc;
+$light-3: #f4f4f4;
+$light-2: #efefef;
+$light-1: #e5e5e5;
+$dark-4: #b2b2b2;
+$dark-3: #989898;
+$dark-2: #666666;
+$dark-1: #333333;
+
+$bootstrap-blue-highlight: #86b7fe;
+
+$font-family-base: 'Open Sans', sans-serif;
+
+// Colours used should be defined here as variables
+:root {
+  --default-gradient-bg: linear-gradient(to right, #{$cobalt-blue}, #{$purple});
+
+  --theme-primary-color: #{$kpmg-blue};
+  --theme-secondary-color: #{$cobalt-blue};
+  --theme-tertiary-color: #{$purple};
+  --theme-primary-background-color: #{$light-4};
+  --theme-secondary-background-color: #{$light-2};
+  --theme-tertiary-background-color: #{$light-1};
+
+  --theme-primary-dark-background-color: #{$black};
+  --theme-secondary-dark-background-color: #{$dark-2};
+  --theme-tertiary-dark-background-color: #{$dark-4};
+
+  --theme-border-cl: #{$light-1};
+  --theme-hyperlink-cl: #{$kpmg-blue};
+
+  --theme-rejected-cl: #{$red};
+  --theme-accepted-cl: #{$green};
+  --theme-active-cl: #{$pacific-blue};
+
+  --navbar-nav-link-cl: #{$white};
+
+  --navbar-nav-link-active-cl: #{$cobalt-blue};
+  --navbar-nav-link-active-bg-rgb: #{$white}; //white
+
+  --asterisk-color: #{$red};
+
+  --primary-button-color: #{$cobalt-blue};
+  --primary-button-shadow: 0, 0, 0; //black
+  --primary-button-hover-bg: #{$kpmg-blue};
+  --primary-button-active-bg: #{$dark-blue};
+  --primary-button-text-color: #{$white};
+
+  --secondary-button-text-color: #{$dark-2};
+  --secondary-button-bg: #{$light-1};
+  --secondary-button-hover-bg: #{$dark-4};
+  --secondary-button-active-bg: #{$dark-1};
+  --secondary-button-active-text-color: #{$light-1};
+  --secondary-button-border-color: #{$light-2};
+
+  --form-field-bg: #{$light-2};
+  --secondary-form-field-bg: #{$light-4};
+  --form-field-icon-color: #{$dark-3};
+  // --form-field-focus-border-color: #{$bootstrap-blue-highlight};
+  // --form-field-shadow-rgb: 13, 110, 253; // bootstrap-blue-highlight
+
+  --title-text-color: #{$dark-blue};
+  --body-text-color: #{$dark-1};
+  --info-text-color: #{$dark-3};
+
+  --icon-button-color: #{$dark-2};
+  --switch-checked-background: #{$green};
+
+  --primary-accordion-border-color: #{$light-2};
+  --section-accordion-border-color: #{$light-1};
+  --section-accordion-bg: #{$light-2};
+  --primary-accordion-bg: #{$white};
+  --accordion-text-color: #{$black};
+
+  --general-text-color: #{$dark-1};
+  --general-text-color-light: #{$dark-2};
+
+  --general-text-bg-color: #{$light-4};
+
+  --header-border-color: #{$light-1};
+  --heading-2-text-color: #{$dark-1};
+
+  --heading-text-color: #{$dark-2};
+  --heading-underlined-color: #{$dark-4};
+  --header-bg: #{$white};
+
+  --content-column-bg: #{$white};
+  --edit-questionnaire-column-bg: #{$light-4};
+
+  --tab-color: #{$cobalt-blue};
+
+  --drop-zone-color: #{$cobalt-blue};
+
+  --tip-primary-bg: #{$state-blue-light};
+  --tip-primary-color: #{$cobalt-blue};
+  --warning-color: #{$dark-red};
+}
