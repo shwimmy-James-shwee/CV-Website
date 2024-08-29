@@ -77,24 +77,28 @@ jobs:
         with:
           node-version: 21.1.0
 
-      - name: Install npm dependencies and prep package.json
+      - name: Install pnpm dependencies
         shell: bash
         # if: steps.cache.outputs.cache-hit != 'true'
         run: |
+          cd ../..
           npm install -g ts-node
           pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/infrastructure/" 
-          # curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
           curl -fsSL https://get.pulumi.com | sh -s -- --version 3.130.0
+          
+          # curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
           # sudo apt install -y jq
           # sudo apt install -y docker docker-compose
+
+      - name: Prepare package.json of CodeDeploy
+        shell: bash
+        # if: steps.cache.outputs.cache-hit != 'true'
+        run: |
           ls -l
           pwd
-
-          # Prep a package.json file for codedeploy
-          cd ../..
           pnpm make:codedeploy
           cat ./package.json
-
+  
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
