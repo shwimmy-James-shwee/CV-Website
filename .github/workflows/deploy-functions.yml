@@ -36,11 +36,13 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
 
-      - name: Install dependencies with built function app
+      - name: Install dependencies 
         run: |
           pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
+      - name: built function app
+        run: |
           pnpm build --filter="./libs/**/" --filter="./apps/functions/"
-
+          
       - name: "Resolve Project Dependencies Using Npm"
         shell: bash
         run: |
