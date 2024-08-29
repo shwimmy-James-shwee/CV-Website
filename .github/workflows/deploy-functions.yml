@@ -31,9 +31,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-        # Need to update this step once we start using shared packages in function app
+        # Need to update this step every time we introduce/stop using any shared package in the function app
       - name: Build shared packages
-        run: echo "Placeholder step"
+        run: pnpm build -F @core/utils
 
       - name: Install dependencies with pre-built shared packages
         run: pnpm install
