@@ -1,7 +1,7 @@
 // Creates storage resources for the code deployment.
-import { Key } from "@pulumi/azure-native/keyvault";
-import { envBase } from "./../env-base";
-import { vault, vaultPept } from "./keyvault";
+import { Key } from '@pulumi/azure-native/keyvault';
+import { envBase } from './../env-base';
+import { vault, vaultPept } from './keyvault';
 import {
   AccessTier,
   Kind,
@@ -15,22 +15,22 @@ import {
   KeyType,
   BlobContainer,
   PublicAccess
-} from "@pulumi/azure-native/storage";
-import { identityPolicy, managedIdentity } from "./identity";
-import { PrivateEndpoint } from "@pulumi/azure-native/network";
+} from '@pulumi/azure-native/storage';
+import { identityPolicy, managedIdentity } from './identity';
+import { PrivateEndpoint } from '@pulumi/azure-native/network';
 
 const codeDeployStorageKey = new Key(
-  `code-deploy-storage-key`,
+  'code-deploy-storage-key',
   {
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    keyName: `code-deploy-storage-key`,
+    keyName: 'code-deploy-storage-key',
     properties: {
-      kty: `RSA`
+      kty: 'RSA'
     },
     vaultName: envBase.KEYVAULT_NAME
   },
   {
-    ignoreChanges: [`tags`],
+    ignoreChanges: ['tags'],
     dependsOn: [vault, vaultPept]
   }
 );
@@ -80,7 +80,7 @@ const codeDeployStorage = new StorageAccount(
   {
     dependsOn: [codeDeployStorageKey, vault, vaultPept, managedIdentity, identityPolicy],
     protect: true,
-    ignoreChanges: [`tags`]
+    ignoreChanges: ['tags']
   }
 );
 
@@ -95,7 +95,7 @@ const codeDeployPept = new PrivateEndpoint(
     privateLinkServiceConnections: [
       {
         name: `${envBase.CODEDEPLOY_STORAGE_NAME}-blob-pept-connection`,
-        groupIds: [`blob`],
+        groupIds: ['blob'],
         privateLinkServiceId: codeDeployStorage.id
       }
     ],
@@ -104,7 +104,7 @@ const codeDeployPept = new PrivateEndpoint(
     }
   },
   {
-    ignoreChanges: [`tags`, `privateLinkServiceConnections`],
+    ignoreChanges: ['tags', 'privateLinkServiceConnections'],
     dependsOn: [codeDeployStorage]
   }
 );
@@ -112,13 +112,13 @@ const codeDeployPept = new PrivateEndpoint(
 new BlobContainer(
   `${envBase.PROJECT_NAME_ABBREVIATION}-pulumi-state`,
   {
-    containerName: `pulumistate`,
+    containerName: 'pulumistate',
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     accountName: codeDeployStorage.name,
     publicAccess: PublicAccess.None
   },
   {
     dependsOn: [codeDeployStorage, codeDeployPept],
-    ignoreChanges: [`tags`]
+    ignoreChanges: ['tags']
   }
 );

@@ -70,23 +70,25 @@ Here's a breakdown
 All the environments (dev, qa, staging, prod) require the same set of environment variables and environment secrets.
 
 Environment Secrets:
+
 1. `AZURE_CREDENTIALS` - To be setup by the IT/Cloud team
 
 Environment Variables:
+
 1. `AZURE_RESOURCE_GROUP` - ID of the resource group for your apps to be deployed to on Azure
 2. `AZURE_RESOURCE_LOCATION`- In most cases, set it to `Australia East`
-3. `B2C_CLIENT_ID` - 
-4. `B2C_POLICY_NAME` - 
-5. `B2C_TENANT_NAME` - 
+3. `B2C_CLIENT_ID` -
+4. `B2C_POLICY_NAME` -
+5. `B2C_TENANT_NAME` -
 6. `ENV` - Strictly limit to one of the following: `dev`, `qa`, `staging`, `prod`
 7. `INITIAL_PULUMI_CONFIG_PASSPHRASE`
-8. `POSTGRES_ADMIN_PASSWORD` - 
-9. `PRIVATE_ENDPOINT_SUBNET` - 
-10. `PULUMI_CONFIG_PASSPHRASE` - 
-11. `SERVICE_ENDPOINT_SUBNET` - 
+8. `POSTGRES_ADMIN_PASSWORD` -
+9. `PRIVATE_ENDPOINT_SUBNET` -
+10. `PULUMI_CONFIG_PASSPHRASE` -
+11. `SERVICE_ENDPOINT_SUBNET` -
 12. `VITE_API_URL` - URL of the backend API for the frontend app
-13. `VITE_B2C_CLIENT_ID` - 
-14. `VITE_B2C_TENANT_NAME` - 
-15. `VITE_POLICY_NAME_EDIT_PROFILE` - 
-16. `VITE_POLICY_NAME_RESET` - 
-17. `VITE_POLICY_NAME_SIGN_IN_UP` - 
+13. `VITE_B2C_CLIENT_ID` -
+14. `VITE_B2C_TENANT_NAME` -
+15. `VITE_POLICY_NAME_EDIT_PROFILE` -
+16. `VITE_POLICY_NAME_RESET` -
+17. `VITE_POLICY_NAME_SIGN_IN_UP` -

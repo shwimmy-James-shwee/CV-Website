@@ -87,26 +87,26 @@ model PasswordHistory {
 const PASS_PASSWORD_COUNT = 14;
 
 type PasswordHistoryBody = PasswordHistoryGetPayload & { passphrase: string };
-@Controller("/pwd-history-check")
+@Controller('/pwd-history-check')
 export class PasswordHistory {
-  @Post("/")
+  @Post('/')
   @Returns(200)
-  @Returns(409).Description("Duplicate")
+  @Returns(409).Description('Duplicate')
   @Example({
-    username: "freeguy",
-    hash: "awfqwfbc123",
-    passphrase: "passphrase"
+    username: 'freeguy',
+    hash: 'awfqwfbc123',
+    passphrase: 'passphrase'
   })
   public async checkPasswordHash(
     @Req() request: Req,
     @Res() response: Res,
-    @BodyParams() @Groups("creation") body: PasswordHistoryBody
+    @BodyParams() @Groups('creation') body: PasswordHistoryBody
   ) {
     if (env.KPMG_SSO_IDENTIFIER !== body.passphrase) {
-      return new BadRequest("missing passphrase");
+      return new BadRequest('missing passphrase');
     }
     if (!body.username || !body.hash) {
-      return new BadRequest("missing username or hash");
+      return new BadRequest('missing username or hash');
     }
     const existingPasswordHash = await dao.findInLast({
       username: body.username,
@@ -115,11 +115,11 @@ export class PasswordHistory {
     const hashInHistory = existingPasswordHash.some((pwd) => pwd.hash === body.hash);
 
     const duplicateReturn = {
-      version: "1.0.0",
+      version: '1.0.0',
       status: 409,
-      code: "HISTORY001",
+      code: 'HISTORY001',
       userMessage: `You cannot reuse the past ${PASS_PASSWORD_COUNT} passwords`,
-      developerMessage: "User password found in history list",
+      developerMessage: 'User password found in history list',
       requestId: request.id,
       moreInfo: null
     };
@@ -154,7 +154,7 @@ export const findInLast = async ({ username, lastCount }: { username: string; la
       username: username
     },
     orderBy: {
-      createdAt: "desc"
+      createdAt: 'desc'
     },
     take: lastCount
   });

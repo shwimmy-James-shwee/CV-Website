@@ -4,11 +4,11 @@ It creates a storage account with user-assigned managed identity and enables sta
 It also creates private endpoints for the storage account and sets up diagnostic settings for monitoring.
 */
 
-import { insights, keyvault, network, storage } from "@pulumi/azure-native";
-import { envBase } from "../env-base";
-import { managedIdentity } from "../resources_base/codedeploy-identity";
-import { logAnalyticsWorkspace } from "../resources_base/log-analytic-workspace";
-import { dsSettings } from "../resources_base/diagnostic-setting-configs";
+import { insights, keyvault, network, storage } from '@pulumi/azure-native';
+import { envBase } from '../env-base';
+import { managedIdentity } from '../resources_base/codedeploy-identity';
+import { logAnalyticsWorkspace } from '../resources_base/log-analytic-workspace';
+import { dsSettings } from '../resources_base/diagnostic-setting-configs';
 
 const frontendUIStorageName = `${envBase.PROJECT_NAME_ABBREVIATION}fe${envBase.ENV}`;
 
@@ -17,7 +17,7 @@ const frontendKey = new keyvault.Key(frontendUIStorageName, {
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
   vaultName: envBase.KEYVAULT_NAME,
   properties: {
-    kty: `RSA`
+    kty: 'RSA'
   }
 });
 
@@ -67,7 +67,7 @@ export const frontendUIStorage = new storage.StorageAccount(
     }
   },
   {
-    ignoreChanges: [`tags`]
+    ignoreChanges: ['tags']
   }
 );
 
@@ -78,11 +78,11 @@ new storage.StorageAccountStaticWebsite(
   {
     accountName: frontendUIStorage.name,
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    indexDocument: `index.html`,
-    error404Document: `index.html`
+    indexDocument: 'index.html',
+    error404Document: 'index.html'
   },
   {
-    ignoreChanges: [`tags`]
+    ignoreChanges: ['tags']
   }
 );
 
@@ -102,12 +102,12 @@ const frontendUIPept = new network.PrivateEndpoint(
       {
         name: `${frontendUIStorageName}-plink`,
         privateLinkServiceId: frontendUIStorage.id,
-        groupIds: [`web`]
+        groupIds: ['web']
       }
     ]
   },
   {
-    ignoreChanges: [`tags`, `privateLinkServiceConnections`]
+    ignoreChanges: ['tags', 'privateLinkServiceConnections']
   }
 );
 
@@ -126,12 +126,12 @@ const frontendUIBlobPept = new network.PrivateEndpoint(
       {
         name: `${frontendUIStorageName}-blob-plink`,
         privateLinkServiceId: frontendUIStorage.id,
-        groupIds: [`blob`]
+        groupIds: ['blob']
       }
     ]
   },
   {
-    ignoreChanges: [`tags`, `privateLinkServiceConnections`]
+    ignoreChanges: ['tags', 'privateLinkServiceConnections']
   }
 );
 
@@ -148,7 +148,7 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem
@@ -172,7 +172,7 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem
@@ -256,4 +256,4 @@ new insights.DiagnosticSetting(
   }
 );
 
-export const frontendUrl = frontendUIStorage.primaryEndpoints.web.apply((web) => web.slice(0, web.length - 1));
+export const frontendUrl = `https://${frontendUIStorageName}.z8.web.core.windows.net`;

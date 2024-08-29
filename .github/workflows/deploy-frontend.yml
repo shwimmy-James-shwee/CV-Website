@@ -1,10 +1,10 @@
 name: Deploy Frontend
 on:
   push:
-    branches: ["dev", "qa", "staging"]
+    branches: ['dev', 'qa', 'staging']
     paths:
-      - "apps/frontend/**"
-      - ".github/workflows/deploy-frontend.yml"
+      - 'apps/frontend/**'
+      - '.github/workflows/deploy-frontend.yml'
   workflow_dispatch:
     inputs:
       name:
@@ -19,6 +19,9 @@ on:
         type: boolean
         description: deploy storybook
         default: true
+env:
+  NODE_VERSION: 'v20.15.1'
+
 jobs:
   deploy:
     name: Deploy to Cloud
@@ -41,22 +44,21 @@ jobs:
       - name: Branch name
         run: echo running on branch ${GITHUB_REF##*/} - ${{github.ref_name}} - ${{github.event.inputs.name || (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3.7.0
-        with:
-          node-version: "20.x"
-          # cache: 'yarn'
-
       - uses: pnpm/action-setup@v4
+      - name: Setup Node.js Environment - Version ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
       - name: PNPM Install and Build
         run: |
-          pnpm install --frozen-lockfile --filter="./apps/frontend/"
-          pnpm run build --filter="./apps/frontend/"
+          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/frontend/" 
+          pnpm run build --filter="./apps/frontend/"  --filter="./libs/**/"
         env:
           CI: true
 
-      - name: "Login via Azure CLI"
+      - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
@@ -67,14 +69,14 @@ jobs:
           az storage account show -n $FE_STORAGE_ACCOUNT --query networkRuleSet
           az storage blob upload-batch --account-name $FE_STORAGE_ACCOUNT --auth-mode key -d '$web' -s "./apps/frontend/dist" --overwrite
 
-      # - name: Storybook Build
-      #   continue-on-error: true
-      #   run: |
-      #     yarn build-storybook
+      - name: Storybook Build
+        continue-on-error: true
+        run: |
+          pnpm run build-storybook --filter="./apps/frontend/"
 
-      # - name: Push to Storybook FE Storage
-      #   continue-on-error: true
-      #   run: |
-      #     export AZURE_STORAGE_KEY=$(az storage account keys list -n $FE_SB_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
-      #     az storage account show -n $FE_SB_STORAGE_ACCOUNT --query networkRuleSet
-      #     az storage blob upload-batch --account-name $FE_SB_STORAGE_ACCOUNT --auth-mode key -d '$web' -s "storybook-static" --overwrite
+      - name: Push to Storybook FE Storage
+        continue-on-error: true
+        run: |
+          export AZURE_STORAGE_KEY=$(az storage account keys list -n $FE_SB_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
+          az storage account show -n $FE_SB_STORAGE_ACCOUNT --query networkRuleSet
+          az storage blob upload-batch --account-name $FE_SB_STORAGE_ACCOUNT --auth-mode key -d '$web' -s "./apps/frontend/storybook-static" --overwrite

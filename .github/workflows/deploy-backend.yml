@@ -6,7 +6,15 @@ on:
       - "apps/backend/**"
       - ".github/workflows/deploy-backend.yml"
   workflow_dispatch:
-
+    inputs:
+      name:
+        type: choice
+        description: which env to deploy the changes to
+        options:
+          - dev
+          # - uat
+          # - main
+        default: dev
 jobs:
   deploy:
     name: Build Docker
@@ -55,7 +63,7 @@ jobs:
           docker ps -a
           docker image ls -a
 
-          docker-compose -f docker-compose-base.yml build
+          docker build -t node-base -f ./apps/backend/dockerfiles/node.Dockerfile .
 
           docker tag node-base $AZURE_CONTAINER_REGISTRY/node-base
           docker push $AZURE_CONTAINER_REGISTRY/node-base
@@ -64,20 +72,20 @@ jobs:
         run: |
 
           # git log -1 --pretty=%s >> git_commit_msg.txt
-          git log -4 --date=format-local:'%Y-%m-%d %H:%M:%S' >> git_commit_msg.txt
-          command git --no-pager log -1 --format="%ai" >> git_commit_msg.txt
+          git log -4 --date=format-local:'%Y-%m-%d %H:%M:%S' >> ./apps/backend/git_commit_msg.txt
+          command git --no-pager log -1 --format="%ai" >> ./apps/backend/git_commit_msg.txt
           echo ${{ github.run_id }} >> git_commit_msg.txt
 
 
           # get use the dynamic base file from different env
-          cp ./dockerfiles/node.Dockerfile ./dockerfiles/node.Dockerfile_og ;\
-          sed -i "s|FROM $NODE_DOCKER_IMAGE|FROM $AZURE_CONTAINER_REGISTRY/node-base:latest|g" ./dockerfiles/node.Dockerfile
-          cat ./dockerfiles/node.Dockerfile
+          cp ./apps/backend/dockerfiles/node.Dockerfile ./apps/backend/dockerfiles/node.Dockerfile_og ;\
+          sed -i "s|FROM $NODE_DOCKER_IMAGE|FROM $AZURE_CONTAINER_REGISTRY/node-base:latest|g" ./apps/backend/dockerfiles/node.Dockerfile
+          cat ./apps/backend/dockerfiles/node.Dockerfile
 
           docker ps -a
           docker image ls -a
 
-          docker-compose -f docker-compose-deployment.yml up --build -d --force-recreate
+          docker build -t webappapi -f ./apps/backend/dockerfiles/node.Dockerfile .
           docker ps -a
           docker image ls
           docker container ls

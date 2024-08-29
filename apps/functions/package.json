@@ -10,10 +10,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@core/utils": "workspace:*",
     "@azure/functions": "4.5.0"
   },
   "devDependencies": {
-    "@repo/eslint-config": "file:../../libs/eslint-config",
+    "@repo/eslint-config": "workspace:*",
     "@types/node": "20.14.15",
     "azure-functions-core-tools": "4.0.5907",
     "rimraf": "6.0.1",

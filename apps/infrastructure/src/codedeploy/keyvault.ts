@@ -1,8 +1,8 @@
 // Creates a Key Vault and a private endpoint for the Key Vault.
 
-import { PrivateEndpoint } from "@pulumi/azure-native/network";
-import { KeyVault } from "@pulumi/azure/keyvault";
-import { envBase } from "../env-base";
+import { PrivateEndpoint } from '@pulumi/azure-native/network';
+import { KeyVault } from '@pulumi/azure/keyvault';
+import { envBase } from '../env-base';
 
 export const vault = new KeyVault(
   envBase.KEYVAULT_NAME,
@@ -17,14 +17,14 @@ export const vault = new KeyVault(
     enabledForTemplateDeployment: true,
     softDeleteRetentionDays: 90,
     purgeProtectionEnabled: true,
-    skuName: `standard`,
+    skuName: 'standard',
     networkAcls: {
-      bypass: `AzureServices`,
-      defaultAction: `Deny`
+      bypass: 'AzureServices',
+      defaultAction: 'Deny'
     }
   },
   {
-    ignoreChanges: [`tags`],
+    ignoreChanges: ['tags'],
     protect: true
   }
 );
@@ -42,12 +42,12 @@ export const vaultPept = new PrivateEndpoint(
       {
         name: `${envBase.KEYVAULT_NAME}-pept-connection`,
         privateLinkServiceId: vault.id,
-        groupIds: [`vault`]
+        groupIds: ['vault']
       }
     ]
   },
   {
     dependsOn: [vault],
-    ignoreChanges: [`tags`]
+    ignoreChanges: ['tags']
   }
 );

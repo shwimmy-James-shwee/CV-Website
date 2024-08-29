@@ -2,22 +2,30 @@ name: Deploy Functions App
 
 on:
   push:
-    branches: ["dev", "qa", "staging"]
+    branches: ['dev', 'qa', 'staging']
     paths:
-      - "apps/functions/**"
-      - ".github/workflows/deploy-functions.yml"
+      - 'apps/functions/**'
+      - '.github/workflows/deploy-functions.yml'
   workflow_dispatch:
-
+    inputs:
+      name:
+        type: choice
+        description: which env to deploy the changes to
+        options:
+          - dev
+          # - uat
+          # - main
+        default: dev
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: "./apps/functions" # set this to the path to your function app project, defaults to the repository root
-  NODE_VERSION: "v20.15.1"
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './prod/functions' # set this to the path to your function app project, defaults to the repository root
+  NODE_VERSION: 'v20.15.1'
 
 jobs:
   build-and-deploy:
     runs-on: opch # For Linux, use ubuntu-latest
     environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
     steps:
-      - name: "Checkout GitHub Action"
+      - name: 'Checkout GitHub Action'
         uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
@@ -26,41 +34,27 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "pnpm"
+          cache: 'pnpm'
 
-      - name: Install dependencies
-        run: pnpm install
-
-        # Need to update this step once we start using shared packages in function app
-      - name: Build shared packages
-        run: echo "Placeholder step"
-
-      - name: Install dependencies with pre-built shared packages
-        run: pnpm install
-
-      - name: Build
-        run: pnpm build -F functions
-
-      - name: "Resolve Project Dependencies Using Npm"
+      - name: 'Resolve Project Dependencies Using Npm'
         shell: bash
         run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          rm -rf node_modules
-          ls
-          npm install --install-links
-          npm run build --if-present
-          popd
+          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
+          pnpm build --filter="./libs/**/" --filter="./apps/functions/"
+          pnpm deploy --filter="./apps/functions/" --prod ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        env:
+          CI: true
 
-      - name: "Login via Azure CLI"
+      - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: "Run Azure Functions Action"
+      - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         id: fa
         with:
-          app-name: "${{ vars.PROJECT_NAME_ABBREVIATION }}-fa-${{ vars.ENV }}"
+          app-name: '${{ vars.PROJECT_NAME_ABBREVIATION }}-fa-${{ vars.ENV }}'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          scm-do-build-during-deployment: true
-          enable-oryx-build: true
+          scm-do-build-during-deployment: false
+          enable-oryx-build: false

@@ -4,10 +4,10 @@ Import managed identity from code deployed resources
 The Identity should be use by service that need to access particular resources that need to be secured.
 */
 
-import { insights, network, storage } from "@pulumi/azure-native";
-import { envBase } from "../env-base";
-import { logAnalyticsWorkspace } from "./log-analytic-workspace";
-import { dsSettings } from "./diagnostic-setting-configs";
+import { insights, network, storage } from '@pulumi/azure-native';
+import { envBase } from '../env-base';
+import { logAnalyticsWorkspace } from './log-analytic-workspace';
+import { dsSettings } from './diagnostic-setting-configs';
 
 const codeDeployStorage = storage.getStorageAccount({
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
@@ -65,7 +65,7 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem
