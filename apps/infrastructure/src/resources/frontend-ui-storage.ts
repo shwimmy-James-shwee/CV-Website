@@ -256,10 +256,4 @@ new insights.DiagnosticSetting(
   }
 );
 
-export const frontendUrls = frontendUIStorage.primaryEndpoints.apply((res) => {
-  const urls = [res.web.slice(0, res.web.length - 1)];
-  if (envBase.ENV == `dev`) {
-    urls.push(`http://localhost:3000`);
-  }
-  return urls;
-});
+export const frontendUrl = `https://${frontendUIStorageName}.z8.web.core.windows.net`;
