@@ -39,7 +39,6 @@ const cors = frontendUrl.apply((url) => {
   return urls;
 });
 
-
 const restAPI = new web.WebApp(
   webAppServiceName,
   {
@@ -147,7 +146,7 @@ const restAPI = new web.WebApp(
           value: `80`
         }
         // unless needed, try use keyvault to store other secrets and configs, changing these will cause the app to restart
-      ];
+      ]
     }
   },
   {
@@ -274,7 +273,7 @@ if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase()) && e
           supportCredentials: true
         },
         httpLoggingEnabled: true,
-        logsDirectorySizeLimit: 35,
+        logsDirectorySizeLimit: 35
         // appSettings: appSettings
       }
     },
