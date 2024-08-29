@@ -34,9 +34,6 @@ jobs:
 
   deploy:
     runs-on: opch
-    defaults:
-      run:
-        working-directory: ./apps/infrastructure
     needs: ManualApprove
     name: Set up IaC States backend and Cores
     environment: ${{ github.event.inputs.environment }} # this will decide the environment to run the job on and will use the variable and secrets defined in the github environment setting
@@ -81,14 +78,15 @@ jobs:
         shell: bash
         # if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          pnpm install
           npm install -g ts-node
+          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/infrastructure/" 
           # curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          curl -fsSL https://get.pulumi.com | sh -s -- --version 3.74.0
+          curl -fsSL https://get.pulumi.com | sh -s -- --version 3.130.0
           # sudo apt install -y jq
           # sudo apt install -y docker docker-compose
           ls -l
           pwd
+          cd ./apps/infrastructure
           pnpm make:codedeploy
           cat ./package.json
 
@@ -110,6 +108,7 @@ jobs:
         if: ${{ github.event.inputs.first == 'true' }}
         # Note: We have to use absolute path instead of relative path to run pulumi command because of some config issues on OPCH-Runner.
         run: |
+          cd ./apps/infrastructure
           /home/lnxadmin/.pulumi/bin/pulumi login --local
           /home/lnxadmin/.pulumi/bin/pulumi stack init ${{ vars.ENV }}
           /home/lnxadmin/.pulumi/bin/pulumi up --yes
@@ -118,7 +117,7 @@ jobs:
         if: ${{ github.event.inputs.first == 'false' }}
         # Note: We have to use absolute path instead of relative path to run pulumi command because of some config issues on OPCH-Runner.
         run: |
-          cd src/codedeploy
+          cd ./apps/infrastructure
           export AZURE_STORAGE_KEY=$(az storage account keys list -n $AZURE_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
 
           /home/lnxadmin/.pulumi/bin/pulumi login --local
@@ -146,7 +145,7 @@ jobs:
 
       - name: Upload State
         run: |
-          cd src/codedeploy
+          cd ./apps/infrastructure
 
           export AZURE_STORAGE_KEY=$(az storage account keys list -n $AZURE_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
           /home/lnxadmin/.pulumi/bin/pulumi stack export --file storage-states.json

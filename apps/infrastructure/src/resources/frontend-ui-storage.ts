@@ -256,8 +256,8 @@ new insights.DiagnosticSetting(
   }
 );
 
-export const frontendUrls = frontendUIStorage.primaryEndpoints.web.apply((web) => {
-  const urls = [web.slice(0, web.length - 1)];
+export const frontendUrls = frontendUIStorage.primaryEndpoints.apply((res) => {
+  const urls = [res.web.slice(0, res.web.length - 1)];
   if (envBase.ENV == `dev`) {
     urls.push(`http://localhost:3000`);
   }
