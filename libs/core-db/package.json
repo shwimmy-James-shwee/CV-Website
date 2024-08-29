@@ -1,0 +1,33 @@
+{
+  "name": "@core/db",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./dist/": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push --skip-generate",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "docker:db:create": "docker-compose -f docker-compose-db.yml up -d"
+  },
+  "dependencies": {
+    "@prisma/client": "5.10.2"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "prisma": "5.10.2",
+    "tsup": "8.2.4",
+    "typescript": "5.5.4"
+  }
+}
