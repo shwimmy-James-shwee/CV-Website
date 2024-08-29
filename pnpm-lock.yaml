@@ -93,6 +93,9 @@ importers:
       '@azure/msal-browser':
         specifier: 3.21.0
         version: 3.21.0
+      '@azure/msal-common':
+        specifier: 14.14.2
+        version: 14.14.2
       '@azure/msal-react':
         specifier: 2.0.22
         version: 2.0.22(@azure/msal-browser@3.21.0)(react@18.3.1)
@@ -487,6 +490,10 @@ packages:
 
   '@azure/msal-common@14.14.1':
     resolution: {integrity: sha512-2Q3tqNz/PZLfSr8BvcHZVpRRfSn4MjGSqjj9J+HlBsmbf1Uu4P0WeXnemjTJwwx9KrmplsrN3UkZ/LPOR720rw==}
+    engines: {node: '>=0.8.0'}
+
+  '@azure/msal-common@14.14.2':
+    resolution: {integrity: sha512-XV0P5kSNwDwCA/SjIxTe9mEAsKB0NqGNSuaVrkCCE2lAyBr/D6YtD80Vkdp4tjWnPFwjzkwldjr1xU/facOJog==}
     engines: {node: '>=0.8.0'}
 
   '@azure/msal-node@2.13.0':
@@ -8271,6 +8278,8 @@ snapshots:
       '@azure/msal-common': 14.14.1
 
   '@azure/msal-common@14.14.1': {}
+
+  '@azure/msal-common@14.14.2': {}
 
   '@azure/msal-node@2.13.0':
     dependencies:
