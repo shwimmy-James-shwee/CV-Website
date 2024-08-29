@@ -2,7 +2,7 @@ import { notificationRealTimeWatcher } from '../notificationRealTimeWatcher';
 import { InvocationContext, Timer } from '@azure/functions';
 import { notificationRunner } from '../../services/notificationRunner';
 
-jest.mock('../shared/notificationRunner', () => ({
+jest.mock('../../services/notificationRunner', () => ({
   notificationRunner: jest.fn()
 }));
 

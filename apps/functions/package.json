@@ -6,7 +6,8 @@
     "watch": "tsc --watch",
     "clean": "rimraf dist",
     "dev": "func start",
-    "test": "vitest",
+    "test": "jest --config ./jest.config.js --coverage --watch",
+    "test:action": "jest --config ./jest.config.js --coverage",
     "lint": "eslint ."
   },
   "dependencies": {
