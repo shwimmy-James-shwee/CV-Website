@@ -1,18 +1,18 @@
-import { Form } from 'react-bootstrap'
-import styled from 'styled-components'
-import { BodyText } from '../text/BodyText'
+import { Form } from 'react-bootstrap';
+import styled from 'styled-components';
+import { BodyText } from '../text/BodyText';
 
 interface SwitchFormFieldProps {
-  fieldLabel?: string
-  label?: string
-  required?: boolean
-  disabled?: boolean
-  height?: string
-  className?: string
-  'data-testid'?: string
-  checked?: boolean
-  defaultChecked?: boolean
-  onChange?: React.ChangeEventHandler<HTMLInputElement>
+  fieldLabel?: string;
+  label?: string;
+  required?: boolean;
+  disabled?: boolean;
+  height?: string;
+  className?: string;
+  'data-testid'?: string;
+  checked?: boolean;
+  defaultChecked?: boolean;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 const StyledFormSwitch = styled(Form.Switch)<{ height?: string }>`
@@ -27,10 +27,10 @@ const StyledFormSwitch = styled(Form.Switch)<{ height?: string }>`
     background-color: var(--switch-checked-background);
     border-color: var(--switch-checked-background);
   }
-`
+`;
 
 const SwitchFormField = ({ required, className, fieldLabel, ...props }: SwitchFormFieldProps) => {
-  const id = props['data-testid'] || 'switch-form-field'
+  const id = props['data-testid'] || 'switch-form-field';
 
   return (
     <Form.Group className={className || 'py-3'}>
@@ -45,7 +45,7 @@ const SwitchFormField = ({ required, className, fieldLabel, ...props }: SwitchFo
 
       <StyledFormSwitch height={props.height} id={id} {...props} />
     </Form.Group>
-  )
-}
+  );
+};
 
-export default SwitchFormField
+export default SwitchFormField;

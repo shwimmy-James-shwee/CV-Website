@@ -1,34 +1,34 @@
-import { ReactNode } from 'react'
-import { Stack } from 'react-bootstrap'
-import styled from 'styled-components'
+import { ReactNode } from 'react';
+import { Stack } from 'react-bootstrap';
+import styled from 'styled-components';
 
 interface ButtonProps {
-  variant?: 'primary' | 'secondary'
-  rounded?: boolean
-  label?: ReactNode
-  style?: React.CSSProperties | undefined
-  className?: string
-  width?: number
-  textColor?: string
-  textSize?: string
-  textWeight?: number | string
-  disabled?: boolean
+  variant?: 'primary' | 'secondary';
+  rounded?: boolean;
+  label?: ReactNode;
+  style?: React.CSSProperties | undefined;
+  className?: string;
+  width?: number;
+  textColor?: string;
+  textSize?: string;
+  textWeight?: number | string;
+  disabled?: boolean;
 
   // Icon standing in front of the label
-  icon?: string
+  icon?: string;
 
   // For form buttons
-  type?: 'button' | 'submit' | 'reset' | undefined
+  type?: 'button' | 'submit' | 'reset' | undefined;
 
-  onClick?: () => void
-  'data-testid'?: string
+  onClick?: () => void;
+  'data-testid'?: string;
 }
 
 const BaseButton = styled.button<{
-  width?: number
-  height?: number
-  fontSize?: number
-  $rounded: boolean
+  width?: number;
+  height?: number;
+  fontSize?: number;
+  $rounded: boolean;
 }>`
   border-radius: 0.5rem;
   border: 0px;
@@ -41,7 +41,7 @@ const BaseButton = styled.button<{
   white-space: nowrap;
 
   ${(props) => props.$rounded && 'border-radius: 50%;  width: 100px; height: 100px; padding: 0;'}
-`
+`;
 
 const PrimaryButton = styled(BaseButton)`
   background: var(--primary-button-color);
@@ -59,7 +59,7 @@ const PrimaryButton = styled(BaseButton)`
   &:disabled {
     background: var(--secondary-button-text-color);
   }
-`
+`;
 
 const SecondaryButton = styled(BaseButton)`
   background: var(--secondary-button-bg);
@@ -78,24 +78,24 @@ const SecondaryButton = styled(BaseButton)`
     background: var(--secondary-button-text-color);
     color: var(--primary-button-text-color);
   }
-`
+`;
 
 const IconButton = styled.button`
   border: 0;
   background: none;
   color: var(--icon-button-color);
-`
+`;
 
 const ButtonText = styled.span<{
-  $textColor?: string
-  $textSize?: string
-  $textWeight?: string | number
+  $textColor?: string;
+  $textSize?: string;
+  $textWeight?: string | number;
 }>`
   width: 100%;
   font-size: ${(props) => props.$textSize ?? 1}rem;
   font-weight: ${(props) => props.$textWeight ?? 600};
   ${(props) => props.$textColor && `color: ${props.$textColor};`}
-`
+`;
 
 const ButtonComponent = ({
   variant = 'primary',
@@ -109,7 +109,7 @@ const ButtonComponent = ({
   'data-testid': dataTestId,
   ...props
 }: ButtonProps) => {
-  const StyledButton = !label ? IconButton : variant === 'primary' ? PrimaryButton : SecondaryButton
+  const StyledButton = !label ? IconButton : variant === 'primary' ? PrimaryButton : SecondaryButton;
 
   return (
     <StyledButton
@@ -124,17 +124,13 @@ const ButtonComponent = ({
       <Stack direction='horizontal' gap={2} className='text-center'>
         {icon && <span className='material-icons-outlined'>{icon}</span>}
         {label && (
-          <ButtonText
-            $textColor={textColor}
-            $textSize={props.textSize}
-            $textWeight={props.textWeight}
-          >
+          <ButtonText $textColor={textColor} $textSize={props.textSize} $textWeight={props.textWeight}>
             {label}
           </ButtonText>
         )}
       </Stack>
     </StyledButton>
-  )
-}
+  );
+};
 
-export default ButtonComponent
+export default ButtonComponent;

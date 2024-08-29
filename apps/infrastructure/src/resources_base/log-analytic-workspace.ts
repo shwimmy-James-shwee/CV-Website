@@ -18,13 +18,13 @@ export const logAnalyticsWorkspace = new operationalinsights.Workspace(
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     retentionInDays: 90,
     sku: {
-      name: `PerGB2018`
+      name: 'PerGB2018'
     },
     publicNetworkAccessForQuery: operationalinsights.PublicNetworkAccessType.Enabled,
     publicNetworkAccessForIngestion: operationalinsights.PublicNetworkAccessType.Enabled
   },
   {
-    ignoreChanges: [`tags`]
+    ignoreChanges: ['tags']
   }
 );
 

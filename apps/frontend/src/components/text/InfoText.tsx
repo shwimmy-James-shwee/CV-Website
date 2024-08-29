@@ -1,14 +1,14 @@
-import { ReactNode } from 'react'
-import styled, { CSSProperties } from 'styled-components'
+import { ReactNode } from 'react';
+import styled, { CSSProperties } from 'styled-components';
 
 interface InfoTextProps {
-  size?: number // rem
-  fontWeight?: number
-  color?: string
-  style?: CSSProperties
-  'data-testid'?: string
-  className?: string
-  children: ReactNode
+  size?: number; // rem
+  fontWeight?: number;
+  color?: string;
+  style?: CSSProperties;
+  'data-testid'?: string;
+  className?: string;
+  children: ReactNode;
 }
 
 const InfoTextComponent = styled.p<{ size?: number; fontWeight?: number; color?: string }>`
@@ -19,7 +19,7 @@ const InfoTextComponent = styled.p<{ size?: number; fontWeight?: number; color?:
   line-height: 130%;
   margin: 0;
   width: 100%;
-`
+`;
 
 export const InfoText = ({
   children,
@@ -28,7 +28,7 @@ export const InfoText = ({
   style,
   color,
   'data-testid': dataTestId,
-  className,
+  className
 }: InfoTextProps) => {
   return (
     <InfoTextComponent
@@ -41,5 +41,5 @@ export const InfoText = ({
     >
       {children}
     </InfoTextComponent>
-  )
-}
+  );
+};

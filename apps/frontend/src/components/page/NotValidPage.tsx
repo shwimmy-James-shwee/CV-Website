@@ -1,19 +1,19 @@
-import { TitleText } from '../text/TitleText'
-import { BodyText } from '../text/BodyText'
-import logo from '../../assets/images/logo.svg'
-import styled from 'styled-components'
+import { TitleText } from '../text/TitleText';
+import { BodyText } from '../text/BodyText';
+import logo from '../../assets/images/logo.svg';
+import styled from 'styled-components';
 
 interface NotValidLinkPageProps {
-  title?: string
-  body?: string
-  customLogo?: string
-  children?: React.ReactNode
+  title?: string;
+  body?: string;
+  customLogo?: string;
+  children?: React.ReactNode;
 }
 
 const OuterContainer = styled.div`
   text-align: center;
   margin-top: 20vh;
-`
+`;
 
 const InnerContainer = styled.div`
   background-color: var(--general-text-bg-color);
@@ -21,7 +21,7 @@ const InnerContainer = styled.div`
   padding: 84px 56px;
   border-radius: 20px;
   margin-top: 10vh;
-`
+`;
 
 function NotValidPage({ title, body, customLogo, children }: NotValidLinkPageProps) {
   return (
@@ -44,6 +44,6 @@ function NotValidPage({ title, body, customLogo, children }: NotValidLinkPagePro
         </InnerContainer>
       </OuterContainer>
     </div>
-  )
+  );
 }
-export default NotValidPage
+export default NotValidPage;

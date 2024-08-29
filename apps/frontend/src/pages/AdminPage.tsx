@@ -1,15 +1,15 @@
-import { Container, Tabs, Tab } from 'react-bootstrap'
-import { Header } from '../components/banners/Header'
-import styled from 'styled-components'
-import BusinessUnitManagement from './admin/BusinessUnitManagement'
-import UserManagement from './admin/UserManagement'
+import { Container, Tabs, Tab } from 'react-bootstrap';
+import { Header } from '../components/banners/Header';
+import styled from 'styled-components';
+import BusinessUnitManagement from './admin/BusinessUnitManagement';
+import UserManagement from './admin/UserManagement';
 
 const TabsComponent = styled(Tabs)`
   padding-top: 1rem;
   .nav-item .nav-link {
     color: var(--general-text-color) !important;
   }
-`
+`;
 
 function AdminPage() {
   return (
@@ -29,7 +29,7 @@ function AdminPage() {
         </TabsComponent>
       </Container>
     </>
-  )
+  );
 }
 
-export default AdminPage
+export default AdminPage;

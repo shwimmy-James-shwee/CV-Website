@@ -1,78 +1,78 @@
-import { Row, Col, ListGroup, Form } from 'react-bootstrap'
-import useFetchWithMsal from '../../hooks/useFetchWithMsal'
-import { API } from '../../shared/endpoints'
-import { Fragment, useEffect, useState } from 'react'
-import { User } from '../../shared/schema'
-import TextFormField from '../../components/Form/TextFormField'
-import ButtonComponent from '../../components/toolkit/Button'
+import { Row, Col, ListGroup, Form } from 'react-bootstrap';
+import useFetchWithMsal from '../../hooks/useFetchWithMsal';
+import { API } from '../../shared/endpoints';
+import { Fragment, useEffect, useState } from 'react';
+import { User } from '../../shared/schema';
+import TextFormField from '../../components/Form/TextFormField';
+import ButtonComponent from '../../components/toolkit/Button';
 
 function UserManagement() {
-  const { execute, error } = useFetchWithMsal()
+  const { execute, error } = useFetchWithMsal();
 
-  const [userListData, setUserListData] = useState<User[]>([])
-  const [userData, setUserData] = useState<User | null>(null)
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [validated, setValidated] = useState(false)
+  const [userListData, setUserListData] = useState<User[]>([]);
+  const [userData, setUserData] = useState<User | null>(null);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [validated, setValidated] = useState(false);
 
   useEffect(() => {
     if (!error) {
       execute('GET', API.admin.user.root).then((data: User[]) => {
         if (data) {
-          setUserListData(data)
+          setUserListData(data);
         }
-      })
+      });
     }
-  }, [error, execute])
+  }, [error, execute]);
 
   useEffect(() => {
     // console.log(businessUnitData)
-  }, [userData])
+  }, [userData]);
   function getUserDetail(id: string) {
-    setUserData(null)
+    setUserData(null);
     execute('GET', `${API.admin.user.byId}${id}`).then((data: User) => {
       if (data) {
-        setUserData(data)
-        setFirstName(data.firstName)
-        setLastName(data.lastName)
+        setUserData(data);
+        setFirstName(data.firstName);
+        setLastName(data.lastName);
       }
-    })
-    return undefined
+    });
+    return undefined;
   }
 
   const handleSubmit = (event: {
-    currentTarget: HTMLFormElement
-    preventDefault: () => void
-    stopPropagation: () => void
+    currentTarget: HTMLFormElement;
+    preventDefault: () => void;
+    stopPropagation: () => void;
   }) => {
-    const form = event.currentTarget
+    const form = event.currentTarget;
     // invalidation check
     if (form.checkValidity() === false) {
-      event.preventDefault()
-      event.stopPropagation()
+      event.preventDefault();
+      event.stopPropagation();
     } else {
-      event.preventDefault()
+      event.preventDefault();
 
       const payload = {
         firstName: firstName,
-        lastName: lastName,
-      }
+        lastName: lastName
+      };
 
       execute('PATCH', `${API.admin.user.byId}${userData?.id}`, payload).then((response: User) => {
         if (response) {
           // TODO: Add alerts here for successfull or fail cases
-          getUserDetail(response.id)
+          getUserDetail(response.id);
           execute('GET', API.admin.user.root).then((data: User[]) => {
             if (data) {
-              setUserListData(data)
+              setUserListData(data);
             }
-          })
+          });
         }
-      })
+      });
     }
 
-    setValidated(true)
-  }
+    setValidated(true);
+  };
 
   return (
     <>
@@ -93,7 +93,7 @@ function UserManagement() {
                 >
                   {user.loginEmail} - ({user.firstName}, {user.lastName})
                 </ListGroup.Item>
-              )
+              );
             })}
           </ListGroup>
         </Col>
@@ -110,7 +110,7 @@ function UserManagement() {
                   noValidate
                   validated={validated}
                   onChange={() => {
-                    setValidated(false)
+                    setValidated(false);
                   }}
                 >
                   <TextFormField
@@ -131,12 +131,7 @@ function UserManagement() {
                     onChange={(e) => setLastName(e.target.value)}
                   />
 
-                  <ButtonComponent
-                    data-testid='save-button'
-                    label='Save'
-                    type='submit'
-                    className='mt-2'
-                  />
+                  <ButtonComponent data-testid='save-button' label='Save' type='submit' className='mt-2' />
                 </Form>
               </Row>
             </Fragment>
@@ -144,7 +139,7 @@ function UserManagement() {
         </Col>
       </Row>
     </>
-  )
+  );
 }
 
-export default UserManagement
+export default UserManagement;

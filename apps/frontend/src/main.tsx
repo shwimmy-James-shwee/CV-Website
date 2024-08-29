@@ -1,10 +1,10 @@
-import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import reportWebVitals from "./reportWebVitals";
+import ReactDOM from 'react-dom/client';
+import App from './App.tsx';
+import reportWebVitals from './reportWebVitals';
 
-import { PublicClientApplication, EventType, EventMessage, AuthenticationResult } from "@azure/msal-browser";
-import { msalConfig } from "./authConfig";
-import { Md5 } from "ts-md5";
+import { PublicClientApplication, EventType, EventMessage, AuthenticationResult } from '@azure/msal-browser';
+import { msalConfig } from './authConfig';
+import { Md5 } from 'ts-md5';
 // import React from 'react'
 
 /**
@@ -30,11 +30,11 @@ msalInstance.addEventCallback((event: EventMessage) => {
   ) {
     msalInstance.setActiveAccount(payload.account);
     const uniqueSessionMd5 = Md5.hashStr(JSON.stringify(payload.account.idTokenClaims));
-    sessionStorage.setItem("session.md5", uniqueSessionMd5.toString());
+    sessionStorage.setItem('session.md5', uniqueSessionMd5.toString());
   }
 });
 
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 if (window.self === window.top) {
   root.render(
     // https://github.com/AzureAD/microsoft-authentication-library-for-js/issues/5468
@@ -45,14 +45,14 @@ if (window.self === window.top) {
 } else {
   root.render(
     <div>
-      <h1 style={{ color: "red" }}>
+      <h1 style={{ color: 'red' }}>
         If you see this page, Web App link you have clicked on is under click jacking security attack.
       </h1>
       <h2>Please inform team with the reference of the application from where you clicked this link.</h2>
       <h2>
         Click
         <a
-          style={{ color: "red", textDecoration: "none" }}
+          style={{ color: 'red', textDecoration: 'none' }}
           href={window.self.location.href}
           title='Web Application'
           target='blank'

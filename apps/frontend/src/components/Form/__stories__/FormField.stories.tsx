@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { within, expect } from '@storybook/test'
-import FormField from '../FormField'
+import type { Meta, StoryObj } from '@storybook/react';
+import { within, expect } from '@storybook/test';
+import FormField from '../FormField';
 
 const meta = {
   title: 'Components/Form/FormField',
@@ -10,51 +10,51 @@ const meta = {
   argTypes: {
     fieldLabel: {
       control: 'text',
-      description: 'The label of the field',
+      description: 'The label of the field'
     },
     type: {
       control: 'text',
-      description: 'The type of the bootstrap input',
+      description: 'The type of the bootstrap input'
     },
     placeholder: {
       control: 'text',
-      description: 'The placeholder text for the field',
+      description: 'The placeholder text for the field'
     },
     required: {
       control: 'boolean',
-      description: 'Specifies if the field is required',
+      description: 'Specifies if the field is required'
     },
     disabled: {
       control: 'boolean',
-      description: 'Specifies if the field is disabled',
+      description: 'Specifies if the field is disabled'
     },
     readonly: {
       control: 'boolean',
-      description: 'Specifies if the field is readonly',
-    },
-  },
-} satisfies Meta<typeof FormField>
+      description: 'Specifies if the field is readonly'
+    }
+  }
+} satisfies Meta<typeof FormField>;
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
     fieldLabel: 'Name',
     type: 'text',
-    onChange: () => {},
-  },
-}
+    onChange: () => {}
+  }
+};
 
 export const Disabled: Story = {
   args: {
     fieldLabel: 'Name',
     type: 'text',
     disabled: true,
-    onChange: () => {},
-  },
-}
+    onChange: () => {}
+  }
+};
 
 export const Readonly: Story = {
   args: {
@@ -62,9 +62,9 @@ export const Readonly: Story = {
     type: 'text',
     placeholder: 'This is a readonly example.',
     readonly: true,
-    onChange: () => {},
-  },
-}
+    onChange: () => {}
+  }
+};
 
 export const Select: Story = {
   args: {
@@ -78,9 +78,9 @@ export const Select: Story = {
         <option>3</option>
         <option>4</option>
       </>
-    ),
-  },
-}
+    )
+  }
+};
 
 export const MultiSelect: Story = {
   args: {
@@ -94,46 +94,46 @@ export const MultiSelect: Story = {
         <option value='3'>3</option>
         <option value='4'>4</option>
       </>
-    ),
-  },
-}
+    )
+  }
+};
 
 export const Checkbox: Story = {
   args: {
     type: 'checkbox',
     itemLabel: 'Click me',
-    onChange: () => {},
-  },
-}
+    onChange: () => {}
+  }
+};
 
 export const Radio: Story = {
   args: {
     type: 'radio',
     itemLabel: 'Click me',
-    onChange: () => {},
-  },
-}
+    onChange: () => {}
+  }
+};
 
 export const Switch: Story = {
   args: {
     type: 'switch',
     itemLabel: 'Click me',
-    onChange: () => {},
-  },
-}
+    onChange: () => {}
+  }
+};
 
 export const UnitTest: Story = {
   args: {
     fieldLabel: 'Name',
     type: 'text',
-    onChange: () => {},
+    onChange: () => {}
   },
   play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement)
+    const canvas = within(canvasElement);
 
     await step('Form field is rendered', async () => {
-      const formField = canvas.getByLabelText('Name')
-      await expect(formField).toBeInTheDocument()
-    })
-  },
-}
+      const formField = canvas.getByLabelText('Name');
+      await expect(formField).toBeInTheDocument();
+    });
+  }
+};

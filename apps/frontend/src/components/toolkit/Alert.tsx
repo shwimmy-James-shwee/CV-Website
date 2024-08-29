@@ -1,7 +1,7 @@
-import { useContext } from 'react'
-import { Alert } from 'react-bootstrap'
-import { AlertContext } from './AlertContext'
-import styled from 'styled-components'
+import { useContext } from 'react';
+import { Alert } from 'react-bootstrap';
+import { AlertContext } from './AlertContext';
+import styled from 'styled-components';
 
 const AlertDiv = styled.div`
   transition: top 0.3s ease-in-out;
@@ -12,23 +12,23 @@ const AlertDiv = styled.div`
   left: 50%;
   transform: translate(-50%, 0);
   z-index: 1000;
-`
+`;
 function AlertComponent() {
-  const { alerts, removeAlert } = useContext(AlertContext)
-  if (!alerts) return <></>
+  const { alerts, removeAlert } = useContext(AlertContext);
+  if (!alerts) return <></>;
 
   function showAlerts() {
     return (
       <AlertDiv>
         {alerts.map((alert, index) => {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { alertContent, ...otherAlert } = alert
+          const { alertContent, ...otherAlert } = alert;
           return (
             <div key={index} className='pb-1' data-testid='the-alert'>
               <Alert
                 {...otherAlert}
                 onClose={() => {
-                  removeAlert(alert)
+                  removeAlert(alert);
                 }}
                 dismissible
                 transition
@@ -38,12 +38,12 @@ function AlertComponent() {
                 {alert?.alertContent && <>{alert.alertContent}</>}
               </Alert>
             </div>
-          )
+          );
         })}
       </AlertDiv>
-    )
+    );
   }
 
-  return alerts.length ? <>{showAlerts()}</> : <></>
+  return alerts.length ? <>{showAlerts()}</> : <></>;
 }
-export default AlertComponent
+export default AlertComponent;

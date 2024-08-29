@@ -1,86 +1,77 @@
-import { useEffect, useState } from 'react'
-import DataTable from 'react-data-table-component'
+import { useEffect, useState } from 'react';
+import DataTable from 'react-data-table-component';
 // import { CurrentUserType } from '../../context/UserContext'
-import { API } from '../shared/endpoints'
-import useFetchWithMsal from '../hooks/useFetchWithMsal'
-import { Button, Col, Container, Form, Row } from 'react-bootstrap'
-import {
-  Area,
-  AreaChart,
-  CartesianGrid,
-  Legend,
-  Tooltip,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-} from 'recharts'
+import { API } from '../shared/endpoints';
+import useFetchWithMsal from '../hooks/useFetchWithMsal';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Area, AreaChart, CartesianGrid, Legend, Tooltip, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 
 type userActivityLogType = {
-  sessionIdentifier: string
-  eventUrl: string
-  email: string
-  eventStartTime: string
-  eventEndTime: string
-  eventDuration: number
-  eventParams: string
-  id: number
-  createdAt: string
-  updatedAt: string
-  userId: string
-}
+  sessionIdentifier: string;
+  eventUrl: string;
+  email: string;
+  eventStartTime: string;
+  eventEndTime: string;
+  eventDuration: number;
+  eventParams: string;
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+};
 
 type userAttributeData = {
-  id: string
-  loginEmail: string
-}
+  id: string;
+  loginEmail: string;
+};
 type userAttributeDic = {
-  [key: string]: { loginEmail: string }
-}
+  [key: string]: { loginEmail: string };
+};
 function UserActivityPage() {
-  const { execute, error } = useFetchWithMsal()
-  const [tableData, setTableData] = useState<userActivityLogType[]>([])
-  const [userAttributes, setUserAttributes] = useState<userAttributeDic>({})
-  const [chartData, setChartData] = useState<userActivityLogType[]>([])
-  const [aggBy, setAggBy] = useState<string>('eventUrl')
+  const { execute, error } = useFetchWithMsal();
+  const [tableData, setTableData] = useState<userActivityLogType[]>([]);
+  const [userAttributes, setUserAttributes] = useState<userAttributeDic>({});
+  const [chartData, setChartData] = useState<userActivityLogType[]>([]);
+  const [aggBy, setAggBy] = useState<string>('eventUrl');
 
   function getData() {
     execute('GET', API.userActivityLog.root).then(
       (response: { data: userActivityLogType[]; attributes: { users: userAttributeData[] } }) => {
         if (response) {
-          const users: userAttributeDic = {}
+          const users: userAttributeDic = {};
           response.attributes.users.forEach((x) => {
-            users[x.id] = x
-          })
-          setTableData(response.data.map((x) => ({ ...x, email: users[x.userId].loginEmail })))
+            users[x.id] = x;
+          });
+          setTableData(response.data.map((x) => ({ ...x, email: users[x.userId].loginEmail })));
         }
-      },
-    )
+      }
+    );
 
     execute('GET', `${API.userActivityLog.root}?by=${aggBy}`).then(
       (response: { data: userActivityLogType[]; attributes: { users: userAttributeData[] } }) => {
         if (response) {
-          const users: userAttributeDic = {}
+          const users: userAttributeDic = {};
           response.attributes.users.forEach((x) => {
-            users[x.id] = x
-          })
-          setUserAttributes(users)
-          setChartData(response.data)
+            users[x.id] = x;
+          });
+          setUserAttributes(users);
+          setChartData(response.data);
         }
-      },
-    )
+      }
+    );
   }
 
   useEffect(() => {
     if (!error) {
-      getData()
+      getData();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error, execute, aggBy])
+  }, [error, execute, aggBy]);
 
   const refreshData = () => {
-    getData()
-  }
+    getData();
+  };
 
   const columns = [
     // { name: 'id', selector: (row: userActivityLogType) => row.id, sortable: true },
@@ -88,27 +79,27 @@ function UserActivityPage() {
     {
       name: 'sessionIdentifier',
       selector: (row: userActivityLogType) => row.sessionIdentifier.slice(0, 6) + '...',
-      sortable: true,
+      sortable: true
     },
     { name: 'eventUrl', selector: (row: userActivityLogType) => row.eventUrl, sortable: true },
     {
       name: 'eventStartTime',
       selector: (row: userActivityLogType) => row.eventStartTime,
-      sortable: true,
+      sortable: true
     },
     {
       name: 'eventEndTime',
       selector: (row: userActivityLogType) => row.eventEndTime,
-      sortable: true,
+      sortable: true
     },
     {
       name: 'eventDuration',
       selector: (row: userActivityLogType) => row.eventDuration / 1000,
-      sortable: true,
+      sortable: true
     },
     { name: 'createdAt', selector: (row: userActivityLogType) => row.createdAt, sortable: true },
-    { name: 'updatedAt', selector: (row: userActivityLogType) => row.updatedAt, sortable: true },
-  ]
+    { name: 'updatedAt', selector: (row: userActivityLogType) => row.updatedAt, sortable: true }
+  ];
 
   return (
     <>
@@ -137,18 +128,14 @@ function UserActivityPage() {
         <br />
         <Row data-testid='useractivity-chart'>
           <Col>
-            <ResponsiveContainer
-              height={250}
-              width={'99%'}
-              data-testid='useractivity-chart-container'
-            >
+            <ResponsiveContainer height={250} width={'99%'} data-testid='useractivity-chart-container'>
               <AreaChart
                 data={chartData}
                 margin={{
                   top: 15,
                   right: 15,
                   left: 15,
-                  bottom: 15,
+                  bottom: 15
                 }}
               >
                 <CartesianGrid strokeDasharray='1 4' />
@@ -202,7 +189,7 @@ function UserActivityPage() {
         </Row>
       </Container>
     </>
-  )
+  );
 }
 
-export default UserActivityPage
+export default UserActivityPage;

@@ -10,26 +10,26 @@ export const appServicePlan = new web.AppServicePlan(
   {
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     name: `${envBase.PROJECT_NAME_ABBREVIATION}-asp-${envBase.ENV}`,
-    kind: `Linux,Container`,
+    kind: 'Linux,Container',
     reserved: true,
     sku: {
       name: envExtend.pricingTier
     }
   },
   {
-    ignoreChanges: [`tags`],
-    customTimeouts: { create: `30m`, update: `30m`, delete: `30m` }
+    ignoreChanges: ['tags'],
+    customTimeouts: { create: '30m', update: '30m', delete: '30m' }
   }
 );
 
-if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase())) {
+if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase())) {
   new insights.AutoscaleSetting(`${envBase.PROJECT_NAME_ABBREVIATION}-asp-${envBase.ENV}-autoscale`, {
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     autoscaleSettingName: `${envBase.PROJECT_NAME_ABBREVIATION}-asp-${envBase.ENV}-autoscale`,
     targetResourceUri: appServicePlan.id,
     profiles: [
       {
-        name: `cpu_base_profile`,
+        name: 'cpu_base_profile',
         capacity: {
           default: `${envExtend.minCapacity}`,
           minimum: `${envExtend.minCapacity}`,
@@ -38,42 +38,42 @@ if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase())) {
         rules: [
           {
             metricTrigger: {
-              metricName: `CpuPercentage`,
+              metricName: 'CpuPercentage',
               metricResourceUri: appServicePlan.id.apply((id) => `${id}`),
-              metricNamespace: `Microsoft.Web/serverfarms`,
-              operator: `GreaterThanOrEqual`,
+              metricNamespace: 'Microsoft.Web/serverfarms',
+              operator: 'GreaterThanOrEqual',
               threshold: 65,
-              timeAggregation: `Average`,
-              statistic: `Average`,
-              timeGrain: `PT1M`,
-              timeWindow: `PT5M`,
+              timeAggregation: 'Average',
+              statistic: 'Average',
+              timeGrain: 'PT1M',
+              timeWindow: 'PT5M',
               dividePerInstance: false
             },
             scaleAction: {
               direction: insights.ScaleDirection.Increase,
               type: insights.ScaleType.ChangeCount,
-              value: `1`,
-              cooldown: `PT1M`
+              value: '1',
+              cooldown: 'PT1M'
             }
           },
           {
             metricTrigger: {
-              metricName: `CpuPercentage`,
+              metricName: 'CpuPercentage',
               metricResourceUri: appServicePlan.id,
-              metricNamespace: `Microsoft.Web/serverfarms`,
-              operator: `LessThan`,
+              metricNamespace: 'Microsoft.Web/serverfarms',
+              operator: 'LessThan',
               threshold: 30,
-              timeAggregation: `Average`,
-              statistic: `Average`,
-              timeGrain: `PT1M`,
-              timeWindow: `PT5M`,
+              timeAggregation: 'Average',
+              statistic: 'Average',
+              timeGrain: 'PT1M',
+              timeWindow: 'PT5M',
               dividePerInstance: false
             },
             scaleAction: {
               direction: insights.ScaleDirection.Decrease,
               type: insights.ScaleType.ChangeCount,
-              value: `1`,
-              cooldown: `PT1M`
+              value: '1',
+              cooldown: 'PT1M'
             }
           }
         ]

@@ -50,7 +50,7 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem

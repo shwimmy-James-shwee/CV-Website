@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import styled from 'styled-components'
+import { useState } from 'react';
+import styled from 'styled-components';
 
 const SliderComponent = styled.input`
   z-index: 10;
@@ -32,7 +32,7 @@ const SliderComponent = styled.input`
     /* background: #e5e5e5; */
     border-radius: 10px;
   }
-`
+`;
 const SliderRunnerTrack = styled.div`
   z-index: 1;
   height: 10px;
@@ -40,17 +40,16 @@ const SliderRunnerTrack = styled.div`
   border-radius: 10px;
   position: relative;
   top: -21px;
-`
+`;
 const SliderRunnerProgress = styled.div<{ $percentage?: number }>`
   z-index: 2;
   height: 10px;
-  width: ${(props) =>
-    `${props.$percentage ? props.$percentage - 1 * (props.$percentage / 100) : props.$percentage}%`};
+  width: ${(props) => `${props.$percentage ? props.$percentage - 1 * (props.$percentage / 100) : props.$percentage}%`};
   background-color: #1e49e2;
   border-radius: 10px 0 0 10px;
   position: relative;
   top: -31px;
-`
+`;
 
 const SliderLableDividerDiv = styled.div`
   width: calc(100% - 10px);
@@ -60,7 +59,7 @@ const SliderLableDividerDiv = styled.div`
   top: -21px;
   justify-content: space-between;
   /* background-color: #32202088; */
-`
+`;
 const SliderLableDivider = styled.div<{ $percentage: number }>`
   display: inline-block;
   position: relative;
@@ -71,21 +70,21 @@ const SliderLableDivider = styled.div<{ $percentage: number }>`
   text-align: right;
   color: #b2b2b2;
   font-weight: 700;
-`
+`;
 
 const Slider = () => {
-  const min = 1
-  const max = 5
-  const step = 1
-  const [value, setValue] = useState(1)
+  const min = 1;
+  const max = 5;
+  const step = 1;
+  const [value, setValue] = useState(1);
   const lables = Array(Math.ceil((max - min + 1) / step))
     .fill(0)
     .map((_, i) => {
       return {
         number: i * step + min,
-        divider: '|',
-      }
-    })
+        divider: '|'
+      };
+    });
   return (
     <>
       <SliderComponent
@@ -100,17 +99,14 @@ const Slider = () => {
       />
       <SliderRunnerTrack />
       <SliderRunnerProgress $percentage={((value - min) / (max - min)) * 100} />
-      <SliderLableDividerDiv
-        className='mx-auto'
-        style={{ height: '15px', maxHeight: '15px', overflow: 'hidden' }}
-      >
+      <SliderLableDividerDiv className='mx-auto' style={{ height: '15px', maxHeight: '15px', overflow: 'hidden' }}>
         {lables.map((label, index) => {
           return (
             <SliderLableDivider key={index} $percentage={(index / (lables.length - 1)) * 100}>
               {label.divider}
               {/* <VerticalLine /> */}
             </SliderLableDivider>
-          )
+          );
         })}
       </SliderLableDividerDiv>
       <SliderLableDividerDiv className='mx-auto pt-2'>
@@ -119,11 +115,11 @@ const Slider = () => {
             <SliderLableDivider key={index} $percentage={(index / (lables.length - 1)) * 100}>
               {label.number}
             </SliderLableDivider>
-          )
+          );
         })}
       </SliderLableDividerDiv>
     </>
-  )
-}
+  );
+};
 
-export default Slider
+export default Slider;

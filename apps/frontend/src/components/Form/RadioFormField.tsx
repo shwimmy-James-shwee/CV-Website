@@ -1,25 +1,25 @@
-import { Form } from 'react-bootstrap'
-import { BodyText } from '../text/BodyText'
+import { Form } from 'react-bootstrap';
+import { BodyText } from '../text/BodyText';
 
 interface RadioFormFieldProps {
-  fieldLabel?: string
-  label?: string
-  required?: boolean
-  disabled?: boolean
-  height?: string
-  width?: string
-  className?: string
-  'data-testid'?: string
-  defaultChecked?: boolean
-  checked?: boolean
-  onChange?: React.ChangeEventHandler<HTMLInputElement>
+  fieldLabel?: string;
+  label?: string;
+  required?: boolean;
+  disabled?: boolean;
+  height?: string;
+  width?: string;
+  className?: string;
+  'data-testid'?: string;
+  defaultChecked?: boolean;
+  checked?: boolean;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 
   // To group radio fields together
-  name?: string
+  name?: string;
 }
 
 const RadioFormField = ({ required, className, fieldLabel, ...props }: RadioFormFieldProps) => {
-  const id = props['data-testid'] || 'radio-form-field'
+  const id = props['data-testid'] || 'radio-form-field';
 
   return (
     <Form.Group className={className || 'py-3'}>
@@ -34,7 +34,7 @@ const RadioFormField = ({ required, className, fieldLabel, ...props }: RadioForm
 
       <Form.Check type='radio' id={id} {...props} />
     </Form.Group>
-  )
-}
+  );
+};
 
-export default RadioFormField
+export default RadioFormField;

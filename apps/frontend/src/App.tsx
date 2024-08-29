@@ -1,8 +1,8 @@
-import "./App.css";
-import AppRoutes from "./AppRoutes";
-import "./styles/global-imports.scss";
+import './App.css';
+import AppRoutes from './AppRoutes';
+import './styles/global-imports.scss';
 
-import { MsalProvider, useMsal } from "@azure/msal-react";
+import { MsalProvider, useMsal } from '@azure/msal-react';
 import {
   AccountInfo,
   AuthError,
@@ -10,14 +10,14 @@ import {
   EventMessage,
   EventType,
   IPublicClientApplication
-} from "@azure/msal-browser";
-import { b2cPolicies, protectedResources } from "./authConfig";
-import { useEffect, useRef } from "react";
-import { compareIssuingPolicy } from "./utils/MsalClaims";
-import UserProvider from "./context/UserContext";
-import GradienFullPage from "./components/layout/GradienFullPage";
-import NotValidPage from "./components/page/NotValidPage";
-import ButtonComponent from "./components/toolkit/Button";
+} from '@azure/msal-browser';
+import { b2cPolicies, protectedResources } from './authConfig';
+import { useEffect, useRef } from 'react';
+import { compareIssuingPolicy } from './utils/MsalClaims';
+import UserProvider from './context/UserContext';
+import GradienFullPage from './components/layout/GradienFullPage';
+import NotValidPage from './components/page/NotValidPage';
+import ButtonComponent from './components/toolkit/Button';
 
 const Pages = () => {
   /**
@@ -79,7 +79,7 @@ const Pages = () => {
         const eventerror = event.error as AuthError;
         // Check for forgot password error
         // Learn more about AAD error codes at https://docs.microsoft.com/en-us/azure/active-directory/develop/reference-aadsts-error-codes
-        if (eventerror && eventerror.errorMessage.includes("AADB2C90118")) {
+        if (eventerror && eventerror.errorMessage.includes('AADB2C90118')) {
           const resetPasswordRequest = {
             authority: b2cPolicies.authorities.forgotPassword.authority,
             scopes: []
@@ -88,7 +88,7 @@ const Pages = () => {
         }
 
         // if user click cancel on signup sent back to login page
-        if (eventerror && eventerror.errorMessage.includes("AADB2C90091")) {
+        if (eventerror && eventerror.errorMessage.includes('AADB2C90091')) {
           const loginRequest = {
             authority: b2cPolicies.authorities.signUpSignIn.authority,
             scopes: [...protectedResources.api.scopes.read, ...protectedResources.api.scopes.write]
@@ -121,9 +121,9 @@ const MainApplication = ({ instance }: AppProps) => (
 );
 
 const LoggedOutApp = ({ url }: { url: string }) => {
-  let title = "Logged Out";
-  if (url.includes("multiple-sessions")) {
-    title = "Multiple Sessions Detected";
+  let title = 'Logged Out';
+  if (url.includes('multiple-sessions')) {
+    title = 'Multiple Sessions Detected';
   }
   return (
     <GradienFullPage>

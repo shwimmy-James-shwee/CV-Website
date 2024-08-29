@@ -1,37 +1,37 @@
-import { Row, Col, ListGroup, Form } from 'react-bootstrap'
-import useFetchWithMsal from '../../hooks/useFetchWithMsal'
-import { API } from '../../shared/endpoints'
-import { Fragment, useEffect, useState } from 'react'
-import { BusinessUnit, BusinessUnitType, Feature } from '../../shared/schema'
-import TextFormField from '../../components/Form/TextFormField'
-import SelectFormField from '../../components/Form/SelectFormField'
-import RadioFormField from '../../components/Form/RadioFormField'
+import { Row, Col, ListGroup, Form } from 'react-bootstrap';
+import useFetchWithMsal from '../../hooks/useFetchWithMsal';
+import { API } from '../../shared/endpoints';
+import { Fragment, useEffect, useState } from 'react';
+import { BusinessUnit, BusinessUnitType, Feature } from '../../shared/schema';
+import TextFormField from '../../components/Form/TextFormField';
+import SelectFormField from '../../components/Form/SelectFormField';
+import RadioFormField from '../../components/Form/RadioFormField';
 
 function BusinessUnitManagement() {
-  const { execute, error } = useFetchWithMsal()
+  const { execute, error } = useFetchWithMsal();
 
-  const [businessUnitListData, setBusinessUnitListData] = useState<BusinessUnit[]>([])
-  const [businessUnitData, setBusinessUnitData] = useState<BusinessUnit | null>(null)
+  const [businessUnitListData, setBusinessUnitListData] = useState<BusinessUnit[]>([]);
+  const [businessUnitData, setBusinessUnitData] = useState<BusinessUnit | null>(null);
 
   useEffect(() => {
     if (!error) {
       execute('GET', API.admin.businessUnit.root).then((data: BusinessUnit[]) => {
         if (data) {
-          setBusinessUnitListData(data)
+          setBusinessUnitListData(data);
         }
-      })
+      });
     }
-  }, [error, execute])
+  }, [error, execute]);
 
-  useEffect(() => {}, [businessUnitData])
+  useEffect(() => {}, [businessUnitData]);
   function getBusinessUnitDetail(id: string) {
-    setBusinessUnitData(null)
+    setBusinessUnitData(null);
     execute('GET', `${API.admin.businessUnit.byId}${id}`).then((data: BusinessUnit) => {
       if (data) {
-        setBusinessUnitData(data)
+        setBusinessUnitData(data);
       }
-    })
-    return undefined
+    });
+    return undefined;
   }
 
   return (
@@ -53,7 +53,7 @@ function BusinessUnitManagement() {
                 >
                   {unit.name}
                 </ListGroup.Item>
-              )
+              );
             })}
           </ListGroup>
         </Col>
@@ -69,9 +69,7 @@ function BusinessUnitManagement() {
                     data-testid='name-field'
                     value={businessUnitData.name || ''}
                     required
-                    onChange={(e) =>
-                      setBusinessUnitData({ ...businessUnitData, name: e.target.value })
-                    }
+                    onChange={(e) => setBusinessUnitData({ ...businessUnitData, name: e.target.value })}
                   />
                   <TextFormField
                     type='textarea'
@@ -81,7 +79,7 @@ function BusinessUnitManagement() {
                     onChange={(e) =>
                       setBusinessUnitData({
                         ...businessUnitData,
-                        description: e.target.value,
+                        description: e.target.value
                       })
                     }
                   />
@@ -90,7 +88,7 @@ function BusinessUnitManagement() {
                     onChange={(e) =>
                       setBusinessUnitData({
                         ...businessUnitData,
-                        type: BusinessUnitType[e.target.value as keyof typeof BusinessUnitType],
+                        type: BusinessUnitType[e.target.value as keyof typeof BusinessUnitType]
                       })
                     }
                     data-testid='type-field'
@@ -100,7 +98,7 @@ function BusinessUnitManagement() {
                         <option key={item[1]} value={item[1]}>
                           {item[1]}
                         </option>
-                      )
+                      );
                     })}
                   </SelectFormField>
 
@@ -116,12 +114,12 @@ function BusinessUnitManagement() {
                                 ...businessUnitData,
                                 features: e.target.checked
                                   ? [...(businessUnitData.features || []), item[1]]
-                                  : businessUnitData.features?.filter((f) => f !== item[1]),
-                              })
+                                  : businessUnitData.features?.filter((f) => f !== item[1])
+                              });
                             }}
                           />
                         </Col>
-                      )
+                      );
                     })}
                   </Row>
                 </Form>
@@ -132,7 +130,7 @@ function BusinessUnitManagement() {
         </Col>
       </Row>
     </>
-  )
+  );
 }
 
-export default BusinessUnitManagement
+export default BusinessUnitManagement;

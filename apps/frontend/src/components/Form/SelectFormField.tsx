@@ -1,23 +1,23 @@
-import { ReactNode } from 'react'
-import { Form } from 'react-bootstrap'
+import { ReactNode } from 'react';
+import { Form } from 'react-bootstrap';
 // import styled from 'styled-components'
-import { BodyText } from '../text/BodyText'
+import { BodyText } from '../text/BodyText';
 
 interface SelectFormFieldProps {
-  label?: string
-  multiple?: boolean
-  required?: boolean
-  disabled?: boolean
-  className?: string
-  'data-testid'?: string
-  children?: ReactNode
-  isInvalid?: boolean
-  invalidText?: string
-  value?: string | number | readonly string[] | undefined
-  defaultValue?: string | number | readonly string[] | undefined
-  onChange?: React.ChangeEventHandler<HTMLSelectElement> | undefined
-  fontWeight?: number
-  color?: string
+  label?: string;
+  multiple?: boolean;
+  required?: boolean;
+  disabled?: boolean;
+  className?: string;
+  'data-testid'?: string;
+  children?: ReactNode;
+  isInvalid?: boolean;
+  invalidText?: string;
+  value?: string | number | readonly string[] | undefined;
+  defaultValue?: string | number | readonly string[] | undefined;
+  onChange?: React.ChangeEventHandler<HTMLSelectElement> | undefined;
+  fontWeight?: number;
+  color?: string;
 }
 
 // const StyledFormSelect = styled(Form.Select)`
@@ -26,15 +26,8 @@ interface SelectFormFieldProps {
 //   background-color: var(--secondary-form-field-bg);
 // `
 
-const SelectFormField = ({
-  label,
-  required,
-  children,
-  invalidText,
-  className,
-  ...props
-}: SelectFormFieldProps) => {
-  const id = props['data-testid'] || 'select-form-field'
+const SelectFormField = ({ label, required, children, invalidText, className, ...props }: SelectFormFieldProps) => {
+  const id = props['data-testid'] || 'select-form-field';
 
   return (
     <Form.Group className={className || 'py-3'}>
@@ -59,7 +52,7 @@ const SelectFormField = ({
         {invalidText || 'Please select a value'}
       </Form.Control.Feedback>
     </Form.Group>
-  )
-}
+  );
+};
 
-export default SelectFormField
+export default SelectFormField;

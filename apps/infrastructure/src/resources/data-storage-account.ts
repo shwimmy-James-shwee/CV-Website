@@ -29,7 +29,7 @@ const storageKey = new keyvault.Key(dataStorageAccountName, {
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
   vaultName: envBase.KEYVAULT_NAME,
   properties: {
-    kty: `RSA`
+    kty: 'RSA'
   }
 });
 
@@ -78,18 +78,18 @@ export const dataStorage = new storage.StorageAccount(dataStorageAccountName, {
 });
 
 const storageIgnoreList = [
-  `tags`,
-  `defaultEncryptionScope`,
-  `denyEncryptionScopeOverride`,
-  `publicAccess`,
-  `etag`,
-  `hasImmutabilityPolicy`,
-  `hasLegalHold`,
-  `lastModifiedTime`,
-  `leaseState`,
-  `leaseStatus`,
-  `legalHold`,
-  `remainingRetentionDays`
+  'tags',
+  'defaultEncryptionScope',
+  'denyEncryptionScopeOverride',
+  'publicAccess',
+  'etag',
+  'hasImmutabilityPolicy',
+  'hasLegalHold',
+  'lastModifiedTime',
+  'leaseState',
+  'leaseStatus',
+  'legalHold',
+  'remainingRetentionDays'
 ];
 // create storage blob
 export const dataBlobContainer = new storage.BlobContainer(
@@ -112,7 +112,7 @@ export const dataBlobContainer = new storage.BlobContainer(
 new storage.BlobServiceProperties(`${dataStorageAccountName}-service`, {
   accountName: dataStorage.name.apply((v) => v),
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-  blobServicesName: `default`,
+  blobServicesName: 'default',
   deleteRetentionPolicy: {
     allowPermanentDelete: false,
     days: 30,
@@ -153,12 +153,12 @@ const dataStoragePept = new network.PrivateEndpoint(
       {
         name: `${dataStorageAccountName}-plink`,
         privateLinkServiceId: dataStorage.id,
-        groupIds: [`web`]
+        groupIds: ['web']
       }
     ]
   },
   {
-    ignoreChanges: [`tags`, `privateLinkServiceConnections`]
+    ignoreChanges: ['tags', 'privateLinkServiceConnections']
   }
 );
 
@@ -177,12 +177,12 @@ const dataBlobPept = new network.PrivateEndpoint(
       {
         name: `${dataStorageAccountName}-blob-plink`,
         privateLinkServiceId: dataStorage.id,
-        groupIds: [`blob`]
+        groupIds: ['blob']
       }
     ]
   },
   {
-    ignoreChanges: [`tags`, `privateLinkServiceConnections`]
+    ignoreChanges: ['tags', 'privateLinkServiceConnections']
   }
 );
 
@@ -201,12 +201,12 @@ const dataQueuePept = new network.PrivateEndpoint(
       {
         name: `${dataStorageAccountName}-queue-plink`,
         privateLinkServiceId: dataStorage.id,
-        groupIds: [`queue`]
+        groupIds: ['queue']
       }
     ]
   },
   {
-    ignoreChanges: [`tags`, `privateLinkServiceConnections`]
+    ignoreChanges: ['tags', 'privateLinkServiceConnections']
   }
 );
 
@@ -223,7 +223,7 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem
@@ -247,7 +247,7 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem
@@ -271,7 +271,7 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem
@@ -372,7 +372,7 @@ export const dataStorageKey = dataStorage.name
         }
       }
     }
-    return ``;
+    return '';
   });
 
 export const dataStorageConnectionString = dataStorageKey.apply((key) => {

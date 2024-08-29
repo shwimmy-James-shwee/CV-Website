@@ -19,7 +19,7 @@ const webappInsight = new insights.Component(
     location: envBase.AZURE_RESOURCE_LOCATION,
     resourceName: `${webAppServiceName}-insight`,
     applicationType: insights.ApplicationType.Web,
-    kind: `web`,
+    kind: 'web',
     retentionInDays: 90,
     ingestionMode: insights.IngestionMode.LogAnalytics,
     workspaceResourceId: logAnalyticsWorkspace.id.apply((id) => id),
@@ -27,65 +27,65 @@ const webappInsight = new insights.Component(
   },
   {
     dependsOn: [logAnalyticsWorkspace],
-    ignoreChanges: [`tags`]
+    ignoreChanges: ['tags']
   }
 );
 
 const cors = [frontendUrl];
-if (envBase.ENV == `dev`) {
-  cors.push(`http://localhost:3000`);
+if (envBase.ENV == 'dev') {
+  cors.push('http://localhost:3000');
 }
 
 const appSettings: input.web.NameValuePairArgs[] = [
   // unless needed, try use keyvault to store other secrets and configs, changing these will cause the app to restart
   // app service settings
   {
-    name: `APPINSIGHTS_INSTRUMENTATIONKEY`,
+    name: 'APPINSIGHTS_INSTRUMENTATIONKEY',
     value: webappInsight.instrumentationKey.apply((key) => key)
   },
   {
-    name: `APPLICATIONINSIGHTS_CONNECTION_STRING`,
+    name: 'APPLICATIONINSIGHTS_CONNECTION_STRING',
     value: webappInsight.connectionString.apply((conn) => conn)
   },
   {
-    name: `ApplicationInsightsAgent_EXTENSION_VERSION`,
-    value: `~3`
+    name: 'ApplicationInsightsAgent_EXTENSION_VERSION',
+    value: '~3'
   },
   {
-    name: `DiagnosticServices_EXTENSION_VERSION`,
-    value: `~3`
+    name: 'DiagnosticServices_EXTENSION_VERSION',
+    value: '~3'
   },
   {
-    name: `InstrumentationEngine_EXTENSION_VERSION`,
-    value: `disabled`
+    name: 'InstrumentationEngine_EXTENSION_VERSION',
+    value: 'disabled'
   },
   {
-    name: `XDT_MicrosoftApplicationInsights_BaseExtensions`,
-    value: `disabled`
+    name: 'XDT_MicrosoftApplicationInsights_BaseExtensions',
+    value: 'disabled'
   },
   {
-    name: `XDT_MicrosoftApplicationInsights_Mode`,
-    value: `recommended`
+    name: 'XDT_MicrosoftApplicationInsights_Mode',
+    value: 'recommended'
   },
   {
-    name: `XDT_MicrosoftApplicationInsights_PreemptSdk`,
-    value: `disabled`
+    name: 'XDT_MicrosoftApplicationInsights_PreemptSdk',
+    value: 'disabled'
   },
   {
-    name: `WEBSITE_PULL_IMAGE_OVER_VNET`,
-    value: `true`
+    name: 'WEBSITE_PULL_IMAGE_OVER_VNET',
+    value: 'true'
   },
   // docker registry settings
   {
-    name: `DOCKER_REGISTRY_SERVER_URL`,
+    name: 'DOCKER_REGISTRY_SERVER_URL',
     value: containerRegistry.loginServer.apply((server) => `https://${server}`)
   },
   {
-    name: `DOCKER_REGISTRY_SERVER_USERNAME`,
-    value: acrCredentials.apply((creds) => creds.username || ``)
+    name: 'DOCKER_REGISTRY_SERVER_USERNAME',
+    value: acrCredentials.apply((creds) => creds.username || '')
   },
   {
-    name: `DOCKER_REGISTRY_SERVER_PASSWORD`,
+    name: 'DOCKER_REGISTRY_SERVER_PASSWORD',
     value: acrCredentials.apply((creds) => {
       if (creds) {
         if (creds?.passwords) {
@@ -96,25 +96,25 @@ const appSettings: input.web.NameValuePairArgs[] = [
           }
         }
       }
-      return ``;
+      return '';
     })
   },
   // application settings
   {
-    name: `AZURE_KEY_VAULT_NAME`,
+    name: 'AZURE_KEY_VAULT_NAME',
     value: vault.then((resVault) => resVault.name)
   },
   {
-    name: `PORT`,
-    value: `80`
+    name: 'PORT',
+    value: '80'
   },
   {
-    name: `APP_PORT`,
-    value: `80`
+    name: 'APP_PORT',
+    value: '80'
   },
   {
-    name: `WEBSITES_PORT`,
-    value: `80`
+    name: 'WEBSITES_PORT',
+    value: '80'
   }
   // unless needed, try use keyvault to store other secrets and configs, changing these will cause the app to restart
 ];
@@ -132,12 +132,12 @@ const restAPI = new web.WebApp(
       type: web.ManagedServiceIdentityType.SystemAssigned
     },
     siteConfig: {
-      publicNetworkAccess: `Disabled`,
+      publicNetworkAccess: 'Disabled',
       ftpsState: web.FtpsState.FtpsOnly,
       alwaysOn: true,
       numberOfWorkers: 2,
-      linuxFxVersion: `DOCKER|nginx:latest`,
-      healthCheckPath: `/`,
+      linuxFxVersion: 'DOCKER|nginx:latest',
+      healthCheckPath: '/',
       cors: {
         allowedOrigins: cors,
         supportCredentials: true
@@ -149,11 +149,11 @@ const restAPI = new web.WebApp(
   },
   {
     dependsOn: [webappInsight, containerRegistry, appServicePlan, frontendUIStorage, postgresqlCluster],
-    ignoreChanges: [`tags`, 'siteConfig.linuxFxVersion', `siteConfig.healthCheckPath`],
+    ignoreChanges: ['tags', 'siteConfig.linuxFxVersion', 'siteConfig.healthCheckPath'],
     customTimeouts: {
-      create: `30m`,
-      update: `30m`,
-      delete: `30m`
+      create: '30m',
+      update: '30m',
+      delete: '30m'
     }
   }
 );
@@ -166,17 +166,17 @@ new keyvault.AccessPolicy(
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     vaultName: envBase.KEYVAULT_NAME,
     policy: {
-      objectId: restAPI.identity.apply((identity) => identity?.principalId || ``),
+      objectId: restAPI.identity.apply((identity) => identity?.principalId || ''),
       tenantId: envBase.ARM_TENANT_ID,
       permissions: {
-        keys: [`Decrypt`, `Get`, `List`],
-        secrets: [`Get`, `List`]
+        keys: ['Decrypt', 'Get', 'List'],
+        secrets: ['Get', 'List']
       }
     }
   },
   {
     dependsOn: [restAPI],
-    ignoreChanges: [`tags`]
+    ignoreChanges: ['tags']
   }
 );
 
@@ -194,13 +194,13 @@ const restAPIPept = new network.PrivateEndpoint(
       {
         name: `${webAppServiceName}-plink`,
         privateLinkServiceId: restAPI.id.apply((id) => id),
-        groupIds: [`sites`]
+        groupIds: ['sites']
       }
     ]
   },
   {
     dependsOn: [restAPI],
-    ignoreChanges: [`tags`, `privateLinkServiceConnections`]
+    ignoreChanges: ['tags', 'privateLinkServiceConnections']
   }
 );
 
@@ -234,7 +234,7 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id)
   },
@@ -244,13 +244,13 @@ new insights.DiagnosticSetting(
 );
 
 // webapp clone for staging
-if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase()) && envExtend.addSlot) {
+if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase()) && envExtend.addSlot) {
   const restAPIStaging = new web.WebAppSlot(
     `${webAppServiceName}-staging`,
     {
       resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
       name: restAPI.name.apply((name) => name),
-      slot: `staging`,
+      slot: 'staging',
       serverFarmId: appServicePlan.id.apply((id) => id),
       virtualNetworkSubnetId: envExtend.SERVICE_ENDPOINT_SUBNET,
       vnetRouteAllEnabled: true,
@@ -260,12 +260,12 @@ if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase()) && e
         type: web.ManagedServiceIdentityType.SystemAssigned
       },
       siteConfig: {
-        publicNetworkAccess: `Disabled`,
+        publicNetworkAccess: 'Disabled',
         ftpsState: web.FtpsState.FtpsOnly,
         alwaysOn: true,
         numberOfWorkers: 2,
-        linuxFxVersion: `DOCKER|nginx:latest`,
-        healthCheckPath: `/`,
+        linuxFxVersion: 'DOCKER|nginx:latest',
+        healthCheckPath: '/',
         cors: {
           allowedOrigins: cors,
           supportCredentials: true
@@ -277,11 +277,11 @@ if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase()) && e
     },
     {
       dependsOn: [webappInsight, containerRegistry, appServicePlan, frontendUIStorage, postgresqlCluster, restAPI],
-      ignoreChanges: [`tags`, `siteConfig.linuxFxVersion`, `siteConfig.healthCheckPath`],
+      ignoreChanges: ['tags', 'siteConfig.linuxFxVersion', 'siteConfig.healthCheckPath'],
       customTimeouts: {
-        create: `30m`,
-        update: `30m`,
-        delete: `30m`
+        create: '30m',
+        update: '30m',
+        delete: '30m'
       }
     }
   );
@@ -292,17 +292,17 @@ if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase()) && e
       resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
       vaultName: envBase.KEYVAULT_NAME,
       policy: {
-        objectId: restAPIStaging.identity.apply((identity) => identity?.principalId || ``),
+        objectId: restAPIStaging.identity.apply((identity) => identity?.principalId || ''),
         tenantId: envBase.ARM_TENANT_ID,
         permissions: {
-          keys: [`Decrypt`, `Get`, `List`],
-          secrets: [`Get`, `List`]
+          keys: ['Decrypt', 'Get', 'List'],
+          secrets: ['Get', 'List']
         }
       }
     },
     {
       dependsOn: [restAPIStaging],
-      ignoreChanges: [`tags`]
+      ignoreChanges: ['tags']
     }
   );
 
@@ -320,13 +320,13 @@ if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase()) && e
         {
           name: `${webAppServiceName}-staging-plink`,
           privateLinkServiceId: restAPI.id.apply((id) => id),
-          groupIds: [`sites-staging`]
+          groupIds: ['sites-staging']
         }
       ]
     },
     {
       dependsOn: [restAPIStaging],
-      ignoreChanges: [`tags`, `privateLinkServiceConnections`]
+      ignoreChanges: ['tags', 'privateLinkServiceConnections']
     }
   );
   // diagnostic setting for the web app
@@ -335,7 +335,7 @@ if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase()) && e
     {
       name: `${webAppServiceName}-staging-diagnostic-setting`,
       // staging doesnt like app service authentication logs
-      logs: dsSettings.webAppDSLogItem.filter((item) => item.category !== `AppServiceAuthenticationLogs`),
+      logs: dsSettings.webAppDSLogItem.filter((item) => item.category !== 'AppServiceAuthenticationLogs'),
       metrics: dsSettings.webAppDSMetricsItem,
       resourceUri: restAPIStaging.id.apply((id) => id),
       workspaceId: logAnalyticsWorkspace.id.apply((id) => id)
@@ -360,7 +360,7 @@ if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase()) && e
             }
           }
         }
-        return ``;
+        return '';
       }),
       workspaceId: logAnalyticsWorkspace.id.apply((id) => id)
     },

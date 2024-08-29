@@ -1,29 +1,29 @@
-import { Col, Row } from 'react-bootstrap'
-import { TitleText } from '../text/TitleText'
-import { BodyText } from '../text/BodyText'
-import styled from 'styled-components'
+import { Col, Row } from 'react-bootstrap';
+import { TitleText } from '../text/TitleText';
+import { BodyText } from '../text/BodyText';
+import styled from 'styled-components';
 
 interface TipProps {
-  show: boolean
-  title?: string
-  text?: string
-  icon?: string
-  color?: string
-  backgroundColor?: string
-  closeButton?: boolean
-  onHide?: () => void
-  className?: string
-  'data-testid'?: string
+  show: boolean;
+  title?: string;
+  text?: string;
+  icon?: string;
+  color?: string;
+  backgroundColor?: string;
+  closeButton?: boolean;
+  onHide?: () => void;
+  className?: string;
+  'data-testid'?: string;
 }
 
 const TipIcon = styled.span<{ $color?: string }>`
   color: ${(props) => props.$color};
-`
+`;
 
 const TipRow = styled(Row)<{ $backgroundColor?: string }>`
   background-color: ${(props) => props.$backgroundColor};
   padding: 0.75rem;
-`
+`;
 
 export const Tip = ({
   color = 'var(--tip-primary-color)',
@@ -65,5 +65,5 @@ export const Tip = ({
         </TipRow>
       )}
     </>
-  )
-}
+  );
+};

@@ -1,55 +1,55 @@
-import { expect, test, describe, vi, afterEach } from 'vitest'
-import { screen, waitFor } from '@testing-library/react'
-import UserActivityPage from '../UserActivityPage'
-import { FakeResponsiveContainer, mockUseFetchWithMsal } from '../../tests/utils'
-import { contextedRender } from '../../tests/contextRender'
-import userEvent from '@testing-library/user-event'
+import { expect, test, describe, vi, afterEach } from 'vitest';
+import { screen, waitFor } from '@testing-library/react';
+import UserActivityPage from '../UserActivityPage';
+import { FakeResponsiveContainer, mockUseFetchWithMsal } from '../../tests/utils';
+import { contextedRender } from '../../tests/contextRender';
+import userEvent from '@testing-library/user-event';
 
-FakeResponsiveContainer()
+FakeResponsiveContainer();
 
 const ToRender = () => {
-  return <UserActivityPage />
-}
+  return <UserActivityPage />;
+};
 describe('Test UserActivity', () => {
   afterEach(() => {
-    vi.clearAllMocks()
-  })
+    vi.clearAllMocks();
+  });
   test('UserActivity should have all elements', async () => {
     await waitFor(async () => {
-      contextedRender(ToRender())
-    })
-    expect(screen.getByTestId('useractivity-refresh')).toBeDefined()
-    expect(screen.getByTestId('useractivity-options')).toBeDefined()
-    expect(screen.getByTestId('useractivity-chart')).toBeDefined()
-    expect(screen.getByTestId('useractivity-table')).toBeDefined()
-    expect(screen.getByTestId('useractivity-chart').firstChild?.firstChild?.nodeName).toBe('DIV')
-  })
+      contextedRender(ToRender());
+    });
+    expect(screen.getByTestId('useractivity-refresh')).toBeDefined();
+    expect(screen.getByTestId('useractivity-options')).toBeDefined();
+    expect(screen.getByTestId('useractivity-chart')).toBeDefined();
+    expect(screen.getByTestId('useractivity-table')).toBeDefined();
+    expect(screen.getByTestId('useractivity-chart').firstChild?.firstChild?.nodeName).toBe('DIV');
+  });
 
   test('UserActivity should update data', async () => {
     const executeMock = vi.fn(() => {
-      return Promise.resolve(dummyActivityData)
-    })
-    mockUseFetchWithMsal({ execute: executeMock })
+      return Promise.resolve(dummyActivityData);
+    });
+    mockUseFetchWithMsal({ execute: executeMock });
 
-    contextedRender(ToRender())
-    expect(executeMock).toHaveBeenCalledTimes(2)
+    contextedRender(ToRender());
+    expect(executeMock).toHaveBeenCalledTimes(2);
 
-    await userEvent.click(screen.getByTestId('useractivity-refresh'))
-    expect(executeMock).toHaveBeenCalledTimes(4)
+    await userEvent.click(screen.getByTestId('useractivity-refresh'));
+    expect(executeMock).toHaveBeenCalledTimes(4);
 
-    await userEvent.selectOptions(screen.getByTestId('useractivity-options'), 'userId')
-    expect(executeMock).toHaveBeenCalledTimes(6)
-  })
+    await userEvent.selectOptions(screen.getByTestId('useractivity-options'), 'userId');
+    expect(executeMock).toHaveBeenCalledTimes(6);
+  });
 
   test('UserActivity should update data', async () => {
     const executeMock = vi.fn(() => {
-      return Promise.resolve(dummyActivityData)
-    })
-    mockUseFetchWithMsal({ error: new Error(), execute: executeMock })
+      return Promise.resolve(dummyActivityData);
+    });
+    mockUseFetchWithMsal({ error: new Error(), execute: executeMock });
 
-    contextedRender(ToRender())
-  })
-})
+    contextedRender(ToRender());
+  });
+});
 
 const dummyActivityData = {
   data: [
@@ -63,7 +63,7 @@ const dummyActivityData = {
       eventParams: null,
       eventUrl: '/',
       createdAt: '2024-04-11T00:36:09.933Z',
-      updatedAt: '2024-04-11T00:36:40.724Z',
+      updatedAt: '2024-04-11T00:36:40.724Z'
     },
     {
       id: 59,
@@ -75,15 +75,15 @@ const dummyActivityData = {
       eventParams: null,
       eventUrl: '/',
       createdAt: '2024-04-10T04:30:27.838Z',
-      updatedAt: '2024-04-10T04:36:27.581Z',
-    },
+      updatedAt: '2024-04-10T04:36:27.581Z'
+    }
   ],
   attributes: {
     users: [
       {
         id: '6685c6c8-23d3-4e6b-a36e-c234065b411b',
-        loginEmail: 'hanli@kpmg.co.nz',
-      },
-    ],
-  },
-}
+        loginEmail: 'hanli@kpmg.co.nz'
+      }
+    ]
+  }
+};

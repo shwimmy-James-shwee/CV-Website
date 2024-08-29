@@ -1,30 +1,30 @@
-import { Form } from 'react-bootstrap'
-import { BodyText } from '../text/BodyText'
-import styled from 'styled-components'
+import { Form } from 'react-bootstrap';
+import { BodyText } from '../text/BodyText';
+import styled from 'styled-components';
 // import styled from 'styled-components'
 
 interface TextFormFieldProps {
-  label?: string
-  placeholder?: string
-  required?: boolean
-  disabled?: boolean
-  readOnly?: boolean
-  className?: string
-  'data-testid'?: string
-  isInvalid?: boolean
-  invalidText?: string
-  value?: string
+  label?: string;
+  placeholder?: string;
+  required?: boolean;
+  disabled?: boolean;
+  readOnly?: boolean;
+  className?: string;
+  'data-testid'?: string;
+  isInvalid?: boolean;
+  invalidText?: string;
+  value?: string;
   // height?: string
   // width?: string
-  defaultValue?: string | number | readonly string[] | undefined
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
-  fontWeight?: number
-  color?: string
-  type?: string
+  defaultValue?: string | number | readonly string[] | undefined;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  fontWeight?: number;
+  color?: string;
+  type?: string;
 
   // For textarea type
-  rows?: number
-  textarea?: boolean
+  rows?: number;
+  textarea?: boolean;
 }
 
 // const StyledFormControl = styled(Form.Control)`
@@ -44,7 +44,7 @@ interface TextFormFieldProps {
 //   }
 // `
 
-const FormGroup = styled(Form.Group)``
+const FormGroup = styled(Form.Group)``;
 const TextFormField = ({
   label,
   textarea,
@@ -55,7 +55,7 @@ const TextFormField = ({
   color,
   ...props
 }: TextFormFieldProps) => {
-  const id = props['data-testid'] || 'text-form-field'
+  const id = props['data-testid'] || 'text-form-field';
 
   return (
     <FormGroup className={className}>
@@ -80,7 +80,7 @@ const TextFormField = ({
         {invalidText || 'Please enter a value'}
       </Form.Control.Feedback>
     </FormGroup>
-  )
-}
+  );
+};
 
-export default TextFormField
+export default TextFormField;

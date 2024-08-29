@@ -1,53 +1,53 @@
-import { Form, Button } from 'react-bootstrap'
-import { Header } from '../components/banners/Header'
+import { Form, Button } from 'react-bootstrap';
+import { Header } from '../components/banners/Header';
 
-import styled from 'styled-components'
-import { useState } from 'react'
-import TextFormField from '../components/Form/TextFormField'
+import styled from 'styled-components';
+import { useState } from 'react';
+import TextFormField from '../components/Form/TextFormField';
 
 const StyledContainer = styled.div`
   display: flex;
   justify-content: center;
-`
+`;
 
 const StyledForm = styled(Form)`
   width: 50%;
   margin-top: 20px;
-`
+`;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
   margin-bottom: 20px;
-`
+`;
 
 function ContactPage() {
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [emailAddress, setEmailAddress] = useState('')
-  const [inquiry, setInquiry] = useState('')
-  const [validated, setValidated] = useState(false)
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [emailAddress, setEmailAddress] = useState('');
+  const [inquiry, setInquiry] = useState('');
+  const [validated, setValidated] = useState(false);
   const handleSubmit = (event: {
-    currentTarget: HTMLFormElement
-    preventDefault: () => void
-    stopPropagation: () => void
+    currentTarget: HTMLFormElement;
+    preventDefault: () => void;
+    stopPropagation: () => void;
   }) => {
-    const form = event.currentTarget
+    const form = event.currentTarget;
     // invalidation check
     if (form.checkValidity() === false) {
-      event.preventDefault()
-      event.stopPropagation()
+      event.preventDefault();
+      event.stopPropagation();
     } else {
-      event.preventDefault()
-      setFirstName('')
-      setLastName('')
-      setEmailAddress('')
-      setInquiry('')
+      event.preventDefault();
+      setFirstName('');
+      setLastName('');
+      setEmailAddress('');
+      setInquiry('');
     }
 
-    setValidated(true)
-  }
+    setValidated(true);
+  };
 
   return (
     <>
@@ -58,7 +58,7 @@ function ContactPage() {
           noValidate
           validated={validated}
           onChange={() => {
-            setValidated(false)
+            setValidated(false);
           }}
           data-testid='contact-form'
         >
@@ -103,6 +103,6 @@ function ContactPage() {
         </StyledForm>
       </StyledContainer>
     </>
-  )
+  );
 }
-export default ContactPage
+export default ContactPage;

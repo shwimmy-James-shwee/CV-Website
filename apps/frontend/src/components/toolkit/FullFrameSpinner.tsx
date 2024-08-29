@@ -1,13 +1,13 @@
-import { Spinner } from 'react-bootstrap'
-import styled from 'styled-components'
+import { Spinner } from 'react-bootstrap';
+import styled from 'styled-components';
 
 interface AccordionProps {
-  animation?: 'grow' | 'border'
-  variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light'
-  height?: string
-  scale?: number
-  blur?: boolean
-  blurRate?: number
+  animation?: 'grow' | 'border';
+  variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light';
+  height?: string;
+  scale?: number;
+  blur?: boolean;
+  blurRate?: number;
 }
 
 const FullFrameDiv = styled.div<{ $blur?: boolean; $blurRate?: number; $height?: string }>`
@@ -15,15 +15,14 @@ const FullFrameDiv = styled.div<{ $blur?: boolean; $blurRate?: number; $height?:
   ${(props) => (props.$height ? `height: ${props.$height};` : 'height: 100%;')}
 
   text-align: center;
-  ${(props) =>
-    props.$blur ? `background-color: rgba(79, 78, 78, ${props.$blurRate || '0.3'});` : ''}
-`
+  ${(props) => (props.$blur ? `background-color: rgba(79, 78, 78, ${props.$blurRate || '0.3'});` : '')}
+`;
 
 const StyledSpinner = styled(Spinner)<{ scale?: number }>`
   position: relative;
   top: 45%;
   ${(props) => (props.scale ? `scale: ${props.scale};` : '')}
-`
+`;
 
 const FullFrameSpinner = ({ animation = 'border', variant = 'light', ...args }: AccordionProps) => {
   return (
@@ -42,7 +41,7 @@ const FullFrameSpinner = ({ animation = 'border', variant = 'light', ...args }: 
         className='my-auto'
       />
     </FullFrameDiv>
-  )
-}
+  );
+};
 
-export default FullFrameSpinner
+export default FullFrameSpinner;

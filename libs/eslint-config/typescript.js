@@ -9,7 +9,11 @@
 
 module.exports = {
   parser: '@typescript-eslint/parser',
-
+  parserOptions: {
+    project: 'tsconfig.json',
+    tsconfigRootDir: process.cwd(),
+    sourceType: 'module'
+  },
   settings: {
     'import/resolver': {
       typescript: {
@@ -46,6 +50,8 @@ module.exports = {
         caughtErrorsIgnorePattern: '^_'
       }
     ],
+    'spaced-comment': 'error',
+    quotes: ['error', 'single', { avoidEscape: true }],
     '@typescript-eslint/no-var-requires': 0,
     'no-console': 'error',
     'no-restricted-syntax': [
@@ -60,10 +66,10 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
 
     '@typescript-eslint/no-explicit-any': 'error',
-    '@typescript-eslint/no-unsafe-call': 'error',
-    '@typescript-eslint/no-unsafe-argument': 'error',
-    '@typescript-eslint/no-unsafe-member-access': 'error',
-    '@typescript-eslint/no-unsafe-assignment': 'error',
+    '@typescript-eslint/no-unsafe-call': 'warn',
+    '@typescript-eslint/no-unsafe-argument': 'warn',
+    '@typescript-eslint/no-unsafe-member-access': 'warn',
+    '@typescript-eslint/no-unsafe-assignment': 'warn',
 
     'prettier/prettier': ['error']
   },

@@ -17,7 +17,7 @@ const frontendKey = new keyvault.Key(frontendUIStorageName, {
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
   vaultName: envBase.KEYVAULT_NAME,
   properties: {
-    kty: `RSA`
+    kty: 'RSA'
   }
 });
 
@@ -67,7 +67,7 @@ export const frontendUIStorage = new storage.StorageAccount(
     }
   },
   {
-    ignoreChanges: [`tags`]
+    ignoreChanges: ['tags']
   }
 );
 
@@ -78,11 +78,11 @@ new storage.StorageAccountStaticWebsite(
   {
     accountName: frontendUIStorage.name,
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    indexDocument: `index.html`,
-    error404Document: `index.html`
+    indexDocument: 'index.html',
+    error404Document: 'index.html'
   },
   {
-    ignoreChanges: [`tags`]
+    ignoreChanges: ['tags']
   }
 );
 
@@ -102,12 +102,12 @@ const frontendUIPept = new network.PrivateEndpoint(
       {
         name: `${frontendUIStorageName}-plink`,
         privateLinkServiceId: frontendUIStorage.id,
-        groupIds: [`web`]
+        groupIds: ['web']
       }
     ]
   },
   {
-    ignoreChanges: [`tags`, `privateLinkServiceConnections`]
+    ignoreChanges: ['tags', 'privateLinkServiceConnections']
   }
 );
 
@@ -126,12 +126,12 @@ const frontendUIBlobPept = new network.PrivateEndpoint(
       {
         name: `${frontendUIStorageName}-blob-plink`,
         privateLinkServiceId: frontendUIStorage.id,
-        groupIds: [`blob`]
+        groupIds: ['blob']
       }
     ]
   },
   {
-    ignoreChanges: [`tags`, `privateLinkServiceConnections`]
+    ignoreChanges: ['tags', 'privateLinkServiceConnections']
   }
 );
 
@@ -148,7 +148,7 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem
@@ -172,7 +172,7 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem

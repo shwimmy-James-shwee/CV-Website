@@ -17,14 +17,14 @@ export const vault = new KeyVault(
     enabledForTemplateDeployment: true,
     softDeleteRetentionDays: 90,
     purgeProtectionEnabled: true,
-    skuName: `standard`,
+    skuName: 'standard',
     networkAcls: {
-      bypass: `AzureServices`,
-      defaultAction: `Deny`
+      bypass: 'AzureServices',
+      defaultAction: 'Deny'
     }
   },
   {
-    ignoreChanges: [`tags`],
+    ignoreChanges: ['tags'],
     protect: true
   }
 );
@@ -42,12 +42,12 @@ export const vaultPept = new PrivateEndpoint(
       {
         name: `${envBase.KEYVAULT_NAME}-pept-connection`,
         privateLinkServiceId: vault.id,
-        groupIds: [`vault`]
+        groupIds: ['vault']
       }
     ]
   },
   {
     dependsOn: [vault],
-    ignoreChanges: [`tags`]
+    ignoreChanges: ['tags']
   }
 );

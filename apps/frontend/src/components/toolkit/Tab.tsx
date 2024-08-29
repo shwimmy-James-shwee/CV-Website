@@ -1,16 +1,16 @@
-import { Tab, Tabs } from 'react-bootstrap'
-import styled from 'styled-components'
-import { InfoText } from '../text/InfoText'
+import { Tab, Tabs } from 'react-bootstrap';
+import styled from 'styled-components';
+import { InfoText } from '../text/InfoText';
 
 interface TabProps {
-  selectedKey?: string
-  setKey: React.Dispatch<React.SetStateAction<string | undefined>>
+  selectedKey?: string;
+  setKey: React.Dispatch<React.SetStateAction<string | undefined>>;
   data: {
-    eventKey: string
-    title: string
-  }[]
-  className?: string
-  'data-testid'?: string
+    eventKey: string;
+    title: string;
+  }[];
+  className?: string;
+  'data-testid'?: string;
 }
 
 const StyledTabs = styled(Tabs)`
@@ -26,16 +26,11 @@ const StyledTabs = styled(Tabs)`
       }
     }
   }
-`
+`;
 
 export const TabComponent = ({ selectedKey, setKey, ...props }: TabProps) => {
   return (
-    <StyledTabs
-      id='tab'
-      activeKey={selectedKey}
-      onSelect={(k) => k !== null && setKey && setKey(k)}
-      {...props}
-    >
+    <StyledTabs id='tab' activeKey={selectedKey} onSelect={(k) => k !== null && setKey && setKey(k)} {...props}>
       {props.data.map((item, index) => {
         return (
           <Tab
@@ -53,8 +48,8 @@ export const TabComponent = ({ selectedKey, setKey, ...props }: TabProps) => {
               </InfoText>
             }
           />
-        )
+        );
       })}
     </StyledTabs>
-  )
-}
+  );
+};

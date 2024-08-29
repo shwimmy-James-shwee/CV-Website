@@ -1,15 +1,15 @@
-import { ReactNode } from 'react'
-import styled, { CSSProperties } from 'styled-components'
+import { ReactNode } from 'react';
+import styled, { CSSProperties } from 'styled-components';
 
 interface BodyTextProps {
-  size?: number // rem
-  fontWeight?: number
-  color?: string
-  style?: CSSProperties
-  'data-testid'?: string
-  className?: string
-  onClick?: () => void
-  children: ReactNode
+  size?: number; // rem
+  fontWeight?: number;
+  color?: string;
+  style?: CSSProperties;
+  'data-testid'?: string;
+  className?: string;
+  onClick?: () => void;
+  children: ReactNode;
 }
 
 const BodyTextComponent = styled.p<{ size?: number; fontWeight?: number; color?: string }>`
@@ -19,7 +19,7 @@ const BodyTextComponent = styled.p<{ size?: number; fontWeight?: number; color?:
   line-height: 130%;
   margin: 0;
   width: 100%;
-`
+`;
 
 export const BodyText = ({
   children,
@@ -43,5 +43,5 @@ export const BodyText = ({
     >
       {children}
     </BodyTextComponent>
-  )
-}
+  );
+};

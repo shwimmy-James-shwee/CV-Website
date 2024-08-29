@@ -12,8 +12,8 @@ const handler: HttpHandler = async (request: HttpRequest, context: InvocationCon
   return { status: 200, body };
 };
 
-app.http(`handler-1`, {
-  methods: [`GET`, `POST`],
-  authLevel: `anonymous`,
+app.http('handler-1', {
+  methods: ['GET', 'POST'],
+  authLevel: 'anonymous',
   handler
 });

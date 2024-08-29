@@ -1,17 +1,17 @@
-import { Container, Navbar, Nav } from 'react-bootstrap'
-import styled from 'styled-components'
+import { Container, Navbar, Nav } from 'react-bootstrap';
+import styled from 'styled-components';
 
 interface FooterBarProps {
   redirectUrls?: {
-    url: string
-    label: string
-  }[]
+    url: string;
+    label: string;
+  }[];
 }
 
 const StyledNavbar = styled(Navbar)`
   border-top: 10px solid var(--navbar-nav-link-active-cl);
   background-color: var(--navbar-nav-link-cl);
-`
+`;
 
 function FooterBar({ redirectUrls }: FooterBarProps) {
   return (
@@ -25,14 +25,14 @@ function FooterBar({ redirectUrls }: FooterBarProps) {
                   <Nav.Link href={redirectItem.url} data-testid='footer-nav-link' key={index}>
                     {redirectItem.label}
                   </Nav.Link>
-                )
+                );
               })}
             </Nav>
           </Navbar.Collapse>
         </Container>
       </StyledNavbar>
     </>
-  )
+  );
 }
 
-export default FooterBar
+export default FooterBar;

@@ -1,32 +1,31 @@
-import styled, { CSSProperties } from 'styled-components'
+import styled, { CSSProperties } from 'styled-components';
 
 interface ProgressBarProp {
-  background?: string
-  progressColor?: string
-  style?: CSSProperties
-  progressStyle?: CSSProperties
-  dataTestId?: string
-  className?: string
-  height?: string
-  percentage?: number
-  animation?: boolean
+  background?: string;
+  progressColor?: string;
+  style?: CSSProperties;
+  progressStyle?: CSSProperties;
+  dataTestId?: string;
+  className?: string;
+  height?: string;
+  percentage?: number;
+  animation?: boolean;
 }
 
 const ProgressBarComponent = styled.div<{ $background?: string; $height?: string }>`
-  background: ${(props) =>
-    props.$background || 'var(--Light-1, var(--theme-tertiary-background-color))'};
+  background: ${(props) => props.$background || 'var(--Light-1, var(--theme-tertiary-background-color))'};
   height: ${(props) => `${props.$height || '10px'}`};
   margin: 0;
   width: 100%;
   border-radius: 9.5px;
   position: relative;
-`
+`;
 
 const ProgressBarProgress = styled.div<{
-  $background?: string
-  $percentage: number
-  $height?: string
-  $animation?: boolean
+  $background?: string;
+  $percentage: number;
+  $height?: string;
+  $animation?: boolean;
 }>`
   background: ${(props) =>
     props.$background ||
@@ -37,7 +36,7 @@ const ProgressBarProgress = styled.div<{
   flex-shrink: 0;
   position: relative;
   ${(props) => (props.$animation ? 'transition: width 0.5s ease-in-out;' : '')}
-`
+`;
 
 export const ProgressBar = ({
   style,
@@ -48,7 +47,7 @@ export const ProgressBar = ({
   className,
   percentage,
   animation,
-  height,
+  height
 }: ProgressBarProp) => {
   return (
     <ProgressBarComponent
@@ -67,5 +66,5 @@ export const ProgressBar = ({
         data-testid={`${(dataTestId || 'progress-bar') + '-progress'}`}
       />
     </ProgressBarComponent>
-  )
-}
+  );
+};

@@ -1,20 +1,20 @@
-import { ReactNode } from 'react'
-import styled, { CSSProperties } from 'styled-components'
+import { ReactNode } from 'react';
+import styled, { CSSProperties } from 'styled-components';
 
 interface TitleTextProps {
-  size?: number // rem
-  fontWeight?: 'normal' | 'bold'
-  color?: string
-  style?: CSSProperties
-  'data-testid'?: string
-  className?: string
-  children: ReactNode
+  size?: number; // rem
+  fontWeight?: 'normal' | 'bold';
+  color?: string;
+  style?: CSSProperties;
+  'data-testid'?: string;
+  className?: string;
+  children: ReactNode;
 }
 
 const TitleTextComponent = styled.h1<{
-  size?: number
-  fontWeight?: 'normal' | 'bold'
-  color?: string
+  size?: number;
+  fontWeight?: 'normal' | 'bold';
+  color?: string;
 }>`
   font-size: ${(props) => `${props.size || 1.6}rem`};
   font-weight: ${(props) => props.fontWeight || 'bold'};
@@ -22,7 +22,7 @@ const TitleTextComponent = styled.h1<{
   line-height: 117%;
   margin: 0;
   width: 100%;
-`
+`;
 
 export const TitleText = ({
   children,
@@ -31,7 +31,7 @@ export const TitleText = ({
   style,
   color,
   'data-testid': dataTestId,
-  className,
+  className
 }: TitleTextProps) => {
   return (
     <TitleTextComponent
@@ -44,5 +44,5 @@ export const TitleText = ({
     >
       {children}
     </TitleTextComponent>
-  )
-}
+  );
+};

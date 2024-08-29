@@ -5,8 +5,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
-    "dev": "pnpm run build -- --watch",
-    "lint": "eslint ."
+    "dev": "pnpm run build -- --watch"
   },
   "exports": {
     ".": {

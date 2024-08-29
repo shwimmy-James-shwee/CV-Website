@@ -19,16 +19,16 @@ export const postgresqlCluster = new dbforpostgresql.Cluster(
     nodeStorageQuotaInMb: envExtend.nodeStorageQuotaInMb,
     nodeVCores: envExtend.nodeVcores,
     enableShardsOnCoordinator: envExtend.shardsOnCoordinatorEnabled,
-    postgresqlVersion: `16`,
-    citusVersion: `12.1`,
+    postgresqlVersion: '16',
+    citusVersion: '12.1',
     enableHa: envExtend.haEnabled
   },
   {
-    ignoreChanges: [`tags`],
+    ignoreChanges: ['tags'],
     customTimeouts: {
-      create: `30m`,
-      update: `30m`,
-      delete: `30m`
+      create: '30m',
+      update: '30m',
+      delete: '30m'
     },
     protect: true
   }
@@ -48,7 +48,7 @@ const postgresqlPrivateEndpoint = new network.PrivateEndpoint(
       {
         name: `${postgresqlName}-plink`,
         privateLinkServiceId: postgresqlCluster.id.apply((id) => id),
-        groupIds: [`coordinator`]
+        groupIds: ['coordinator']
       }
     ]
   },
@@ -70,7 +70,7 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     metrics: dsSettings.peptDSMetricsItem

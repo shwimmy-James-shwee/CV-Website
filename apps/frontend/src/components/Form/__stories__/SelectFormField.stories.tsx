@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { within, expect, userEvent } from '@storybook/test'
-import SelectFormField from '../SelectFormField'
+import type { Meta, StoryObj } from '@storybook/react';
+import { within, expect, userEvent } from '@storybook/test';
+import SelectFormField from '../SelectFormField';
 
 const meta = {
   title: 'Components/Form/SelectFormField',
@@ -10,26 +10,26 @@ const meta = {
   argTypes: {
     label: {
       control: 'text',
-      description: 'The label of the field',
+      description: 'The label of the field'
     },
     multiple: {
       control: 'boolean',
-      description: 'Option for multiselect',
+      description: 'Option for multiselect'
     },
     required: {
       control: 'boolean',
-      description: 'Specifies if the field is required',
+      description: 'Specifies if the field is required'
     },
     disabled: {
       control: 'boolean',
-      description: 'Specifies if the field is disabled',
-    },
-  },
-} satisfies Meta<typeof SelectFormField>
+      description: 'Specifies if the field is disabled'
+    }
+  }
+} satisfies Meta<typeof SelectFormField>;
 
-export default meta
+export default meta;
 
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
@@ -41,16 +41,16 @@ export const Default: Story = {
         <option value='2'>Two</option>
         <option value='3'>Three</option>
       </>
-    ),
-  },
-}
+    )
+  }
+};
 
 export const Disabled: Story = {
   args: {
     disabled: true,
-    children: <option>This select menu has been disabled</option>,
-  },
-}
+    children: <option>This select menu has been disabled</option>
+  }
+};
 
 export const Multiselect: Story = {
   args: {
@@ -62,9 +62,9 @@ export const Multiselect: Story = {
         <option value='2'>Two</option>
         <option value='3'>Three</option>
       </>
-    ),
-  },
-}
+    )
+  }
+};
 
 export const UnitTest: Story = {
   args: {
@@ -76,26 +76,26 @@ export const UnitTest: Story = {
         <option value='2'>Two</option>
         <option value='3'>Three</option>
       </>
-    ),
+    )
   },
   play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement)
+    const canvas = within(canvasElement);
 
     await step('Form field is rendered and users can select an option', async () => {
-      const formField = canvas.getByLabelText('Select an option') as HTMLSelectElement
-      await expect(formField).toBeInTheDocument()
+      const formField = canvas.getByLabelText('Select an option') as HTMLSelectElement;
+      await expect(formField).toBeInTheDocument();
 
       // Change the option to 'One'
-      await userEvent.selectOptions(formField, ['1'])
-      await expect(formField.value).toBe('1')
+      await userEvent.selectOptions(formField, ['1']);
+      await expect(formField.value).toBe('1');
 
       // Change the option to 'Two'
-      await userEvent.selectOptions(formField, ['2'])
-      await expect(formField.value).toBe('2')
+      await userEvent.selectOptions(formField, ['2']);
+      await expect(formField.value).toBe('2');
 
       // Change the option to 'Three'
-      await userEvent.selectOptions(formField, ['3'])
-      await expect(formField.value).toBe('3')
-    })
-  },
-}
+      await userEvent.selectOptions(formField, ['3']);
+      await expect(formField.value).toBe('3');
+    });
+  }
+};

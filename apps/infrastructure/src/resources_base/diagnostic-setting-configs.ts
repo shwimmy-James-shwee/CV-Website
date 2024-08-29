@@ -13,7 +13,7 @@ export const dsSettings = {
   // Diagnostic setttings
   logAnalyticDSMetricsItem: [
     {
-      category: `AllMetrics`,
+      category: 'AllMetrics',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -24,7 +24,7 @@ export const dsSettings = {
 
   logAnalyticDSLogItem: [
     {
-      category: `Audit`,
+      category: 'Audit',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -32,7 +32,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `SummaryLogs`,
+      category: 'SummaryLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -45,7 +45,7 @@ export const dsSettings = {
 
   appInsightDSLogItem: [
     {
-      category: `AppServiceAuthenticationLogs`,
+      category: 'AppServiceAuthenticationLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -53,7 +53,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppAvailabilityResults`,
+      category: 'AppAvailabilityResults',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -61,7 +61,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppBrowserTimings`,
+      category: 'AppBrowserTimings',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -69,7 +69,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppEvents`,
+      category: 'AppEvents',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -77,7 +77,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppMetrics`,
+      category: 'AppMetrics',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -85,7 +85,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppDependencies`,
+      category: 'AppDependencies',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -93,7 +93,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppExceptions`,
+      category: 'AppExceptions',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -101,7 +101,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppPageViews`,
+      category: 'AppPageViews',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -109,7 +109,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppPerformanceCounters`,
+      category: 'AppPerformanceCounters',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -117,7 +117,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppRequests`,
+      category: 'AppRequests',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -125,7 +125,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppSystemEvents`,
+      category: 'AppSystemEvents',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -133,7 +133,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppTraces`,
+      category: 'AppTraces',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -144,7 +144,7 @@ export const dsSettings = {
 
   storageDSLogItem: [
     {
-      category: `StorageRead`,
+      category: 'StorageRead',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -152,7 +152,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `StorageWrite`,
+      category: 'StorageWrite',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -160,7 +160,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `StorageDelete`,
+      category: 'StorageDelete',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -171,7 +171,7 @@ export const dsSettings = {
 
   storageDSMetricsItem: [
     {
-      category: `Capacity`,
+      category: 'Capacity',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -179,7 +179,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `Transaction`,
+      category: 'Transaction',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -192,7 +192,7 @@ export const dsSettings = {
 
   peptDSMetricsItem: [
     {
-      category: `AllMetrics`,
+      category: 'AllMetrics',
       enabled: true,
       retentionPolicy: {
         days: 0,
@@ -205,7 +205,7 @@ export const dsSettings = {
 
   vaultDSMetricsItem: [
     {
-      category: `AllMetrics`,
+      category: 'AllMetrics',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -216,7 +216,7 @@ export const dsSettings = {
 
   vaultDSLogItem: [
     {
-      category: `AuditEvent`,
+      category: 'AuditEvent',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -224,7 +224,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AzurePolicyEvaluationDetails`,
+      category: 'AzurePolicyEvaluationDetails',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -237,7 +237,7 @@ export const dsSettings = {
 
   containerRegistryDSLogItem: [
     {
-      category: `ContainerRegistryRepositoryEvents`,
+      category: 'ContainerRegistryRepositoryEvents',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -245,7 +245,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `ContainerRegistryLoginEvents`,
+      category: 'ContainerRegistryLoginEvents',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -256,7 +256,7 @@ export const dsSettings = {
 
   containerRegistryDSMetricsItem: [
     {
-      category: `AllMetrics`,
+      category: 'AllMetrics',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -269,7 +269,7 @@ export const dsSettings = {
 
   cosmosPostgresDSLogItem: [
     {
-      category: `PostgreSQLLogs`,
+      category: 'PostgreSQLLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -280,7 +280,7 @@ export const dsSettings = {
 
   cosmosPostgresDSMetricsItem: [
     {
-      category: `AllMetrics`,
+      category: 'AllMetrics',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -293,7 +293,7 @@ export const dsSettings = {
 
   functionAppDSLogItem: [
     {
-      category: `AppServiceAuthenticationLogs`,
+      category: 'AppServiceAuthenticationLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -301,7 +301,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `FunctionAppLogs`,
+      category: 'FunctionAppLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -312,7 +312,7 @@ export const dsSettings = {
 
   functionAppDSMetricsItem: [
     {
-      category: `AllMetrics`,
+      category: 'AllMetrics',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -325,7 +325,7 @@ export const dsSettings = {
 
   webAppDSLogItem: [
     {
-      category: `AppServiceAuthenticationLogs`,
+      category: 'AppServiceAuthenticationLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -333,7 +333,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppServiceHTTPLogs`,
+      category: 'AppServiceHTTPLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -341,7 +341,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppServiceConsoleLogs`,
+      category: 'AppServiceConsoleLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -349,7 +349,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppServiceAppLogs`,
+      category: 'AppServiceAppLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -357,7 +357,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppServiceAuditLogs`,
+      category: 'AppServiceAuditLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -365,7 +365,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppServiceIPSecAuditLogs`,
+      category: 'AppServiceIPSecAuditLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -373,7 +373,7 @@ export const dsSettings = {
       }
     },
     {
-      category: `AppServicePlatformLogs`,
+      category: 'AppServicePlatformLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -384,7 +384,7 @@ export const dsSettings = {
 
   webAppDSMetricsItem: [
     {
-      category: `AllMetrics`,
+      category: 'AllMetrics',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -394,10 +394,10 @@ export const dsSettings = {
   ] as input.insights.MetricSettingsArgs[]
 };
 
-if (![`b1`, `b2`, `f1`, `b3`].includes(envExtend.pricingTier.toLowerCase())) {
+if (!['b1', 'b2', 'f1', 'b3'].includes(envExtend.pricingTier.toLowerCase())) {
   dsSettings.webAppDSLogItem.push(
     {
-      category: `AppServiceAntivirusScanAuditLogs`,
+      category: 'AppServiceAntivirusScanAuditLogs',
       enabled: false,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
@@ -405,7 +405,7 @@ if (![`b1`, `b2`, `f1`, `b3`].includes(envExtend.pricingTier.toLowerCase())) {
       }
     } as input.insights.LogSettingsArgs,
     {
-      category: `AppServiceFileAuditLogs`,
+      category: 'AppServiceFileAuditLogs',
       enabled: false,
       retentionPolicy: {
         days: envExtend.logRetentionDays,

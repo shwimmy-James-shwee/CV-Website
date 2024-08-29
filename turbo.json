@@ -17,5 +17,15 @@
       "persistent": true
     }
   },
-  "globalEnv": ["APP_PORT"]
+  "globalEnv": [
+    "APP_PORT",
+    "VITE_NODE_ENV",
+    "VITE_POLICY_NAME_SIGN_IN_UP",
+    "VITE_POLICY_NAME_EDIT_PROFILE",
+    "VITE_POLICY_NAME_RESET",
+    "VITE_API_URL",
+    "VITE_B2C_CLIENT_ID",
+    "VITE_B2C_TENANT_NAME",
+    "ESLINT_NO_DEV_ERRORS"
+  ]
 }

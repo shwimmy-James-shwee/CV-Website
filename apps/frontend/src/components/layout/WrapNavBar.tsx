@@ -1,35 +1,35 @@
-import { Button, Col, Container, Nav, Navbar, Row } from 'react-bootstrap'
-import defautLogo from '../../assets/images/logo.svg'
-import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
-import { ReactNode } from 'react'
-import { CurrentUserType } from '../../context/UserContext'
-import ButtonComponent from '../toolkit/Button'
-import { TitleText } from '../text/TitleText'
+import { Button, Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
+import defautLogo from '../../assets/images/logo.svg';
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+import { ReactNode } from 'react';
+import { CurrentUserType } from '../../context/UserContext';
+import ButtonComponent from '../toolkit/Button';
+import { TitleText } from '../text/TitleText';
 
 export interface navLinkItemProps {
-  label: string
-  url: string
-  icon: string
-  hide?: boolean
+  label: string;
+  url: string;
+  icon: string;
+  hide?: boolean;
 }
 interface NavBarProps {
-  handleLogin: () => void
-  handleLogout: () => void
-  navLogo?: string
-  userLoggedIn: boolean
-  userAvatar?: JSX.Element
-  navLinkItems: navLinkItemProps[]
-  children?: ReactNode
-  currentUserData?: CurrentUserType | null
-  toolName?: string
+  handleLogin: () => void;
+  handleLogout: () => void;
+  navLogo?: string;
+  userLoggedIn: boolean;
+  userAvatar?: JSX.Element;
+  navLinkItems: navLinkItemProps[];
+  children?: ReactNode;
+  currentUserData?: CurrentUserType | null;
+  toolName?: string;
 }
 
 const StyledContainer = styled(Container)`
   height: 100vh;
   background-image: var(--default-gradient-bg);
   overflow: hidden;
-`
+`;
 const NavCol = styled(Col)`
   @media screen and (min-width: 576px) {
     width: fit-content;
@@ -39,7 +39,7 @@ const NavCol = styled(Col)`
   }
 
   height: 100%;
-`
+`;
 const StyledNavbar = styled(Navbar)`
   min-height: 100%;
   max-height: 100%;
@@ -49,7 +49,7 @@ const StyledNavbar = styled(Navbar)`
   }
 
   overflow-x: hidden;
-`
+`;
 // TODO: Download font and put in asset folder
 const StyledToolName = styled.p`
   color: var(--navbar-nav-link-cl);
@@ -60,7 +60,7 @@ const StyledToolName = styled.p`
   text-align: center;
   margin-bottom: 0.75rem;
   padding: 0px;
-`
+`;
 
 const StyledNavLink = styled(NavLink)`
   color: var(--navbar-nav-link-cl) !important;
@@ -76,7 +76,7 @@ const StyledNavLink = styled(NavLink)`
     background-color: rgba(var(--navbar-nav-link-active-bg-rgb), 0.2);
     border-radius: 0.25rem;
   }
-`
+`;
 
 const ContentCol = styled(Col)`
   height: calc(100% - 1.25rem);
@@ -84,7 +84,7 @@ const ContentCol = styled(Col)`
   background-color: var(--content-column-bg);
   margin-top: 1.25rem;
   overflow-x: auto;
-`
+`;
 
 const MenuBox = styled(Navbar.Collapse)`
   &::-webkit-scrollbar {
@@ -99,7 +99,7 @@ const MenuBox = styled(Navbar.Collapse)`
     background-color: var(--theme-primary-background-color);
     -webkit-box-shadow: inset 0 0 6px var(--theme-primary-background-color);
   }
-`
+`;
 
 function NavBar({
   handleLogin,
@@ -109,15 +109,15 @@ function NavBar({
   userAvatar,
   navLinkItems,
   children,
-  toolName,
+  toolName
 }: NavBarProps) {
   const LoginButton = () => {
     return (
       <Button variant='light' size='sm' onClick={handleLogin}>
         Login
       </Button>
-    )
-  }
+    );
+  };
 
   const LogoutButton = () => {
     return (
@@ -128,8 +128,8 @@ function NavBar({
         // style={{ marginBottom: '2.75rem' }}
         className='mb-4'
       />
-    )
-  }
+    );
+  };
 
   return (
     <StyledContainer fluid>
@@ -151,17 +151,14 @@ function NavBar({
                         className='nav-link body-bold text-center d-flex flex-column'
                         key={item.url}
                       >
-                        <span
-                          className='material-icons-outlined'
-                          style={{ marginBottom: '0.5rem', fontSize: '2rem' }}
-                        >
+                        <span className='material-icons-outlined' style={{ marginBottom: '0.5rem', fontSize: '2rem' }}>
                           {item.icon}
                         </span>
                         <TitleText size={1} color='var(--navbar-nav-link-cl)'>
                           {item.label}
                         </TitleText>
                       </StyledNavLink>
-                    ),
+                    )
                 )}
               </Nav>
             </MenuBox>
@@ -172,7 +169,7 @@ function NavBar({
         <ContentCol className='p-0'>{children}</ContentCol>
       </Row>
     </StyledContainer>
-  )
+  );
 }
 
-export default NavBar
+export default NavBar;

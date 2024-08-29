@@ -9,7 +9,7 @@ fs.readFile(path, 'utf8', (err, data) => {
   }
   const result = data.replace(/"main": "src\/index.ts"/, '"main": "src/codedeploy/index.ts"');
 
-  fs.writeFile(path, result, `utf8`, (err) => {
+  fs.writeFile(path, result, 'utf8', (err) => {
     if (err) {
       // eslint-disable-next-line no-console
       console.error(err);

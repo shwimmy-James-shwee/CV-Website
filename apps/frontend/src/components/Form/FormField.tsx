@@ -1,42 +1,42 @@
-import { ReactNode } from 'react'
-import { Form } from 'react-bootstrap'
-import styled from 'styled-components'
-import { BodyText } from '../text/BodyText'
+import { ReactNode } from 'react';
+import { Form } from 'react-bootstrap';
+import styled from 'styled-components';
+import { BodyText } from '../text/BodyText';
 
 interface FormFieldProps {
-  fieldLabel?: string
-  type: 'textarea' | 'text' | 'select' | 'multiselect' | 'checkbox' | 'radio' | 'switch'
-  placeholder?: string
-  value?: string
-  rows?: number
-  required?: boolean
-  disabled?: boolean
-  readonly?: boolean
-  className?: string
-  inputClassName?: string
-  testId?: string
-  fontSize?: string
-  children?: ReactNode
+  fieldLabel?: string;
+  type: 'textarea' | 'text' | 'select' | 'multiselect' | 'checkbox' | 'radio' | 'switch';
+  placeholder?: string;
+  value?: string;
+  rows?: number;
+  required?: boolean;
+  disabled?: boolean;
+  readonly?: boolean;
+  className?: string;
+  inputClassName?: string;
+  testId?: string;
+  fontSize?: string;
+  children?: ReactNode;
 
   // For multiselect and select
-  defaultValue?: string | number | readonly string[] | undefined
+  defaultValue?: string | number | readonly string[] | undefined;
 
   // For checkbox, radio, switch
-  defaultChecked?: boolean
-  checked?: boolean
-  itemLabel?: string
+  defaultChecked?: boolean;
+  checked?: boolean;
+  itemLabel?: string;
 
-  isInvalid?: boolean
-  invalidText?: string
+  isInvalid?: boolean;
+  invalidText?: string;
 
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const StyledFormControl = styled(Form.Control)`
   border-radius: 6px;
   border: 1px solid var(--form-field-bg);
   background: var(--secondary-form-field-bg);
-`
+`;
 
 const FormField = ({
   fieldLabel,
@@ -58,16 +58,16 @@ const FormField = ({
   itemLabel,
   isInvalid,
   invalidText,
-  onChange,
+  onChange
 }: FormFieldProps) => {
   // Determine the input type dynamically based on the "type" prop
-  const isTextarea = type === 'textarea'
-  const isSelect = type === 'select'
-  const isMultiselect = type === 'multiselect'
-  const isRadio = type === 'radio'
-  const isCheckbox = type === 'checkbox'
-  const isSwitch = type === 'switch'
-  const dataTestId = testId || 'form-field'
+  const isTextarea = type === 'textarea';
+  const isSelect = type === 'select';
+  const isMultiselect = type === 'multiselect';
+  const isRadio = type === 'radio';
+  const isCheckbox = type === 'checkbox';
+  const isSwitch = type === 'switch';
+  const dataTestId = testId || 'form-field';
 
   const inputProps = {
     required,
@@ -80,8 +80,8 @@ const FormField = ({
     id: dataTestId,
     onChange: onChange as React.ChangeEventHandler<HTMLInputElement> | undefined,
     style: { fontSize },
-    'data-testid': dataTestId,
-  }
+    'data-testid': dataTestId
+  };
 
   return (
     <Form.Group className={className || 'my-4'}>
@@ -94,20 +94,11 @@ const FormField = ({
         </Form.Label>
       )}
       {isSelect || isMultiselect ? (
-        <Form.Select
-          {...inputProps}
-          onChange={onChange as React.ChangeEventHandler<HTMLSelectElement> | undefined}
-        >
+        <Form.Select {...inputProps} onChange={onChange as React.ChangeEventHandler<HTMLSelectElement> | undefined}>
           {children}
         </Form.Select>
       ) : isRadio || isCheckbox || isSwitch ? (
-        <Form.Check
-          label={itemLabel}
-          checked={checked}
-          type={type}
-          defaultChecked={defaultChecked}
-          {...inputProps}
-        />
+        <Form.Check label={itemLabel} checked={checked} type={type} defaultChecked={defaultChecked} {...inputProps} />
       ) : (
         <>
           <StyledFormControl
@@ -122,12 +113,10 @@ const FormField = ({
       )}
       <Form.Control.Feedback type='invalid' data-testid='invalid-feedback'>
         {invalidText ||
-          (isSelect || isMultiselect || isCheckbox || isRadio
-            ? 'Please select a value'
-            : 'Please enter a value')}
+          (isSelect || isMultiselect || isCheckbox || isRadio ? 'Please select a value' : 'Please enter a value')}
       </Form.Control.Feedback>
     </Form.Group>
-  )
-}
+  );
+};
 
-export default FormField
+export default FormField;

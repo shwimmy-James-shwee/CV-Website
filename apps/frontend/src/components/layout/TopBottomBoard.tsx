@@ -1,11 +1,11 @@
-import React from 'react'
-import { Col, Row } from 'react-bootstrap'
-import styled from 'styled-components'
+import React from 'react';
+import { Col, Row } from 'react-bootstrap';
+import styled from 'styled-components';
 
 interface TopBottomBoardProps {
-  topContent?: React.ReactNode
-  bottomContent?: React.ReactNode
-  maxTopHeightPercentage?: number
+  topContent?: React.ReactNode;
+  bottomContent?: React.ReactNode;
+  maxTopHeightPercentage?: number;
 }
 const TopRow = styled(Row)<{ $maxHeight?: number }>`
   width: 100%;
@@ -14,27 +14,23 @@ const TopRow = styled(Row)<{ $maxHeight?: number }>`
   padding: 2rem 1rem;
   flex-shrink: 0;
   overflow-y: auto;
-`
+`;
 const TopCol = styled(Col)`
   max-width: 1400px;
-`
+`;
 
 const BottomRow = styled(Row)`
   height: 100%;
   width: 100%;
   overflow-y: auto;
   /* max-width: 750px; */
-`
+`;
 
 const BottomCol = styled(Col)`
   max-width: 750px;
-`
+`;
 
-function TopBottomBoard({
-  topContent,
-  bottomContent,
-  maxTopHeightPercentage,
-}: TopBottomBoardProps) {
+function TopBottomBoard({ topContent, bottomContent, maxTopHeightPercentage }: TopBottomBoardProps) {
   return (
     <>
       <TopRow data-testid='top-bottom-board-top-row' $maxHeight={maxTopHeightPercentage}>
@@ -49,7 +45,7 @@ function TopBottomBoard({
         </BottomCol>
       </BottomRow>
     </>
-  )
+  );
 }
 
-export default TopBottomBoard
+export default TopBottomBoard;

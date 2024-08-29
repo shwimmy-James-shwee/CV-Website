@@ -1,14 +1,14 @@
-import { Container, Stack } from 'react-bootstrap'
-import { Header } from '../components/banners/Header'
-import Accordion from '../components/toolkit/Accordion'
-import styled from 'styled-components'
-import ButtonComponent from '../components/toolkit/Button'
+import { Container, Stack } from 'react-bootstrap';
+import { Header } from '../components/banners/Header';
+import Accordion from '../components/toolkit/Accordion';
+import styled from 'styled-components';
+import ButtonComponent from '../components/toolkit/Button';
 
 function scrollToTop() {
   window.scrollTo({
     top: 0,
-    behavior: 'smooth',
-  })
+    behavior: 'smooth'
+  });
 }
 
 const ScrollButton = styled(ButtonComponent)`
@@ -27,7 +27,7 @@ const ScrollButton = styled(ButtonComponent)`
     background-color: var(--navbar-nav-link-active-cl);
     color: var(--navbar-nav-link-cl);
   }
-`
+`;
 
 function FAQPage() {
   return (
@@ -41,11 +41,7 @@ function FAQPage() {
 
       <div className='content help-page'>
         <div data-testid='content'>
-          <ScrollButton
-            onClick={scrollToTop}
-            label='Back to Top'
-            data-testid='back-to-top-button'
-          />
+          <ScrollButton onClick={scrollToTop} label='Back to Top' data-testid='back-to-top-button' />
           <Container className='mt-4'>
             <Stack direction='vertical' gap={4}>
               <Accordion
@@ -127,6 +123,6 @@ function FAQPage() {
         </div>
       </div>
     </>
-  )
+  );
 }
-export default FAQPage
+export default FAQPage;
