@@ -41,10 +41,11 @@ jobs:
       - name: Branch name
         run: echo running on branch ${GITHUB_REF##*/} - ${{github.ref_name}} - ${{github.event.inputs.name || (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3.7.0
+      - name: Setup Node.js Environment - Version ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
       - uses: pnpm/action-setup@v4
 
