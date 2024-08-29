@@ -36,21 +36,11 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
 
-      - name: Install dependencies
-        run: pnpm install
-        
-      - name: Install "tsup" to enble build for shared packages
-        run: npm install -g tsup
-
-        # Need to update this step every time we introduce/stop using any shared package in the function app
-      - name: Build shared packages
-        run: pnpm build -F @core/utils
-
       - name: Install dependencies with pre-built shared packages
-        run: pnpm install
-
+        run: |
+          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
       - name: Build
-        run: pnpm build -F functions
+        run: pnpm build --filter="./libs/**/" --filter="./apps/functions/" 
 
       - name: "Resolve Project Dependencies Using Npm"
         shell: bash
