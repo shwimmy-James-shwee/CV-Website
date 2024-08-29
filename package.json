@@ -11,7 +11,7 @@
     "eslint": "8.57.0",
     "prettier": "3.2.5",
     "turbo": "2.0.14",
-    "typescript": "5.4.5"
+    "typescript": "5.5.4"
   },
   "resolutions": {
     "@types/mime": "3.0.4"
