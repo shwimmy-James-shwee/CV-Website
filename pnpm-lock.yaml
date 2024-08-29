@@ -317,11 +317,11 @@ importers:
         specifier: 4.5.0
         version: 4.5.0
       '@core/utils':
-        specifier: file:../../libs/core-utils
+        specifier: workspace:*
         version: link:../../libs/core-utils
     devDependencies:
       '@repo/eslint-config':
-        specifier: file:../../libs/eslint-config
+        specifier: workspace:*
         version: link:../../libs/eslint-config
       '@types/node':
         specifier: 20.14.15
