@@ -121,11 +121,15 @@ const functionApp = new web.WebApp(
         },
         {
           name: `ENABLE_ORYX_BUILD`,
-          value: `true`
+          value: `false`
         },
         {
           name: `SCM_DO_BUILD_DURING_DEPLOYMENT`,
-          value: `true`
+          value: `false`
+        },
+        {
+          name: `WEBSITE_RUN_FROM_PACKAGE`,
+          value: `1`
         }
       ]
     }

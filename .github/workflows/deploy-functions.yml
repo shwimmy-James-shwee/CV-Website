@@ -36,26 +36,12 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
 
-      # - name: Install dependencies 
-      #   run: |
-      #   env:
-      #     CI: true
-
-      # - name: built function app
-      #   run: |
-      #     pnpm build --filter="./libs/**/" --filter="./apps/functions/"
-      
       - name: "Resolve Project Dependencies Using Npm"
         shell: bash 
         run: |
           pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
           pnpm build --filter="./libs/**/" --filter="./apps/functions/"
           pnpm deploy --filter="./apps/functions/" --prod ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-
-          # pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-
-          
-          # popd
         env:
           CI: true
       
