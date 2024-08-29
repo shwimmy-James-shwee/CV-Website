@@ -19,6 +19,9 @@ on:
         type: boolean
         description: deploy storybook
         default: true
+env:
+  NODE_VERSION: 'v20.15.1'
+
 jobs:
   deploy:
     name: Deploy to Cloud
