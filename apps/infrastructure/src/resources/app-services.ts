@@ -59,10 +59,10 @@ const restAPI = new web.WebApp(
       numberOfWorkers: 2,
       linuxFxVersion: `DOCKER|nginx:latest`,
       healthCheckPath: `/`,
-      cors: {
-        allowedOrigins: cors.apply((urls) => urls),
-        supportCredentials: true
-      },
+      //   cors: {
+      //     allowedOrigins: cors.apply((urls) => urls),
+      //     supportCredentials: true
+      //   },
       httpLoggingEnabled: true,
       logsDirectorySizeLimit: 35
       //   appSettings: [
