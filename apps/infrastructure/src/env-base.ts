@@ -1,6 +1,6 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
-import { z } from "zod";
-import * as dotenv from "dotenv";
+import { z } from 'zod';
+import * as dotenv from 'dotenv';
 dotenv.config();
 
 const EnvSchema = z.object({

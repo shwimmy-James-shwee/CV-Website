@@ -1,4 +1,4 @@
-import "./identity";
-import "./storage";
-import "./policies";
-import "./keyvault";
+import './identity';
+import './storage';
+import './policies';
+import './keyvault';

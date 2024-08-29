@@ -7,11 +7,11 @@
  *eg. If you need to create a secret for a Postgres Connection String, then create it in the *cosmosdb_postgres.py file.
  */
 
-import { keyvault } from "@pulumi/azure-native";
-import { envBase } from "../env-base";
-import { postgresConnectionString, postgresqlCluster } from "./cosmosdb-postgres";
-import { dataBlobContainer, dataQueue, dataStorage, dataStorageKey } from "./data-storage-account";
-import { envExtend } from "../env-extend";
+import { keyvault } from '@pulumi/azure-native';
+import { envBase } from '../env-base';
+import { postgresConnectionString, postgresqlCluster } from './cosmosdb-postgres';
+import { dataBlobContainer, dataQueue, dataStorage, dataStorageKey } from './data-storage-account';
+import { envExtend } from '../env-extend';
 
 // dummy secret
 new keyvault.Secret(

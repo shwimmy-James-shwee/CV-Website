@@ -1,8 +1,8 @@
 // Creates a Key Vault and a private endpoint for the Key Vault.
 
-import { PrivateEndpoint } from "@pulumi/azure-native/network";
-import { KeyVault } from "@pulumi/azure/keyvault";
-import { envBase } from "../env-base";
+import { PrivateEndpoint } from '@pulumi/azure-native/network';
+import { KeyVault } from '@pulumi/azure/keyvault';
+import { envBase } from '../env-base';
 
 export const vault = new KeyVault(
   envBase.KEYVAULT_NAME,

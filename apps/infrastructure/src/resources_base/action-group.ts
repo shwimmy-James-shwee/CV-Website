@@ -5,9 +5,9 @@ bc3 is for critical alerts
 bc2-0 is for warning alerts
 */
 
-import { insights } from "@pulumi/azure-native";
-import { envBase } from "./../env-base";
-import { input } from "@pulumi/azure-native/types";
+import { insights } from '@pulumi/azure-native';
+import { envBase } from './../env-base';
+import { input } from '@pulumi/azure-native/types';
 
 const emailDevOps: input.insights.EmailReceiverArgs = {
   name: `${envBase.PROJECT_NAME_ABBREVIATION}-devops-team`,

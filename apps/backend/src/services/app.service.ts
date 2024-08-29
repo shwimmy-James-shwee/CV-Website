@@ -1,4 +1,4 @@
-import * as utils from "@core/utils";
+import * as utils from '@core/utils';
 
 export type GetHelloResponse = {
   status: number;

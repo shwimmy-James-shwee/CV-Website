@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { within, expect } from "@storybook/test";
-import FullFrameSpinner from "../FullFrameSpinner";
+import type { Meta, StoryObj } from '@storybook/react';
+import { within, expect } from '@storybook/test';
+import FullFrameSpinner from '../FullFrameSpinner';
 
 const meta = {
-  title: "Components/Toolkit/FullFrameSpinner",
+  title: 'Components/Toolkit/FullFrameSpinner',
   component: FullFrameSpinner,
   parameters: {},
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {}
 } satisfies Meta<typeof FullFrameSpinner>;
 
@@ -15,14 +15,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    variant: "dark"
+    variant: 'dark'
   }
 };
 
 export const Glow: Story = {
   args: {
-    variant: "dark",
-    animation: "grow",
+    variant: 'dark',
+    animation: 'grow',
     scale: 2
   }
 };
@@ -30,19 +30,19 @@ export const Glow: Story = {
 export const UnitTest: Story = {
   args: {
     scale: 2.5,
-    variant: "dark"
+    variant: 'dark'
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
-    await step("Spinner is rendered", async () => {
-      const spinner = canvas.getByTestId("full-frame-spinner");
+    await step('Spinner is rendered', async () => {
+      const spinner = canvas.getByTestId('full-frame-spinner');
       await expect(spinner).toBeInTheDocument();
     });
 
-    await step("Spinner has the correct variant", async () => {
-      const spinner = canvas.getByTestId("spinner");
-      await expect(spinner).toHaveStyle({ color: "rgb(33, 37, 41)" });
+    await step('Spinner has the correct variant', async () => {
+      const spinner = canvas.getByTestId('spinner');
+      await expect(spinner).toHaveStyle({ color: 'rgb(33, 37, 41)' });
     });
   }
 };

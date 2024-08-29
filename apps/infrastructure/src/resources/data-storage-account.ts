@@ -16,11 +16,11 @@ Dependencies:
 - resources_base.codedeploy_keyvault
 - config
 */
-import { insights, keyvault, network, storage } from "@pulumi/azure-native";
-import { envBase } from "../env-base";
-import { managedIdentity } from "../resources_base/codedeploy-identity";
-import { logAnalyticsWorkspace } from "../resources_base/log-analytic-workspace";
-import { dsSettings } from "../resources_base/diagnostic-setting-configs";
+import { insights, keyvault, network, storage } from '@pulumi/azure-native';
+import { envBase } from '../env-base';
+import { managedIdentity } from '../resources_base/codedeploy-identity';
+import { logAnalyticsWorkspace } from '../resources_base/log-analytic-workspace';
+import { dsSettings } from '../resources_base/diagnostic-setting-configs';
 
 const dataStorageAccountName = `${envBase.PROJECT_NAME_ABBREVIATION}data${envBase.ENV}`;
 

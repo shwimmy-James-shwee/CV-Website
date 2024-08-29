@@ -1,5 +1,5 @@
-import { vi, beforeEach, afterEach } from "vitest";
-import * as msalFetch from "../hooks/useFetchWithMsal";
+import { vi, beforeEach, afterEach } from 'vitest';
+import * as msalFetch from '../hooks/useFetchWithMsal';
 
 // default mock useFetchWithMsal
 export const defaultExecute = vi.fn(() => {
@@ -16,7 +16,7 @@ interface mockUseFetchWithMsal {
   apiError?: msalFetch.APIErrorMessageObjType | null;
 }
 export const mockUseFetchWithMsal = ({ error, apiError, isLoading, execute, data }: mockUseFetchWithMsal = {}) => {
-  return vi.spyOn(msalFetch, "default").mockImplementation(() => ({
+  return vi.spyOn(msalFetch, 'default').mockImplementation(() => ({
     apiError: apiError ? apiError : null,
     error: error ? error : null,
     execute: execute ? execute : defaultExecute,

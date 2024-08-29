@@ -1,8 +1,8 @@
-import { envBase } from "../env-base";
-import { dbforpostgresql, insights, network } from "@pulumi/azure-native";
-import { envExtend } from "../env-extend";
-import { logAnalyticsWorkspace } from "../resources_base/log-analytic-workspace";
-import { dsSettings } from "../resources_base/diagnostic-setting-configs";
+import { envBase } from '../env-base';
+import { dbforpostgresql, insights, network } from '@pulumi/azure-native';
+import { envExtend } from '../env-extend';
+import { logAnalyticsWorkspace } from '../resources_base/log-analytic-workspace';
+import { dsSettings } from '../resources_base/diagnostic-setting-configs';
 
 const postgresqlName = `${envBase.PROJECT_NAME_ABBREVIATION}-postgresql-cluster-${envBase.ENV}`;
 export const postgresqlCluster = new dbforpostgresql.Cluster(

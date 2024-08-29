@@ -2,8 +2,8 @@
 Configures diagnostic settings for various resources.
 
 */
-import { input } from "@pulumi/azure-native/types";
-import { envExtend } from "../env-extend";
+import { input } from '@pulumi/azure-native/types';
+import { envExtend } from '../env-extend';
 
 // from config import logRetentionDays, pricing_tier
 // : {

@@ -1,14 +1,14 @@
-import { insights, keyvault, network, web } from "@pulumi/azure-native";
-import { envBase } from "../env-base";
-import { logAnalyticsWorkspace } from "../resources_base/log-analytic-workspace";
-import { frontendUIStorage, frontendUrl } from "./frontend-ui-storage";
-import { appServicePlan } from "../resources_base/app-service-plan";
-import { envExtend } from "../env-extend";
-import { acrCredentials, containerRegistry } from "../resources_base/container-registry";
-import { postgresqlCluster } from "./cosmosdb-postgres";
-import { dsSettings } from "../resources_base/diagnostic-setting-configs";
-import { vault } from "../resources_base/codedeploy-keyvault";
-import { input } from "@pulumi/azure-native/types";
+import { insights, keyvault, network, web } from '@pulumi/azure-native';
+import { envBase } from '../env-base';
+import { logAnalyticsWorkspace } from '../resources_base/log-analytic-workspace';
+import { frontendUIStorage, frontendUrl } from './frontend-ui-storage';
+import { appServicePlan } from '../resources_base/app-service-plan';
+import { envExtend } from '../env-extend';
+import { acrCredentials, containerRegistry } from '../resources_base/container-registry';
+import { postgresqlCluster } from './cosmosdb-postgres';
+import { dsSettings } from '../resources_base/diagnostic-setting-configs';
+import { vault } from '../resources_base/codedeploy-keyvault';
+import { input } from '@pulumi/azure-native/types';
 
 const webAppServiceName = `${envBase.PROJECT_NAME_ABBREVIATION}-be-${envBase.ENV}`;
 
@@ -149,7 +149,7 @@ const restAPI = new web.WebApp(
   },
   {
     dependsOn: [webappInsight, containerRegistry, appServicePlan, frontendUIStorage, postgresqlCluster],
-    ignoreChanges: [`tags`, "siteConfig.linuxFxVersion", `siteConfig.healthCheckPath`],
+    ignoreChanges: [`tags`, 'siteConfig.linuxFxVersion', `siteConfig.healthCheckPath`],
     customTimeouts: {
       create: `30m`,
       update: `30m`,

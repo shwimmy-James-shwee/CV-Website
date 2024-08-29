@@ -12,7 +12,7 @@ export const isUndefinedOrNull = (args: unknown): args is undefined | null => {
 
 /** Returns true if data is an object without key-values */
 export const objectIsEmpty = (args: unknown): args is { [key: string]: never } => {
-  return JSON.stringify(args) === "{}";
+  return JSON.stringify(args) === '{}';
 };
 
 /** Returns true if data is an empty string */

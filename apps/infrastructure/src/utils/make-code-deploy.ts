@@ -1,7 +1,7 @@
-import * as fs from "fs";
-const path = "./package.json";
+import * as fs from 'fs';
+const path = './package.json';
 
-fs.readFile(path, "utf8", (err, data) => {
+fs.readFile(path, 'utf8', (err, data) => {
   if (err) {
     // eslint-disable-next-line no-console
     console.error(err);

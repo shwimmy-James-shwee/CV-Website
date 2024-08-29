@@ -25,10 +25,10 @@ Attributes:
     enable_alerts (bool): Flag indicating whether alerts should be enabled.
     create_alert_resources (bool): Flag indicating whether alert resources should be created.
 */
-import { z } from "zod";
-import { Config } from "@pulumi/pulumi/config";
-import { envBase } from "./env-base";
-import * as dotenv from "dotenv";
+import { z } from 'zod';
+import { Config } from '@pulumi/pulumi/config';
+import { envBase } from './env-base';
+import * as dotenv from 'dotenv';
 dotenv.config();
 
 const conf = new Config();

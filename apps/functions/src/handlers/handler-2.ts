@@ -1,4 +1,4 @@
-import { app, HttpHandler, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
+import { app, HttpHandler, HttpRequest, HttpResponseInit, InvocationContext } from '@azure/functions';
 
 const handler: HttpHandler = async (request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> => {
   const message = `Http function processed the following request:  ${request?.method} ${request?.url}`;

@@ -3,9 +3,9 @@ Import managed identity from code deployed resources
 
 The Identity should be use by service that need to access particular resources that need to be secured.
 */
-import * as pulumi from "@pulumi/pulumi";
-import { managedidentity } from "@pulumi/azure-native";
-import { envBase } from "../env-base";
+import * as pulumi from '@pulumi/pulumi';
+import { managedidentity } from '@pulumi/azure-native';
+import { envBase } from '../env-base';
 
 export const managedIdentity = managedidentity.getUserAssignedIdentity({
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,

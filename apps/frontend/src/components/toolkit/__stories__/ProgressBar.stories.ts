@@ -1,20 +1,20 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { within, expect } from "@storybook/test";
-import { ProgressBar } from "../ProgressBar";
+import type { Meta, StoryObj } from '@storybook/react';
+import { within, expect } from '@storybook/test';
+import { ProgressBar } from '../ProgressBar';
 
 const meta = {
-  title: "Components/Toolkit/ProgressBar",
+  title: 'Components/Toolkit/ProgressBar',
   component: ProgressBar,
   parameters: {},
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   argTypes: {
     style: {
-      control: "object",
-      description: "The style object"
+      control: 'object',
+      description: 'The style object'
     },
     className: {
-      control: "text",
-      description: "The class name"
+      control: 'text',
+      description: 'The class name'
     }
   }
 } satisfies Meta<typeof ProgressBar>;
@@ -31,9 +31,9 @@ export const UnitTest: Story = {
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
-    await step("Components are rendered", async () => {
-      await expect(canvas.getByTestId("progress-bar")).toBeInTheDocument();
-      await expect(canvas.getByTestId("progress-bar-progress")).toBeInTheDocument();
+    await step('Components are rendered', async () => {
+      await expect(canvas.getByTestId('progress-bar')).toBeInTheDocument();
+      await expect(canvas.getByTestId('progress-bar-progress')).toBeInTheDocument();
     });
   }
 };

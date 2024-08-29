@@ -8,25 +8,25 @@
  */
 
 module.exports = {
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
 
   settings: {
-    "import/resolver": {
+    'import/resolver': {
       typescript: {
-        project: "tsconfig.json",
+        project: 'tsconfig.json',
 
         tsconfigRootDir: process.cwd()
       }
     }
   },
-  plugins: ["@typescript-eslint/eslint-plugin", "@typescript-eslint"],
+  plugins: ['@typescript-eslint/eslint-plugin', '@typescript-eslint'],
   extends: [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-    "eslint-config-turbo",
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier"
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+    'eslint-config-turbo',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier'
   ],
   root: true,
   env: {
@@ -36,36 +36,36 @@ module.exports = {
     jest: true
   },
   rules: {
-    camelcase: "error",
-    "@typescript-eslint/no-inferrable-types": 0,
-    "@typescript-eslint/no-unused-vars": [
-      "error", // or "warn"
+    camelcase: 'error',
+    '@typescript-eslint/no-inferrable-types': 0,
+    '@typescript-eslint/no-unused-vars': [
+      'error', // or "warn"
       {
-        argsIgnorePattern: "^_",
-        varsIgnorePattern: "^_",
-        caughtErrorsIgnorePattern: "^_"
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_'
       }
     ],
-    "@typescript-eslint/no-var-requires": 0,
-    "no-console": "error",
-    "no-restricted-syntax": [
-      "error",
+    '@typescript-eslint/no-var-requires': 0,
+    'no-console': 'error',
+    'no-restricted-syntax': [
+      'error',
       {
         selector: "CallExpression[callee.object.name='console'][callee.property.name!=/^(log|warn|error|info|trace)$/]",
-        message: "Unexpected property on console object was called"
+        message: 'Unexpected property on console object was called'
       }
     ],
-    "@typescript-eslint/interface-name-prefix": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
 
-    "@typescript-eslint/no-explicit-any": "error",
-    "@typescript-eslint/no-unsafe-call": "error",
-    "@typescript-eslint/no-unsafe-argument": "error",
-    "@typescript-eslint/no-unsafe-member-access": "error",
-    "@typescript-eslint/no-unsafe-assignment": "error",
+    '@typescript-eslint/no-explicit-any': 'error',
+    '@typescript-eslint/no-unsafe-call': 'error',
+    '@typescript-eslint/no-unsafe-argument': 'error',
+    '@typescript-eslint/no-unsafe-member-access': 'error',
+    '@typescript-eslint/no-unsafe-assignment': 'error',
 
-    "prettier/prettier": ["error"]
+    'prettier/prettier': ['error']
   },
-  ignorePatterns: ["dist", ".eslintrc.cjs"]
+  ignorePatterns: ['dist', '.eslintrc.cjs']
 };

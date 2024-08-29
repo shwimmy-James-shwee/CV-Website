@@ -1,12 +1,12 @@
-import { insights, keyvault, network, web } from "@pulumi/azure-native";
-import { envBase } from "../env-base";
-import { logAnalyticsWorkspace } from "../resources_base/log-analytic-workspace";
-import { appServicePlan } from "../resources_base/app-service-plan";
-import { envExtend } from "../env-extend";
-import { dataBlobContainer, dataQueue, dataStorage, dataStorageConnectionString } from "./data-storage-account";
-import { dsSettings } from "../resources_base/diagnostic-setting-configs";
-import { postgresConnectionString } from "./cosmosdb-postgres";
-import { frontendUrl } from "./frontend-ui-storage";
+import { insights, keyvault, network, web } from '@pulumi/azure-native';
+import { envBase } from '../env-base';
+import { logAnalyticsWorkspace } from '../resources_base/log-analytic-workspace';
+import { appServicePlan } from '../resources_base/app-service-plan';
+import { envExtend } from '../env-extend';
+import { dataBlobContainer, dataQueue, dataStorage, dataStorageConnectionString } from './data-storage-account';
+import { dsSettings } from '../resources_base/diagnostic-setting-configs';
+import { postgresConnectionString } from './cosmosdb-postgres';
+import { frontendUrl } from './frontend-ui-storage';
 
 const functionAppServiceName = `${envBase.PROJECT_NAME_ABBREVIATION}-fa-${envBase.ENV}`;
 
@@ -47,7 +47,7 @@ const functionApp = new web.WebApp(
     },
     keyVaultReferenceIdentity: web.ManagedServiceIdentityType.SystemAssigned,
     tags: {
-      "hidden-link: /app-insights-resource-id": functionAppInsight.id.apply((id) => id)
+      'hidden-link: /app-insights-resource-id': functionAppInsight.id.apply((id) => id)
     },
     siteConfig: {
       publicNetworkAccess: `Disabled`,

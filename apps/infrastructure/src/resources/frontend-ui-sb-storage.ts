@@ -4,11 +4,11 @@ It creates a storage account with user-assigned managed identity and enables sta
 It also creates private endpoints for the storage account and sets up diagnostic settings for monitoring.
 */
 
-import { insights, keyvault, network, storage } from "@pulumi/azure-native";
-import { envBase } from "../env-base";
-import { managedIdentity } from "../resources_base/codedeploy-identity";
-import { logAnalyticsWorkspace } from "../resources_base/log-analytic-workspace";
-import { dsSettings } from "../resources_base/diagnostic-setting-configs";
+import { insights, keyvault, network, storage } from '@pulumi/azure-native';
+import { envBase } from '../env-base';
+import { managedIdentity } from '../resources_base/codedeploy-identity';
+import { logAnalyticsWorkspace } from '../resources_base/log-analytic-workspace';
+import { dsSettings } from '../resources_base/diagnostic-setting-configs';
 
 const frontendUISBStorageName = `${envBase.PROJECT_NAME_ABBREVIATION}sbfe${envBase.ENV}`;
 

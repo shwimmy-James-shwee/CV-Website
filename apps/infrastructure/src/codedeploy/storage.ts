@@ -1,7 +1,7 @@
 // Creates storage resources for the code deployment.
-import { Key } from "@pulumi/azure-native/keyvault";
-import { envBase } from "./../env-base";
-import { vault, vaultPept } from "./keyvault";
+import { Key } from '@pulumi/azure-native/keyvault';
+import { envBase } from './../env-base';
+import { vault, vaultPept } from './keyvault';
 import {
   AccessTier,
   Kind,
@@ -15,9 +15,9 @@ import {
   KeyType,
   BlobContainer,
   PublicAccess
-} from "@pulumi/azure-native/storage";
-import { identityPolicy, managedIdentity } from "./identity";
-import { PrivateEndpoint } from "@pulumi/azure-native/network";
+} from '@pulumi/azure-native/storage';
+import { identityPolicy, managedIdentity } from './identity';
+import { PrivateEndpoint } from '@pulumi/azure-native/network';
 
 const codeDeployStorageKey = new Key(
   `code-deploy-storage-key`,

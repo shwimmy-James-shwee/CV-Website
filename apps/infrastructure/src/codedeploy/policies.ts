@@ -1,6 +1,6 @@
-import { AccessPolicy } from "@pulumi/azure-native/keyvault";
-import { envBase } from "./../env-base";
-import { vault, vaultPept } from "./keyvault";
+import { AccessPolicy } from '@pulumi/azure-native/keyvault';
+import { envBase } from './../env-base';
+import { vault, vaultPept } from './keyvault';
 
 const storagePolicy = new AccessPolicy(
   `storage-access-policy`,
