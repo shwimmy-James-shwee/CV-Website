@@ -46,14 +46,15 @@ jobs:
       #     pnpm build --filter="./libs/**/" --filter="./apps/functions/"
       
       - name: "Resolve Project Dependencies Using Npm"
+        shell: bash 
         run: |
-          pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          
           pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
-          
           pnpm build --filter="./libs/**/" --filter="./apps/functions/"
+
+          # pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+
           
-          popd
+          # popd
         env:
           CI: true
       
