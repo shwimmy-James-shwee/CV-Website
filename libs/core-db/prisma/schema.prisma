@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STANDARD_USER
+  ADMINISTRATOR
+}
+
+model User {
+  id              String            @id @default(uuid())
+  externalOid     String?
+  loginEmail      String            @unique
+  firstName       String            @db.VarChar(50)
+  lastName        String            @db.VarChar(50)
+  isSuperAdmin    Boolean?          @default(false)
+  userRoles       Role[]            @default([STANDARD_USER])
+  avatarUrl       String            @default("/assets/defaultAvatar.png")
+  thumbnailPhoto  Int[]             @default([])
+  timeZoneOffSet  String            @default("-780")
+  timeZone        String            @default("Pacific/Auckland")
+  //
+  jwtIat          BigInt            @default(0)
+  //
+  //
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  //
+  // relations
+  SignInLog       SignInLog[]
+  UserActivityLog UserActivityLog[]
+}
+
+model SignInLog {
+  id             String   @id @default(uuid())
+  userId         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  signInDateTime DateTime
+  User           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserActivityLog {
+  id                Int      @id @default(autoincrement())
+  userId            String
+  sessionIdentifier String // any value that can be use to identify the session
+  eventStartTime    DateTime
+  eventEndTime      DateTime
+  eventDuration     Int
+  eventParams       String
+  eventUrl          String
+  User              User     @relation(fields: [userId], references: [id])
+}

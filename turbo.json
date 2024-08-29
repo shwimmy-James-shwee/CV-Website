@@ -2,6 +2,12 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "tasks": {
+    "db:generate": {
+      "cache": false
+    },
+    "db:push": {
+      "cache": false
+    },
     "build": {
       "dependsOn": ["^build"],
       "cache": false,
@@ -19,6 +25,7 @@
   },
   "globalEnv": [
     "APP_PORT",
+    "NODE_ENV",
     "VITE_NODE_ENV",
     "VITE_POLICY_NAME_SIGN_IN_UP",
     "VITE_POLICY_NAME_EDIT_PROFILE",
@@ -26,6 +33,13 @@
     "VITE_API_URL",
     "VITE_B2C_CLIENT_ID",
     "VITE_B2C_TENANT_NAME",
-    "ESLINT_NO_DEV_ERRORS"
+    "ESLINT_NO_DEV_ERRORS",
+
+    "AZURE_KEY_VAULT_NAME",
+    "SENDGRID_KEY",
+    "TIME_TRIGGER",
+    "AzureWebJobsStorage",
+    "EMAIL_QUEUE_NAME",
+    "STORAGE_BLOB_NAME"
   ]
 }
