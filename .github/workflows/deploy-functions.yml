@@ -7,7 +7,15 @@ on:
       - "apps/functions/**"
       - ".github/workflows/deploy-functions.yml"
   workflow_dispatch:
-
+    inputs:
+      name:
+        type: choice
+        description: which env to deploy the changes to
+        options:
+          - dev
+          # - uat
+          # - main
+        default: dev
 env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: "./apps/functions" # set this to the path to your function app project, defaults to the repository root
   NODE_VERSION: "v20.15.1"

@@ -6,7 +6,15 @@ on:
       - "apps/backend/**"
       - ".github/workflows/deploy-backend.yml"
   workflow_dispatch:
-
+    inputs:
+      name:
+        type: choice
+        description: which env to deploy the changes to
+        options:
+          - dev
+          # - uat
+          # - main
+        default: dev
 jobs:
   deploy:
     name: Build Docker
@@ -55,7 +63,7 @@ jobs:
           docker ps -a
           docker image ls -a
 
-          docker-compose -f docker-compose-base.yml build
+          docker build -t node-base -f ./apps/backend/dockerfiles/node.Dockerfile .
 
           docker tag node-base $AZURE_CONTAINER_REGISTRY/node-base
           docker push $AZURE_CONTAINER_REGISTRY/node-base
@@ -77,7 +85,7 @@ jobs:
           docker ps -a
           docker image ls -a
 
-          docker-compose -f docker-compose-deployment.yml up --build -d --force-recreate
+          docker build -t webappapi -f ./apps/backend/dockerfiles/node.Dockerfile .
           docker ps -a
           docker image ls
           docker container ls
