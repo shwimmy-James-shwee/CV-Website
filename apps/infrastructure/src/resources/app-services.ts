@@ -139,7 +139,7 @@ const restAPI = new web.WebApp(
       linuxFxVersion: `DOCKER|nginx:latest`,
       healthCheckPath: `/`,
       cors: {
-        allowedOrigins: [frontendUrl],
+        allowedOrigins: cors,
         supportCredentials: true
       },
       httpLoggingEnabled: true,

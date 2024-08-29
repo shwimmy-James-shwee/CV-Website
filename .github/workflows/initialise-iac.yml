@@ -83,7 +83,7 @@ jobs:
         run: |
           cd ../..
           npm install -g ts-node
-          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/infrastructure/" 
+          pnpm install --frozen-lockfile --filter="./apps/infrastructure/" 
           curl -fsSL https://get.pulumi.com | sh -s -- --version 3.130.0
           
           # curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
