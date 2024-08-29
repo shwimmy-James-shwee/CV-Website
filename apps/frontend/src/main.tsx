@@ -39,7 +39,7 @@ if (window.self === window.top) {
   root.render(
     // https://github.com/AzureAD/microsoft-authentication-library-for-js/issues/5468
     // <React.StrictMode>
-    <App />
+    <App instance={msalInstance} />
     // </React.StrictMode>,
   );
 } else {
