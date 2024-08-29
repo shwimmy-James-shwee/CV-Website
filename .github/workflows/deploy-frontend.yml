@@ -51,6 +51,7 @@ jobs:
 
       - name: PNPM Install and Build
         run: |
+          npm install -g tsup
           pnpm install --frozen-lockfile --filter="./apps/frontend/"
           pnpm run build --filter="./apps/frontend/"
         env:

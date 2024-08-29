@@ -12,6 +12,7 @@ FROM base AS build
 WORKDIR /src/app
 COPY . /src/app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --filter="./apps/backend/"
+RUN npm install -g tsup
 RUN pnpm run build --filter="./apps/backend/"
 RUN pnpm deploy --filter="./apps/backend/" --prod /prod/backend
 

@@ -30,6 +30,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+        
+      - name: Install "tsup" to enble build for shared packages
+        run: npm install -g tsup
 
         # Need to update this step every time we introduce/stop using any shared package in the function app
       - name: Build shared packages
