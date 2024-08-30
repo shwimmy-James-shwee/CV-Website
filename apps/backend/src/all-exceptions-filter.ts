@@ -2,7 +2,7 @@ import { Catch, ArgumentsHost, HttpStatus, HttpException } from '@nestjs/common'
 
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Request, Response } from 'express';
-import { PrismaClientValidationError } from '@core/db/runtime/library';
+import { PrismaClientValidationError } from '@prisma/client/runtime/library';
 import { InsightLoggerService } from './utilities/logger/insight-logger.service';
 
 type MyResponseObj = {
@@ -16,6 +16,7 @@ type MyResponseObj = {
 export class AllExceptionsFilter extends BaseExceptionFilter {
   private readonly logger = new InsightLoggerService(AllExceptionsFilter.name);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();

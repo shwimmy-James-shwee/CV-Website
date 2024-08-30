@@ -6,12 +6,17 @@ import { AllExceptionsFilter } from './all-exceptions-filter';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import './config';
 import { readFileSync } from 'fs';
+import * as bodyParser from 'body-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: true,
     bufferLogs: true
   });
+
+  app.use(bodyParser.json({ limit: '50mb' }));
+  app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
   app.setGlobalPrefix('api', { exclude: ['/', '/api/'] });
 
   const { httpAdapter } = app.get(HttpAdapterHost);
@@ -48,5 +53,4 @@ async function bootstrap() {
   });
   await app.listen(process.env.APP_PORT || 8080);
 }
-
 bootstrap();
