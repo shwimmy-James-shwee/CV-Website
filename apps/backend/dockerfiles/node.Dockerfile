@@ -17,6 +17,8 @@ RUN pnpm deploy --filter="./apps/backend/" --prod /prod/backend
 
 
 FROM base AS backend
+ENV DISABLE_ERD true
+ENV SSH_PASSWD "root:Docker!"
 WORKDIR /src/app 
 COPY --from=build /prod/backend /src/app 
 
