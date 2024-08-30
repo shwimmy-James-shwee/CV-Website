@@ -14,8 +14,8 @@ COPY . /src/app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --filter="./apps/backend/"  --filter="./libs/**/"
 RUN pnpm run build --filter="./apps/backend/" --filter="./libs/**/"
 RUN pnpm deploy --filter="./apps/backend/" --prod /prod/backend
-RUN cp ./libs/core-db/node_modules/.bin/prisma /prod/backend/node_modules/.bin/prisma
-RUN cp -r ./libs/core-db/node_modules/prisma /prod/backend/node_modules/prisma
+RUN cp -L ./libs/core-db/node_modules/.bin/prisma /prod/backend/node_modules/.bin/prisma
+RUN cp -rL ./libs/core-db/node_modules/prisma /prod/backend/node_modules/prisma
 
 FROM base AS backend
 ENV DISABLE_ERD true
