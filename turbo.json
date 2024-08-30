@@ -24,7 +24,9 @@
     }
   },
   "globalEnv": [
+    "NODE_EXTRA_CA_CERTS",
     "APP_PORT",
+    "PORT",
     "NODE_ENV",
     "VITE_NODE_ENV",
     "VITE_POLICY_NAME_SIGN_IN_UP",

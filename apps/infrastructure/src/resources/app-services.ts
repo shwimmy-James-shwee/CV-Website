@@ -123,6 +123,23 @@ const appSettings: input.web.NameValuePairArgs[] = [
   {
     name: 'DIRECT_URL',
     value: postgresConnectionString.apply((connectionString) => connectionString)
+  },
+  // B2C settings
+  {
+    name: 'B2C_CLIENT_ID',
+    value: envExtend.B2C_CLIENT_ID
+  },
+  {
+    name: 'B2C_POLICY_NAME',
+    value: envExtend.B2C_POLICY_NAME
+  },
+  {
+    name: 'B2C_TENANT_ID',
+    value: envExtend.B2C_TENANT_ID
+  },
+  {
+    name: 'B2C_TENANT_NAME',
+    value: envExtend.B2C_TENANT_NAME
   }
   // unless needed, try use keyvault to store other secrets and configs, changing these will cause the app to restart
 ];
