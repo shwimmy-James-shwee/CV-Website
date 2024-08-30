@@ -18,9 +18,9 @@ async function syncSecretAndWriteFile(exportName: string, secretName: string) {
    *  - w = Open file for reading and writing. File is created if not exists
    *  - a+ = Open file for reading and appending. The file is created if not exists
    */
-  const data = `\n${exportName}=\"${(await secrets.getSecret(secretName)).value}\"`;
+  const data = `\n${exportName}="${(await secrets.getSecret(secretName)).value}"`;
   writeFileSync(join(__dirname, envPathName), data, {
-    flag: 'a+',
+    flag: 'a+'
   });
 
   return readFileSync(join(__dirname, envPathName), 'utf-8');

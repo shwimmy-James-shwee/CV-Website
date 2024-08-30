@@ -12,6 +12,6 @@ This is a template function is built using Typescript and Azure function app pro
 
 > Generic functions that can be reused and is not contain business logic itself. functions here should be focus on doing smart action that can be use by the higher level functions.
 
-All changes will need you to add or modify a respective test file inside the \_\_tests** folder under the same level eg., [emailWatcher.ts](src/handlers/emailWatcher.ts) => [emailWatcher.test.ts](src/handlers/__tests__/emailWatcher.test.ts)
+All changes will need you to add or modify a respective test file inside the \_\_tests\*\* folder under the same level eg., [emailWatcher.ts](src/handlers/emailWatcher.ts) => [emailWatcher.test.ts](src/handlers/__tests__/emailWatcher.test.ts)
 
 `Once changes has been made, you should run test locally before commit to github for PR`
