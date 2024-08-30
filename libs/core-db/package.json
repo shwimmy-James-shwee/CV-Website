@@ -17,7 +17,7 @@
     "lint": "eslint .",
     "db:generate": "prisma generate",
     "db:push": "prisma db push --skip-generate",
-    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "build": "prisma generate && tsup src/index.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
     "docker:db:create": "docker-compose -f docker-compose-db.yml up -d"
   },
