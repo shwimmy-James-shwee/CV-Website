@@ -95,6 +95,10 @@ const functionApp = new web.WebApp(
           value: postgresConnectionString.apply((connectionString) => connectionString)
         },
         {
+          name: 'DIRECT_URL',
+          value: postgresConnectionString.apply((connectionString) => connectionString)
+        },
+        {
           name: 'FRONTEND_URL',
           value: frontendUrl
         },

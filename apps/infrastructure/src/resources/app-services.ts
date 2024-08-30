@@ -5,7 +5,7 @@ import { frontendUIStorage, frontendUrl } from './frontend-ui-storage';
 import { appServicePlan } from '../resources_base/app-service-plan';
 import { envExtend } from '../env-extend';
 import { acrCredentials, containerRegistry } from '../resources_base/container-registry';
-import { postgresqlCluster } from './cosmosdb-postgres';
+import { postgresConnectionString, postgresqlCluster } from './cosmosdb-postgres';
 import { dsSettings } from '../resources_base/diagnostic-setting-configs';
 import { vault } from '../resources_base/codedeploy-keyvault';
 import { input } from '@pulumi/azure-native/types';
@@ -115,6 +115,14 @@ const appSettings: input.web.NameValuePairArgs[] = [
   {
     name: 'WEBSITES_PORT',
     value: '80'
+  },
+  {
+    name: 'DATABASE_URL',
+    value: postgresConnectionString.apply((connectionString) => connectionString)
+  },
+  {
+    name: 'DIRECT_URL',
+    value: postgresConnectionString.apply((connectionString) => connectionString)
   }
   // unless needed, try use keyvault to store other secrets and configs, changing these will cause the app to restart
 ];
