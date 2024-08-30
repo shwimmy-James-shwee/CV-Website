@@ -41,7 +41,7 @@ const options: IBearerStrategyOptionWithRequest = {
   validateIssuer: true,
   // passReqToCallback: authConfig.settings.passReqToCallback,
   passReqToCallback: false,
-  loggingLevel: 'info',
+  loggingLevel: 'warn',
   loggingNoPII: false // set this to true in the authConfig.js if you want to enable logging and debugging
 };
 

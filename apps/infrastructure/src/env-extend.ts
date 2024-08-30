@@ -72,6 +72,7 @@ const EnvSchema = z.object({
   ENABLE_ALERTS: z.boolean().default(envBase.ENV == 'prd'),
   CREATE_ALERT_RESOURCES: z.boolean().default(envBase.ENV == 'prd'),
 
+  B2C_TENANT_ID: z.string().default('placeholder'),
   B2C_TENANT_NAME: z.string().default('placeholder'),
   B2C_CLIENT_ID: z.string().default('placeholder'),
   B2C_POLICY_NAME: z.string().default('placeholder'),
