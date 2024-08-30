@@ -19,9 +19,14 @@ RUN pnpm deploy --filter="./apps/backend/" --prod /prod/backend
 FROM base AS backend
 WORKDIR /src/app 
 COPY --from=build /prod/backend /src/app 
-COPY --from=build /src/app/configs/sshd_config /etc/ssh/
-COPY --from=build /prod/backend/init.sh /usr/local/bin/
 
+# setup sshd
+RUN echo "$SSH_PASSWD" | chpasswd  \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean -y 
+
+COPY --from=build /prod/backend/sshd_config /etc/ssh/
+COPY --from=build /prod/backend/init.sh /usr/local/bin/
 RUN chmod u+x /usr/local/bin/init.sh
 
 EXPOSE 8080 2222 80
