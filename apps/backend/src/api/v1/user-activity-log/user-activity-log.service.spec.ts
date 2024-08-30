@@ -1,11 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserActivityLogService } from './user-activity-log.service';
 import { DatabaseService } from '../../../database/database.service';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@core/db';
 import {
   userActivityLogAggByEventUrl,
   userActivityLogAggByUserId,
-  userActivityLogArray,
+  userActivityLogArray
 } from './__test__/user-activity-log.data';
 
 const logId = () => Math.floor(Math.random() * 100000);
@@ -26,13 +26,13 @@ describe('V1/UserService', () => {
                 return {
                   id: logId(),
                   ...args.data,
-                  userId: args?.data?.User?.connect?.id,
+                  userId: args?.data?.User?.connect?.id
                 };
               }),
               findFirst: jest.fn((args: Prisma.UserActivityLogFindFirstArgs) => {
                 if (
-                  args?.where?.sessionIdentifier === userActivityLogArray[0].sessionIdentifier &&
-                  args?.where?.eventUrl === userActivityLogArray[0].eventUrl
+                  args?.where?.sessionIdentifier === userActivityLogArray[0]?.sessionIdentifier &&
+                  args?.where?.eventUrl === userActivityLogArray[0]?.eventUrl
                 ) {
                   return Promise.resolve(userActivityLogArray[0]);
                 }
@@ -53,14 +53,14 @@ describe('V1/UserService', () => {
                 } else if (args.by[0] === 'userId') {
                   return Promise.resolve(userActivityLogAggByUserId);
                 }
-              }),
+              })
             },
             user: {
-              findMany: jest.fn(),
-            },
-          },
-        },
-      ],
+              findMany: jest.fn()
+            }
+          }
+        }
+      ]
     }).compile();
 
     service = module.get<UserActivityLogService>(UserActivityLogService);
@@ -78,9 +78,10 @@ describe('V1/UserService', () => {
       eventEndTime: new Date(),
       eventDuration: 5000,
       eventUrl: 'http://localhost:3000',
-      User: { connect: { id: 'abcd-userid' } },
+      User: { connect: { id: 'abcd-userid' } }
     } as Prisma.UserActivityLogCreateInput;
     const data = await service.create(fakeUserActivityLog);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     delete (fakeUserActivityLog as any).User;
 
     expect(data).toMatchObject(fakeUserActivityLog);
@@ -95,8 +96,8 @@ describe('V1/UserService', () => {
 
   it('should able to find one log by condition', async () => {
     const data = await service.findOne({
-      sessionIdentifier: userActivityLogArray[0].sessionIdentifier,
-      eventUrl: userActivityLogArray[0].eventUrl,
+      sessionIdentifier: userActivityLogArray[0]?.sessionIdentifier,
+      eventUrl: userActivityLogArray[0]?.eventUrl
     });
     expect(data).toEqual(userActivityLogArray[0]);
     expect(prisma.userActivityLog.findFirst).toHaveBeenCalledTimes(1);

@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
 import { DatabaseService } from '../../../database/database.service';
 import { Request } from 'express';
-import { UserRole } from '@prisma/client';
+import { UserRole } from '@core/db';
 import { UserService } from './user.service';
 import { userArray } from './__test__/user.data';
 import { DatabaseModule } from '../../../database/database.module';
@@ -21,11 +21,11 @@ describe('V1/UserController', () => {
           useValue: {
             getAdminUsers: jest.fn().mockResolvedValue([{ id: 'id', firstName: 'first', lastName: 'last' }]),
             findUserBusinessUnits: jest.fn().mockResolvedValue([{ id: 'test', name: 'test' }]),
-            findMany: jest.fn().mockResolvedValue(userArray),
-          },
+            findMany: jest.fn().mockResolvedValue(userArray)
+          }
         },
-        DatabaseService,
-      ],
+        DatabaseService
+      ]
     }).compile();
 
     service = module.get<UserService>(UserService);
@@ -43,8 +43,8 @@ describe('V1/UserController', () => {
         lastName: 'Doe',
         firstName: 'John',
         loginEmail: 'johndoe@hotmail.com',
-        userRoles: [UserRole.ADMINISTRATOR],
-      },
+        userRoles: [UserRole.ADMINISTRATOR]
+      }
     } as unknown as Request;
 
     const result = await controller.getCurrentUser(req);
@@ -58,8 +58,8 @@ describe('V1/UserController', () => {
         lastName: 'Doe',
         firstName: 'John',
         loginEmail: 'johndoe@hotmail.com',
-        userRoles: [UserRole.ADMINISTRATOR],
-      },
+        userRoles: [UserRole.ADMINISTRATOR]
+      }
     } as unknown as Request;
     const result = await controller.getAdminUsersByBusinessUnitId(req, 'test');
     expect(result).toEqual([{ id: 'id', firstName: 'first', lastName: 'last' }]);
@@ -73,8 +73,8 @@ describe('V1/UserController', () => {
         lastName: 'Doe',
         firstName: 'John',
         loginEmail: 'johndoe@hotmail.com',
-        userRoles: [UserRole.ADMINISTRATOR],
-      },
+        userRoles: [UserRole.ADMINISTRATOR]
+      }
     } as unknown as Request;
 
     controller.getAdminUsersByBusinessUnitId = jest.fn().mockResolvedValue(Promise.reject);

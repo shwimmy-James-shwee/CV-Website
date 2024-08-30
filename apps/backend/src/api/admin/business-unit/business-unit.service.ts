@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@core/db';
 import { DatabaseService } from '../../../database/database.service';
 @Injectable()
 export class BusinessUnitService {
@@ -12,7 +12,7 @@ export class BusinessUnitService {
   async findOne(id: string, addInclude: Prisma.BusinessUnitInclude = {}) {
     return this.databaseService.businessUnit.findUnique({
       where: { id },
-      include: addInclude,
+      include: addInclude
     });
   }
 }

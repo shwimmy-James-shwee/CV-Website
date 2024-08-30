@@ -1,3 +1,5 @@
+/* eslint-disable no-empty-pattern */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ConsoleLogger, Injectable, OnModuleInit } from '@nestjs/common';
 import { TelemetryClient } from 'applicationinsights';
 // import * as AppInsights from 'applicationinsights';
@@ -14,7 +16,7 @@ export class InsightLoggerService extends ConsoleLogger implements OnModuleInit 
     env.NODE_ENV === 'test' || env.NODE_ENV === 'local'
       ? {
           trackTrace: ({}: any) => {},
-          trackException: ({}: any) => {},
+          trackException: ({}: any) => {}
         }
       : new TelemetryClient(env.APPLICATIONINSIGHTS_CONNECTION_STRING);
 
@@ -29,7 +31,7 @@ export class InsightLoggerService extends ConsoleLogger implements OnModuleInit 
       }
       await fspromises.appendFile(
         path.join(logFilePath, `${new Date().toISOString().split('T')[0]}.log`),
-        formattedEntry,
+        formattedEntry
       );
     } catch (e) {
       if (e instanceof Error) {
@@ -53,7 +55,7 @@ export class InsightLoggerService extends ConsoleLogger implements OnModuleInit 
   log(message: any, ...optionalParams: any[]) {
     this.logger.trackTrace({
       message: this.formatMessageForLogger(message, optionalParams),
-      severity: SeverityLevel.Information,
+      severity: SeverityLevel.Information
     });
     this.logToFile(`${optionalParams} ${message}`);
     super.log(message, ...optionalParams);
@@ -65,10 +67,10 @@ export class InsightLoggerService extends ConsoleLogger implements OnModuleInit 
   fatal(message: any, ...optionalParams: any[]) {
     this.logger.trackException({
       exception: this.formatMessageForLogger(message, optionalParams),
-      severity: SeverityLevel.Critical,
+      severity: SeverityLevel.Critical
     });
     this.logToFile(`${optionalParams} ${message}`);
-    super.fatal(message, ...optionalParams);
+    super.error(message, ...optionalParams);
   }
 
   /**
@@ -77,7 +79,7 @@ export class InsightLoggerService extends ConsoleLogger implements OnModuleInit 
   error(message: any, ...optionalParams: any[]) {
     this.logger.trackException({
       exception: this.formatMessageForLogger(message, optionalParams),
-      severity: SeverityLevel.Error,
+      severity: SeverityLevel.Error
     });
     this.logToFile(this.formatMessageForLogger(message, optionalParams));
     super.error(message, ...optionalParams);
@@ -89,7 +91,7 @@ export class InsightLoggerService extends ConsoleLogger implements OnModuleInit 
   warn(message: any, ...optionalParams: any[]) {
     this.logger.trackTrace({
       message: this.formatMessageForLogger(message, optionalParams),
-      severity: SeverityLevel.Warning,
+      severity: SeverityLevel.Warning
     });
     this.logToFile(this.formatMessageForLogger(message, optionalParams));
     super.warn(message, ...optionalParams);
@@ -101,7 +103,7 @@ export class InsightLoggerService extends ConsoleLogger implements OnModuleInit 
   debug(message: any, ...optionalParams: any[]) {
     this.logger.trackTrace({
       message: this.formatMessageForLogger(message, optionalParams),
-      severity: SeverityLevel.Verbose,
+      severity: SeverityLevel.Verbose
     });
     this.logToFile(this.formatMessageForLogger(message, optionalParams));
     super.debug(message, ...optionalParams);
@@ -113,7 +115,7 @@ export class InsightLoggerService extends ConsoleLogger implements OnModuleInit 
   verbose(message: any, ...optionalParams: any[]) {
     this.logger.trackTrace({
       message: this.formatMessageForLogger(message, optionalParams),
-      severity: SeverityLevel.Verbose,
+      severity: SeverityLevel.Verbose
     });
     this.logToFile(this.formatMessageForLogger(message, optionalParams));
     super.verbose(message, ...optionalParams);

@@ -6,7 +6,7 @@ const EnvSchema = z.object({
   // application-level
   NODE_ENV: z
     .enum(['local', 'test', 'development', 'production'], {
-      description: `Please specify the NODE_ENV values ONLY using the ones specified in the array`,
+      description: 'Please specify the NODE_ENV values ONLY using the ones specified in the array'
     })
     .default('production'),
   PORT: z
@@ -45,7 +45,7 @@ const EnvSchema = z.object({
 
   // Email
   SERVICE_EMAIL: z.string().default('no-reply@kpmgservices.co.nz'),
-  EMAIL_QUEUE_NAME: z.string().default('placeholder'),
+  EMAIL_QUEUE_NAME: z.string().default('placeholder')
 });
 export type Env = z.infer<typeof EnvSchema>;
 

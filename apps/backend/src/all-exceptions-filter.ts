@@ -2,7 +2,7 @@ import { Catch, ArgumentsHost, HttpStatus, HttpException } from '@nestjs/common'
 
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Request, Response } from 'express';
-import { PrismaClientValidationError } from '@prisma/client/runtime/library';
+import { PrismaClientValidationError } from '@core/db/runtime/library';
 import { InsightLoggerService } from './utilities/logger/insight-logger.service';
 
 type MyResponseObj = {
@@ -25,7 +25,7 @@ export class AllExceptionsFilter extends BaseExceptionFilter {
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
       timestamp: new Date().toISOString(),
       path: request.url,
-      response: '',
+      response: ''
     };
 
     if (exception instanceof HttpException) {

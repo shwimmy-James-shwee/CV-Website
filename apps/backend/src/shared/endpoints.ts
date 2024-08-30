@@ -1,7 +1,7 @@
 export const PREFIX = {
   user: '/user',
   userActivityLog: '/user-activity-log',
-  businessUnit: '/business-unit',
+  businessUnit: '/business-unit'
 };
 
 const apiVersion = '/api/v1';
@@ -12,17 +12,17 @@ export const ROUTE = {
     base: PREFIX.user,
     byId: '/',
     currentUser: '/current-user',
-    adminUsers: '/admin-users/',
+    adminUsers: '/admin-users/'
   },
   userActivityLog: {
     base: PREFIX.userActivityLog,
     byId: '/',
-    featuredLog: '/featured-log',
+    featuredLog: '/featured-log'
   },
   businessUnit: {
     base: PREFIX.businessUnit,
-    byId: '/',
-  },
+    byId: '/'
+  }
 };
 
 const user = ROUTE.user;
@@ -34,22 +34,22 @@ export const API = {
   admin: {
     businessUnit: {
       root: apiAdmin + ROUTE.businessUnit.base, // POST, GET
-      byId: apiAdmin + businessUnit.base + businessUnit.byId, // Requires {id} param - GET, DELETE, PUT
+      byId: apiAdmin + businessUnit.base + businessUnit.byId // Requires {id} param - GET, DELETE, PUT
     },
     user: {
       root: apiAdmin + ROUTE.user.base, // POST, GET
-      byId: apiAdmin + user.base + businessUnit.byId, // Requires {id} param - GET, DELETE, PUT
-    },
+      byId: apiAdmin + user.base + businessUnit.byId // Requires {id} param - GET, DELETE, PUT
+    }
   },
   user: {
     root: apiVersion + user.base, // POST, GET
     byId: apiVersion + user.base + user.byId, // Requires {id} param - GET, DELETE, PUT
     currentUser: apiVersion + user.base + user.currentUser, // GET
-    adminUsers: apiVersion + user.base + user.adminUsers, // Requires {businessUnitId} param - GET
+    adminUsers: apiVersion + user.base + user.adminUsers // Requires {businessUnitId} param - GET
   },
   userActivityLog: {
     root: apiVersion + ROUTE.userActivityLog.base, // POST, GET
     byId: apiVersion + userActivityLog.base + userActivityLog.byId, // Requires {id} param - GET, DELETE, PUT
-    featuredLog: apiVersion + userActivityLog.base + userActivityLog.featuredLog, // GET
-  },
+    featuredLog: apiVersion + userActivityLog.base + userActivityLog.featuredLog // GET
+  }
 };

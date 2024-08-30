@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { UserActivityLogService } from './user-activity-log.service';
-import { Feature, Prisma, User } from '@prisma/client';
+import { Feature, Prisma, User } from '@core/db';
 import { AzureADGuard } from '../../../guard/auth/azuread.guard';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { createDTOExample } from './user-activity-log.dto.sample';
@@ -22,10 +22,10 @@ export class UserActivityLogController {
     content: {
       'application/json': {
         examples: {
-          createDTO: { value: createDTOExample },
-        },
-      },
-    },
+          createDTO: { value: createDTOExample }
+        }
+      }
+    }
   })
   async record(@Req() req: Request, @Body() recordUserActivityLogDto: Prisma.UserActivityLogCreateInput) {
     const user = req.user as User;
@@ -36,15 +36,15 @@ export class UserActivityLogController {
       {
         userId: userId,
         sessionIdentifier: recordUserActivityLogDto.sessionIdentifier,
-        eventUrl: recordUserActivityLogDto.eventUrl,
+        eventUrl: recordUserActivityLogDto.eventUrl
       },
-      {},
+      {}
     );
     if (findLog) {
       await this.userActivityLogService.update(findLog.id, {
         eventParam: recordUserActivityLogDto.eventParam,
         eventEndTime: new Date(),
-        eventDuration: findLog.eventDuration + recordUserActivityLogDto.eventDuration,
+        eventDuration: findLog.eventDuration + recordUserActivityLogDto.eventDuration
       });
       return;
     } else {
@@ -55,7 +55,7 @@ export class UserActivityLogController {
         eventStartTime: recordUserActivityLogDto.eventStartTime,
         eventDuration: recordUserActivityLogDto.eventDuration,
         eventEndTime: new Date(),
-        User: { connect: { id: userId } },
+        User: { connect: { id: userId } }
       });
       return;
     }
@@ -69,22 +69,22 @@ export class UserActivityLogController {
 
   @Get()
   // @Features(Feature.BASIC_REPORTING)
-  async findAll(@Query('by') by?: string) {
+  async findAll(@Query('by') by?: Prisma.UserActivityLogScalarFieldEnum) {
     if (by) {
       if (Prisma.UserActivityLogScalarFieldEnum[by] !== undefined) {
         return {
           data: await this.userActivityLogService.findAllAggregateBy(Prisma.UserActivityLogScalarFieldEnum[by]),
           attributes: {
-            users: await this.userActivityLogService.findAllUniqueUserIdEmails(),
-          },
+            users: await this.userActivityLogService.findAllUniqueUserIdEmails()
+          }
         };
       }
     } else {
       return {
         data: await this.userActivityLogService.findAll({ id: 'desc' }),
         attributes: {
-          users: await this.userActivityLogService.findAllUniqueUserIdEmails(),
-        },
+          users: await this.userActivityLogService.findAllUniqueUserIdEmails()
+        }
       };
     }
   }

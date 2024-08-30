@@ -9,7 +9,7 @@ import { DatabaseModule } from '../../database/database.module';
     DatabaseModule,
     UserModule,
     UserActivityLogModule,
-    RouterModule.register([{ path: 'v1', children: [UserModule, UserActivityLogModule] }]),
-  ],
+    RouterModule.register([{ path: 'v1', children: [UserModule, UserActivityLogModule] }])
+  ]
 })
 export class V1Module {}

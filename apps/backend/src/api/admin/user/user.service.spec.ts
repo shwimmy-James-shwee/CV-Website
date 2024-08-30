@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { DatabaseService } from '../../../database/database.service';
-import { Prisma, UserRole } from '@prisma/client';
+import { Prisma, UserRole } from '@core/db';
 import { v4 as uuid } from 'uuid';
 import { userArray } from './__test__/user.data';
 
@@ -20,7 +20,7 @@ describe('UserService', () => {
               findMany: jest.fn((args?: Prisma.UserFindManyArgs) => {
                 if (args?.where?.roles?.has === UserRole.STANDARD_USER) {
                   return Promise.resolve(
-                    userArray.filter((user) => user.userRoles.includes(UserRole.STANDARD_USER as never)),
+                    userArray.filter((user) => user.userRoles.includes(UserRole.STANDARD_USER as never))
                   );
                 }
                 return Promise.resolve(userArray);
@@ -34,7 +34,7 @@ describe('UserService', () => {
               create: jest.fn((args: Prisma.UserCreateArgs) => {
                 return {
                   id: uuid(),
-                  ...args.data,
+                  ...args.data
                 };
               }),
               update: jest.fn((args: Prisma.UserUpdateArgs) => {
@@ -43,19 +43,19 @@ describe('UserService', () => {
               }),
               delete: jest.fn((args: Prisma.UserDeleteArgs) => {
                 return Promise.resolve(userArray.find((user) => user.id === args.where.id));
-              }),
+              })
             },
             signInLog: {
               create: jest.fn((args: Prisma.SignInLogCreateArgs) => {
                 return {
                   id: uuid(),
-                  ...args.data,
+                  ...args.data
                 };
-              }),
-            },
-          },
-        },
-      ],
+              })
+            }
+          }
+        }
+      ]
     }).compile();
 
     service = module.get<UserService>(UserService);
@@ -107,7 +107,7 @@ describe('UserService', () => {
     const fakeLog = {
       userId: userArray[0].id,
       signInDateTime: new Date('2099-01-01'),
-      User: userArray[0],
+      User: userArray[0]
     } as Prisma.SignInLogCreateInput;
     const log = await service.createSignInLog(fakeLog);
     expect(log).toMatchObject({ userId: userArray[0].id });

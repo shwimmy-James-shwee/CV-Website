@@ -9,7 +9,7 @@ export const userActivityLogArray = [
     eventParam: null,
     eventUrl: '/',
     createdAt: new Date('2024-04-13T09:23:55.287Z'),
-    updatedAt: new Date('2024-04-13T09:23:55.287Z'),
+    updatedAt: new Date('2024-04-13T09:23:55.287Z')
   },
   {
     id: 65,
@@ -21,7 +21,7 @@ export const userActivityLogArray = [
     eventParam: null,
     eventUrl: '/contact',
     createdAt: new Date('2024-04-11T20:52:46.419Z'),
-    updatedAt: new Date('2024-04-11T20:52:46.419Z'),
+    updatedAt: new Date('2024-04-11T20:52:46.419Z')
   },
   {
     id: 64,
@@ -33,43 +33,43 @@ export const userActivityLogArray = [
     eventParam: null,
     eventUrl: '/faq',
     createdAt: new Date('2024-04-11T20:52:46.141Z'),
-    updatedAt: new Date('2024-04-11T20:52:46.141Z'),
-  },
+    updatedAt: new Date('2024-04-11T20:52:46.141Z')
+  }
 ];
 
 export const userActivityLogAggByEventUrl = [
   {
     _sum: {
-      eventDuration: 1318993,
+      eventDuration: 1318993
     },
-    eventUrl: '/',
+    eventUrl: '/'
   },
   {
     _sum: {
-      eventDuration: 38644,
+      eventDuration: 38644
     },
-    eventUrl: '/faq',
-  },
+    eventUrl: '/faq'
+  }
 ];
 
 export const userActivityLogAggByUserId = [
   {
     _sum: {
-      eventDuration: 2153920,
+      eventDuration: 2153920
     },
-    userId: '1test-23d3-4e6b-a36e-c234065b411b',
+    userId: '1test-23d3-4e6b-a36e-c234065b411b'
   },
   {
     _sum: {
-      eventDuration: 112741,
+      eventDuration: 112741
     },
-    userId: '2test-acf5-4b6f-9008-1d31be5c50da',
-  },
+    userId: '2test-acf5-4b6f-9008-1d31be5c50da'
+  }
 ];
 
 export const uniqueUserIdEmailArray = [
   {
     id: 'test-23d3-4e6b-a36e-c234065b411b',
-    loginEmail: 'hanli@kpmg.co.nz',
-  },
+    loginEmail: 'hanli@kpmg.co.nz'
+  }
 ];

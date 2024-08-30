@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Inject, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
-import { User, Feature } from '@prisma/client';
+import { User, Feature } from '@core/db';
 import { FEATURES_KEY } from './feature.decorator';
 import { Request } from 'express';
 import { DatabaseService } from '../../database/database.service';
@@ -10,7 +10,7 @@ import { DatabaseService } from '../../database/database.service';
 export class FeatureGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
-    @Inject(DatabaseService) private databaseService: DatabaseService,
+    @Inject(DatabaseService) private databaseService: DatabaseService
   ) {}
 
   // async getChildFeatures(childBusinessUnitId: number) {
@@ -28,17 +28,17 @@ export class FeatureGuard implements CanActivate {
   //   return childFeatures;
   // }
 
-  async getParentFeatures(parentBusinessId: string | null) {
+  async getParentFeatures(parentBusinessId: string | null): Promise<Feature[]> {
     if (!parentBusinessId) return [];
 
     const parentBusinessUnit = await this.databaseService.businessUnit.findUnique({
-      where: { id: parentBusinessId },
+      where: { id: parentBusinessId }
     });
 
     if (parentBusinessUnit) {
       return [
-        ...parentBusinessUnit?.features,
-        ...(await this.getParentFeatures(parentBusinessUnit.parentBusinessUnitId)),
+        ...(parentBusinessUnit?.features ?? []),
+        ...(await this.getParentFeatures(parentBusinessUnit.parentBusinessUnitId))
       ];
     } else {
       return [];
@@ -48,7 +48,7 @@ export class FeatureGuard implements CanActivate {
   async validateFeature(userId: string, requiredFeatures: Feature[]) {
     const userBusinessUnitFeature = await this.databaseService.businessUnit.findMany({
       where: { Members: { some: { User: { id: userId } } } },
-      include: { ChildBusinessUnits: true },
+      include: { ChildBusinessUnits: true }
     });
 
     // child can have parent's features
@@ -76,13 +76,13 @@ export class FeatureGuard implements CanActivate {
     const req: Request = context.switchToHttp().getRequest();
     const requiredFeatures = this.reflector.getAllAndOverride<Feature[]>(FEATURES_KEY, [
       context.getHandler(),
-      context.getClass(),
+      context.getClass()
     ]);
     if (!requiredFeatures) {
       return true;
     }
     const user = req.user as User;
 
-    return this.validateFeature(user.id, requiredFeatures); //requiredFeatures.some((feature) => user.roles?.includes(`${feature}`));
+    return this.validateFeature(user.id, requiredFeatures); // requiredFeatures.some((feature) => user.roles?.includes(`${feature}`));
   }
 }

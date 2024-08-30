@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { BusinessUnitService } from './business-unit.service';
 import { DatabaseService } from '../../../database/database.service';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@core/db';
 import { businessUnitArray } from './__test__/business-unit.data';
 
 describe('Admin/BusinessUnitService', () => {
@@ -22,11 +22,11 @@ describe('Admin/BusinessUnitService', () => {
               findMany: jest.fn((args?: Prisma.BusinessUnitFindManyArgs) => {
                 args;
                 return Promise.resolve(businessUnitArray);
-              }),
-            },
-          },
-        },
-      ],
+              })
+            }
+          }
+        }
+      ]
     }).compile();
 
     service = module.get<BusinessUnitService>(BusinessUnitService);

@@ -1,5 +1,5 @@
 import { SetMetadata } from '@nestjs/common';
-import { Feature } from '@prisma/client';
+import { Feature } from '@core/db';
 
 export const FEATURES_KEY = 'features';
 

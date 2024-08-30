@@ -20,10 +20,10 @@ describe('Admin/BusinessUnitController', () => {
             }),
             findOne: jest.fn((id: string) => {
               return Promise.resolve(businessUnitArray.find((bu) => bu.id === id));
-            }),
-          },
-        },
-      ],
+            })
+          }
+        }
+      ]
     }).compile();
 
     controller = module.get<BusinessUnitController>(BusinessUnitController);

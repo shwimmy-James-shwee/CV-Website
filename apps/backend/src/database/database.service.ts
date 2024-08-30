@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
-// import { PrismaClient } from '@prisma/client';
+// import { PrismaClient } from '@core/db';
 import { ExtendedPrismaClient } from './database.extended';
 @Injectable()
 export class DatabaseService extends ExtendedPrismaClient implements OnModuleInit, OnModuleDestroy {

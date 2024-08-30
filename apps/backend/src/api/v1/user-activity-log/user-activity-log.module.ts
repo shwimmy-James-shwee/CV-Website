@@ -6,6 +6,6 @@ import { DatabaseModule } from '../../../database/database.module';
 @Module({
   imports: [DatabaseModule],
   controllers: [UserActivityLogController],
-  providers: [UserActivityLogService],
+  providers: [UserActivityLogService]
 })
 export class UserActivityLogModule {}

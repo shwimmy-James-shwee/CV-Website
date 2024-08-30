@@ -1,6 +1,6 @@
 import { Controller, Get, Param, UseGuards, NotFoundException } from '@nestjs/common';
 import { BusinessUnitService } from './business-unit.service';
-import { UserRole } from '@prisma/client';
+import { UserRole } from '@core/db';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AzureADGuard } from '../../../guard/auth/azuread.guard';
 import { RoleGuard } from '../../../guard/role/role.guard';
@@ -18,7 +18,7 @@ export class BusinessUnitController {
   @ApiOperation({ summary: 'Get all user' })
   @ApiResponse({
     status: 200,
-    description: 'list of user',
+    description: 'list of user'
   })
   @Roles(UserRole.ADMINISTRATOR)
   findAll() {
@@ -29,7 +29,7 @@ export class BusinessUnitController {
   @ApiOperation({ summary: 'Get one user by id' })
   @ApiResponse({
     status: 200,
-    description: 'return a user',
+    description: 'return a user'
   })
   @Roles(UserRole.ADMINISTRATOR)
   async findOne(@Param('id') id: string) {

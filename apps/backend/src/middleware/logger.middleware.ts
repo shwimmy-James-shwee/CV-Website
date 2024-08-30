@@ -1,4 +1,5 @@
 import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
+import { User } from '@core/db';
 
 import { Request, Response, NextFunction } from 'express';
 
@@ -21,8 +22,8 @@ export class AppLoggerMiddleware implements NestMiddleware {
             status: statusCode,
             contentLength,
             user: {
-              id: request.user?.['id'] ?? '',
-              email: request.user?.['loginEmail'] ?? ''
+              id: (request.user as User)?.['id'] ?? '',
+              email: (request.user as User)?.['loginEmail'] ?? ''
             },
             body,
             params,

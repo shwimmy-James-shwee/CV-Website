@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, NotFoundException } from '@nestjs/common';
 import { UserService } from './user.service';
-import { Prisma, UserRole } from '@prisma/client';
+import { Prisma, UserRole } from '@core/db';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AzureADGuard } from '../../../guard/auth/azuread.guard';
 import { RoleGuard } from '../../../guard/role/role.guard';
@@ -18,7 +18,7 @@ export class UserController {
   @ApiOperation({ summary: 'Create user' })
   @ApiResponse({
     status: 201,
-    description: 'user created',
+    description: 'user created'
   })
   create(@Body() createUserDto: Prisma.UserCreateInput) {
     return this.userService.create(createUserDto);
@@ -28,7 +28,7 @@ export class UserController {
   @ApiOperation({ summary: 'Get all user' })
   @ApiResponse({
     status: 200,
-    description: 'list of user',
+    description: 'list of user'
   })
   findAll(@Query('role') role?: UserRole) {
     return this.userService.findAll(role);
@@ -38,7 +38,7 @@ export class UserController {
   @ApiOperation({ summary: 'Get one user by id' })
   @ApiResponse({
     status: 200,
-    description: 'return a user',
+    description: 'return a user'
   })
   async findOne(@Param('id') id: string) {
     const user = await this.userService.findOne(id);
@@ -52,7 +52,7 @@ export class UserController {
   @ApiOperation({ summary: 'Update a user' })
   @ApiResponse({
     status: 200,
-    description: 'user updated',
+    description: 'user updated'
   })
   update(@Param('id') id: string, @Body() updateUserDto: Prisma.UserUpdateInput) {
     return this.userService.update(id, updateUserDto);
@@ -62,7 +62,7 @@ export class UserController {
   @ApiOperation({ summary: 'Delete a user' })
   @ApiResponse({
     status: 201,
-    description: 'user deleted',
+    description: 'user deleted'
   })
   remove(@Param('id') id: string) {
     return this.userService.remove(id);

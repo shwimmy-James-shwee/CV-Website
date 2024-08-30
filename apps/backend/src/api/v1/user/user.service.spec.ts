@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { DatabaseService } from '../../../database/database.service';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@core/db';
 import { userArray } from './__test__/user.data';
 
 describe('UserService', () => {
@@ -19,14 +19,14 @@ describe('UserService', () => {
                 if (args.where.id) return Promise.resolve(userArray.find((user) => user.id === args.where.id));
                 return Promise.resolve(userArray.find((user) => user.loginEmail === args.where.loginEmail));
               }),
-              findMany: jest.fn().mockResolvedValue(userArray),
+              findMany: jest.fn().mockResolvedValue(userArray)
             },
             businessUnit: {
-              findMany: jest.fn().mockResolvedValue([{ id: 'test', name: 'test' }]),
-            },
-          },
-        },
-      ],
+              findMany: jest.fn().mockResolvedValue([{ id: 'test', name: 'test' }])
+            }
+          }
+        }
+      ]
     }).compile();
 
     service = module.get<UserService>(UserService);
