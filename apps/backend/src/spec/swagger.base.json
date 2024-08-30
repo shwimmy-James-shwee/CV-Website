@@ -1,0 +1,21 @@
+{
+  "openapi": "3.0.1",
+  "securityDefinitions": {
+    "bearer": {
+      "type": "apiKey",
+      "description": "Value: Bearer {jwt}",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": { "bearer": [] },
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
