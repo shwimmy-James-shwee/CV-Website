@@ -9,7 +9,7 @@ describe('env', () => {
     expect(env.NODE_ENV).toEqual('test');
     expect(env.PORT).toEqual('8080');
     expect(env.APPLICATIONINSIGHTS_CONNECTION_STRING).toEqual('placeholder');
-    expect(env.DATABASE_URL).toEqual('postgresql://postgres:postgres@127.0.0.1:5432/postgres?schema=tpltest');
+    expect(env.DATABASE_URL).toEqual('postgresql://postgres:postgres@127.0.0.1:5432/postgres?schema=twmtest');
     expect(env.B2C_TENANT_ID).toEqual('placeholder');
     expect(env.B2C_API_APP_ID).toEqual('placeholder');
     expect(env.B2C_API_APP_SECRET).toEqual('placeholder');

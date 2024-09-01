@@ -9,25 +9,25 @@ RUN corepack enable \
 RUN mkdir -p /src/app 
 
 FROM base AS build
-WORKDIR /src/app
-COPY . /src/app
+WORKDIR /src
+COPY . /src
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --filter="./apps/backend/"  --filter="./libs/**/"
 RUN pnpm run build --filter="./apps/backend/" --filter="./libs/**/"
-RUN pnpm deploy --filter="./apps/backend/" --prod /prod/backend
+# RUN pnpm deploy --filter="./apps/backend/" --prod /prod/backend
 
 FROM base AS backend
 ENV DISABLE_ERD true
 ENV SSH_PASSWD "root:Docker!"
 WORKDIR /src/app 
-COPY --from=build /prod/backend /src/app 
+COPY --from=build /src/apps/backend /src/app 
 
 # setup sshd
 RUN echo "$SSH_PASSWD" | chpasswd  \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean -y 
 
-COPY --from=build /prod/backend/sshd_config /etc/ssh/
-COPY --from=build /prod/backend/init.sh /usr/local/bin/
+COPY --from=build /src/apps/backend/sshd_config /etc/ssh/
+COPY --from=build /src/apps/backend/init.sh /usr/local/bin/
 RUN chmod u+x /usr/local/bin/init.sh
 
 EXPOSE 8080 2222 80

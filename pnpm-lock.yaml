@@ -522,6 +522,9 @@ importers:
       '@prisma/client':
         specifier: 5.19.0
         version: 5.19.0(prisma@5.19.0)
+      prisma:
+        specifier: 5.19.0
+        version: 5.19.0
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -532,9 +535,6 @@ importers:
       dotenv-cli:
         specifier: 7.4.2
         version: 7.4.2
-      prisma:
-        specifier: 5.19.0
-        version: 5.19.0
       tsup:
         specifier: 8.2.4
         version: 8.2.4(@swc/core@1.7.21(@swc/helpers@0.5.12))(jiti@1.21.6)(postcss@8.4.41)(typescript@5.5.4)
