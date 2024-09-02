@@ -1,4 +1,4 @@
-// import prisma from "./prismaClient";
+// import prisma from './prismaClient';
 import { InvocationContext } from '@azure/functions';
 // import { queueEmail, addEmailToQueue } from "./azureStorageQueue";
 

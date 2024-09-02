@@ -15,7 +15,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run build --filter="./apps/backend/" --filter="./libs/**/"
 RUN pnpm deploy --filter="./apps/backend/" --prod /prod/backend 
 
-# setup prisma to connect to db
+# setup prisma engine binary to connect to db
 WORKDIR /prod/backend
 RUN pnpm db:generate \ 
     && cp -r ./node_modules/@core/db/node_modules/.prisma ./node_modules/
