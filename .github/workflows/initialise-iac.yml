@@ -72,10 +72,14 @@ jobs:
           echo $AZURE_CREDENTIALS
           echo $AZURE_RESOURCE_GROUP
 
+
+      - uses: pnpm/action-setup@v4
       - name: Set up NodeJS
         uses: actions/setup-node@v4
         with:
           node-version: 21.1.0
+          cache: 'pnpm'
+    
 
       - name: Install pnpm dependencies
         shell: bash
