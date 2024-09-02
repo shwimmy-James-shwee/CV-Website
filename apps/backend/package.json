@@ -16,7 +16,8 @@
     "test:e2e:watch": "yarn prisma:deploy:test && dotenv -e .env.test -- jest --watch --config ./test-e2e/jest-e2e.config.js --coverage --runInBand",
     "test:e2e:cov": "yarn prisma:deploy:test && dotenv -e .env.test -- jest --config ./test-e2e/jest-e2e.config.js --coverage --runInBand",
     "db:deploy:test": "dotenv -e .env.test -- prisma migrate reset --force --skip-generate  --schema node_modules/@core/db/prisma/schema.prisma && dotenv -e .env.test -- prisma migrate deploy  --schema node_modules/@core/db/prisma/schema.prisma",
-    "db:deploy": "prisma migrate deploy --schema node_modules/@core/db/prisma/schema.prisma"
+    "db:deploy": "prisma migrate deploy --schema node_modules/@core/db/prisma/schema.prisma",
+    "db:generate": "prisma generate --schema node_modules/@core/db/prisma/schema.prisma"
   },
   "prisma": {
     "seed": "ts-node src/database/seed.ts"
@@ -107,6 +108,7 @@
   "files": [
     "dist",
     ".env*",
-    "src"
+    "src",
+    "*.txt"
   ]
 }
