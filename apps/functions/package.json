@@ -8,7 +8,8 @@
     "start:dev": "func start",
     "test": "jest --config ./jest.config.js --coverage --watch",
     "test:action": "jest --config ./jest.config.js --coverage",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "db:generate": "prisma generate --schema node_modules/@core/db/prisma/schema.prisma"
   },
   "dependencies": {
     "@core/db": "workspace:*",
@@ -17,6 +18,8 @@
     "@azure/identity": "4.4.1",
     "@azure/keyvault-secrets": "4.8.0",
     "@azure/storage-blob": "12.24.0",
+    "@prisma/client": "5.19.0",
+    "prisma": "5.19.0",
     "@azure/storage-queue": "12.23.0",
     "@azure/core-client": "1.9.2",
     "@sendgrid/mail": "8.1.3"

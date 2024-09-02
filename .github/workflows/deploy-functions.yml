@@ -42,6 +42,11 @@ jobs:
           pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
           pnpm build --filter="./libs/**/" --filter="./apps/functions/"
           pnpm deploy --filter="./apps/functions/" --prod ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+
+          pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          pnpm db:generate
+          cp -r ./node_modules/@core/db/node_modules/.prisma ./node_modules/
+          popd
         env:
           CI: true
 

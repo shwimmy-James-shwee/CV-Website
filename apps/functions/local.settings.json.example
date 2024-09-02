@@ -3,7 +3,8 @@
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "AzureWebJobsFeatureFlags": "EnableWorkerIndexing",
-    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=tplv1datastoragedev;AccountKey=dummyacountkeyfromstorageaccountaccesskey;EndpointSuffix=core.windows.net",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "AzureWebJobsSecretStorageType": "files",
     "DATABASE_URL": "postgresql://postgres:postgres@127.0.0.1:5432/postgres?schema=twm",
     "DIRECT_URL": "postgresql://postgres:postgres@127.0.0.1:5432/postgres?schema=twm",
     "SENDGRID_KEY": "dasdasd",
