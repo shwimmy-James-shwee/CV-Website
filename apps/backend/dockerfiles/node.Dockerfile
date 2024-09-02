@@ -4,14 +4,15 @@ ENV PATH="$PNPM_HOME:$PATH"
 
 RUN corepack enable \
     && apt update -y\
-    && apt install -y openssh-server openssl
+    && apt install -y openssh-server
 
-RUN mkdir -p /src/app 
+WORKDIR /src/build 
+COPY . /src/build
+
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --filter="./apps/backend/"  --filter="./libs/**/"
 
 FROM base AS build
-WORKDIR /src
-COPY . /src
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --filter="./apps/backend/"  --filter="./libs/**/"
+WORKDIR /src/build 
 RUN pnpm run build --filter="./apps/backend/" --filter="./libs/**/"
 RUN pnpm deploy --filter="./apps/backend/" --prod /prod/backend
 
@@ -24,7 +25,8 @@ COPY --from=build /prod/backend /src/app
 # setup sshd
 RUN echo "$SSH_PASSWD" | chpasswd  \
     && rm -rf /var/lib/apt/lists/* \
-    && apt-get clean -y 
+    && apt-get clean -y \
+    && rm -rf /src/build 
 
 COPY --from=build /src/apps/backend/sshd_config /etc/ssh/
 COPY --from=build /src/apps/backend/init.sh /usr/local/bin/
