@@ -3,8 +3,8 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
 RUN corepack enable \
-    && apt update \
-    && apt install -y openssh-server 
+    && apt update -y\
+    && apt install -y openssh-server openssl
 
 RUN mkdir -p /src/app 
 
