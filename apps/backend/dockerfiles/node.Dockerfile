@@ -22,15 +22,15 @@ ENV SSH_PASSWD "root:Docker!"
 WORKDIR /src/app 
 COPY --from=build /prod/backend /src/app 
 
+COPY --from=build /src/apps/backend/sshd_config /etc/ssh/
+COPY --from=build /src/apps/backend/init.sh /usr/local/bin/
+RUN chmod u+x /usr/local/bin/init.sh
+
 # setup sshd
 RUN echo "$SSH_PASSWD" | chpasswd  \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean -y \
     && rm -rf /src/build 
-
-COPY --from=build /src/apps/backend/sshd_config /etc/ssh/
-COPY --from=build /src/apps/backend/init.sh /usr/local/bin/
-RUN chmod u+x /usr/local/bin/init.sh
 
 EXPOSE 8080 2222 80
 
