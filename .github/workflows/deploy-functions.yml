@@ -24,6 +24,10 @@ jobs:
   build-and-deploy:
     runs-on: opch # For Linux, use ubuntu-latest
     environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
+    env:
+      AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
+      AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
+      
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v4
