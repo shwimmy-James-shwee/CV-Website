@@ -1,12 +1,18 @@
-import { app, InvocationContext, Timer } from '@azure/functions';
+import { app, HttpRequest, HttpResponseInit, InvocationContext } from '@azure/functions';
 import prisma from '../services/prismaClient';
 
-export async function testPrisma(timer: Timer, context: InvocationContext): Promise<void> {
+export async function testPrisma(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
   const businessUnits = await prisma.businessUnit.findMany();
   context.log(JSON.stringify(businessUnits));
+  return {
+    jsonBody: {
+      message: JSON.stringify(businessUnits)
+    }
+  };
 }
 
-app.timer('testPrisma', {
-  schedule: process.env.TIME_TRIGGER || '*/10 * * * * *', // every 10 second
+app.http('testPrisma', {
+  methods: ['GET', 'POST'],
+  authLevel: 'anonymous',
   handler: testPrisma
 });
