@@ -27,68 +27,43 @@ jobs:
     env:
       AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
       AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
-      
+
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v4
 
-      # - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4
 
-      # - name: Setup Node.js Environment - Version ${{ env.NODE_VERSION }}
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: ${{ env.NODE_VERSION }}
-      #     cache: 'pnpm'
+      - name: Setup Node.js Environment - Version ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
-      # - name: 'Resolve Project Dependencies Using Npm'
-      #   shell: bash
-      #   run: |
-      #     pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
-      #     pnpm build --filter="./libs/**/" --filter="./apps/functions/"
-      #     pnpm deploy --filter="./apps/functions/" --prod ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+      - name: 'Resolve Project Dependencies Using Npm'
+        shell: bash
+        run: |
+          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
+          pnpm build --filter="./libs/**/" --filter="./apps/functions/"
+          pnpm deploy --filter="./apps/functions/" --prod ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
 
-      #     pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-      #     pnpm db:generate
-      #     cp -r ./node_modules/@core/db/node_modules/.prisma ./node_modules/
-      #     popd
-      #   env:
-      #     CI: true
+          pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          pnpm db:generate
+          cp -r ./node_modules/@core/db/node_modules/.prisma ./node_modules/
+          popd
+        env:
+          CI: true
 
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Check Base
-        id: check
-        continue-on-error: true
-        run: |
-          echo $AZURE_CONTAINER_REGISTRY_NAME
-          az acr login --name $AZURE_CONTAINER_REGISTRY_NAME
-
-
-      - name: Build And Push
-        run: |
-          docker ps -a
-          docker image ls -a
-
-          docker build -t functionapp -f ./apps/functions/Dockerfile .
-          docker ps -a
-          docker image ls
-          docker container ls
-          docker tag functionapp $AZURE_CONTAINER_REGISTRY/functionapp:${{ github.run_id }}
-          docker tag functionapp $AZURE_CONTAINER_REGISTRY/functionapp
-
-          # publish image to acr
-          docker push $AZURE_CONTAINER_REGISTRY/functionapp:${{ github.run_id }}
-          docker push  $AZURE_CONTAINER_REGISTRY/functionapp
-
-
-      # - name: 'Run Azure Functions Action'
-      #   uses: Azure/functions-action@v1
-      #   id: fa
-      #   with:
-      #     app-name: '${{ vars.PROJECT_NAME_ABBREVIATION }}-fa-${{ vars.ENV }}'
-      #     package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-      #     scm-do-build-during-deployment: false
-      #     enable-oryx-build: false
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@v1
+        id: fa
+        with:
+          app-name: '${{ vars.PROJECT_NAME_ABBREVIATION }}-fa-${{ vars.ENV }}'
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          scm-do-build-during-deployment: false
+          enable-oryx-build: false
