@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { UserModule } from '../../../src/api/admin/user/user.module';
 import { AzureADGuard } from '../../../src/guard/auth/azuread.guard';
 import { adminAdUser } from '../../__data__/user.data';
-import { User, UserRole } from '@prisma/client';
+import { User, UserRole } from '@core/db';
 import { APIReturnObjectify, seedUser } from '../../utils';
 import { DatabaseService } from '../../../src/database/database.service';
 import { ROUTE } from '../../../src/shared/endpoints';
@@ -15,7 +15,7 @@ describe('UserModule (e2e)', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [UserModule],
+      imports: [UserModule]
     })
       .overrideGuard(AzureADGuard)
       .useValue({
@@ -23,7 +23,7 @@ describe('UserModule (e2e)', () => {
           const request = context.switchToHttp().getRequest();
           request.user = { ...adminAdUser, roles: [UserRole.ADMINISTRATOR] } as User;
           return true;
-        },
+        }
       })
       .compile();
 

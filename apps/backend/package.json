@@ -105,6 +105,8 @@
     "testEnvironment": "node"
   },
   "files": [
-    "dist"
+    "dist",
+    ".env*",
+    "src"
   ]
 }

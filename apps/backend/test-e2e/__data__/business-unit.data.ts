@@ -1,4 +1,4 @@
-import { BusinessUnitType, Feature, Prisma } from '@prisma/client';
+import { BusinessUnitType, Feature, Prisma } from '@core/db';
 
 export const seedBusinessUnitData: Prisma.BusinessUnitCreateInput = {
   name: 'Business Unit 1',

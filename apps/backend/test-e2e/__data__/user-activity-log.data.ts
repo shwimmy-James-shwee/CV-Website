@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from '@core/db';
 
 export const seedUserActivityLogData = {
   sessionIdentifier: 'abc-def-gg',

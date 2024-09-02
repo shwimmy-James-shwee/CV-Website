@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { UserModule } from '../../../src/api/v1/user/user.module';
 import { AzureADGuard } from '../../../src/guard/auth/azuread.guard';
 import { adminAdUser } from '../../__data__/user.data';
-import { MemberRole, User, UserRole } from '@prisma/client';
+import { MemberRole, User, UserRole } from '@core/db';
 import { APIReturnObjectify, seedBusinessUnit, seedMember, seedUser } from '../../utils';
 import { DatabaseService } from '../../../src/database/database.service';
 import { ROUTE } from '../../../src/shared/endpoints';
@@ -16,7 +16,7 @@ describe('UserModule (e2e)', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [UserModule],
+      imports: [UserModule]
     })
       .overrideGuard(AzureADGuard)
       .useValue({
@@ -24,7 +24,7 @@ describe('UserModule (e2e)', () => {
           const request = context.switchToHttp().getRequest();
           request.user = { ...adminAdUser, roles: [UserRole.ADMINISTRATOR] } as User;
           return true;
-        },
+        }
       })
       .compile();
 
@@ -47,8 +47,8 @@ describe('UserModule (e2e)', () => {
         APIReturnObjectify({
           ...adminAdUser,
           roles: [UserRole.ADMINISTRATOR],
-          InBusinessUnits: [],
-        }),
+          InBusinessUnits: []
+        })
       );
   });
 
@@ -67,14 +67,14 @@ describe('UserModule (e2e)', () => {
 
     await prisma.member.update({
       where: {
-        id: seedMember.id,
+        id: seedMember.id
       },
       data: {
-        roles: [MemberRole.ADMINISTRATOR],
-      },
+        roles: [MemberRole.ADMINISTRATOR]
+      }
     });
     const { status, body } = await request(app.getHttpServer()).get(
-      ROUTE.user.base + ROUTE.user.adminUsers + seedBusinessUnit.id,
+      ROUTE.user.base + ROUTE.user.adminUsers + seedBusinessUnit.id
     );
 
     expect(status).toBe(200);

@@ -1,4 +1,4 @@
-import { Prisma, UserRole, User, NotificationFrequency } from '@prisma/client';
+import { Prisma, UserRole, User, NotificationFrequency } from '@core/db';
 
 export const adminAdUser = {
   id: 'dummy-0741-4354-8d28-e649380cbc4f',

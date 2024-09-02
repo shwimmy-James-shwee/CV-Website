@@ -59,3 +59,4 @@ git_commit_msg.txt
 coverage
 
 src/shared/schema_cp.ts
+tsconfig.build.tsbuildinfo

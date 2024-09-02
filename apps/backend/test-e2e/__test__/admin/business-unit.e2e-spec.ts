@@ -3,7 +3,7 @@ import { ExecutionContext, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AzureADGuard } from '../../../src/guard/auth/azuread.guard';
 import { adminAdUser } from '../../__data__/user.data';
-import { User, UserRole } from '@prisma/client';
+import { User, UserRole } from '@core/db';
 import { APIReturnObjectify, seedBusinessUnit } from '../../utils';
 import { DatabaseService } from '../../../src/database/database.service';
 import { ROUTE } from '../../../src/shared/endpoints';
@@ -15,7 +15,7 @@ describe('BusinessUnitModule (e2e)', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [BusinessUnitModule],
+      imports: [BusinessUnitModule]
     })
       .overrideGuard(AzureADGuard)
       .useValue({
@@ -23,7 +23,7 @@ describe('BusinessUnitModule (e2e)', () => {
           const request = context.switchToHttp().getRequest();
           request.user = { ...adminAdUser, roles: [UserRole.ADMINISTRATOR] } as User;
           return true;
-        },
+        }
       })
       .compile();
 
@@ -46,7 +46,7 @@ describe('BusinessUnitModule (e2e)', () => {
 
   it('/:id (GET)', async () => {
     const { status, body } = await request(app.getHttpServer()).get(
-      ROUTE.businessUnit.base + `/${seedBusinessUnit.id}`,
+      ROUTE.businessUnit.base + `/${seedBusinessUnit.id}`
     );
     expect(status).toBe(200);
 

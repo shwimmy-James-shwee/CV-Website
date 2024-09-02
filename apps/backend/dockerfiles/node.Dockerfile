@@ -13,13 +13,13 @@ WORKDIR /src
 COPY . /src
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --filter="./apps/backend/"  --filter="./libs/**/"
 RUN pnpm run build --filter="./apps/backend/" --filter="./libs/**/"
-# RUN pnpm deploy --filter="./apps/backend/" --prod /prod/backend
+RUN pnpm deploy --filter="./apps/backend/" --prod /prod/backend
 
 FROM base AS backend
 ENV DISABLE_ERD true
 ENV SSH_PASSWD "root:Docker!"
 WORKDIR /src/app 
-COPY --from=build /src/apps/backend /src/app 
+COPY --from=build /prod/backend /src/app 
 
 # setup sshd
 RUN echo "$SSH_PASSWD" | chpasswd  \
