@@ -27,5 +27,7 @@ WORKDIR /src/build/prod/backend
 RUN pnpm db:generate \ 
     && cp -r ./node_modules/@core/db/node_modules/.prisma ./node_modules/
 
-
-RUN cp -r /src/build/prod/backend /home/site/wwwroot
+# copy the build to the wwwroot
+RUN mkdir -p /home/site/wwwroot \
+    && cp -rL /src/build/prod/backend /home/site/wwwroot \ 
+    && rm -rf /src/build
