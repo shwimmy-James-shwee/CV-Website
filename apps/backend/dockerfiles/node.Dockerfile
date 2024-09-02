@@ -13,11 +13,12 @@ WORKDIR /src
 COPY . /src
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --filter="./apps/backend/"  --filter="./libs/**/"
 RUN pnpm run build --filter="./apps/backend/" --filter="./libs/**/"
-RUN pnpm deploy --filter="./apps/backend/" --prod /prod/backend
+RUN pnpm deploy --filter="./apps/backend/" --prod /prod/backend 
 
 # setup prisma to connect to db
 WORKDIR /prod/backend
-RUN pnpm db:generate
+RUN pnpm db:generate \ 
+    && cp -r ./node_modules/@core/db/node_modules/.prisma ./node_modules/
 
 FROM base AS backend
 ENV DISABLE_ERD true
