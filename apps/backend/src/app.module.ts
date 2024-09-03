@@ -9,33 +9,35 @@ import { V1Module } from './api/v1/v1.module';
 import { env } from './config/env';
 import { AdminModule } from './api/admin/admin.module';
 import { AppLoggerMiddleware } from './middleware/logger.middleware';
+import { GraphQLResolversModule } from '@/modules/graphql-resolvers.module';
 
 @Module({
   imports: [
-    ThrottlerModule.forRoot([
-      {
-        name: 'short',
-        ttl: 1 * 1000,
-        limit: 20,
-      },
-      {
-        name: 'medium',
-        ttl: 10 * 1000,
-        limit: 40,
-      },
-      {
-        name: 'long',
-        ttl: 60 * 1000,
-        limit: 200,
-      },
-    ]),
+    GraphQLResolversModule,
+    // ThrottlerModule.forRoot([
+    //   {
+    //     name: 'short',
+    //     ttl: 1 * 1000,
+    //     limit: 20,
+    //   },
+    //   {
+    //     name: 'medium',
+    //     ttl: 10 * 1000,
+    //     limit: 40,
+    //   },
+    //   {
+    //     name: 'long',
+    //     ttl: 60 * 1000,
+    //     limit: 200,
+    //   },
+    // ]),
     LoggerModule,
-    V1Module,
-    AdminModule,
-    ...(env.NODE_ENV === 'test' ? [] : [AuthModule]), // strip module that can not be run in test env
+    // V1Module,
+    // AdminModule,
+    // ...(env.NODE_ENV === 'test' ? [] : [AuthModule]), // strip module that can not be run in test env
   ],
-  controllers: [AppController],
-  providers: [AppService, { provide: APP_GUARD, useClass: ThrottlerGuard }, Logger],
+  // controllers: [AppController],
+  // providers: [AppService, { provide: APP_GUARD, useClass: ThrottlerGuard }, Logger],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {

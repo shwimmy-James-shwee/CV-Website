@@ -1,0 +1,49 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: String
+  firstName: String
+  lastName: String
+}
+
+type UserFindManyResponse {
+  items: [User!]!
+}
+
+type Query {
+  findManyUsers(args: UserFindManyArgs!): UserFindManyResponse!
+}
+
+input UserFindManyArgs {
+  take: Int
+  skip: Int
+  where: UserWhereInput
+}
+
+input UserWhereInput {
+  id: StringFilter
+  firstName: StringFilter
+  lastName: StringFilter
+}
+
+input StringFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: String
+}
+
+enum QueryMode {
+  Default
+  Insensitive
+}
