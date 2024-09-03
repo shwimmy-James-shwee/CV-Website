@@ -26,8 +26,6 @@ ENV SSH_PASSWD "root:Docker!"
 WORKDIR /src/app 
 COPY --from=build /prod/backend /src/app 
 
-
-
 # setup sshd
 RUN echo "$SSH_PASSWD" | chpasswd  \
     && rm -rf /var/lib/apt/lists/* \
