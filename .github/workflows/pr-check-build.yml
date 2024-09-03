@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  frontend:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
@@ -28,7 +28,31 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/frontend/" 
 
-      - name: Build Apps and Packages
-        run: pnpm build
+      - name: Build FE and Packages
+        run: pnpm run build --filter="./apps/frontend/"  --filter="./libs/**/"
+
+  backend-api:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20.15.1]
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9.7.1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter="./apps/backend/"  --filter="./libs/**/"
+
+      - name: Build BE and Packages
+        run: pnpm run build --filter="./apps/backend/" --filter="./libs/**/"
