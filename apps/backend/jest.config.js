@@ -43,6 +43,7 @@ module.exports = {
     'src/main.ts',
     'src/all-exceptions-filter.ts',
     'src/prisma.env.ts',
+    'src/make.env.ts',
     'src/middleware/',
   ],
 

@@ -21,6 +21,11 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "test:action": {
+      "dependsOn": ["^test:action"],
+      "cache": false,
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
     }
   },
   "globalEnv": [

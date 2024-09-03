@@ -19,6 +19,7 @@ module.exports = {
     '!<rootDir>/**/*.spec.ts',
   ],
   coverageDirectory: '../coverage',
+
   coverageThreshold: {
     global: {
       branches: 75,

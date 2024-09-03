@@ -77,7 +77,7 @@ describe('V1/UserController', () => {
       },
     } as unknown as Request;
 
-    controller.getAdminUsersByBusinessUnitId = jest.fn().mockResolvedValue(Promise.reject);
-    expect(await controller.getAdminUsersByBusinessUnitId(req, 'id')).rejects;
+    controller.getAdminUsersByBusinessUnitId = jest.fn().mockRejectedValue(new Error('Forbidden'));
+    await expect(controller.getAdminUsersByBusinessUnitId(req, 'id')).rejects.toThrow('Forbidden');
   });
 });

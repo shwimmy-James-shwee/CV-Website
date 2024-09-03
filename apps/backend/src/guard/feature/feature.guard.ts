@@ -40,9 +40,8 @@ export class FeatureGuard implements CanActivate {
         ...(parentBusinessUnit?.features ?? []),
         ...(await this.getParentFeatures(parentBusinessUnit.parentBusinessUnitId)),
       ];
-    } else {
-      return [];
     }
+    return [];
   }
 
   async validateFeature(userId: string, requiredFeatures: Feature[]) {
