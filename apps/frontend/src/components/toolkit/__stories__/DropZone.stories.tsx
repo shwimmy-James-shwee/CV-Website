@@ -10,9 +10,9 @@ const meta = {
   argTypes: {
     name: {
       control: 'text',
-      description: 'The label of the button'
-    }
-  }
+      description: 'The label of the button',
+    },
+  },
 } satisfies Meta<typeof DropZone>;
 
 export default meta;
@@ -23,22 +23,22 @@ export const WithText: Story = {
   args: {
     name: 'Question',
     show: true,
-    showText: true
-  }
+    showText: true,
+  },
 };
 
 export const WithoutText: Story = {
   args: {
     name: 'Question',
-    show: true
-  }
+    show: true,
+  },
 };
 
 export const UnitTest: Story = {
   args: {
     name: 'Question',
     show: true,
-    showText: true
+    showText: true,
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -47,5 +47,5 @@ export const UnitTest: Story = {
       const dropZone = canvas.getByText('Drop Question Here');
       await expect(dropZone).toBeInTheDocument();
     });
-  }
+  },
 };

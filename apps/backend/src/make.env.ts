@@ -20,7 +20,7 @@ async function syncSecretAndWriteFile(exportName: string, secretName: string) {
    */
   const data = `\n${exportName}="${(await secrets.getSecret(secretName)).value}"`;
   writeFileSync(join(__dirname, envPathName), data, {
-    flag: 'a+'
+    flag: 'a+',
   });
 
   return readFileSync(join(__dirname, envPathName), 'utf-8');

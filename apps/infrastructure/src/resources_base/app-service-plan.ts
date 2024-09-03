@@ -13,13 +13,13 @@ export const appServicePlan = new web.AppServicePlan(
     kind: 'Linux,Container',
     reserved: true,
     sku: {
-      name: envExtend.pricingTier
-    }
+      name: envExtend.pricingTier,
+    },
   },
   {
     ignoreChanges: ['tags'],
-    customTimeouts: { create: '30m', update: '30m', delete: '30m' }
-  }
+    customTimeouts: { create: '30m', update: '30m', delete: '30m' },
+  },
 );
 
 if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase())) {
@@ -33,7 +33,7 @@ if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase())) {
         capacity: {
           default: `${envExtend.minCapacity}`,
           minimum: `${envExtend.minCapacity}`,
-          maximum: `${envExtend.maxCapacity}`
+          maximum: `${envExtend.maxCapacity}`,
         },
         rules: [
           {
@@ -47,14 +47,14 @@ if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase())) {
               statistic: 'Average',
               timeGrain: 'PT1M',
               timeWindow: 'PT5M',
-              dividePerInstance: false
+              dividePerInstance: false,
             },
             scaleAction: {
               direction: insights.ScaleDirection.Increase,
               type: insights.ScaleType.ChangeCount,
               value: '1',
-              cooldown: 'PT1M'
-            }
+              cooldown: 'PT1M',
+            },
           },
           {
             metricTrigger: {
@@ -67,17 +67,17 @@ if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase())) {
               statistic: 'Average',
               timeGrain: 'PT1M',
               timeWindow: 'PT5M',
-              dividePerInstance: false
+              dividePerInstance: false,
             },
             scaleAction: {
               direction: insights.ScaleDirection.Decrease,
               type: insights.ScaleType.ChangeCount,
               value: '1',
-              cooldown: 'PT1M'
-            }
-          }
-        ]
-      }
-    ]
+              cooldown: 'PT1M',
+            },
+          },
+        ],
+      },
+    ],
   });
 }

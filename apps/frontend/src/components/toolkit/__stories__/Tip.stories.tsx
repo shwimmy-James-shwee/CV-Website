@@ -7,7 +7,7 @@ const meta = {
   title: 'Components/Toolkit/Tip',
   component: Tip,
   parameters: {},
-  tags: ['autodocs']
+  tags: ['autodocs'],
 } satisfies Meta<typeof Tip>;
 
 export default meta;
@@ -20,8 +20,8 @@ export const Default: Story = {
     icon: 'lightbulb',
     title: 'Tip',
     text: 'Tooltip example',
-    closeButton: true
-  }
+    closeButton: true,
+  },
 };
 
 export const Warning: Story = {
@@ -31,8 +31,8 @@ export const Warning: Story = {
     title: 'Error',
     text: 'Warning example',
     backgroundColor: 'none',
-    color: 'var(--warning-color)'
-  }
+    color: 'var(--warning-color)',
+  },
 };
 
 export const UnitTest: Story = {
@@ -42,7 +42,7 @@ export const UnitTest: Story = {
     title: 'Tip',
     text: 'Tooltip example',
     closeButton: true,
-    'data-testid': 'tip-row'
+    'data-testid': 'tip-row',
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -51,5 +51,5 @@ export const UnitTest: Story = {
       const tip = canvas.getByTestId('tip-row');
       await expect(tip).toBeDefined();
     });
-  }
+  },
 };

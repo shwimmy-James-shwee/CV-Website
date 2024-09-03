@@ -21,33 +21,33 @@ const meta: Meta<AlertComponentAndCustomArgs> = {
     docs: {
       description: {
         component:
-          'To use the Alert component, wrap your application in the AlertProvider. Then use the addAlert function to add alerts.'
+          'To use the Alert component, wrap your application in the AlertProvider. Then use the addAlert function to add alerts.',
       },
       source: {
-        type: 'code'
-      }
-    }
+        type: 'code',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
     header: {
       control: 'text',
-      description: 'The title of the alert'
+      description: 'The title of the alert',
     },
     alertContent: {
       control: 'text',
-      description: 'The content of the alert'
+      description: 'The content of the alert',
     },
     timeout: {
       control: 'number',
-      description: 'The time in milliseconds before the alert is removed'
+      description: 'The time in milliseconds before the alert is removed',
     },
     variant: {
       control: 'select',
       options: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'],
-      description: 'The variant of the alert'
-    }
-  }
+      description: 'The variant of the alert',
+    },
+  },
 } satisfies Meta<AlertComponentAndCustomArgs>;
 
 export default meta;
@@ -67,7 +67,7 @@ const Template = ({ header, alertContent, timeout, variant }: AlertCustomArgs) =
             timeout: timeout,
             header: header,
             alertContent: alertContent,
-            variant: variant
+            variant: variant,
           });
         }}
       >
@@ -82,7 +82,7 @@ export const Default: Story = {
     header: 'New Alert Storybook Title',
     alertContent: 'New Alert body storybook',
     timeout: 1000,
-    variant: 'primary'
+    variant: 'primary',
   },
 
   render: ({ ...args }) => {
@@ -100,7 +100,7 @@ export const Default: Story = {
                       timeout: args.timeout,
                       header: args.header,
                       alertContent: args.alertContent,
-                      variant: args.variant
+                      variant: args.variant,
                     });
                   }}
                 >
@@ -112,14 +112,14 @@ export const Default: Story = {
         </AlertContext.Consumer>
       </AlertProvider>
     );
-  }
+  },
 };
 
 export const UnitTest: Story = {
   args: {
     header: 'New Alert Storybook Title',
     alertContent: 'New Alert body storybook',
-    timeout: 500
+    timeout: 500,
   },
   render: ({ ...args }) => {
     return (
@@ -162,5 +162,5 @@ export const UnitTest: Story = {
       const alertBodyRemoved = canvas.queryByText('Alert body storybook');
       await waitFor(() => expect(alertBodyRemoved).not.toBeInTheDocument());
     });
-  }
+  },
 };

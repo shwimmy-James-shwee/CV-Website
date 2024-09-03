@@ -17,9 +17,9 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.MetricSettingsArgs[],
 
   logAnalyticDSLogItem: [
@@ -28,17 +28,17 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'SummaryLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: true
-      }
-    }
+        enabled: true,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   // DS
@@ -49,97 +49,97 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppAvailabilityResults',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppBrowserTimings',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppEvents',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppMetrics',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppDependencies',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppExceptions',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppPageViews',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppPerformanceCounters',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppRequests',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppSystemEvents',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppTraces',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   storageDSLogItem: [
@@ -148,25 +148,25 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'StorageWrite',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'StorageDelete',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   storageDSMetricsItem: [
@@ -175,17 +175,17 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'Transaction',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.MetricSettingsArgs[],
 
   // private endpoint DS
@@ -196,9 +196,9 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: 0,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.MetricSettingsArgs[],
 
   // Vault DS
@@ -209,9 +209,9 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.MetricSettingsArgs[],
 
   vaultDSLogItem: [
@@ -220,17 +220,17 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AzurePolicyEvaluationDetails',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   // Container Registry DS
@@ -241,17 +241,17 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'ContainerRegistryLoginEvents',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   containerRegistryDSMetricsItem: [
@@ -260,9 +260,9 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.MetricSettingsArgs[],
 
   // Cosmos Postgres DS
@@ -273,9 +273,9 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   cosmosPostgresDSMetricsItem: [
@@ -284,9 +284,9 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.MetricSettingsArgs[],
 
   // Function App DS
@@ -297,17 +297,17 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'FunctionAppLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   functionAppDSMetricsItem: [
@@ -316,9 +316,9 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.MetricSettingsArgs[],
 
   // Web App DS
@@ -329,57 +329,57 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppServiceHTTPLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppServiceConsoleLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppServiceAppLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppServiceAuditLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppServiceIPSecAuditLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
       category: 'AppServicePlatformLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   webAppDSMetricsItem: [
@@ -388,10 +388,10 @@ export const dsSettings = {
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
-  ] as input.insights.MetricSettingsArgs[]
+        enabled: false,
+      },
+    },
+  ] as input.insights.MetricSettingsArgs[],
 };
 
 if (!['b1', 'b2', 'f1', 'b3'].includes(envExtend.pricingTier.toLowerCase())) {
@@ -401,16 +401,16 @@ if (!['b1', 'b2', 'f1', 'b3'].includes(envExtend.pricingTier.toLowerCase())) {
       enabled: false,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     } as input.insights.LogSettingsArgs,
     {
       category: 'AppServiceFileAuditLogs',
       enabled: false,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    } as input.insights.LogSettingsArgs
+        enabled: false,
+      },
+    } as input.insights.LogSettingsArgs,
   );
 }

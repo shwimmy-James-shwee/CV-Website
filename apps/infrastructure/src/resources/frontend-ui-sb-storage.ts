@@ -17,8 +17,8 @@ const frontendKey = new keyvault.Key(frontendUISBStorageName, {
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
   vaultName: envBase.KEYVAULT_NAME,
   properties: {
-    kty: 'RSA'
-  }
+    kty: 'RSA',
+  },
 });
 
 export const frontendUISBStorage = new storage.StorageAccount(
@@ -27,7 +27,7 @@ export const frontendUISBStorage = new storage.StorageAccount(
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     accountName: frontendUISBStorageName,
     sku: {
-      name: storage.SkuName.Standard_GRS
+      name: storage.SkuName.Standard_GRS,
     },
     kind: storage.Kind.StorageV2,
     accessTier: storage.AccessTier.Hot,
@@ -36,11 +36,11 @@ export const frontendUISBStorage = new storage.StorageAccount(
     allowBlobPublicAccess: true,
     networkRuleSet: {
       defaultAction: storage.DefaultAction.Deny,
-      bypass: storage.Bypass.AzureServices
+      bypass: storage.Bypass.AzureServices,
     },
     identity: {
       type: storage.IdentityType.UserAssigned,
-      userAssignedIdentities: [managedIdentity.then((v) => v.id)]
+      userAssignedIdentities: [managedIdentity.then((v) => v.id)],
     },
     encryption: {
       keySource: storage.KeySource.Microsoft_Keyvault,
@@ -49,26 +49,26 @@ export const frontendUISBStorage = new storage.StorageAccount(
         file: { enabled: true },
         table: {
           keyType: storage.KeyType.Account,
-          enabled: true
+          enabled: true,
         },
         queue: {
           keyType: storage.KeyType.Account,
-          enabled: true
-        }
+          enabled: true,
+        },
       },
       requireInfrastructureEncryption: true,
       keyVaultProperties: {
         keyName: frontendKey.name,
-        keyVaultUri: `https://${envBase.KEYVAULT_NAME}.vault.azure.net`
+        keyVaultUri: `https://${envBase.KEYVAULT_NAME}.vault.azure.net`,
       },
       encryptionIdentity: {
-        encryptionUserAssignedIdentity: managedIdentity.then((v) => v.id)
-      }
-    }
+        encryptionUserAssignedIdentity: managedIdentity.then((v) => v.id),
+      },
+    },
   },
   {
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
 // Create a static website for the storage account
@@ -78,11 +78,11 @@ new storage.StorageAccountStaticWebsite(
     accountName: frontendUISBStorage.name,
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     indexDocument: 'index.html',
-    error404Document: 'index.html'
+    error404Document: 'index.html',
   },
   {
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
 // private endpoint for the storage account
@@ -95,19 +95,19 @@ const frontendUIPept = new network.PrivateEndpoint(
     id: `${frontendUISBStorageName}-pept`,
     customDnsConfigs: [],
     subnet: {
-      id: envBase.PRIVATE_ENDPOINT_SUBNET
+      id: envBase.PRIVATE_ENDPOINT_SUBNET,
     },
     privateLinkServiceConnections: [
       {
         name: `${frontendUISBStorageName}-plink`,
         privateLinkServiceId: frontendUISBStorage.id,
-        groupIds: ['web']
-      }
-    ]
+        groupIds: ['web'],
+      },
+    ],
   },
   {
-    ignoreChanges: ['tags', 'privateLinkServiceConnections']
-  }
+    ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+  },
 );
 
 // frontend blob private endpoint
@@ -119,19 +119,19 @@ const frontendUIBlobPept = new network.PrivateEndpoint(
     customNetworkInterfaceName: `${frontendUISBStorageName}-blob-pept-nic`,
     id: `${frontendUISBStorageName}-blob-pept`,
     subnet: {
-      id: envBase.PRIVATE_ENDPOINT_SUBNET
+      id: envBase.PRIVATE_ENDPOINT_SUBNET,
     },
     privateLinkServiceConnections: [
       {
         name: `${frontendUISBStorageName}-blob-plink`,
         privateLinkServiceId: frontendUISBStorage.id,
-        groupIds: ['blob']
-      }
-    ]
+        groupIds: ['blob'],
+      },
+    ],
   },
   {
-    ignoreChanges: ['tags', 'privateLinkServiceConnections']
-  }
+    ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+  },
 );
 
 // diagnostic setting for the storage account pept
@@ -150,12 +150,12 @@ new insights.DiagnosticSetting(
       return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
-    metrics: dsSettings.peptDSMetricsItem
+    metrics: dsSettings.peptDSMetricsItem,
   },
   {
     dependsOn: [frontendUIPept, logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 // diagnostic setting for the storage account blob pept
@@ -174,12 +174,12 @@ new insights.DiagnosticSetting(
       return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
-    metrics: dsSettings.peptDSMetricsItem
+    metrics: dsSettings.peptDSMetricsItem,
   },
   {
     dependsOn: [frontendUIBlobPept, logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 // diagnostic setting for the storage account, blob, file, table, and queue
@@ -190,12 +190,12 @@ new insights.DiagnosticSetting(
     name: `${frontendUISBStorageName}-diagnostic`,
     resourceUri: frontendUISBStorage.id,
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
-    metrics: dsSettings.storageDSMetricsItem
+    metrics: dsSettings.storageDSMetricsItem,
   },
   {
     dependsOn: [frontendUISBStorage, logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 new insights.DiagnosticSetting(
   `${frontendUISBStorageName}-blob-diagnostic`,
@@ -204,12 +204,12 @@ new insights.DiagnosticSetting(
     resourceUri: frontendUISBStorage.id.apply((v) => `${v}/blobServices/default`),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
-    metrics: dsSettings.storageDSMetricsItem
+    metrics: dsSettings.storageDSMetricsItem,
   },
   {
     dependsOn: [frontendUISBStorage, logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 new insights.DiagnosticSetting(
   `${frontendUISBStorageName}-file-diagnostic`,
@@ -218,12 +218,12 @@ new insights.DiagnosticSetting(
     resourceUri: frontendUISBStorage.id.apply((v) => `${v}/fileServices/default`),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
-    metrics: dsSettings.storageDSMetricsItem
+    metrics: dsSettings.storageDSMetricsItem,
   },
   {
     dependsOn: [frontendUISBStorage, logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 new insights.DiagnosticSetting(
   `${frontendUISBStorageName}-table-diagnostic`,
@@ -232,12 +232,12 @@ new insights.DiagnosticSetting(
     resourceUri: frontendUISBStorage.id.apply((v) => `${v}/tableServices/default`),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
-    metrics: dsSettings.storageDSMetricsItem
+    metrics: dsSettings.storageDSMetricsItem,
   },
   {
     dependsOn: [frontendUISBStorage, logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 new insights.DiagnosticSetting(
@@ -247,10 +247,10 @@ new insights.DiagnosticSetting(
     resourceUri: frontendUISBStorage.id.apply((v) => `${v}/queueServices/default`),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
-    metrics: dsSettings.storageDSMetricsItem
+    metrics: dsSettings.storageDSMetricsItem,
   },
   {
     dependsOn: [frontendUISBStorage, logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );

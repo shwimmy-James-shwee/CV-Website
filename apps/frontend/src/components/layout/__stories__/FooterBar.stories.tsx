@@ -7,7 +7,7 @@ const meta: Meta<typeof FooterBar> = {
   title: 'Components/Layout/FooterBar',
   component: FooterBar,
   tags: ['autodocs'],
-  args: {}
+  args: {},
 } satisfies Meta<typeof FooterBar>;
 
 export default meta;
@@ -17,8 +17,8 @@ export const UnitTest: Story = {
   args: {
     redirectUrls: [
       { url: 'https://kpmg.com/nz/en/home/misc/privacy.html', label: 'Privacy' },
-      { url: 'https://kpmg.com/nz/en/home.html', label: 'KPMG New Zealand' }
-    ]
+      { url: 'https://kpmg.com/nz/en/home.html', label: 'KPMG New Zealand' },
+    ],
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -26,13 +26,13 @@ export const UnitTest: Story = {
     await step('Check redirect component render', async () => {
       await expect(canvas.getByText('Privacy').innerHTML).toEqual('Privacy');
       await expect(canvas.getByText('Privacy').getAttribute('href')).toEqual(
-        'https://kpmg.com/nz/en/home/misc/privacy.html'
+        'https://kpmg.com/nz/en/home/misc/privacy.html',
       );
 
       await expect(canvas.getByText('KPMG New Zealand').innerHTML).toEqual('KPMG New Zealand');
       await expect(canvas.getByText('KPMG New Zealand').getAttribute('href')).toEqual(
-        'https://kpmg.com/nz/en/home.html'
+        'https://kpmg.com/nz/en/home.html',
       );
     });
-  }
+  },
 };

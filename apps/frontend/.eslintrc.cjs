@@ -4,18 +4,18 @@ module.exports = {
   plugins: ['react-refresh', 'react', 'react-hooks', 'prettier'],
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
   },
   settings: {
     'import/resolver': {
-      typescript: {}
+      typescript: {},
     },
     react: {
-      version: 'detect'
-    }
+      version: 'detect',
+    },
   },
-  ignorePatterns: ['**/schema.ts']
+  ignorePatterns: ['**/schema.ts'],
 };

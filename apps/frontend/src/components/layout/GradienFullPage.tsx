@@ -17,7 +17,7 @@ const GradienFullPageDiv = styled.div`
 function GradienFullPage({
   className,
   'data-testid': dataTestId = 'gradient-full-page',
-  children
+  children,
 }: GradienFullPageProps) {
   return (
     <GradienFullPageDiv className={`my-auto mx-auto ${className ?? ''}`} data-testid={dataTestId}>

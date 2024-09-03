@@ -11,12 +11,12 @@ import { dsSettings } from './diagnostic-setting-configs';
 
 const codeDeployStorage = storage.getStorageAccount({
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-  accountName: envBase.CODEDEPLOY_STORAGE_NAME
+  accountName: envBase.CODEDEPLOY_STORAGE_NAME,
 });
 
 const codeDeployBlobPept = network.getPrivateEndpoint({
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-  privateEndpointName: `${envBase.CODEDEPLOY_STORAGE_NAME}-blob-pept`
+  privateEndpointName: `${envBase.CODEDEPLOY_STORAGE_NAME}-blob-pept`,
 });
 
 // storage account diagnostic setting
@@ -26,12 +26,12 @@ new insights.DiagnosticSetting(
     name: `${envBase.CODEDEPLOY_STORAGE_NAME}-diagnostic`,
     resourceUri: codeDeployStorage.then((v) => v.id),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
-    metrics: dsSettings.storageDSMetricsItem
+    metrics: dsSettings.storageDSMetricsItem,
   },
   {
     dependsOn: [logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 // blob diagnostic setting
@@ -42,12 +42,12 @@ new insights.DiagnosticSetting(
     resourceUri: codeDeployStorage.then((v) => `${v.id}/blobServices/default`),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
-    metrics: dsSettings.storageDSMetricsItem
+    metrics: dsSettings.storageDSMetricsItem,
   },
   {
     dependsOn: [logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 // blob pept diagnostic setting
@@ -68,12 +68,12 @@ new insights.DiagnosticSetting(
       return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
-    metrics: dsSettings.peptDSMetricsItem
+    metrics: dsSettings.peptDSMetricsItem,
   },
   {
     dependsOn: [logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 // queue diagnostic setting
@@ -84,12 +84,12 @@ new insights.DiagnosticSetting(
     resourceUri: codeDeployStorage.then((v) => `${v.id}/queueServices/default`),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
-    metrics: dsSettings.storageDSMetricsItem
+    metrics: dsSettings.storageDSMetricsItem,
   },
   {
     dependsOn: [logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 // table diagnostic setting
@@ -100,12 +100,12 @@ new insights.DiagnosticSetting(
     resourceUri: codeDeployStorage.then((v) => `${v.id}/tableServices/default`),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
-    metrics: dsSettings.storageDSMetricsItem
+    metrics: dsSettings.storageDSMetricsItem,
   },
   {
     dependsOn: [logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 // file diagnostic setting
@@ -116,10 +116,10 @@ new insights.DiagnosticSetting(
     resourceUri: codeDeployStorage.then((v) => `${v.id}/fileServices/default`),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
-    metrics: dsSettings.storageDSMetricsItem
+    metrics: dsSettings.storageDSMetricsItem,
   },
   {
     dependsOn: [logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );

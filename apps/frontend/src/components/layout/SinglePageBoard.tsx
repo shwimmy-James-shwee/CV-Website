@@ -37,7 +37,7 @@ function SinglePageBoard({
   'data-testid': dataTestId,
   header,
   contentHeader,
-  children: contentBody
+  children: contentBody,
 }: {
   'data-testid'?: string;
   header: React.ReactNode;

@@ -21,13 +21,13 @@ export const adminAdUser = {
       userId: '543becda-0741-4354-8d28-e649380cbc4f',
       createdAt: '2024-04-12T00:48:39.071Z',
       updatedAt: '2024-04-12T00:48:39.071Z',
-      signInDateTime: '2024-04-12T00:47:53.000Z'
-    }
-  ]
+      signInDateTime: '2024-04-12T00:47:53.000Z',
+    },
+  ],
 } as User;
 
 export const seedUserData = {
   firstName: 'seedUserFN',
   lastName: 'seedUserLN',
-  loginEmail: 'seeduser@email.com'
+  loginEmail: 'seeduser@email.com',
 } as Prisma.UserCreateInput;

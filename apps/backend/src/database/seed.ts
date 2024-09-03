@@ -11,7 +11,7 @@ export function uuidFromString(name: string) {
 async function main() {
   const userBody = {
     firstName: 'no-reply',
-    lastName: 'no-reply'
+    lastName: 'no-reply',
   };
   await prisma.user.upsert({
     where: { id: uuidFromString('no-reply@portal.com') },
@@ -19,19 +19,19 @@ async function main() {
     create: {
       id: uuidFromString('no-reply@portal.com'),
       loginEmail: 'no-reply@portal.com',
-      ...userBody
-    }
+      ...userBody,
+    },
   });
 
   const businessUnitBody = {
     type: BusinessUnitType.COMPANY,
     name: 'Base Application',
-    description: 'Top level business unit for the application'
+    description: 'Top level business unit for the application',
   };
   await prisma.businessUnit.upsert({
     where: { id: uuidFromString(businessUnitBody.name) },
     update: { ...businessUnitBody },
-    create: { ...businessUnitBody }
+    create: { ...businessUnitBody },
   });
 }
 main()

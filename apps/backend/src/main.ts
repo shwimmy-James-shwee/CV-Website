@@ -11,7 +11,7 @@ import * as bodyParser from 'body-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: true,
-    bufferLogs: true
+    bufferLogs: true,
   });
 
   app.use(bodyParser.json({ limit: '50mb' }));
@@ -36,7 +36,7 @@ async function bootstrap() {
 
       name: 'JWT',
       description: 'Enter JWT token',
-      in: 'header'
+      in: 'header',
     })
     .addSecurityRequirements('bearer')
     .setVersion('1.0')
@@ -46,10 +46,10 @@ async function bootstrap() {
   SwaggerModule.setup('api/docs', app, document, {
     customCss: readFileSync('./src/spec/style.css', 'utf8'),
     customSiteTitle: 'API Documentation',
-    customfavIcon: './favicon.ico'
+    customfavIcon: './favicon.ico',
   });
   app.enableCors({
-    origin: 'http://localhost:3000'
+    origin: 'http://localhost:3000',
   });
   await app.listen(process.env.APP_PORT || 8080);
 }

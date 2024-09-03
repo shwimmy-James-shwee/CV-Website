@@ -65,7 +65,7 @@ const UserProvider = ({ children }: IUserProvider) => {
         currentUserData,
         setCurrentUserData,
         isLoading,
-        userReturnStatus
+        userReturnStatus,
       }}
     >
       {children}

@@ -12,9 +12,9 @@ vi.mock('@azure/msal-react', async (origicalImport) => {
     ...(await origicalImport<typeof import('@azure/msal-react')>()),
     useMsal: () => ({
       instance: {
-        logoutRedirect: logoutRedirectMock
-      }
-    })
+        logoutRedirect: logoutRedirectMock,
+      },
+    }),
   };
 });
 

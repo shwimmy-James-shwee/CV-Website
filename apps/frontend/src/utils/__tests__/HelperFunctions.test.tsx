@@ -18,7 +18,7 @@ test('formatDate with numericDate set to false', () => {
   const expectedFormattedStr = new Date(dateStr).toLocaleDateString(undefined, {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
   });
   const formattedStr = formatDate(dateStr, false);
   expect(formattedStr).toBe(expectedFormattedStr);

@@ -14,7 +14,7 @@ interface CompareTokenClaims extends TokenClaims {
 
 export function compareIssuingPolicy(
   idTokenClaims: CompareTokenClaims | undefined,
-  policyToCompare: string | undefined
+  policyToCompare: string | undefined,
 ) {
   const tfpMatches =
     // eslint-disable-next-line no-prototype-builtins

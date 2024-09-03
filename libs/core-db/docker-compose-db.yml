@@ -1,9 +1,9 @@
-version: "3"
+version: '3'
 services:
   db:
     image: postgres:16
     ports:
-      - "1000:5432"
+      - '1000:5432'
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin

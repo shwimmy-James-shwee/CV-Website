@@ -49,7 +49,7 @@ function NavBar({ handleLogin, handleLogout, navLogo, userLoggedIn, userAvatar, 
                   <NavLink to={item.url} className='nav-link' key={item.url}>
                     {item.lable}
                   </NavLink>
-                )
+                ),
             )}
           </Nav>
         </Navbar.Collapse>

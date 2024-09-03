@@ -12,7 +12,7 @@ export class BusinessUnitService {
   async findOne(id: string, addInclude: Prisma.BusinessUnitInclude = {}) {
     return this.databaseService.businessUnit.findUnique({
       where: { id },
-      include: addInclude
+      include: addInclude,
     });
   }
 }

@@ -9,7 +9,7 @@ import {
   AuthenticationResult,
   EventMessage,
   EventType,
-  IPublicClientApplication
+  IPublicClientApplication,
 } from '@azure/msal-browser';
 import { b2cPolicies, protectedResources } from './authConfig';
 import { useEffect, useRef } from 'react';
@@ -54,13 +54,13 @@ const Pages = () => {
             (account) =>
               account.idTokenClaims?.oid === payload.idTokenClaims.oid && // TODO resolve ?.?
               account.idTokenClaims?.sub === payload.idTokenClaims.sub && // TODO resolve ?.?
-              compareIssuingPolicy(account.idTokenClaims, b2cPolicies.names.signUpSignIn)
+              compareIssuingPolicy(account.idTokenClaims, b2cPolicies.names.signUpSignIn),
           );
 
           const signUpSignInFlowRequest = {
             authority: b2cPolicies.authorities.signUpSignIn.authority,
             account: originalSignInAccount,
-            scopes: [...protectedResources.api.scopes.read, ...protectedResources.api.scopes.write]
+            scopes: [...protectedResources.api.scopes.read, ...protectedResources.api.scopes.write],
           };
 
           // silently login again with the signUpSignIn policy
@@ -82,7 +82,7 @@ const Pages = () => {
         if (eventerror && eventerror.errorMessage.includes('AADB2C90118')) {
           const resetPasswordRequest = {
             authority: b2cPolicies.authorities.forgotPassword.authority,
-            scopes: []
+            scopes: [],
           };
           instance.loginRedirect(resetPasswordRequest);
         }
@@ -91,7 +91,7 @@ const Pages = () => {
         if (eventerror && eventerror.errorMessage.includes('AADB2C90091')) {
           const loginRequest = {
             authority: b2cPolicies.authorities.signUpSignIn.authority,
-            scopes: [...protectedResources.api.scopes.read, ...protectedResources.api.scopes.write]
+            scopes: [...protectedResources.api.scopes.read, ...protectedResources.api.scopes.write],
           };
           instance.loginRedirect(loginRequest);
         }

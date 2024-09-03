@@ -10,17 +10,17 @@ const meta: Meta<typeof TopBottomBoard> = {
   argTypes: {
     topContent: {
       control: 'text',
-      description: 'The content for the top row'
+      description: 'The content for the top row',
     },
     bottomContent: {
       control: 'text',
-      description: 'The content for the bottom row'
+      description: 'The content for the bottom row',
     },
     maxTopHeightPercentage: {
       control: 'number',
-      description: 'The max height of the top row as a percentage of the total height'
-    }
-  }
+      description: 'The max height of the top row as a percentage of the total height',
+    },
+  },
 } satisfies Meta<typeof TopBottomBoard>;
 
 export default meta;
@@ -37,21 +37,21 @@ export const Default: Story = {
       <div style={{ background: 'grey' }} className='w-100 h-100'>
         The Bottom Content
       </div>
-    )
+    ),
   },
   render: ({ ...args }) => {
     return (
       <div
         style={{
           background: 'white',
-          height: '500px'
+          height: '500px',
           //   width: '100%',
         }}
       >
         <TopBottomBoard {...args} />
       </div>
     );
-  }
+  },
 };
 
 export const LongText: Story = {
@@ -65,31 +65,31 @@ export const LongText: Story = {
       <div style={{ background: 'grey' }} className='w-100 h-100'>
         {'The Bottom Content'.repeat(100)}
       </div>
-    )
+    ),
   },
   render: ({ ...args }) => {
     return (
       <div
         style={{
           background: 'white',
-          height: '500px'
+          height: '500px',
           //   width: '100%',
         }}
       >
         <TopBottomBoard {...args} />
       </div>
     );
-  }
+  },
 };
 export const UnitTest: Story = {
   args: {
     topContent: 'The Top Bottom Board\n',
-    bottomContent: 'The Bottom Content\n'
+    bottomContent: 'The Bottom Content\n',
   },
   play: async ({ canvasElement }) => {
     const topBottomBoard = within(canvasElement).getByTestId('top-bottom-board-top-row');
     expect(topBottomBoard).toHaveTextContent('The Top Bottom Board');
     const bottomContent = within(canvasElement).getByTestId('top-bottom-board-bottom-row');
     expect(bottomContent).toHaveTextContent('The Bottom Content');
-  }
+  },
 };

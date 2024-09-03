@@ -20,9 +20,9 @@ export class AntivirusService {
           localFallback: false, // Use local preferred binary to scan if socket/tcp fails
           multiscan: true, // Scan using all available cores! Yay!
           active: true, // If true, this module will consider using the clamdscan binary
-          bypassTest: false // Check to see if socket is available when applicable
+          bypassTest: false, // Check to see if socket is available when applicable
         },
-        preference: 'clamdscan' // If clamdscan is found and active, it will be used by default
+        preference: 'clamdscan', // If clamdscan is found and active, it will be used by default
       });
     }
     const { isInfected, ...vals } = await this.clamscan.scanStream(Readable.from(uploadFile.buffer));

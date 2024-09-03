@@ -80,7 +80,7 @@ export interface Member {
 
 export enum UserRole {
   STANDARD_USER = 'STANDARD_USER',
-  ADMINISTRATOR = 'ADMINISTRATOR'
+  ADMINISTRATOR = 'ADMINISTRATOR',
 }
 
 export enum NotificationFrequency {
@@ -89,27 +89,27 @@ export enum NotificationFrequency {
   HOURLY = 'HOURLY',
   DAILYEVE = 'DAILYEVE',
   DAILYMORN = 'DAILYMORN',
-  WEEKLY = 'WEEKLY'
+  WEEKLY = 'WEEKLY',
 }
 
 export enum NotificationStatus {
   NOTIFIED = 'NOTIFIED',
-  READ = 'READ'
+  READ = 'READ',
 }
 
 export enum Feature {
   BASIC = 'BASIC',
-  BASIC_REPORTING = 'BASIC_REPORTING'
+  BASIC_REPORTING = 'BASIC_REPORTING',
 }
 
 export enum BusinessUnitType {
   TEAM = 'TEAM',
   DEPARTMENT = 'DEPARTMENT',
   DIVISION = 'DIVISION',
-  COMPANY = 'COMPANY'
+  COMPANY = 'COMPANY',
 }
 
 export enum MemberRole {
   ADMINISTRATOR = 'ADMINISTRATOR',
-  STANDARD = 'STANDARD'
+  STANDARD = 'STANDARD',
 }

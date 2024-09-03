@@ -1,5 +1,5 @@
-import type { StorybookConfig } from '@storybook/react-vite'
-import type { AddonOptionsWebpack } from '@storybook/addon-coverage'
+import type { StorybookConfig } from '@storybook/react-vite';
+import type { AddonOptionsWebpack } from '@storybook/addon-coverage';
 
 const coverageConfig: AddonOptionsWebpack = {
   istanbul: {
@@ -7,7 +7,7 @@ const coverageConfig: AddonOptionsWebpack = {
     exclude: ['**/exampleDirectoryToBeExcluded/**'],
     nycrcPath: '.nycrc',
   },
-}
+};
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -46,5 +46,5 @@ const config: StorybookConfig = {
   typescript: {
     reactDocgen: 'react-docgen-typescript',
   },
-}
-export default config
+};
+export default config;

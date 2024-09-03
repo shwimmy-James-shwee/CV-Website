@@ -38,7 +38,7 @@ const useFetchWithMsal = () => {
   const { result, error: msalError } = useMsalAuthentication(InteractionType.Redirect, {
     scopes: protectedResources.api.scopes.read, // TODO update to final scope
     account: instance.getActiveAccount() || undefined,
-    redirectUri: '/'
+    redirectUri: '/',
   });
   /**
    * Execute a fetch request with the given options
@@ -77,7 +77,7 @@ const useFetchWithMsal = () => {
         const options = {
           method: method,
           headers: headers,
-          body: body
+          body: body,
         };
 
         const urlEndpoint = baseUri + endpoint;
@@ -127,7 +127,7 @@ const useFetchWithMsal = () => {
     data,
     apiError,
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    execute: useCallback(execute, [result, msalError]) // to avoid infinite calls when inside a `useEffect`
+    execute: useCallback(execute, [result, msalError]), // to avoid infinite calls when inside a `useEffect`
   };
 };
 

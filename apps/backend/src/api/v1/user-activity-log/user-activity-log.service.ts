@@ -8,7 +8,7 @@ export class UserActivityLogService {
 
   async create(
     createUserActivityLogDto: Prisma.UserActivityLogCreateInput,
-    addInclude: Prisma.UserActivityLogInclude = {}
+    addInclude: Prisma.UserActivityLogInclude = {},
   ) {
     return this.databaseService.userActivityLog.create({ data: createUserActivityLogDto, include: addInclude });
   }
@@ -24,19 +24,19 @@ export class UserActivityLogService {
   async update(id: number, updateUserActivityLogDto: Prisma.UserActivityLogUpdateInput) {
     return this.databaseService.userActivityLog.update({
       where: { id },
-      data: updateUserActivityLogDto
+      data: updateUserActivityLogDto,
     });
   }
 
   async findAllAggregateBy(byCondition: Prisma.UserActivityLogScalarFieldEnum) {
     return this.databaseService.userActivityLog.groupBy({
       by: [byCondition],
-      _sum: { eventDuration: true }
+      _sum: { eventDuration: true },
     });
   }
   async findAllUniqueUserIdEmails() {
     return this.databaseService.user.findMany({
-      select: { id: true, loginEmail: true }
+      select: { id: true, loginEmail: true },
     });
   }
 }

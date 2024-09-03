@@ -18,7 +18,7 @@ describe('health function', () => {
       keys: jest.fn(),
       values: jest.fn(),
       entries: jest.fn(),
-      [Symbol.iterator]: jest.fn()
+      [Symbol.iterator]: jest.fn(),
     },
     query: new URLSearchParams(),
     user: null,
@@ -28,7 +28,7 @@ describe('health function', () => {
     formData: jest.fn(),
     json: jest.fn(),
     text: jest.fn(),
-    clone: jest.fn()
+    clone: jest.fn(),
   };
 
   const context: InvocationContext = {
@@ -36,11 +36,11 @@ describe('health function', () => {
     functionName: 'health',
     extraInputs: {
       get: jest.fn(),
-      set: jest.fn()
+      set: jest.fn(),
     },
     extraOutputs: {
       get: jest.fn(),
-      set: jest.fn()
+      set: jest.fn(),
     },
     log: jest.fn(),
     trace: jest.fn(),
@@ -51,12 +51,12 @@ describe('health function', () => {
     options: {
       trigger: {
         type: 'http',
-        name: 'req'
+        name: 'req',
       },
       return: undefined,
       extraInputs: [{ type: 'http', name: 'req' }],
-      extraOutputs: []
-    }
+      extraOutputs: [],
+    },
   };
   beforeAll(() => {});
   it('should return a JSON response with a message', async () => {

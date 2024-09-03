@@ -21,7 +21,7 @@ export const mockUseFetchWithMsal = ({ error, apiError, isLoading, execute, data
     error: error ? error : null,
     execute: execute ? execute : defaultExecute,
     isLoading: isLoading ? isLoading : false,
-    data: data ? data : null
+    data: data ? data : null,
   }));
 };
 
@@ -31,7 +31,7 @@ export const FakeResponsiveContainer = () => {
     window.ResizeObserver = vi.fn().mockImplementation(() => ({
       observe: vi.fn(),
       unobserve: vi.fn(),
-      disconnect: vi.fn()
+      disconnect: vi.fn(),
     }));
   });
 

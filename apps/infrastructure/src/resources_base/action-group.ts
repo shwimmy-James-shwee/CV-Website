@@ -11,13 +11,13 @@ import { input } from '@pulumi/azure-native/types';
 
 const emailDevOps: input.insights.EmailReceiverArgs = {
   name: `${envBase.PROJECT_NAME_ABBREVIATION}-devops-team`,
-  emailAddress: 'softwaredevops@kpmg.co.nz'
+  emailAddress: 'softwaredevops@kpmg.co.nz',
 };
 
 const smsSMEDevOps: input.insights.SmsReceiverArgs = {
   name: `${envBase.PROJECT_NAME_ABBREVIATION}-sme-dev`,
   countryCode: '64',
-  phoneNumber: '2108456731'
+  phoneNumber: '2108456731',
 };
 
 export const bc3ActionGroup = new insights.ActionGroup(`${envBase.PROJECT_NAME_ABBREVIATION}-bc3`, {
@@ -27,7 +27,7 @@ export const bc3ActionGroup = new insights.ActionGroup(`${envBase.PROJECT_NAME_A
   groupShortName: `${envBase.PROJECT_NAME_ABBREVIATION}-bc3`,
   enabled: true,
   emailReceivers: [emailDevOps],
-  smsReceivers: [smsSMEDevOps]
+  smsReceivers: [smsSMEDevOps],
 });
 
 export const bc20ActionGroup = new insights.ActionGroup(`${envBase.PROJECT_NAME_ABBREVIATION}-bc20`, {
@@ -37,5 +37,5 @@ export const bc20ActionGroup = new insights.ActionGroup(`${envBase.PROJECT_NAME_
   groupShortName: `${envBase.PROJECT_NAME_ABBREVIATION}-bc20`,
   enabled: true,
   emailReceivers: [emailDevOps],
-  smsReceivers: [smsSMEDevOps]
+  smsReceivers: [smsSMEDevOps],
 });

@@ -10,7 +10,7 @@ import { DatabaseService } from '../../database/database.service';
 export class FeatureGuard implements CanActivate {
   constructor(
     private reflector: Reflector,
-    @Inject(DatabaseService) private databaseService: DatabaseService
+    @Inject(DatabaseService) private databaseService: DatabaseService,
   ) {}
 
   // async getChildFeatures(childBusinessUnitId: number) {
@@ -32,13 +32,13 @@ export class FeatureGuard implements CanActivate {
     if (!parentBusinessId) return [];
 
     const parentBusinessUnit = await this.databaseService.businessUnit.findUnique({
-      where: { id: parentBusinessId }
+      where: { id: parentBusinessId },
     });
 
     if (parentBusinessUnit) {
       return [
         ...(parentBusinessUnit?.features ?? []),
-        ...(await this.getParentFeatures(parentBusinessUnit.parentBusinessUnitId))
+        ...(await this.getParentFeatures(parentBusinessUnit.parentBusinessUnitId)),
       ];
     } else {
       return [];
@@ -48,7 +48,7 @@ export class FeatureGuard implements CanActivate {
   async validateFeature(userId: string, requiredFeatures: Feature[]) {
     const userBusinessUnitFeature = await this.databaseService.businessUnit.findMany({
       where: { Members: { some: { User: { id: userId } } } },
-      include: { ChildBusinessUnits: true }
+      include: { ChildBusinessUnits: true },
     });
 
     // child can have parent's features
@@ -76,7 +76,7 @@ export class FeatureGuard implements CanActivate {
     const req: Request = context.switchToHttp().getRequest();
     const requiredFeatures = this.reflector.getAllAndOverride<Feature[]>(FEATURES_KEY, [
       context.getHandler(),
-      context.getClass()
+      context.getClass(),
     ]);
     if (!requiredFeatures) {
       return true;

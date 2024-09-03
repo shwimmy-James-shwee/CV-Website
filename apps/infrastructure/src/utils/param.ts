@@ -23,5 +23,5 @@ export const replaceParams = {
   passwordExpireInSeconds: '3600', // prod should be 90days X 3600 X 24
   bannedPasswordsXML: bannedPwsXml,
   AppInsightInstrumentationKeyForB2C: 'dummy-app-insight-inst-key',
-  AppInsightDeveloperModeForB2C: 'false' // true for dev
+  AppInsightDeveloperModeForB2C: 'false', // true for dev
 };

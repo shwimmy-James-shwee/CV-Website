@@ -10,13 +10,13 @@ const meta: Meta<typeof GradienFullPage> = {
   argTypes: {
     className: {
       control: 'text',
-      description: 'The class name of the box'
+      description: 'The class name of the box',
     },
     children: {
       control: 'text',
-      description: 'The children to render'
-    }
-  }
+      description: 'The children to render',
+    },
+  },
 } satisfies Meta<typeof GradienFullPage>;
 
 export default meta;
@@ -29,7 +29,7 @@ export const Default: Story = {
         <p>some content to put in side the page</p>
       </GradienFullPage>
     );
-  }
+  },
 };
 
 export const LongText: Story = {
@@ -40,7 +40,7 @@ export const LongText: Story = {
         <p>{'some content '.repeat(1000)}</p>
       </GradienFullPage>
     );
-  }
+  },
 };
 
 export const UnitTest: Story = {
@@ -64,5 +64,5 @@ export const UnitTest: Story = {
       const children = canvas.getByText('some content to put in side the page');
       await expect(children).toBeInTheDocument();
     });
-  }
+  },
 };

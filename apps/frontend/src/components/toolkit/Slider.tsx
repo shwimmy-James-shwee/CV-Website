@@ -82,7 +82,7 @@ const Slider = () => {
     .map((_, i) => {
       return {
         number: i * step + min,
-        divider: '|'
+        divider: '|',
       };
     });
   return (

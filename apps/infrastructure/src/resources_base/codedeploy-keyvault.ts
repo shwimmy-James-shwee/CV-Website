@@ -11,12 +11,12 @@ import { logAnalyticsWorkspace } from './log-analytic-workspace';
 
 export const vault = keyvault.getVault({
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-  vaultName: envBase.KEYVAULT_NAME
+  vaultName: envBase.KEYVAULT_NAME,
 });
 
 const vaultPept = network.getPrivateEndpoint({
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-  privateEndpointName: `${envBase.KEYVAULT_NAME}-pept`
+  privateEndpointName: `${envBase.KEYVAULT_NAME}-pept`,
 });
 
 new insights.DiagnosticSetting(
@@ -27,12 +27,12 @@ new insights.DiagnosticSetting(
     resourceUri: vault.then((v) => v.id),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.vaultDSLogItem,
-    metrics: dsSettings.vaultDSMetricsItem
+    metrics: dsSettings.vaultDSMetricsItem,
   },
   {
     dependsOn: [logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 new insights.DiagnosticSetting(
@@ -53,10 +53,10 @@ new insights.DiagnosticSetting(
       return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
-    metrics: dsSettings.peptDSMetricsItem
+    metrics: dsSettings.peptDSMetricsItem,
   },
   {
     dependsOn: [logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );

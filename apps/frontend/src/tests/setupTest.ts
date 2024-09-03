@@ -7,13 +7,13 @@ Object.defineProperty(window, 'location', {
   value: {
     hash: {
       endsWith: mockResponse,
-      includes: mockResponse
+      includes: mockResponse,
     },
     assign: mockResponse,
     href: '',
-    replace: mockResponse
+    replace: mockResponse,
   },
-  writable: true
+  writable: true,
 });
 
 // runs a clean after each test case (e.g. clearing jsdom)

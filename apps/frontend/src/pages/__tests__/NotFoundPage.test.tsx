@@ -7,7 +7,7 @@ test('Notfound should have title and subtitle', async () => {
   render(
     <Router>
       <NotFoundPage />
-    </Router>
+    </Router>,
   );
   // test the titles
   expect(screen.getByTestId('title')).toBeDefined();

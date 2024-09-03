@@ -9,12 +9,12 @@ export const managedIdentity = new UserAssignedIdentity(
   {
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     resourceName: envBase.MANAGED_IDENTITY_NAME,
-    location: envBase.AZURE_RESOURCE_LOCATION
+    location: envBase.AZURE_RESOURCE_LOCATION,
   },
   {
     dependsOn: [vault, vaultPept],
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
 export const identityPolicy = new AccessPolicy(
@@ -42,7 +42,7 @@ export const identityPolicy = new AccessPolicy(
           'Recover',
           'Restore',
           'SetIssuers',
-          'Update'
+          'Update',
         ],
         keys: [
           'Backup',
@@ -64,15 +64,15 @@ export const identityPolicy = new AccessPolicy(
           'Release',
           'Rotate',
           'GetRotationPolicy',
-          'SetRotationPolicy'
+          'SetRotationPolicy',
         ],
-        secrets: ['Backup', 'Delete', 'Get', 'List', 'Purge', 'Recover', 'Restore', 'Set']
-      }
-    }
+        secrets: ['Backup', 'Delete', 'Get', 'List', 'Purge', 'Recover', 'Restore', 'Set'],
+      },
+    },
   },
   {
     dependsOn: [vault, vaultPept, finalPolicy],
     protect: true,
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );

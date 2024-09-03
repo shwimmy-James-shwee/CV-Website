@@ -5,7 +5,7 @@ import { defineConfig as defineVitestConfig } from 'vitest/config';
 const viteConfig = defineViteConfig({
   plugins: [react()],
   define: {
-    'process.env': {}
+    'process.env': {},
   },
   envPrefix: 'VITE_',
   build: {
@@ -35,10 +35,10 @@ const viteConfig = defineViteConfig({
           if (id.includes('react-router-dom') || id.includes('@remix-run') || id.includes('react-router')) {
             return '@react-router';
           }
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 });
 
 const vitestConfig = defineVitestConfig({
@@ -54,7 +54,7 @@ const vitestConfig = defineVitestConfig({
         statements: 75,
         branches: 75,
         functions: 75,
-        lines: 75
+        lines: 75,
       },
       include: ['src/**/*.tsx'],
       exclude: [
@@ -70,11 +70,11 @@ const vitestConfig = defineVitestConfig({
         'src/hooks/',
         'src/tests/',
         'src/context/UserContext.tsx',
-        'src/pages/UserActivityPage.tsx'
-      ]
+        'src/pages/UserActivityPage.tsx',
+      ],
     },
-    setupFiles: './src/tests/setupTest.ts'
-  }
+    setupFiles: './src/tests/setupTest.ts',
+  },
 });
 
 export default mergeConfig(viteConfig, vitestConfig);

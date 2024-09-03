@@ -25,11 +25,11 @@ module.exports = {
       functions: 90,
       lines: 90,
       statements: 90,
-      files: 90
+      files: 90,
     },
     'src/api/**/*.ts': {
-      functions: 75
-    }
+      functions: 75,
+    },
   },
   coveragePathIgnorePatterns: [
     'src/api/v1/file/file.validator.ts', // dynamic import is not supported in Jest and will throw an error
@@ -43,7 +43,7 @@ module.exports = {
     'src/main.ts',
     'src/all-exceptions-filter.ts',
     'src/prisma.env.ts',
-    'src/middleware/'
+    'src/middleware/',
   ],
 
   // An array of file extensions your modules use
@@ -57,7 +57,7 @@ module.exports = {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    '^.+\\.(t|j)s$': 'ts-jest'
-  }
+    '^.+\\.(t|j)s$': 'ts-jest',
+  },
   // setupFilesAfterEnv: ['<rootDir>/src/test/singleton.ts'],
 };

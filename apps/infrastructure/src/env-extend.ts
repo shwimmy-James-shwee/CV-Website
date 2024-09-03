@@ -77,7 +77,7 @@ const EnvSchema = z.object({
   B2C_CLIENT_ID: z.string().default('placeholder'),
   B2C_POLICY_NAME: z.string().default('placeholder'),
 
-  FRONTEND_URL: z.string().default('placeholder')
+  FRONTEND_URL: z.string().default('placeholder'),
 });
 export type Env = z.infer<typeof EnvSchema>;
 
@@ -95,5 +95,5 @@ export const envExtend = {
   ...mainParams,
   ...webappParams,
   ...containerParams,
-  ...dbParams
+  ...dbParams,
 };

@@ -97,7 +97,7 @@ function AppRoutes() {
       () => {
         handleLogoutRedirect();
       },
-      15 * 60 * 1000
+      15 * 60 * 1000,
     );
   };
 
@@ -109,8 +109,8 @@ function AppRoutes() {
     {
       lable: 'Admin',
       url: pageUrl.adminPage,
-      hide: !currentUserData?.roles?.includes(UserRole.ADMINISTRATOR)
-    }
+      hide: !currentUserData?.roles?.includes(UserRole.ADMINISTRATOR),
+    },
   ];
 
   if (userReturnStatus === UserReturnStatus.LOADING) {
@@ -163,7 +163,7 @@ function AppRoutes() {
             <FooterBar
               redirectUrls={[
                 { url: 'https://kpmg.com/nz/en/home/misc/privacy.html', label: 'Privacy' },
-                { url: 'https://kpmg.com/nz/en/home.html', label: 'KPMG New Zealand' }
+                { url: 'https://kpmg.com/nz/en/home.html', label: 'KPMG New Zealand' },
               ]}
             />
           </div>

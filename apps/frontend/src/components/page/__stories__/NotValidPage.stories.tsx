@@ -11,17 +11,17 @@ const meta: Meta<typeof NotValidPage> = {
   argTypes: {
     title: {
       control: 'text',
-      description: 'The title of the page'
+      description: 'The title of the page',
     },
     body: {
       control: 'text',
-      description: 'The body of the page'
+      description: 'The body of the page',
     },
     children: {
       control: 'text',
-      description: 'The children to render'
-    }
-  }
+      description: 'The children to render',
+    },
+  },
 } satisfies Meta<typeof NotValidPage>;
 
 export default meta;
@@ -30,7 +30,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     title: 'Title of the page',
-    body: 'Body of the page'
+    body: 'Body of the page',
   },
   render: ({ ...args }) => {
     return (
@@ -38,13 +38,13 @@ export const Default: Story = {
         <button>children elements</button>
       </NotValidPage>
     );
-  }
+  },
 };
 
 export const LongText: Story = {
   args: {
     title: 'Title of the page',
-    body: 'Body of the page'
+    body: 'Body of the page',
   },
   render: ({ ...args }) => {
     return (
@@ -52,13 +52,13 @@ export const LongText: Story = {
         <p>{'some content '.repeat(1000)}</p>
       </NotValidPage>
     );
-  }
+  },
 };
 
 export const InBackground: Story = {
   args: {
     title: 'Title of the page',
-    body: 'Body of the page'
+    body: 'Body of the page',
   },
   render: ({ ...args }) => {
     return (
@@ -68,13 +68,13 @@ export const InBackground: Story = {
         </NotValidPage>
       </GradienFullPage>
     );
-  }
+  },
 };
 
 export const UnitTest: Story = {
   args: {
     title: 'Title of the page',
-    body: 'Body of the page'
+    body: 'Body of the page',
   },
   render: ({ ...args }) => {
     return (
@@ -96,5 +96,5 @@ export const UnitTest: Story = {
       await expect(canvas.getByText('Body of the page')).toBeInTheDocument();
       await expect(canvas.getByText('some content to put in side the page')).toBeInTheDocument();
     });
-  }
+  },
 };

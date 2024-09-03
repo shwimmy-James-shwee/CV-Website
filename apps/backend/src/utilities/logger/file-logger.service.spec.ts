@@ -8,7 +8,7 @@ describe('FileLoggerService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [FileLoggerService]
+      providers: [FileLoggerService],
     }).compile();
 
     service = module.get<FileLoggerService>(FileLoggerService);

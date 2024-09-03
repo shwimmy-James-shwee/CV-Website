@@ -11,9 +11,9 @@ const meta = {
   argTypes: {
     title: {
       control: 'text',
-      description: 'The title of the accordion'
-    }
-  }
+      description: 'The title of the accordion',
+    },
+  },
 } satisfies Meta<typeof AccordionComponent>;
 
 export default meta;
@@ -23,15 +23,15 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     title: <Col>Click the arrow to toggle the accordion</Col>,
-    children: <>Child Node</>
-  }
+    children: <>Child Node</>,
+  },
 };
 
 export const UnitTest: Story = {
   args: {
     title: <Col>Title</Col>,
     children: <>Child Node</>,
-    'data-testid': 'accordion'
+    'data-testid': 'accordion',
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -44,5 +44,5 @@ export const UnitTest: Story = {
       userEvent.click(expandButton);
       await expect(canvas.getByText('Child Node')).toBeInTheDocument();
     });
-  }
+  },
 };

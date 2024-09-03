@@ -7,7 +7,7 @@ const meta = {
   component: FullFrameSpinner,
   parameters: {},
   tags: ['autodocs'],
-  argTypes: {}
+  argTypes: {},
 } satisfies Meta<typeof FullFrameSpinner>;
 
 export default meta;
@@ -15,22 +15,22 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    variant: 'dark'
-  }
+    variant: 'dark',
+  },
 };
 
 export const Glow: Story = {
   args: {
     variant: 'dark',
     animation: 'grow',
-    scale: 2
-  }
+    scale: 2,
+  },
 };
 
 export const UnitTest: Story = {
   args: {
     scale: 2.5,
-    variant: 'dark'
+    variant: 'dark',
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -44,5 +44,5 @@ export const UnitTest: Story = {
       const spinner = canvas.getByTestId('spinner');
       await expect(spinner).toHaveStyle({ color: 'rgb(33, 37, 41)' });
     });
-  }
+  },
 };

@@ -10,29 +10,29 @@ const meta = {
   argTypes: {
     fieldLabel: {
       control: 'text',
-      description: 'The label of the field'
+      description: 'The label of the field',
     },
     type: {
       control: 'text',
-      description: 'The type of the bootstrap input'
+      description: 'The type of the bootstrap input',
     },
     placeholder: {
       control: 'text',
-      description: 'The placeholder text for the field'
+      description: 'The placeholder text for the field',
     },
     required: {
       control: 'boolean',
-      description: 'Specifies if the field is required'
+      description: 'Specifies if the field is required',
     },
     disabled: {
       control: 'boolean',
-      description: 'Specifies if the field is disabled'
+      description: 'Specifies if the field is disabled',
     },
     readonly: {
       control: 'boolean',
-      description: 'Specifies if the field is readonly'
-    }
-  }
+      description: 'Specifies if the field is readonly',
+    },
+  },
 } satisfies Meta<typeof FormField>;
 
 export default meta;
@@ -43,8 +43,8 @@ export const Default: Story = {
   args: {
     fieldLabel: 'Name',
     type: 'text',
-    onChange: () => {}
-  }
+    onChange: () => {},
+  },
 };
 
 export const Disabled: Story = {
@@ -52,8 +52,8 @@ export const Disabled: Story = {
     fieldLabel: 'Name',
     type: 'text',
     disabled: true,
-    onChange: () => {}
-  }
+    onChange: () => {},
+  },
 };
 
 export const Readonly: Story = {
@@ -62,8 +62,8 @@ export const Readonly: Story = {
     type: 'text',
     placeholder: 'This is a readonly example.',
     readonly: true,
-    onChange: () => {}
-  }
+    onChange: () => {},
+  },
 };
 
 export const Select: Story = {
@@ -78,8 +78,8 @@ export const Select: Story = {
         <option>3</option>
         <option>4</option>
       </>
-    )
-  }
+    ),
+  },
 };
 
 export const MultiSelect: Story = {
@@ -94,39 +94,39 @@ export const MultiSelect: Story = {
         <option value='3'>3</option>
         <option value='4'>4</option>
       </>
-    )
-  }
+    ),
+  },
 };
 
 export const Checkbox: Story = {
   args: {
     type: 'checkbox',
     itemLabel: 'Click me',
-    onChange: () => {}
-  }
+    onChange: () => {},
+  },
 };
 
 export const Radio: Story = {
   args: {
     type: 'radio',
     itemLabel: 'Click me',
-    onChange: () => {}
-  }
+    onChange: () => {},
+  },
 };
 
 export const Switch: Story = {
   args: {
     type: 'switch',
     itemLabel: 'Click me',
-    onChange: () => {}
-  }
+    onChange: () => {},
+  },
 };
 
 export const UnitTest: Story = {
   args: {
     fieldLabel: 'Name',
     type: 'text',
-    onChange: () => {}
+    onChange: () => {},
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -135,5 +135,5 @@ export const UnitTest: Story = {
       const formField = canvas.getByLabelText('Name');
       await expect(formField).toBeInTheDocument();
     });
-  }
+  },
 };

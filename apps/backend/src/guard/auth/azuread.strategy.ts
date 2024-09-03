@@ -42,7 +42,7 @@ const options: IBearerStrategyOptionWithRequest = {
   // passReqToCallback: authConfig.settings.passReqToCallback,
   passReqToCallback: false,
   loggingLevel: 'warn',
-  loggingNoPII: false // set this to true in the authConfig.js if you want to enable logging and debugging
+  loggingNoPII: false, // set this to true in the authConfig.js if you want to enable logging and debugging
 };
 
 type UserWithSignInLog = Prisma.UserGetPayload<{
@@ -53,7 +53,7 @@ type UserWithSignInLog = Prisma.UserGetPayload<{
 export class AzureADStrategy extends PassportStrategy(BearerStrategy, 'azure-ad') {
   constructor(
     private readonly userService: UserService,
-    @Inject('CACHE_MANAGER') private cacheManager: Cache
+    @Inject('CACHE_MANAGER') private cacheManager: Cache,
   ) {
     super({ ...options, passReqToCallback: true });
   }
@@ -98,22 +98,22 @@ export class AzureADStrategy extends PassportStrategy(BearerStrategy, 'azure-ad'
           externalOid: oid,
           SignInLogs: {
             create: {
-              signInDateTime: new Date(iat * 1000)
-            }
-          }
+              signInDateTime: new Date(iat * 1000),
+            },
+          },
         },
         {
           SignInLogs: {
             orderBy: { signInDateTime: 'desc' },
-            take: 1
-          }
-        }
+            take: 1,
+          },
+        },
       );
       return newUser;
     } else {
       // handle user was never exist and also skipping the get-current-user endpoint
       throw new ForbiddenException(
-        'First time user need to use get-current-user endpoint to create user in the database.'
+        'First time user need to use get-current-user endpoint to create user in the database.',
       );
     }
   }
@@ -128,10 +128,10 @@ export class AzureADStrategy extends PassportStrategy(BearerStrategy, 'azure-ad'
         return await this.userService.createSignInLog({
           User: {
             connect: {
-              id: user.id
-            }
+              id: user.id,
+            },
           },
-          signInDateTime: new Date(payload.iat * 1000)
+          signInDateTime: new Date(payload.iat * 1000),
         });
       }
     } else if (new Date(payload.iat * 1000).getTime() < user.SignInLogs[0].signInDateTime.getTime()) {
@@ -145,7 +145,7 @@ export class AzureADStrategy extends PassportStrategy(BearerStrategy, 'azure-ad'
     payload: AzureADPayload,
     user: UserWithSignInLog,
     req: Request,
-    reqToMakerEndpoint: boolean
+    reqToMakerEndpoint: boolean,
   ) {
     const newSignInLog = await this.handleSignInLogAndSession(payload, user, reqToMakerEndpoint);
 
@@ -171,7 +171,7 @@ export class AzureADStrategy extends PassportStrategy(BearerStrategy, 'azure-ad'
     // apply change and return updated user
     if (doUpdate && reqToMakerEndpoint) {
       const updatedUser = await this.userService.update(user.id, updatePayload, {
-        SignInLogs: { orderBy: { signInDateTime: 'desc' }, take: 1 }
+        SignInLogs: { orderBy: { signInDateTime: 'desc' }, take: 1 },
       });
       user = updatedUser;
     }
@@ -195,8 +195,8 @@ export class AzureADStrategy extends PassportStrategy(BearerStrategy, 'azure-ad'
       user = await this.userService.findOneByEmail(payload.email, {
         SignInLogs: {
           orderBy: { signInDateTime: 'desc' },
-          take: 1
-        }
+          take: 1,
+        },
       });
       // save user to cache for short period to reduce db read spikes
       await this.cacheManager.set(this.makeCacheKey(payload.email), user, 10000);

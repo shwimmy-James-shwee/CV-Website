@@ -5,7 +5,8 @@
     "build-storybook": "turbo build-storybook",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "prettier": "prettier **/*.{ts,js,json,md,cjs,mjs} --write"
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write ."
   },
   "devDependencies": {
     "eslint": "8.57.0",

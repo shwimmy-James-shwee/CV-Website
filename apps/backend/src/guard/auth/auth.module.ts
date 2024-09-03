@@ -12,8 +12,8 @@ import { CacheModule } from '@nestjs/cache-manager';
     DatabaseModule,
     PassportModule.register({ defaultStrategy: 'azure-ad' }),
     LoggerModule,
-    CacheModule.register()
+    CacheModule.register(),
   ],
-  providers: [AzureADStrategy, UserService, FileLoggerService]
+  providers: [AzureADStrategy, UserService, FileLoggerService],
 })
 export class AuthModule {}

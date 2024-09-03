@@ -9,8 +9,8 @@ const meta: Meta<typeof NavBar> = {
   tags: ['autodocs'],
   args: {
     handleLogin: fn(),
-    handleLogout: fn()
-  }
+    handleLogout: fn(),
+  },
 } satisfies Meta<typeof NavBar>;
 
 export default meta;
@@ -18,12 +18,12 @@ type Story = StoryObj<typeof meta>;
 const navLinkItems = [
   { label: 'Home', url: '/home', icon: 'home' },
   { label: 'FAQ', url: '/faq', icon: 'quiz' },
-  { label: 'Contact', url: '/contact', icon: 'contact_page' }
+  { label: 'Contact', url: '/contact', icon: 'contact_page' },
 ];
 export const TabsUnitTest: Story = {
   args: {
     userLoggedIn: true,
-    navLinkItems: navLinkItems
+    navLinkItems: navLinkItems,
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -41,7 +41,7 @@ export const TabsUnitTest: Story = {
 
       await expect(canvas.getByText('Home').parentElement).toHaveClass('active');
     });
-  }
+  },
 };
 
 export const LogoutUnitTest: Story = {
@@ -53,7 +53,7 @@ export const LogoutUnitTest: Story = {
       await userEvent.click(canvas.getByText('Logout'));
     });
     await waitFor(() => expect(args.handleLogout).toHaveBeenCalled());
-  }
+  },
 };
 
 export const LoginUnitTest: Story = {
@@ -65,5 +65,5 @@ export const LoginUnitTest: Story = {
       await userEvent.click(canvas.getByText('Login'));
     });
     await waitFor(() => expect(args.handleLogin).toHaveBeenCalled());
-  }
+  },
 };

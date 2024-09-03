@@ -17,7 +17,7 @@ export async function addEmailToQueue(message: queueEmail): Promise<QueueSendMes
   const sharedKeyCredential = new StorageSharedKeyCredential(accountName, accountKey);
   const queueClient = new QueueClient(
     `https://${accountName}.queue.core.windows.net/${queueName}`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   if (message.header) {

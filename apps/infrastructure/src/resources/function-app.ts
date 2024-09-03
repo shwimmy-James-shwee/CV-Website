@@ -21,12 +21,12 @@ const functionAppInsight = new insights.Component(
     retentionInDays: 90,
     ingestionMode: insights.IngestionMode.LogAnalytics,
     workspaceResourceId: logAnalyticsWorkspace.id.apply((id) => id),
-    flowType: insights.FlowType.Bluefield
+    flowType: insights.FlowType.Bluefield,
   },
   {
     dependsOn: [logAnalyticsWorkspace],
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
 const functionApp = new web.WebApp(
@@ -43,11 +43,11 @@ const functionApp = new web.WebApp(
     kind: 'functionapp,linux',
     httpsOnly: true,
     identity: {
-      type: web.ManagedServiceIdentityType.SystemAssigned
+      type: web.ManagedServiceIdentityType.SystemAssigned,
     },
     keyVaultReferenceIdentity: web.ManagedServiceIdentityType.SystemAssigned,
     tags: {
-      'hidden-link: /app-insights-resource-id': functionAppInsight.id.apply((id) => id)
+      'hidden-link: /app-insights-resource-id': functionAppInsight.id.apply((id) => id),
     },
     siteConfig: {
       publicNetworkAccess: 'Disabled',
@@ -60,88 +60,88 @@ const functionApp = new web.WebApp(
       appSettings: [
         {
           name: 'runtime',
-          value: 'node'
+          value: 'node',
         },
         {
           name: 'FUNCTIONS_WORKER_RUNTIME',
-          value: 'node'
+          value: 'node',
         },
         {
           name: 'AzureWebJobsFeatureFlags',
-          value: 'EnableWorkerIndexing'
+          value: 'EnableWorkerIndexing',
         },
         {
           name: 'FUNCTIONS_EXTENSION_VERSION',
-          value: '~4'
+          value: '~4',
         },
         {
           name: 'AzureWebJobsStorage',
-          value: dataStorageConnectionString.apply((connectionString) => connectionString)
+          value: dataStorageConnectionString.apply((connectionString) => connectionString),
         },
         {
           name: 'CLOUD_ENV',
-          value: envBase.ENV
+          value: envBase.ENV,
         },
         {
           name: 'STORAGE_BLOB_NAME',
-          value: dataBlobContainer.name.apply((name) => name)
+          value: dataBlobContainer.name.apply((name) => name),
         },
         {
           name: 'QUEUE_NAME',
-          value: dataQueue.name.apply((name) => name)
+          value: dataQueue.name.apply((name) => name),
         },
         {
           name: 'DATABASE_URL',
-          value: postgresConnectionString.apply((connectionString) => connectionString)
+          value: postgresConnectionString.apply((connectionString) => connectionString),
         },
         {
           name: 'DIRECT_URL',
-          value: postgresConnectionString.apply((connectionString) => connectionString)
+          value: postgresConnectionString.apply((connectionString) => connectionString),
         },
         {
           name: 'FRONTEND_URL',
-          value: frontendUrl
+          value: frontendUrl,
         },
         {
           name: 'AZURE_KEY_VAULT_NAME',
-          value: envBase.KEYVAULT_NAME
+          value: envBase.KEYVAULT_NAME,
         },
         {
           name: 'SENDGRID_KEY',
-          value: `${envExtend.SENDGRID_KEY}`
+          value: `${envExtend.SENDGRID_KEY}`,
         },
         // config for the function app
         {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY',
-          value: functionAppInsight.instrumentationKey.apply((key) => key)
+          value: functionAppInsight.instrumentationKey.apply((key) => key),
         },
         {
           name: 'APPLICATIONINSIGHTS_CONNECTION_STRING',
-          value: functionAppInsight.connectionString.apply((connectionString) => connectionString)
+          value: functionAppInsight.connectionString.apply((connectionString) => connectionString),
         },
         {
           name: 'ApplicationInsightsAgent_EXTENSION_VERSION',
-          value: '~3'
+          value: '~3',
         },
         {
           name: 'ENABLE_ORYX_BUILD',
-          value: 'false'
+          value: 'false',
         },
         {
           name: 'SCM_DO_BUILD_DURING_DEPLOYMENT',
-          value: 'false'
+          value: 'false',
         },
         {
           name: 'WEBSITE_RUN_FROM_PACKAGE',
-          value: '1'
-        }
-      ]
-    }
+          value: '1',
+        },
+      ],
+    },
   },
   {
     dependsOn: [functionAppInsight, appServicePlan, dataStorage],
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
 new keyvault.AccessPolicy(
@@ -154,14 +154,14 @@ new keyvault.AccessPolicy(
       tenantId: envBase.ARM_TENANT_ID,
       permissions: {
         keys: ['Decrypt', 'Get', 'List'],
-        secrets: ['Get', 'List', 'Set']
-      }
-    }
+        secrets: ['Get', 'List', 'Set'],
+      },
+    },
   },
   {
     dependsOn: [functionApp],
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
 const functionAppPept = new network.PrivateEndpoint(
@@ -172,20 +172,20 @@ const functionAppPept = new network.PrivateEndpoint(
     privateEndpointName: `${functionAppServiceName}-pept`,
     customNetworkInterfaceName: `${functionAppServiceName}-pept-nic`,
     subnet: {
-      id: envExtend.PRIVATE_ENDPOINT_SUBNET
+      id: envExtend.PRIVATE_ENDPOINT_SUBNET,
     },
     privateLinkServiceConnections: [
       {
         name: `${functionAppServiceName}-plink`,
         privateLinkServiceId: functionApp.id.apply((id) => id),
-        groupIds: ['sites']
-      }
-    ]
+        groupIds: ['sites'],
+      },
+    ],
   },
   {
     ignoreChanges: ['tags', 'privateLinkServiceConnections'],
-    dependsOn: [functionApp]
-  }
+    dependsOn: [functionApp],
+  },
 );
 
 // diagnostic settings for the function app
@@ -197,11 +197,11 @@ new insights.DiagnosticSetting(
     logs: dsSettings.functionAppDSLogItem,
     metrics: dsSettings.functionAppDSMetricsItem,
     resourceUri: functionApp.id.apply((id) => id),
-    workspaceId: logAnalyticsWorkspace.id.apply((id) => id)
+    workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
   },
   {
-    dependsOn: [functionApp, logAnalyticsWorkspace]
-  }
+    dependsOn: [functionApp, logAnalyticsWorkspace],
+  },
 );
 
 // diagnostic setting for the function app pept
@@ -221,9 +221,9 @@ new insights.DiagnosticSetting(
       }
       return '';
     }),
-    workspaceId: logAnalyticsWorkspace.id.apply((id) => id)
+    workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
   },
   {
-    dependsOn: [functionApp, logAnalyticsWorkspace]
-  }
+    dependsOn: [functionApp, logAnalyticsWorkspace],
+  },
 );

@@ -46,7 +46,7 @@ const AlertProvider = ({ children }: IAlertProvider) => {
         }, alert.timeout || 10000);
       }
     },
-    [removeAlert]
+    [removeAlert],
   );
 
   return <AlertContext.Provider value={{ alerts, addAlert, removeAlert }}>{children}</AlertContext.Provider>;

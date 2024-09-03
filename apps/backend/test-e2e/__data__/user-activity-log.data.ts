@@ -5,5 +5,5 @@ export const seedUserActivityLogData = {
   eventStartTime: new Date('2024-04-16'),
   eventEndTime: new Date('2024-04-16'),
   eventDuration: 5000,
-  eventUrl: '/faq'
+  eventUrl: '/faq',
 } as Prisma.UserActivityLogCreateInput;

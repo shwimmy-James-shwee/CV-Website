@@ -9,7 +9,7 @@ export function formatDate(dateStr: string, numericDate: boolean | undefined = t
       // undefined means the localisation will be dependent on user location
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     });
   }
   return formattedStr;

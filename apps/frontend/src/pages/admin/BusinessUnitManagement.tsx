@@ -79,7 +79,7 @@ function BusinessUnitManagement() {
                     onChange={(e) =>
                       setBusinessUnitData({
                         ...businessUnitData,
-                        description: e.target.value
+                        description: e.target.value,
                       })
                     }
                   />
@@ -88,7 +88,7 @@ function BusinessUnitManagement() {
                     onChange={(e) =>
                       setBusinessUnitData({
                         ...businessUnitData,
-                        type: BusinessUnitType[e.target.value as keyof typeof BusinessUnitType]
+                        type: BusinessUnitType[e.target.value as keyof typeof BusinessUnitType],
                       })
                     }
                     data-testid='type-field'
@@ -114,7 +114,7 @@ function BusinessUnitManagement() {
                                 ...businessUnitData,
                                 features: e.target.checked
                                   ? [...(businessUnitData.features || []), item[1]]
-                                  : businessUnitData.features?.filter((f) => f !== item[1])
+                                  : businessUnitData.features?.filter((f) => f !== item[1]),
                               });
                             }}
                           />
