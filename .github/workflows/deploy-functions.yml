@@ -49,7 +49,7 @@ jobs:
 
           pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           pnpm db:generate
-          cp -r ./node_modules/@core/db/node_modules/.prisma ./node_modules/
+          cp -rL ./node_modules/@core/db/node_modules/.prisma ./node_modules/
           popd
         env:
           CI: true

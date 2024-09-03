@@ -35,7 +35,7 @@ export async function emailWatcher(email: queueEmail, context: InvocationContext
 }
 
 app.storageQueue('emailWatcher', {
-  queueName: process.env.EMAIL_QUEUE_NAME || 'tpl-queue',
+  queueName: process.env.QUEUE_NAME || 'twmdatadev-queue',
   connection: 'AzureWebJobsStorage',
   handler: emailWatcher,
 });
