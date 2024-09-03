@@ -10,17 +10,17 @@ const meta = {
   argTypes: {
     label: {
       control: 'text',
-      description: 'The label of the field'
+      description: 'The label of the field',
     },
     required: {
       control: 'boolean',
-      description: 'Specifies if the field is required'
+      description: 'Specifies if the field is required',
     },
     disabled: {
       control: 'boolean',
-      description: 'Specifies if the field is disabled'
-    }
-  }
+      description: 'Specifies if the field is disabled',
+    },
+  },
 } satisfies Meta<typeof SwitchFormField>;
 
 export default meta;
@@ -29,13 +29,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    label: 'Click me'
-  }
+    label: 'Click me',
+  },
 };
 
 export const UnitTest: Story = {
   args: {
-    label: 'Click me'
+    label: 'Click me',
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -48,5 +48,5 @@ export const UnitTest: Story = {
       await userEvent.click(formField);
       await expect(formField.checked).toBe(true);
     });
-  }
+  },
 };

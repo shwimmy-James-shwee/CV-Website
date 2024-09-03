@@ -7,5 +7,5 @@ export async function notificationRealTimeWatcher(timer: Timer, context: Invocat
 
 app.timer('notificationRealTimeWatcher', {
   schedule: process.env.TIME_TRIGGER || '0 */10 * * * *', // every 10 minutes
-  handler: notificationRealTimeWatcher
+  handler: notificationRealTimeWatcher,
 });

@@ -58,7 +58,7 @@ const FormField = ({
   itemLabel,
   isInvalid,
   invalidText,
-  onChange
+  onChange,
 }: FormFieldProps) => {
   // Determine the input type dynamically based on the "type" prop
   const isTextarea = type === 'textarea';
@@ -80,7 +80,7 @@ const FormField = ({
     id: dataTestId,
     onChange: onChange as React.ChangeEventHandler<HTMLInputElement> | undefined,
     style: { fontSize },
-    'data-testid': dataTestId
+    'data-testid': dataTestId,
   };
 
   return (

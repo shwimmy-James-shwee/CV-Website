@@ -57,23 +57,21 @@ jobs:
         run: |
           echo running on branch ${GITHUB_REF##*/} - ${{github.event.inputs.environment}}
 
-
       - uses: pnpm/action-setup@v4
       - name: Set up NodeJS
         uses: actions/setup-node@v4
         with:
           node-version: 21.1.0
           cache: 'pnpm'
-    
 
       - name: Install node dependencies
         shell: bash
         # if: steps.cache.outputs.cache-hit != 'true'
         run: |
           npm install -g ts-node
-          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/infrastructure/" 
+          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/infrastructure/"
 
-      - name: "Login via Azure CLI"
+      - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
@@ -100,7 +98,7 @@ jobs:
         with:
           command: preview
           pulumi-version: 3.130.0
-          cloud-url: "azblob://pulumistate"
+          cloud-url: 'azblob://pulumistate'
           stack-name: ${{ github.event.inputs.environment }} # When using an individual account, only use stack-name.
           upsert: true
           refresh: true
@@ -156,15 +154,14 @@ jobs:
           node-version: 21.1.0
           cache: 'pnpm'
 
-
       - name: Install node dependencies
         shell: bash
         # if: steps.cache.outputs.cache-hit != 'true'
         run: |
           npm install -g ts-node
-          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/infrastructure/" 
+          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/infrastructure/"
 
-      - name: "Login via Azure CLI"
+      - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
@@ -192,7 +189,7 @@ jobs:
         with:
           command: up
           pulumi-version: 3.130.0
-          cloud-url: "azblob://pulumistate"
+          cloud-url: 'azblob://pulumistate'
           stack-name: ${{ github.event.inputs.environment }} # When using an individual account, only use stack-name.
           upsert: true
           refresh: true

@@ -11,7 +11,7 @@ function compareFileContents() {
   // Compare the contents of the files
   if (contentA !== contentB) {
     throw new Error(
-      '\nError: schema.ts does not match your Prisma schema file. Please update the type file and commit again.\n'
+      '\nError: schema.ts does not match your Prisma schema file. Please update the type file and commit again.\n',
     );
   }
 }
@@ -60,7 +60,7 @@ function checkSchemaNamings() {
           'hypothesis',
           'iris',
           'lens',
-          'loss'
+          'loss',
         ].some((keyword) => name.toLowerCase().includes(keyword))
       ) {
         throw new Error(`\nError: "${name}" should be singular (no 's' at the end).`);
@@ -104,7 +104,7 @@ function checkSchemaNamings() {
       lines.slice(1).forEach((line) => {
         if (line.trim().length === 0) {
           throw new Error(
-            `\nError: "${modelName}" has an empty line.Try use // replace the empty line to keep the format consistent across the model body.`
+            `\nError: "${modelName}" has an empty line.Try use // replace the empty line to keep the format consistent across the model body.`,
           );
         }
         if (line.trim()[0] === '/') {
@@ -124,7 +124,7 @@ function checkSchemaNamings() {
         if (fieldName[0].toUpperCase() === fieldName[0] && fieldName[0] !== '/') {
           if (!modelNames.includes(fieldType.replace('[]', '').replace('?', '').trim())) {
             throw new Error(
-              `\nError: Field "${fieldName}" in "${modelName}" should not start with an uppercase letter because its not a relation.`
+              `\nError: Field "${fieldName}" in "${modelName}" should not start with an uppercase letter because its not a relation.`,
             );
           }
         }
@@ -134,7 +134,7 @@ function checkSchemaNamings() {
           // Check if the field name is in UpperCamelCase format
           if (fieldName[0] !== fieldName[0].toUpperCase()) {
             throw new Error(
-              `\nError: Field "${fieldName}" in "${modelName}" is a relation mapping; hence it should be in UpperCamelCase format.`
+              `\nError: Field "${fieldName}" in "${modelName}" is a relation mapping; hence it should be in UpperCamelCase format.`,
             );
           }
         }
@@ -166,16 +166,16 @@ function checkSchemaNamings() {
             'iris',
             'lens',
             'loss',
-            'thumbnailphoto'
+            'thumbnailphoto',
           ].some((keyword) => fieldName.toLowerCase().includes(keyword))
         ) {
           if (fieldName[fieldName.length - 1].toLowerCase() === 's' && !fieldType.includes('[]')) {
             throw new Error(
-              `\nError: Field "${fieldName}" in "${modelName}" is not a list; hence it should not end with an 's'.`
+              `\nError: Field "${fieldName}" in "${modelName}" is not a list; hence it should not end with an 's'.`,
             );
           } else if (fieldType.includes('[]') && fieldName[fieldName.length - 1].toLowerCase() !== 's') {
             throw new Error(
-              `\nError: Field "${fieldName}" in "${modelName}" is a list; hence it should end with an 's'.`
+              `\nError: Field "${fieldName}" in "${modelName}" is a list; hence it should end with an 's'.`,
             );
           }
         }
@@ -185,13 +185,13 @@ function checkSchemaNamings() {
 
       if (!/\n\s+createdAt\s+DateTime\s+@default\(now\(\)\)/.test(block)) {
         throw new Error(
-          `\nError: "${modelName}" is missing the "createdAt" field. Add this 'createdAt DateTime @default(now())' to "${modelName}"`
+          `\nError: "${modelName}" is missing the "createdAt" field. Add this 'createdAt DateTime @default(now())' to "${modelName}"`,
         );
       }
 
       if (!/\n\s+updatedAt\s+DateTime\s+@updatedAt/.test(block)) {
         throw new Error(
-          `\nError: "${modelName}" is missing the "updatedAt" field. Add this 'updatedAt DateTime @updatedAt' to "${modelName}"  `
+          `\nError: "${modelName}" is missing the "updatedAt" field. Add this 'updatedAt DateTime @updatedAt' to "${modelName}"  `,
         );
       }
     }

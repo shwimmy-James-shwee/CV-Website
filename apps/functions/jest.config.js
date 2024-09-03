@@ -25,8 +25,8 @@ module.exports = {
       functions: 70,
       lines: 70,
       statements: 70,
-      files: 70
-    }
+      files: 70,
+    },
   },
   coveragePathIgnorePatterns: [],
 
@@ -41,7 +41,7 @@ module.exports = {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    '^.+\\.(t|j)s$': 'ts-jest'
+    '^.+\\.(t|j)s$': 'ts-jest',
   },
-  setupFilesAfterEnv: ['<rootDir>/test/setup.ts']
+  setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
 };

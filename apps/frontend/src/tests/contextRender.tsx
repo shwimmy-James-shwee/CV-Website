@@ -17,7 +17,7 @@ export const contextedRender = (ui: ReactElement, options?: Omit<IExtendedRender
           currentUserData: dummyUser,
           setCurrentUserData: () => {},
           isLoading: false,
-          userReturnStatus: UserReturnStatus.SUCCESS
+          userReturnStatus: UserReturnStatus.SUCCESS,
         }}
       >
         <BrowserRouter>{children}</BrowserRouter>

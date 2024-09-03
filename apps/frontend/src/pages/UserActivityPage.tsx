@@ -44,7 +44,7 @@ function UserActivityPage() {
           });
           setTableData(response.data.map((x) => ({ ...x, email: users[x.userId].loginEmail })));
         }
-      }
+      },
     );
 
     execute('GET', `${API.userActivityLog.root}?by=${aggBy}`).then(
@@ -57,7 +57,7 @@ function UserActivityPage() {
           setUserAttributes(users);
           setChartData(response.data);
         }
-      }
+      },
     );
   }
 
@@ -79,26 +79,26 @@ function UserActivityPage() {
     {
       name: 'sessionIdentifier',
       selector: (row: userActivityLogType) => row.sessionIdentifier.slice(0, 6) + '...',
-      sortable: true
+      sortable: true,
     },
     { name: 'eventUrl', selector: (row: userActivityLogType) => row.eventUrl, sortable: true },
     {
       name: 'eventStartTime',
       selector: (row: userActivityLogType) => row.eventStartTime,
-      sortable: true
+      sortable: true,
     },
     {
       name: 'eventEndTime',
       selector: (row: userActivityLogType) => row.eventEndTime,
-      sortable: true
+      sortable: true,
     },
     {
       name: 'eventDuration',
       selector: (row: userActivityLogType) => row.eventDuration / 1000,
-      sortable: true
+      sortable: true,
     },
     { name: 'createdAt', selector: (row: userActivityLogType) => row.createdAt, sortable: true },
-    { name: 'updatedAt', selector: (row: userActivityLogType) => row.updatedAt, sortable: true }
+    { name: 'updatedAt', selector: (row: userActivityLogType) => row.updatedAt, sortable: true },
   ];
 
   return (
@@ -135,7 +135,7 @@ function UserActivityPage() {
                   top: 15,
                   right: 15,
                   left: 15,
-                  bottom: 15
+                  bottom: 15,
                 }}
               >
                 <CartesianGrid strokeDasharray='1 4' />

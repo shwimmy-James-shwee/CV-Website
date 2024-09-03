@@ -5,7 +5,7 @@ import { Prisma } from '@core/db';
 import {
   userActivityLogAggByEventUrl,
   userActivityLogAggByUserId,
-  userActivityLogArray
+  userActivityLogArray,
 } from './__test__/user-activity-log.data';
 
 const logId = () => Math.floor(Math.random() * 100000);
@@ -26,7 +26,7 @@ describe('V1/UserService', () => {
                 return {
                   id: logId(),
                   ...args.data,
-                  userId: args?.data?.User?.connect?.id
+                  userId: args?.data?.User?.connect?.id,
                 };
               }),
               findFirst: jest.fn((args: Prisma.UserActivityLogFindFirstArgs) => {
@@ -53,14 +53,14 @@ describe('V1/UserService', () => {
                 } else if (args.by[0] === 'userId') {
                   return Promise.resolve(userActivityLogAggByUserId);
                 }
-              })
+              }),
             },
             user: {
-              findMany: jest.fn()
-            }
-          }
-        }
-      ]
+              findMany: jest.fn(),
+            },
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<UserActivityLogService>(UserActivityLogService);
@@ -78,7 +78,7 @@ describe('V1/UserService', () => {
       eventEndTime: new Date(),
       eventDuration: 5000,
       eventUrl: 'http://localhost:3000',
-      User: { connect: { id: 'abcd-userid' } }
+      User: { connect: { id: 'abcd-userid' } },
     } as Prisma.UserActivityLogCreateInput;
     const data = await service.create(fakeUserActivityLog);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -97,7 +97,7 @@ describe('V1/UserService', () => {
   it('should able to find one log by condition', async () => {
     const data = await service.findOne({
       sessionIdentifier: userActivityLogArray[0]?.sessionIdentifier,
-      eventUrl: userActivityLogArray[0]?.eventUrl
+      eventUrl: userActivityLogArray[0]?.eventUrl,
     });
     expect(data).toEqual(userActivityLogArray[0]);
     expect(prisma.userActivityLog.findFirst).toHaveBeenCalledTimes(1);

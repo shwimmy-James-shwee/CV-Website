@@ -32,7 +32,7 @@ const PageTimer = ({ pageUrl, onPageClickFunction }: PageTimerProps) => {
   const record: pageTimerType = {
     sessionIdentifier: sessionStorage.getItem('session.md5'),
     eventUrl: pageUrl || getPageUrl,
-    eventStartTime: visitStart
+    eventStartTime: visitStart,
   };
 
   // record time when navigate to another route
@@ -47,7 +47,7 @@ const PageTimer = ({ pageUrl, onPageClickFunction }: PageTimerProps) => {
     execute('POST', API.userActivityLog.root, {
       ...record,
       eventUrl: typeof url == 'string' ? url : record.eventUrl,
-      eventDuration: diff
+      eventDuration: diff,
     });
     startFocusTime.current = new Date();
   }

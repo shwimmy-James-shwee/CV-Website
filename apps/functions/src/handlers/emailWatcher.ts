@@ -13,7 +13,7 @@ export async function emailWatcher(email: queueEmail, context: InvocationContext
     from: 'no-reply@kpmgservices.co.nz', // verified sender
     subject: decrypt(cryptoKey, email['header']),
     text: decrypt(cryptoKey, email['content']),
-    html: decrypt(cryptoKey, email['content'])
+    html: decrypt(cryptoKey, email['content']),
   };
   try {
     const response = await sgMail.send(mail);
@@ -37,5 +37,5 @@ export async function emailWatcher(email: queueEmail, context: InvocationContext
 app.storageQueue('emailWatcher', {
   queueName: process.env.EMAIL_QUEUE_NAME || 'tpl-queue',
   connection: 'AzureWebJobsStorage',
-  handler: emailWatcher
+  handler: emailWatcher,
 });

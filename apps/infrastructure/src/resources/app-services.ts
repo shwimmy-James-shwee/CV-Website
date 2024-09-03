@@ -23,12 +23,12 @@ const webappInsight = new insights.Component(
     retentionInDays: 90,
     ingestionMode: insights.IngestionMode.LogAnalytics,
     workspaceResourceId: logAnalyticsWorkspace.id.apply((id) => id),
-    flowType: insights.FlowType.Bluefield
+    flowType: insights.FlowType.Bluefield,
   },
   {
     dependsOn: [logAnalyticsWorkspace],
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
 const cors = [frontendUrl];
@@ -41,48 +41,48 @@ const appSettings: input.web.NameValuePairArgs[] = [
   // app service settings
   {
     name: 'APPINSIGHTS_INSTRUMENTATIONKEY',
-    value: webappInsight.instrumentationKey.apply((key) => key)
+    value: webappInsight.instrumentationKey.apply((key) => key),
   },
   {
     name: 'APPLICATIONINSIGHTS_CONNECTION_STRING',
-    value: webappInsight.connectionString.apply((conn) => conn)
+    value: webappInsight.connectionString.apply((conn) => conn),
   },
   {
     name: 'ApplicationInsightsAgent_EXTENSION_VERSION',
-    value: '~3'
+    value: '~3',
   },
   {
     name: 'DiagnosticServices_EXTENSION_VERSION',
-    value: '~3'
+    value: '~3',
   },
   {
     name: 'InstrumentationEngine_EXTENSION_VERSION',
-    value: 'disabled'
+    value: 'disabled',
   },
   {
     name: 'XDT_MicrosoftApplicationInsights_BaseExtensions',
-    value: 'disabled'
+    value: 'disabled',
   },
   {
     name: 'XDT_MicrosoftApplicationInsights_Mode',
-    value: 'recommended'
+    value: 'recommended',
   },
   {
     name: 'XDT_MicrosoftApplicationInsights_PreemptSdk',
-    value: 'disabled'
+    value: 'disabled',
   },
   {
     name: 'WEBSITE_PULL_IMAGE_OVER_VNET',
-    value: 'true'
+    value: 'true',
   },
   // docker registry settings
   {
     name: 'DOCKER_REGISTRY_SERVER_URL',
-    value: containerRegistry.loginServer.apply((server) => `https://${server}`)
+    value: containerRegistry.loginServer.apply((server) => `https://${server}`),
   },
   {
     name: 'DOCKER_REGISTRY_SERVER_USERNAME',
-    value: acrCredentials.apply((creds) => creds.username || '')
+    value: acrCredentials.apply((creds) => creds.username || ''),
   },
   {
     name: 'DOCKER_REGISTRY_SERVER_PASSWORD',
@@ -97,50 +97,50 @@ const appSettings: input.web.NameValuePairArgs[] = [
         }
       }
       return '';
-    })
+    }),
   },
   // application settings
   {
     name: 'AZURE_KEY_VAULT_NAME',
-    value: vault.then((resVault) => resVault.name)
+    value: vault.then((resVault) => resVault.name),
   },
   {
     name: 'PORT',
-    value: '80'
+    value: '80',
   },
   {
     name: 'APP_PORT',
-    value: '80'
+    value: '80',
   },
   {
     name: 'WEBSITES_PORT',
-    value: '80'
+    value: '80',
   },
   {
     name: 'DATABASE_URL',
-    value: postgresConnectionString.apply((connectionString) => connectionString)
+    value: postgresConnectionString.apply((connectionString) => connectionString),
   },
   {
     name: 'DIRECT_URL',
-    value: postgresConnectionString.apply((connectionString) => connectionString)
+    value: postgresConnectionString.apply((connectionString) => connectionString),
   },
   // B2C settings
   {
     name: 'B2C_CLIENT_ID',
-    value: envExtend.B2C_CLIENT_ID
+    value: envExtend.B2C_CLIENT_ID,
   },
   {
     name: 'B2C_POLICY_NAME',
-    value: envExtend.B2C_POLICY_NAME
+    value: envExtend.B2C_POLICY_NAME,
   },
   {
     name: 'B2C_TENANT_ID',
-    value: envExtend.B2C_TENANT_ID
+    value: envExtend.B2C_TENANT_ID,
   },
   {
     name: 'B2C_TENANT_NAME',
-    value: envExtend.B2C_TENANT_NAME
-  }
+    value: envExtend.B2C_TENANT_NAME,
+  },
   // unless needed, try use keyvault to store other secrets and configs, changing these will cause the app to restart
 ];
 const restAPI = new web.WebApp(
@@ -154,7 +154,7 @@ const restAPI = new web.WebApp(
     clientCertEnabled: false,
     httpsOnly: true,
     identity: {
-      type: web.ManagedServiceIdentityType.SystemAssigned
+      type: web.ManagedServiceIdentityType.SystemAssigned,
     },
     siteConfig: {
       publicNetworkAccess: 'Disabled',
@@ -165,12 +165,12 @@ const restAPI = new web.WebApp(
       healthCheckPath: '/',
       cors: {
         allowedOrigins: cors,
-        supportCredentials: true
+        supportCredentials: true,
       },
       httpLoggingEnabled: true,
       logsDirectorySizeLimit: 35,
-      appSettings: appSettings
-    }
+      appSettings: appSettings,
+    },
   },
   {
     dependsOn: [webappInsight, containerRegistry, appServicePlan, frontendUIStorage, postgresqlCluster],
@@ -178,9 +178,9 @@ const restAPI = new web.WebApp(
     customTimeouts: {
       create: '30m',
       update: '30m',
-      delete: '30m'
-    }
-  }
+      delete: '30m',
+    },
+  },
 );
 
 // app service will need access to keyvault
@@ -195,14 +195,14 @@ new keyvault.AccessPolicy(
       tenantId: envBase.ARM_TENANT_ID,
       permissions: {
         keys: ['Decrypt', 'Get', 'List'],
-        secrets: ['Get', 'List']
-      }
-    }
+        secrets: ['Get', 'List'],
+      },
+    },
   },
   {
     dependsOn: [restAPI],
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
 const restAPIPept = new network.PrivateEndpoint(
@@ -213,20 +213,20 @@ const restAPIPept = new network.PrivateEndpoint(
     privateEndpointName: `${webAppServiceName}-pept`,
     customNetworkInterfaceName: `${webAppServiceName}-pept-nic`,
     subnet: {
-      id: envExtend.PRIVATE_ENDPOINT_SUBNET
+      id: envExtend.PRIVATE_ENDPOINT_SUBNET,
     },
     privateLinkServiceConnections: [
       {
         name: `${webAppServiceName}-plink`,
         privateLinkServiceId: restAPI.id.apply((id) => id),
-        groupIds: ['sites']
-      }
-    ]
+        groupIds: ['sites'],
+      },
+    ],
   },
   {
     dependsOn: [restAPI],
-    ignoreChanges: ['tags', 'privateLinkServiceConnections']
-  }
+    ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+  },
 );
 
 // diagnostic setting for the web app
@@ -237,11 +237,11 @@ new insights.DiagnosticSetting(
     logs: dsSettings.webAppDSLogItem,
     metrics: dsSettings.webAppDSMetricsItem,
     resourceUri: restAPI.id.apply((id) => id),
-    workspaceId: logAnalyticsWorkspace.id.apply((id) => id)
+    workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
   },
   {
-    dependsOn: [restAPI, logAnalyticsWorkspace]
-  }
+    dependsOn: [restAPI, logAnalyticsWorkspace],
+  },
 );
 
 // diagnostic setting for the web app pept
@@ -261,11 +261,11 @@ new insights.DiagnosticSetting(
       }
       return '';
     }),
-    workspaceId: logAnalyticsWorkspace.id.apply((id) => id)
+    workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
   },
   {
-    dependsOn: [restAPIPept, logAnalyticsWorkspace]
-  }
+    dependsOn: [restAPIPept, logAnalyticsWorkspace],
+  },
 );
 
 // webapp clone for staging
@@ -282,7 +282,7 @@ if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase()) && e
       clientCertEnabled: false,
       httpsOnly: true,
       identity: {
-        type: web.ManagedServiceIdentityType.SystemAssigned
+        type: web.ManagedServiceIdentityType.SystemAssigned,
       },
       siteConfig: {
         publicNetworkAccess: 'Disabled',
@@ -293,12 +293,12 @@ if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase()) && e
         healthCheckPath: '/',
         cors: {
           allowedOrigins: cors,
-          supportCredentials: true
+          supportCredentials: true,
         },
         httpLoggingEnabled: true,
         logsDirectorySizeLimit: 35,
-        appSettings: appSettings
-      }
+        appSettings: appSettings,
+      },
     },
     {
       dependsOn: [webappInsight, containerRegistry, appServicePlan, frontendUIStorage, postgresqlCluster, restAPI],
@@ -306,9 +306,9 @@ if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase()) && e
       customTimeouts: {
         create: '30m',
         update: '30m',
-        delete: '30m'
-      }
-    }
+        delete: '30m',
+      },
+    },
   );
 
   new keyvault.AccessPolicy(
@@ -321,14 +321,14 @@ if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase()) && e
         tenantId: envBase.ARM_TENANT_ID,
         permissions: {
           keys: ['Decrypt', 'Get', 'List'],
-          secrets: ['Get', 'List']
-        }
-      }
+          secrets: ['Get', 'List'],
+        },
+      },
     },
     {
       dependsOn: [restAPIStaging],
-      ignoreChanges: ['tags']
-    }
+      ignoreChanges: ['tags'],
+    },
   );
 
   const restAPIStagingPept = new network.PrivateEndpoint(
@@ -339,20 +339,20 @@ if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase()) && e
       privateEndpointName: `${webAppServiceName}-staging-pept`,
       customNetworkInterfaceName: `${webAppServiceName}-staging-pept-nic`,
       subnet: {
-        id: envExtend.PRIVATE_ENDPOINT_SUBNET
+        id: envExtend.PRIVATE_ENDPOINT_SUBNET,
       },
       privateLinkServiceConnections: [
         {
           name: `${webAppServiceName}-staging-plink`,
           privateLinkServiceId: restAPI.id.apply((id) => id),
-          groupIds: ['sites-staging']
-        }
-      ]
+          groupIds: ['sites-staging'],
+        },
+      ],
     },
     {
       dependsOn: [restAPIStaging],
-      ignoreChanges: ['tags', 'privateLinkServiceConnections']
-    }
+      ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+    },
   );
   // diagnostic setting for the web app
   new insights.DiagnosticSetting(
@@ -363,11 +363,11 @@ if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase()) && e
       logs: dsSettings.webAppDSLogItem.filter((item) => item.category !== 'AppServiceAuthenticationLogs'),
       metrics: dsSettings.webAppDSMetricsItem,
       resourceUri: restAPIStaging.id.apply((id) => id),
-      workspaceId: logAnalyticsWorkspace.id.apply((id) => id)
+      workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     },
     {
-      dependsOn: [restAPIStaging, logAnalyticsWorkspace]
-    }
+      dependsOn: [restAPIStaging, logAnalyticsWorkspace],
+    },
   );
 
   // diagnostic setting for the web app pept
@@ -387,10 +387,10 @@ if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase()) && e
         }
         return '';
       }),
-      workspaceId: logAnalyticsWorkspace.id.apply((id) => id)
+      workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     },
     {
-      dependsOn: [restAPIStagingPept, logAnalyticsWorkspace]
-    }
+      dependsOn: [restAPIStagingPept, logAnalyticsWorkspace],
+    },
   );
 }

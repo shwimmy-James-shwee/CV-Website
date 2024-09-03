@@ -23,12 +23,12 @@ export class AppLoggerMiddleware implements NestMiddleware {
             contentLength,
             user: {
               id: (request.user as User)?.['id'] ?? '',
-              email: (request.user as User)?.['loginEmail'] ?? ''
+              email: (request.user as User)?.['loginEmail'] ?? '',
             },
             body,
             params,
-            query
-          })
+            query,
+          }),
         );
       });
     }

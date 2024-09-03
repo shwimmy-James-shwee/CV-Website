@@ -24,7 +24,7 @@ class UntypedExtendedClient extends PrismaClient {
 }
 
 const ExtendedPrismaClient = UntypedExtendedClient as unknown as new (
-  options?: ConstructorParameters<typeof PrismaClient>[0]
+  options?: ConstructorParameters<typeof PrismaClient>[0],
 ) => ReturnType<typeof extendClient>;
 
 export { ExtendedPrismaClient };

@@ -19,9 +19,9 @@ module.exports = {
       typescript: {
         project: 'tsconfig.json',
 
-        tsconfigRootDir: process.cwd()
-      }
-    }
+        tsconfigRootDir: process.cwd(),
+      },
+    },
   },
   plugins: ['@typescript-eslint/eslint-plugin', '@typescript-eslint'],
   extends: [
@@ -30,14 +30,14 @@ module.exports = {
     'eslint-config-turbo',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'prettier'
+    'prettier',
   ],
   root: true,
   env: {
     browser: true,
     es2020: true,
     node: true,
-    jest: true
+    jest: true,
   },
   rules: {
     camelcase: 'error',
@@ -47,8 +47,8 @@ module.exports = {
       {
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
-        caughtErrorsIgnorePattern: '^_'
-      }
+        caughtErrorsIgnorePattern: '^_',
+      },
     ],
     'spaced-comment': 'error',
     quotes: ['error', 'single', { avoidEscape: true }],
@@ -58,8 +58,8 @@ module.exports = {
       'error',
       {
         selector: "CallExpression[callee.object.name='console'][callee.property.name!=/^(log|warn|error|info|trace)$/]",
-        message: 'Unexpected property on console object was called'
-      }
+        message: 'Unexpected property on console object was called',
+      },
     ],
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
@@ -71,7 +71,7 @@ module.exports = {
     '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
 
-    'prettier/prettier': ['error']
+    'prettier/prettier': ['error'],
   },
-  ignorePatterns: ['dist', '.eslintrc.cjs']
+  ignorePatterns: ['dist', '.eslintrc.cjs'],
 };

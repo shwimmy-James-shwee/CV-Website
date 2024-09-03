@@ -12,7 +12,7 @@ export class RoleGuard implements CanActivate {
     const req: Request = context.switchToHttp().getRequest();
     const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(ROLES_KEY, [
       context.getHandler(),
-      context.getClass()
+      context.getClass(),
     ]);
     if (!requiredRoles) {
       return true;

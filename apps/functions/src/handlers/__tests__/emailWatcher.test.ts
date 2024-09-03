@@ -5,7 +5,7 @@ import { encrypt } from '../../services/helperFunctions';
 
 jest.mock('@sendgrid/mail', () => ({
   send: jest.fn().mockResolvedValue([{ statusCode: 200 }]),
-  setApiKey: jest.fn()
+  setApiKey: jest.fn(),
 }));
 
 describe('emailWatcher', () => {
@@ -21,16 +21,16 @@ describe('emailWatcher', () => {
       id: '123',
       sentTo: ['test@example.com'],
       header: 'Test Email',
-      content: 'This is a test email'
+      content: 'This is a test email',
     };
     const context = {
       log: jest.fn(),
-      error: jest.fn()
+      error: jest.fn(),
     } as unknown as InvocationContext;
 
     await emailWatcher(
       { ...email, header: encrypt(cryptoKey, email.header), content: encrypt(cryptoKey, email.content) },
-      context
+      context,
     );
 
     expect(sgMail.send).toHaveBeenCalledWith({
@@ -38,7 +38,7 @@ describe('emailWatcher', () => {
       from: 'no-reply@kpmgservices.co.nz',
       subject: email.header,
       text: email.content,
-      html: email.content
+      html: email.content,
     });
     expect(context.log).toHaveBeenCalledWith(`email ${email.id} to ${email.sentTo} status = 200`);
     expect(context.error).not.toHaveBeenCalled();
@@ -49,11 +49,11 @@ describe('emailWatcher', () => {
       id: '123',
       sentTo: ['test@example.com'],
       header: 'Test Email',
-      content: 'This is a test email'
+      content: 'This is a test email',
     };
     const context = {
       log: jest.fn(),
-      error: jest.fn()
+      error: jest.fn(),
     } as unknown as InvocationContext;
 
     // Mocking a rejected promise to simulate an error
@@ -62,8 +62,8 @@ describe('emailWatcher', () => {
     await expect(
       emailWatcher(
         { ...email, header: encrypt(cryptoKey, email.header), content: encrypt(cryptoKey, email.content) },
-        context
-      )
+        context,
+      ),
     ).rejects.toThrow('Send email failed');
 
     expect(sgMail.send).toHaveBeenCalledWith({
@@ -71,7 +71,7 @@ describe('emailWatcher', () => {
       from: 'no-reply@kpmgservices.co.nz',
       subject: email.header,
       text: email.content,
-      html: email.content
+      html: email.content,
     });
     expect(context.log).toHaveBeenCalledWith(`ERROR: email ${email.id} to ${email.sentTo} status = 0`);
     expect(context.error).toHaveBeenCalledWith(new Error('Send email failed'));
@@ -82,11 +82,11 @@ describe('emailWatcher', () => {
       id: '123',
       sentTo: ['test@example.com'],
       header: 'Test Email',
-      content: 'This is a test email'
+      content: 'This is a test email',
     };
     const context = {
       log: jest.fn(),
-      error: jest.fn()
+      error: jest.fn(),
     } as unknown as InvocationContext;
 
     // Mocking a successful email send with status code 202
@@ -94,7 +94,7 @@ describe('emailWatcher', () => {
 
     await emailWatcher(
       { ...email, header: encrypt(cryptoKey, email.header), content: encrypt(cryptoKey, email.content) },
-      context
+      context,
     );
 
     expect(sgMail.send).toHaveBeenCalledWith({
@@ -102,7 +102,7 @@ describe('emailWatcher', () => {
       from: 'no-reply@kpmgservices.co.nz',
       subject: email.header,
       text: email.content,
-      html: email.content
+      html: email.content,
     });
     expect(context.log).toHaveBeenCalledWith(`email ${email.id} to ${email.sentTo} status = 202`);
     expect(context.error).not.toHaveBeenCalled();

@@ -3,7 +3,7 @@ import { BlobServiceClient, ContainerClient, StorageSharedKeyCredential } from '
 
 const mockBlobClient = {
   downloadToFile: jest.fn().mockResolvedValue({ _response: 'mockResponse' }),
-  deleteIfExists: jest.fn().mockResolvedValue({ _response: 'mockResponse' })
+  deleteIfExists: jest.fn().mockResolvedValue({ _response: 'mockResponse' }),
 };
 
 const mockGetBlobClient = jest.fn().mockReturnValue(mockBlobClient);
@@ -11,10 +11,10 @@ const mockGetBlobClient = jest.fn().mockReturnValue(mockBlobClient);
 jest.mock('@azure/storage-blob', () => ({
   BlobServiceClient: jest.fn().mockImplementation(() => ({
     getContainerClient: jest.fn().mockReturnValue({
-      getBlobClient: mockGetBlobClient
-    } as unknown as ContainerClient)
+      getBlobClient: mockGetBlobClient,
+    } as unknown as ContainerClient),
   })),
-  StorageSharedKeyCredential: jest.fn().mockImplementation(() => {})
+  StorageSharedKeyCredential: jest.fn().mockImplementation(() => {}),
 }));
 
 describe('getContainerClient', () => {
@@ -32,7 +32,7 @@ describe('getContainerClient', () => {
     // Assert
     expect(BlobServiceClient).toHaveBeenCalledWith(
       'https://<accountName>.blob.core.windows.net',
-      expect.any(StorageSharedKeyCredential)
+      expect.any(StorageSharedKeyCredential),
     );
     expect(result).toBeDefined();
   });

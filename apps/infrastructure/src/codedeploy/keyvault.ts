@@ -20,13 +20,13 @@ export const vault = new KeyVault(
     skuName: 'standard',
     networkAcls: {
       bypass: 'AzureServices',
-      defaultAction: 'Deny'
-    }
+      defaultAction: 'Deny',
+    },
   },
   {
     ignoreChanges: ['tags'],
-    protect: true
-  }
+    protect: true,
+  },
 );
 
 export const vaultPept = new PrivateEndpoint(
@@ -36,18 +36,18 @@ export const vaultPept = new PrivateEndpoint(
     privateEndpointName: `${envBase.KEYVAULT_NAME}-pept`,
     customNetworkInterfaceName: `${envBase.KEYVAULT_NAME}-pept-nic`,
     subnet: {
-      id: envBase.PRIVATE_ENDPOINT_SUBNET
+      id: envBase.PRIVATE_ENDPOINT_SUBNET,
     },
     privateLinkServiceConnections: [
       {
         name: `${envBase.KEYVAULT_NAME}-pept-connection`,
         privateLinkServiceId: vault.id,
-        groupIds: ['vault']
-      }
-    ]
+        groupIds: ['vault'],
+      },
+    ],
   },
   {
     dependsOn: [vault],
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );

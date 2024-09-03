@@ -10,29 +10,29 @@ const meta = {
   argTypes: {
     label: {
       control: 'text',
-      description: 'The label of the field'
+      description: 'The label of the field',
     },
     textarea: {
       control: 'boolean',
-      description: 'Set form field to be textarea'
+      description: 'Set form field to be textarea',
     },
     placeholder: {
       control: 'text',
-      description: 'The placeholder text for the field'
+      description: 'The placeholder text for the field',
     },
     required: {
       control: 'boolean',
-      description: 'Specifies if the field is required'
+      description: 'Specifies if the field is required',
     },
     disabled: {
       control: 'boolean',
-      description: 'Specifies if the field is disabled'
+      description: 'Specifies if the field is disabled',
     },
     readOnly: {
       control: 'boolean',
-      description: 'Specifies if the field is readonly'
-    }
-  }
+      description: 'Specifies if the field is readonly',
+    },
+  },
 } satisfies Meta<typeof TextFormField>;
 
 export default meta;
@@ -41,28 +41,28 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    label: 'Name'
-  }
+    label: 'Name',
+  },
 };
 
 export const Disabled: Story = {
   args: {
     label: 'Name',
-    disabled: true
-  }
+    disabled: true,
+  },
 };
 
 export const Readonly: Story = {
   args: {
     label: 'Name',
     placeholder: 'This is a readonly example.',
-    readOnly: true
-  }
+    readOnly: true,
+  },
 };
 
 export const UnitTest: Story = {
   args: {
-    label: 'Name'
+    label: 'Name',
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -71,5 +71,5 @@ export const UnitTest: Story = {
       const formField = canvas.getByLabelText('Name');
       await expect(formField).toBeInTheDocument();
     });
-  }
+  },
 };

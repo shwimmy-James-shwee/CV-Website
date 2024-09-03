@@ -9,7 +9,7 @@ import { BusinessUnitModule } from './business-unit/business-unit.module';
     DatabaseModule,
     UserModule,
     BusinessUnitModule,
-    RouterModule.register([{ path: 'admin', children: [UserModule, BusinessUnitModule] }])
-  ]
+    RouterModule.register([{ path: 'admin', children: [UserModule, BusinessUnitModule] }]),
+  ],
 })
 export class AdminModule {}

@@ -22,11 +22,11 @@ describe('Admin/BusinessUnitService', () => {
               findMany: jest.fn((args?: Prisma.BusinessUnitFindManyArgs) => {
                 args;
                 return Promise.resolve(businessUnitArray);
-              })
-            }
-          }
-        }
-      ]
+              }),
+            },
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<BusinessUnitService>(BusinessUnitService);

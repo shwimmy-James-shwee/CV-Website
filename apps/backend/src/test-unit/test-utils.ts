@@ -4,13 +4,13 @@ export function mockFunction<T>(o: T, p: PropertyKey, overrideTo: PropertyKey | 
     Object.defineProperty(o, p, {
       value: jest.fn().mockReturnValue(overrideTo),
       configurable: true,
-      writable: true
+      writable: true,
     });
   } else {
     Object.defineProperty(o, p, {
       value: overrideTo,
       configurable: true,
-      writable: true
+      writable: true,
     });
   }
 }

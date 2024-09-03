@@ -14,7 +14,7 @@ import {
   Bypass,
   KeyType,
   BlobContainer,
-  PublicAccess
+  PublicAccess,
 } from '@pulumi/azure-native/storage';
 import { identityPolicy, managedIdentity } from './identity';
 import { PrivateEndpoint } from '@pulumi/azure-native/network';
@@ -25,14 +25,14 @@ const codeDeployStorageKey = new Key(
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     keyName: 'code-deploy-storage-key',
     properties: {
-      kty: 'RSA'
+      kty: 'RSA',
     },
-    vaultName: envBase.KEYVAULT_NAME
+    vaultName: envBase.KEYVAULT_NAME,
   },
   {
     ignoreChanges: ['tags'],
-    dependsOn: [vault, vaultPept]
-  }
+    dependsOn: [vault, vaultPept],
+  },
 );
 
 const codeDeployStorage = new StorageAccount(
@@ -42,7 +42,7 @@ const codeDeployStorage = new StorageAccount(
     accountName: envBase.CODEDEPLOY_STORAGE_NAME,
     location: envBase.AZURE_RESOURCE_LOCATION,
     sku: {
-      name: SkuName.Standard_LRS
+      name: SkuName.Standard_LRS,
     },
     kind: Kind.StorageV2,
     accessTier: AccessTier.Cool,
@@ -52,12 +52,12 @@ const codeDeployStorage = new StorageAccount(
     allowBlobPublicAccess: false,
     identity: {
       type: IdentityType.UserAssigned,
-      userAssignedIdentities: managedIdentity.id.apply((id) => [id])
+      userAssignedIdentities: managedIdentity.id.apply((id) => [id]),
     },
     networkRuleSet: {
       defaultAction: DefaultAction.Deny,
       bypass: Bypass.AzureServices,
-      ipRules: []
+      ipRules: [],
     },
     encryption: {
       keySource: KeySource.Microsoft_Keyvault,
@@ -65,23 +65,23 @@ const codeDeployStorage = new StorageAccount(
         blob: { enabled: true },
         file: { enabled: true },
         table: { keyType: KeyType.Account, enabled: true },
-        queue: { keyType: KeyType.Account, enabled: true }
+        queue: { keyType: KeyType.Account, enabled: true },
       },
       requireInfrastructureEncryption: true,
       keyVaultProperties: {
         keyName: codeDeployStorageKey.name,
-        keyVaultUri: vault.name.apply((name) => `https://${name}.vault.azure.net`)
+        keyVaultUri: vault.name.apply((name) => `https://${name}.vault.azure.net`),
       },
       encryptionIdentity: {
-        encryptionUserAssignedIdentity: managedIdentity.id.apply((id) => id)
-      }
-    }
+        encryptionUserAssignedIdentity: managedIdentity.id.apply((id) => id),
+      },
+    },
   },
   {
     dependsOn: [codeDeployStorageKey, vault, vaultPept, managedIdentity, identityPolicy],
     protect: true,
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
 const codeDeployPept = new PrivateEndpoint(
@@ -96,17 +96,17 @@ const codeDeployPept = new PrivateEndpoint(
       {
         name: `${envBase.CODEDEPLOY_STORAGE_NAME}-blob-pept-connection`,
         groupIds: ['blob'],
-        privateLinkServiceId: codeDeployStorage.id
-      }
+        privateLinkServiceId: codeDeployStorage.id,
+      },
     ],
     subnet: {
-      id: envBase.PRIVATE_ENDPOINT_SUBNET
-    }
+      id: envBase.PRIVATE_ENDPOINT_SUBNET,
+    },
   },
   {
     ignoreChanges: ['tags', 'privateLinkServiceConnections'],
-    dependsOn: [codeDeployStorage]
-  }
+    dependsOn: [codeDeployStorage],
+  },
 );
 
 new BlobContainer(
@@ -115,10 +115,10 @@ new BlobContainer(
     containerName: 'pulumistate',
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     accountName: codeDeployStorage.name,
-    publicAccess: PublicAccess.None
+    publicAccess: PublicAccess.None,
   },
   {
     dependsOn: [codeDeployStorage, codeDeployPept],
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );

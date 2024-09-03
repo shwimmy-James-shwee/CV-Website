@@ -3,9 +3,9 @@ import { QueueClient, QueueSendMessageResponse } from '@azure/storage-queue';
 
 jest.mock('@azure/storage-queue', () => ({
   QueueClient: jest.fn().mockImplementation(() => ({
-    sendMessage: jest.fn().mockResolvedValue({ messageId: '123' } as QueueSendMessageResponse)
+    sendMessage: jest.fn().mockResolvedValue({ messageId: '123' } as QueueSendMessageResponse),
   })),
-  StorageSharedKeyCredential: jest.fn().mockImplementation(() => {})
+  StorageSharedKeyCredential: jest.fn().mockImplementation(() => {}),
 }));
 
 describe('addEmailToQueue', () => {
@@ -21,7 +21,7 @@ describe('addEmailToQueue', () => {
       id: 'test id',
       header: 'test header',
       content: 'test content',
-      sentTo: ['hanli@kpmg.co.nz']
+      sentTo: ['hanli@kpmg.co.nz'],
     };
 
     // Act

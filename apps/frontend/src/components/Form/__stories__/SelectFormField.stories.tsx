@@ -10,21 +10,21 @@ const meta = {
   argTypes: {
     label: {
       control: 'text',
-      description: 'The label of the field'
+      description: 'The label of the field',
     },
     multiple: {
       control: 'boolean',
-      description: 'Option for multiselect'
+      description: 'Option for multiselect',
     },
     required: {
       control: 'boolean',
-      description: 'Specifies if the field is required'
+      description: 'Specifies if the field is required',
     },
     disabled: {
       control: 'boolean',
-      description: 'Specifies if the field is disabled'
-    }
-  }
+      description: 'Specifies if the field is disabled',
+    },
+  },
 } satisfies Meta<typeof SelectFormField>;
 
 export default meta;
@@ -41,15 +41,15 @@ export const Default: Story = {
         <option value='2'>Two</option>
         <option value='3'>Three</option>
       </>
-    )
-  }
+    ),
+  },
 };
 
 export const Disabled: Story = {
   args: {
     disabled: true,
-    children: <option>This select menu has been disabled</option>
-  }
+    children: <option>This select menu has been disabled</option>,
+  },
 };
 
 export const Multiselect: Story = {
@@ -62,8 +62,8 @@ export const Multiselect: Story = {
         <option value='2'>Two</option>
         <option value='3'>Three</option>
       </>
-    )
-  }
+    ),
+  },
 };
 
 export const UnitTest: Story = {
@@ -76,7 +76,7 @@ export const UnitTest: Story = {
         <option value='2'>Two</option>
         <option value='3'>Three</option>
       </>
-    )
+    ),
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -97,5 +97,5 @@ export const UnitTest: Story = {
       await userEvent.selectOptions(formField, ['3']);
       await expect(formField.value).toBe('3');
     });
-  }
+  },
 };

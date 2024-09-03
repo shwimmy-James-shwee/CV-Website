@@ -1,10 +1,10 @@
 name: Deploy Backend API
 on:
   push:
-    branches: ["dev", "qa", "staging"]
+    branches: ['dev', 'qa', 'staging']
     paths:
-      - "apps/backend/**"
-      - ".github/workflows/deploy-backend.yml"
+      - 'apps/backend/**'
+      - '.github/workflows/deploy-backend.yml'
   workflow_dispatch:
     inputs:
       name:
@@ -23,7 +23,7 @@ jobs:
     env:
       AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
       AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
-      NODE_DOCKER_IMAGE: "node:lts-slim"
+      NODE_DOCKER_IMAGE: 'node:lts-slim'
     steps:
       - uses: actions/checkout@v3
       - name: Branch name
@@ -34,7 +34,7 @@ jobs:
       #     curl -sL https://aka.ms/InstallAzureCLIDeb | bash
       #     apt install -y docker docker-compose
 
-      - name: "Login via Azure CLI"
+      - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
@@ -99,9 +99,9 @@ jobs:
       - name: Deploy to Staging
         uses: azure/webapps-deploy@v2
         with:
-          app-name: "${{ vars.PROJECT_NAME_ABBREVIATION }}-be-${{ vars.ENV }}"
+          app-name: '${{ vars.PROJECT_NAME_ABBREVIATION }}-be-${{ vars.ENV }}'
           slot-name: ${{ vars.ENV == 'prod' && 'staging' || 'production' }}
-          images: "${{ env.AZURE_CONTAINER_REGISTRY }}/webappapi:${{ github.run_id }}"
+          images: '${{ env.AZURE_CONTAINER_REGISTRY }}/webappapi:${{ github.run_id }}'
           # ${{ github.run_id }}
 
       - name: Remove old images/container

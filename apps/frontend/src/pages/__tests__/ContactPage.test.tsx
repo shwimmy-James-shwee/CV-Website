@@ -30,7 +30,7 @@ describe('Test ContactPage', () => {
     fireEvent.change(screen.getByTestId('first-name-field'), { target: { value: 'John' } });
     fireEvent.change(screen.getByTestId('last-name-field'), { target: { value: 'Doe' } });
     fireEvent.change(screen.getByTestId('email-address-field'), {
-      target: { value: 'john.doe@example.com' }
+      target: { value: 'john.doe@example.com' },
     });
     fireEvent.change(screen.getByTestId('inquiry-field'), { target: { value: 'Test inquiry' } });
 

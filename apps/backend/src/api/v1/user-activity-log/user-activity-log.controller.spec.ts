@@ -8,7 +8,7 @@ import {
   uniqueUserIdEmailArray,
   userActivityLogAggByEventUrl,
   userActivityLogAggByUserId,
-  userActivityLogArray
+  userActivityLogArray,
 } from './__test__/user-activity-log.data';
 
 const logId = () => Math.floor(Math.random() * 100000);
@@ -21,7 +21,7 @@ describe('V1/UserController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserActivityLogController],
-      providers: [DatabaseService, UserActivityLogService]
+      providers: [DatabaseService, UserActivityLogService],
     }).compile();
 
     controller = module.get<UserActivityLogController>(UserActivityLogController);
@@ -39,8 +39,8 @@ describe('V1/UserController', () => {
       lastName: 'Doe',
       firstName: 'John',
       loginEmail: 'johndoe@hotmail.com',
-      userRoles: [UserRole.ADMINISTRATOR]
-    }
+      userRoles: [UserRole.ADMINISTRATOR],
+    },
   } as unknown as Request;
 
   const log = {
@@ -49,7 +49,7 @@ describe('V1/UserController', () => {
     eventEndTime: new Date(),
     eventDuration: 5000,
     eventUrl: 'http://localhost:3000',
-    createdAt: new Date()
+    createdAt: new Date(),
   } as Prisma.UserActivityLogCreateInput;
 
   it('should able to record new log', async () => {
@@ -82,13 +82,13 @@ describe('V1/UserController', () => {
 
     await expect(controller.findAll('eventUrl')).resolves.toEqual({
       data: userActivityLogAggByEventUrl,
-      attributes: { users: uniqueUserIdEmailArray }
+      attributes: { users: uniqueUserIdEmailArray },
     });
 
     service.findAllAggregateBy = jest.fn().mockResolvedValue(userActivityLogAggByUserId);
     await expect(controller.findAll('userId')).resolves.toEqual({
       data: userActivityLogAggByUserId,
-      attributes: { users: uniqueUserIdEmailArray }
+      attributes: { users: uniqueUserIdEmailArray },
     });
   });
 
@@ -98,7 +98,7 @@ describe('V1/UserController', () => {
 
     expect(controller.findAll()).resolves.toEqual({
       data: userActivityLogArray,
-      attributes: { users: uniqueUserIdEmailArray }
+      attributes: { users: uniqueUserIdEmailArray },
     });
   });
 });

@@ -3,7 +3,7 @@ import { InvocationContext, Timer } from '@azure/functions';
 import { notificationRunner } from '../../services/notificationRunner';
 
 jest.mock('../../services/notificationRunner', () => ({
-  notificationRunner: jest.fn()
+  notificationRunner: jest.fn(),
 }));
 
 describe('notificationRealTimeWatcher', () => {

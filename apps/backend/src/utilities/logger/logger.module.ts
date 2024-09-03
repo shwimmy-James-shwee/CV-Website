@@ -4,6 +4,6 @@ import { InsightLoggerService } from './insight-logger.service';
 
 @Module({
   providers: [FileLoggerService, InsightLoggerService],
-  exports: [FileLoggerService]
+  exports: [FileLoggerService],
 })
 export class LoggerModule {}

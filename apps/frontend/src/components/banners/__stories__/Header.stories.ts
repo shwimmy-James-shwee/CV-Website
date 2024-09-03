@@ -10,13 +10,13 @@ const meta = {
   argTypes: {
     title: {
       control: 'text',
-      description: 'The title of the banner'
+      description: 'The title of the banner',
     },
     description: {
       control: 'text',
-      description: 'The body text of the banner'
-    }
-  }
+      description: 'The body text of the banner',
+    },
+  },
 } satisfies Meta<typeof Header>;
 
 export default meta;
@@ -25,14 +25,14 @@ type Story = StoryObj<typeof meta>;
 export const HeaderStory: Story = {
   args: {
     title: 'Hi User001,',
-    description: 'Welcome to the webapp template'
-  }
+    description: 'Welcome to the webapp template',
+  },
 };
 
 export const UnitTest: Story = {
   args: {
     title: 'The Title',
-    description: 'The Description'
+    description: 'The Description',
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -42,5 +42,5 @@ export const UnitTest: Story = {
       await expect(canvas.getByTestId('header-title')).toHaveTextContent('The Title');
       await expect(canvas.getByTestId('header-description')).toHaveTextContent('The Description');
     });
-  }
+  },
 };

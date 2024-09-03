@@ -4,5 +4,5 @@ export const pageUrl = {
   faqPage: '/faq',
   contactPage: '/contact',
   userActivityPage: '/user-activity',
-  adminPage: '/admin'
+  adminPage: '/admin',
 };

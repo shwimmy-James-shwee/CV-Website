@@ -4,7 +4,7 @@ module.exports = {
   testEnvironment: 'node',
   testRegex: '.e2e-spec.ts$',
   transform: {
-    '^.+\\.(t|j)s$': 'ts-jest'
+    '^.+\\.(t|j)s$': 'ts-jest',
   },
   collectCoverageFrom: [
     'src/app.*.ts',
@@ -16,7 +16,7 @@ module.exports = {
     'src/database/**/*.service.ts',
     'src/guard/**/*.ts',
     '!src/guard/auth/**/azuread.*.ts', // do not try to test azuread, it will fail
-    '!<rootDir>/**/*.spec.ts'
+    '!<rootDir>/**/*.spec.ts',
   ],
   coverageDirectory: '../coverage',
   coverageThreshold: {
@@ -25,11 +25,11 @@ module.exports = {
       functions: 90,
       lines: 90,
       statements: 90,
-      files: 90
+      files: 90,
     },
     'src/api/**/*.ts': {
-      functions: 75
-    }
+      functions: 75,
+    },
   },
-  setupFilesAfterEnv: ['<rootDir>/test-e2e/setup.ts']
+  setupFilesAfterEnv: ['<rootDir>/test-e2e/setup.ts'],
 };

@@ -47,7 +47,7 @@ export const ProgressBar = ({
   className,
   percentage,
   animation,
-  height
+  height,
 }: ProgressBarProp) => {
   return (
     <ProgressBarComponent

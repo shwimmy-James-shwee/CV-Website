@@ -109,7 +109,7 @@ function NavBar({
   userAvatar,
   navLinkItems,
   children,
-  toolName
+  toolName,
 }: NavBarProps) {
   const LoginButton = () => {
     return (
@@ -158,7 +158,7 @@ function NavBar({
                           {item.label}
                         </TitleText>
                       </StyledNavLink>
-                    )
+                    ),
                 )}
               </Nav>
             </MenuBox>

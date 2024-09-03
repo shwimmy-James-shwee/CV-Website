@@ -4,7 +4,7 @@ import { env } from '../../config/env';
 import {
   QueueClient,
   QueueSendMessageResponse,
-  StorageSharedKeyCredential as QueueSharedKeyCredential
+  StorageSharedKeyCredential as QueueSharedKeyCredential,
 } from '@azure/storage-queue';
 import { encrypt } from '../helperFunctions';
 
@@ -25,12 +25,12 @@ export class AzureStorageService {
   QueueSharedKeyCredential = new QueueSharedKeyCredential(this.Account, this.Key);
   BlobServiceClient = new BlobServiceClient(
     `https://${this.Account}.blob.core.windows.net`,
-    this.BlobSharedKeyCredential
+    this.BlobSharedKeyCredential,
   );
   ContainerClient = this.BlobServiceClient.getContainerClient(this.Container);
   QueueClient = new QueueClient(
     `https://${this.Account}.queue.core.windows.net/${this.QueueName}`,
-    this.QueueSharedKeyCredential
+    this.QueueSharedKeyCredential,
   );
 
   getUploadBlobPath(fileName: string) {
@@ -55,7 +55,7 @@ export class AzureStorageService {
       return blockBlobClient.url;
     } else {
       throw new InternalServerErrorException(
-        `Failed to upload file ${file.originalname} to Azure Storage. Error: ${JSON.stringify(res._response)}`
+        `Failed to upload file ${file.originalname} to Azure Storage. Error: ${JSON.stringify(res._response)}`,
       );
     }
   }
@@ -72,7 +72,7 @@ export class AzureStorageService {
 
     if (res._response.status !== 200) {
       throw new InternalServerErrorException(
-        `Failed to download file ${blobFileName} from Azure Storage. Error: ${JSON.stringify(res._response)}`
+        `Failed to download file ${blobFileName} from Azure Storage. Error: ${JSON.stringify(res._response)}`,
       );
     }
     return res.readableStreamBody;

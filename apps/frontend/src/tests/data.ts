@@ -19,7 +19,7 @@ export const dummyUser = {
   InBusinessUnits: [
     {
       id: 'test-id',
-      name: 'test-name'
-    }
-  ]
+      name: 'test-name',
+    },
+  ],
 };

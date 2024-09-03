@@ -10,24 +10,24 @@ const meta: Meta<typeof SinglePageBoard> = {
   argTypes: {
     children: {
       control: 'text',
-      description: 'The children to render'
+      description: 'The children to render',
     },
 
     header: {
       control: 'text',
-      description: 'The header of the board'
+      description: 'The header of the board',
     },
 
     contentHeader: {
       control: 'text',
-      description: 'The content header of the board'
+      description: 'The content header of the board',
     },
 
     'data-testid': {
       control: 'text',
-      description: 'The data-testid attribute'
-    }
-  }
+      description: 'The data-testid attribute',
+    },
+  },
 } satisfies Meta<typeof SinglePageBoard>;
 
 export default meta;
@@ -38,20 +38,20 @@ export const Default: Story = {
     header: 'The Single Page Board Header',
     contentHeader: 'The Content Header',
 
-    children: <p>Content Body</p>
+    children: <p>Content Body</p>,
   },
   render: ({ ...args }) => {
     return (
       <div
         style={{
           background: 'grey',
-          height: '700px'
+          height: '700px',
         }}
       >
         <SinglePageBoard {...args} />
       </div>
     );
-  }
+  },
 };
 
 export const UnitTest: Story = {
@@ -59,7 +59,7 @@ export const UnitTest: Story = {
     header: 'The Single Page Board Header',
     contentHeader: 'The Content Header',
 
-    children: <p>Content Body</p>
+    children: <p>Content Body</p>,
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -69,5 +69,5 @@ export const UnitTest: Story = {
       await expect(canvas.getByTestId('single-page-board')).toHaveTextContent('The Single Page Board');
       await expect(canvas.getByTestId('single-page-board-content-header')).toHaveTextContent('The Content Header');
     });
-  }
+  },
 };

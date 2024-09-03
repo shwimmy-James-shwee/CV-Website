@@ -20,13 +20,13 @@ export class UserService {
   async findOne(id: string, addInclude: Prisma.UserInclude = {}) {
     return this.databaseService.user.findUnique({
       where: { id },
-      include: addInclude
+      include: addInclude,
     });
   }
   async findOneByEmail(loginEmail: string, addInclude: Prisma.UserInclude = {}) {
     return this.databaseService.user.findUnique({
       where: { loginEmail },
-      include: addInclude
+      include: addInclude,
     });
   }
 
@@ -35,14 +35,14 @@ export class UserService {
       where: {
         Members: {
           some: {
-            userId
-          }
-        }
+            userId,
+          },
+        },
       },
       select: {
         id: true,
-        name: true
-      }
+        name: true,
+      },
     });
   }
 
@@ -53,16 +53,16 @@ export class UserService {
           some: {
             businessUnitId,
             roles: {
-              has: MemberRole.ADMINISTRATOR
-            }
-          }
-        }
+              has: MemberRole.ADMINISTRATOR,
+            },
+          },
+        },
       },
       select: {
         id: true,
         firstName: true,
-        lastName: true
-      }
+        lastName: true,
+      },
     });
   }
 }

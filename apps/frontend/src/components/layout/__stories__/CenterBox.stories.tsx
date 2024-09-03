@@ -10,17 +10,17 @@ const meta: Meta<typeof CenterBox> = {
   argTypes: {
     maxWidth: {
       control: 'text',
-      description: 'The maximum width of the box'
+      description: 'The maximum width of the box',
     },
     className: {
       control: 'text',
-      description: 'The class name of the box'
+      description: 'The class name of the box',
     },
     children: {
       control: 'text',
-      description: 'The children to render'
-    }
-  }
+      description: 'The children to render',
+    },
+  },
 } satisfies Meta<typeof CenterBox>;
 
 export default meta;
@@ -29,7 +29,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     maxWidth: '100px',
-    className: 'border'
+    className: 'border',
   },
   render: ({ ...args }) => {
     return (
@@ -38,7 +38,7 @@ export const Default: Story = {
           //   background: 'grey',
           height: '200px',
           width: '100%',
-          display: 'flex'
+          display: 'flex',
         }}
       >
         <CenterBox {...args}>
@@ -46,13 +46,13 @@ export const Default: Story = {
         </CenterBox>
       </div>
     );
-  }
+  },
 };
 
 export const LongText: Story = {
   args: {
     maxWidth: '500px',
-    className: 'border'
+    className: 'border',
   },
   render: ({ ...args }) => {
     return (
@@ -61,7 +61,7 @@ export const LongText: Story = {
           //   background: 'grey',
           height: '200px',
           width: '100%',
-          display: 'flex'
+          display: 'flex',
         }}
       >
         <CenterBox {...args}>
@@ -69,13 +69,13 @@ export const LongText: Story = {
         </CenterBox>
       </div>
     );
-  }
+  },
 };
 
 export const UnitTest: Story = {
   args: {
     maxWidth: '100px',
-    className: 'border'
+    className: 'border',
   },
   render: ({ ...args }) => {
     return (
@@ -84,7 +84,7 @@ export const UnitTest: Story = {
           //   background: 'grey',
           height: '200px',
           width: '100%',
-          display: 'flex'
+          display: 'flex',
         }}
       >
         <CenterBox {...args}>
@@ -105,5 +105,5 @@ export const UnitTest: Story = {
       const children = canvas.getByText('some content to put in side the box');
       await expect(children).toBeInTheDocument();
     });
-  }
+  },
 };

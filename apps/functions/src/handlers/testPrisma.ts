@@ -6,13 +6,13 @@ export async function testPrisma(request: HttpRequest, context: InvocationContex
   context.log(JSON.stringify(businessUnits));
   return {
     jsonBody: {
-      message: JSON.stringify(businessUnits)
-    }
+      message: JSON.stringify(businessUnits),
+    },
   };
 }
 
 app.http('testPrisma', {
   methods: ['GET', 'POST'],
   authLevel: 'anonymous',
-  handler: testPrisma
+  handler: testPrisma,
 });

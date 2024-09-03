@@ -23,7 +23,7 @@ export class UserController {
   @ApiOperation({ summary: 'Get the current user, also act as the main entry point to handle user creation logic' })
   @ApiResponse({
     status: 200,
-    description: 'found user record'
+    description: 'found user record',
   })
   async getCurrentUser(@Req() req: Request): Promise<CurrentUser> {
     const user = req.user as User;
@@ -35,7 +35,7 @@ export class UserController {
   @ApiOperation({ summary: 'Get all admin users of a business unit' })
   @ApiResponse({
     status: 200,
-    description: 'found all admin users'
+    description: 'found all admin users',
   })
   async getAdminUsersByBusinessUnitId(@Req() req: Request, @Param('businessUnitId') businessUnitId: string) {
     const user = req.user as User;

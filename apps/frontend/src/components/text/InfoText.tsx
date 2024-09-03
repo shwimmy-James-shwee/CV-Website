@@ -28,7 +28,7 @@ export const InfoText = ({
   style,
   color,
   'data-testid': dataTestId,
-  className
+  className,
 }: InfoTextProps) => {
   return (
     <InfoTextComponent

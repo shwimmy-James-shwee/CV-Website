@@ -55,7 +55,7 @@ function UserManagement() {
 
       const payload = {
         firstName: firstName,
-        lastName: lastName
+        lastName: lastName,
       };
 
       execute('PATCH', `${API.admin.user.byId}${userData?.id}`, payload).then((response: User) => {

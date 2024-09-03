@@ -10,6 +10,6 @@ export const createDTOExample: createDTO = {
   eventEndTime: new Date('2024-01-02T00:00:10.000Z'),
   eventDuration: 100,
   eventParam: 'string|null',
-  eventUrl: '/landing-page/example'
+  eventUrl: '/landing-page/example',
   // User: null, user come from req.user
 };

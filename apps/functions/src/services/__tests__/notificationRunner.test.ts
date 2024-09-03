@@ -3,7 +3,7 @@ import { notificationRunner } from '../notificationRunner';
 
 describe('notificationRunner', () => {
   const mockContext = {
-    log: jest.fn()
+    log: jest.fn(),
   } as unknown as InvocationContext;
   it('should log the notification processing', async () => {
     await notificationRunner(null, mockContext);

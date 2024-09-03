@@ -21,17 +21,17 @@ export const postgresqlCluster = new dbforpostgresql.Cluster(
     enableShardsOnCoordinator: envExtend.shardsOnCoordinatorEnabled,
     postgresqlVersion: '16',
     citusVersion: '12.1',
-    enableHa: envExtend.haEnabled
+    enableHa: envExtend.haEnabled,
   },
   {
     ignoreChanges: ['tags'],
     customTimeouts: {
       create: '30m',
       update: '30m',
-      delete: '30m'
+      delete: '30m',
     },
-    protect: true
-  }
+    protect: true,
+  },
 );
 
 // postgres private endpoint
@@ -42,19 +42,19 @@ const postgresqlPrivateEndpoint = new network.PrivateEndpoint(
     privateEndpointName: `${postgresqlName}-pept`,
     customNetworkInterfaceName: `${postgresqlName}-pept-nic`,
     subnet: {
-      id: envExtend.PRIVATE_ENDPOINT_SUBNET
+      id: envExtend.PRIVATE_ENDPOINT_SUBNET,
     },
     privateLinkServiceConnections: [
       {
         name: `${postgresqlName}-plink`,
         privateLinkServiceId: postgresqlCluster.id.apply((id) => id),
-        groupIds: ['coordinator']
-      }
-    ]
+        groupIds: ['coordinator'],
+      },
+    ],
   },
   {
-    dependsOn: [postgresqlCluster]
-  }
+    dependsOn: [postgresqlCluster],
+  },
 );
 
 // private endpoint diagnostic setting
@@ -73,12 +73,12 @@ new insights.DiagnosticSetting(
       return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
-    metrics: dsSettings.peptDSMetricsItem
+    metrics: dsSettings.peptDSMetricsItem,
   },
   {
     dependsOn: [logAnalyticsWorkspace, postgresqlPrivateEndpoint],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 // exporting the postgres connection string

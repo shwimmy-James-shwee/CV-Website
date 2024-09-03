@@ -63,7 +63,7 @@ const dummyActivityData = {
       eventParams: null,
       eventUrl: '/',
       createdAt: '2024-04-11T00:36:09.933Z',
-      updatedAt: '2024-04-11T00:36:40.724Z'
+      updatedAt: '2024-04-11T00:36:40.724Z',
     },
     {
       id: 59,
@@ -75,15 +75,15 @@ const dummyActivityData = {
       eventParams: null,
       eventUrl: '/',
       createdAt: '2024-04-10T04:30:27.838Z',
-      updatedAt: '2024-04-10T04:36:27.581Z'
-    }
+      updatedAt: '2024-04-10T04:36:27.581Z',
+    },
   ],
   attributes: {
     users: [
       {
         id: '6685c6c8-23d3-4e6b-a36e-c234065b411b',
-        loginEmail: 'hanli@kpmg.co.nz'
-      }
-    ]
-  }
+        loginEmail: 'hanli@kpmg.co.nz',
+      },
+    ],
+  },
 };

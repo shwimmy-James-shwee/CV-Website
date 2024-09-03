@@ -95,12 +95,12 @@ export class PasswordHistory {
   @Example({
     username: 'freeguy',
     hash: 'awfqwfbc123',
-    passphrase: 'passphrase'
+    passphrase: 'passphrase',
   })
   public async checkPasswordHash(
     @Req() request: Req,
     @Res() response: Res,
-    @BodyParams() @Groups('creation') body: PasswordHistoryBody
+    @BodyParams() @Groups('creation') body: PasswordHistoryBody,
   ) {
     if (env.KPMG_SSO_IDENTIFIER !== body.passphrase) {
       return new BadRequest('missing passphrase');
@@ -110,7 +110,7 @@ export class PasswordHistory {
     }
     const existingPasswordHash = await dao.findInLast({
       username: body.username,
-      lastCount: PASS_PASSWORD_COUNT
+      lastCount: PASS_PASSWORD_COUNT,
     });
     const hashInHistory = existingPasswordHash.some((pwd) => pwd.hash === body.hash);
 
@@ -121,12 +121,12 @@ export class PasswordHistory {
       userMessage: `You cannot reuse the past ${PASS_PASSWORD_COUNT} passwords`,
       developerMessage: 'User password found in history list',
       requestId: request.id,
-      moreInfo: null
+      moreInfo: null,
     };
     if (!hashInHistory) {
       await dao.create({
         username: body.username,
-        hash: body.hash
+        hash: body.hash,
       } as PasswordHistoryGetPayload);
       return;
     }
@@ -143,7 +143,7 @@ export const create = async (payload: PasswordHistoryGetPayload) => {
     hash: payload.hash,
     updatedAt: undefined,
     createdAt: undefined,
-    id: undefined
+    id: undefined,
   };
   return await prisma.passwordHistory.create({ data: createPayload });
 };
@@ -151,12 +151,12 @@ export const create = async (payload: PasswordHistoryGetPayload) => {
 export const findInLast = async ({ username, lastCount }: { username: string; lastCount: number }) => {
   return await prisma.passwordHistory.findMany({
     where: {
-      username: username
+      username: username,
     },
     orderBy: {
-      createdAt: 'desc'
+      createdAt: 'desc',
     },
-    take: lastCount
+    take: lastCount,
   });
 };
 ```

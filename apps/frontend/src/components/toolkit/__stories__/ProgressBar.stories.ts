@@ -10,13 +10,13 @@ const meta = {
   argTypes: {
     style: {
       control: 'object',
-      description: 'The style object'
+      description: 'The style object',
     },
     className: {
       control: 'text',
-      description: 'The class name'
-    }
-  }
+      description: 'The class name',
+    },
+  },
 } satisfies Meta<typeof ProgressBar>;
 
 export default meta;
@@ -26,7 +26,7 @@ export const Default: Story = {};
 
 export const UnitTest: Story = {
   args: {
-    percentage: 50
+    percentage: 50,
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -35,5 +35,5 @@ export const UnitTest: Story = {
       await expect(canvas.getByTestId('progress-bar')).toBeInTheDocument();
       await expect(canvas.getByTestId('progress-bar-progress')).toBeInTheDocument();
     });
-  }
+  },
 };

@@ -18,8 +18,8 @@ describe('AzureStorageService', () => {
           if (blobname.includes('testfail')) {
             return {
               download: jest.fn().mockReturnValue({
-                _response: { status: 500 }
-              })
+                _response: { status: 500 },
+              }),
             };
           }
           return {
@@ -32,21 +32,21 @@ describe('AzureStorageService', () => {
             url: 'https://tpldatastorage.blob.core.windows.net/tpldatastorage-blob/uploadfiles/61e13b829f5f96d0a1dad1bc1bc08d65',
             download: jest.fn().mockReturnValue({
               _response: { status: 200 },
-              readableStreamBody: new ReadableStream()
-            })
+              readableStreamBody: new ReadableStream(),
+            }),
           };
-        })
-      })
+        }),
+      }),
     });
 
     mockFunction(azStorage, 'StorageSharedKeyCredential', {
       value: jest.fn().mockReturnValue('test'),
       configurable: true,
-      writable: true
+      writable: true,
     });
 
     mockFunction(azQueueStorage, 'QueueClient', {
-      sendMessage: jest.fn().mockReturnValue('')
+      sendMessage: jest.fn().mockReturnValue(''),
     });
 
     // Object.defineProperty(utils, 'encrypt', {
@@ -54,7 +54,7 @@ describe('AzureStorageService', () => {
     // });
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AzureStorageService]
+      providers: [AzureStorageService],
     }).compile();
 
     service = module.get<AzureStorageService>(AzureStorageService);
@@ -71,12 +71,12 @@ describe('AzureStorageService', () => {
           filename: 'test.pdf',
           mimetype: 'application/pdf',
           size: 1000,
-          buffer: Buffer.alloc(1024, '.')
+          buffer: Buffer.alloc(1024, '.'),
         } as Express.Multer.File,
-        'test'
-      )
+        'test',
+      ),
     ).toEqual(
-      'https://tpldatastorage.blob.core.windows.net/tpldatastorage-blob/uploadfiles/61e13b829f5f96d0a1dad1bc1bc08d65'
+      'https://tpldatastorage.blob.core.windows.net/tpldatastorage-blob/uploadfiles/61e13b829f5f96d0a1dad1bc1bc08d65',
     );
   });
 
@@ -87,10 +87,10 @@ describe('AzureStorageService', () => {
           filename: 'test.pdf',
           mimetype: 'application/pdf',
           size: 100,
-          buffer: Buffer.alloc(100, '.') // pass in 100 bytes buffer to trigger 500 status
+          buffer: Buffer.alloc(100, '.'), // pass in 100 bytes buffer to trigger 500 status
         } as Express.Multer.File,
-        'test'
-      )
+        'test',
+      ),
     ).rejects.toThrow(InternalServerErrorException);
   });
 
@@ -99,7 +99,7 @@ describe('AzureStorageService', () => {
       id: 'id',
       sentTo: ['email@email.com'],
       header: 'header',
-      content: 'content'
+      content: 'content',
     };
     await service.addEmailToQueue(dummyEmail);
   });

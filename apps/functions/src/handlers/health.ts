@@ -6,13 +6,13 @@ export async function health(request: HttpRequest, context: InvocationContext): 
 
   return {
     jsonBody: {
-      message: `we're good, healthy. Test false  ${arrayIsEmpty.name}([1]) -> ${arrayIsEmpty([1])}`
-    }
+      message: `we're good, healthy. Test false  ${arrayIsEmpty.name}([1]) -> ${arrayIsEmpty([1])}`,
+    },
   };
 }
 
 app.http('health', {
   methods: ['GET', 'POST'],
   authLevel: 'anonymous',
-  handler: health
+  handler: health,
 });

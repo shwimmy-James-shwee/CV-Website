@@ -10,31 +10,31 @@ const meta = {
   argTypes: {
     title: {
       control: 'text',
-      description: 'The title of the dropzone'
+      description: 'The title of the dropzone',
     },
     bodyText: {
       control: 'text',
-      description: 'The body text of the dropzone'
+      description: 'The body text of the dropzone',
     },
     disabled: {
       control: 'boolean',
-      description: 'Whether the dropzone is disabled'
+      description: 'Whether the dropzone is disabled',
     },
     files: {
       control: 'object',
-      description: 'The files in the dropzone'
+      description: 'The files in the dropzone',
     },
 
     onDrop: {
       action: 'onDrop',
-      description: 'The function to call when files are dropped'
+      description: 'The function to call when files are dropped',
     },
 
     titleSize: {
       control: 'number',
-      description: 'The size of the title'
-    }
-  }
+      description: 'The size of the title',
+    },
+  },
 } satisfies Meta<typeof FilesDropZone>;
 
 export default meta;
@@ -46,8 +46,8 @@ export const Default: Story = {
     title: 'Drop files here',
     bodyText: 'or click to upload',
     files: [],
-    onDrop: fn()
-  }
+    onDrop: fn(),
+  },
 };
 
 export const UnitTest: Story = {
@@ -55,7 +55,7 @@ export const UnitTest: Story = {
     title: 'Drop files here',
     bodyText: 'or click to upload',
     files: [],
-    onDrop: fn()
+    onDrop: fn(),
   },
   play: async ({ args, canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -87,5 +87,5 @@ export const UnitTest: Story = {
 
       await waitFor(() => expect(args.onDrop).toHaveBeenCalledTimes(1));
     });
-  }
+  },
 };

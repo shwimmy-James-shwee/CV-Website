@@ -9,7 +9,7 @@ import { envBase } from '../env-base';
 
 export const managedIdentity = managedidentity.getUserAssignedIdentity({
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-  resourceName: envBase.MANAGED_IDENTITY_NAME
+  resourceName: envBase.MANAGED_IDENTITY_NAME,
 });
 
 /**

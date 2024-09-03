@@ -12,19 +12,19 @@ const baseStyle = {
   borderColor: 'var(--theme-border-cl)',
   borderStyle: 'dashed',
   backgroundColor: 'var(--theme-primary-background-color)',
-  transition: 'border .3s ease-in-out'
+  transition: 'border .3s ease-in-out',
 };
 
 const activeStyle = {
-  borderColor: 'var(--theme-active-cl)'
+  borderColor: 'var(--theme-active-cl)',
 };
 
 const acceptStyle = {
-  borderColor: 'var(--theme-accepted-cl)'
+  borderColor: 'var(--theme-accepted-cl)',
 };
 
 const rejectStyle = {
-  borderColor: 'var(--theme-rejected-cl)'
+  borderColor: 'var(--theme-rejected-cl)',
 };
 
 export interface DropZoneFile {
@@ -45,7 +45,7 @@ interface FilesDropZoneProps {
 function FilesDropZone({ files = [], disabled, className, onDrop, title, titleSize, bodyText }: FilesDropZoneProps) {
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
     onDrop,
-    disabled
+    disabled,
   });
 
   const style = useMemo(
@@ -53,9 +53,9 @@ function FilesDropZone({ files = [], disabled, className, onDrop, title, titleSi
       ...baseStyle,
       ...(isDragActive ? activeStyle : {}),
       ...(isDragAccept ? acceptStyle : {}),
-      ...(isDragReject ? rejectStyle : {})
+      ...(isDragReject ? rejectStyle : {}),
     }),
-    [isDragActive, isDragReject, isDragAccept]
+    [isDragActive, isDragReject, isDragAccept],
   );
 
   return (

@@ -19,14 +19,14 @@ new keyvault.Secret(
   {
     secretName: `${envBase.KEYVAULT_NAME}-dummy-secret`,
     properties: {
-      value: 'dummy-secret-value'
+      value: 'dummy-secret-value',
     },
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    vaultName: envBase.KEYVAULT_NAME
+    vaultName: envBase.KEYVAULT_NAME,
   },
   {
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
 // database connection string DatabaseConnectionString
@@ -35,15 +35,15 @@ new keyvault.Secret(
   {
     secretName: 'DatabaseConnectionString',
     properties: {
-      value: postgresConnectionString.apply((connectionString) => connectionString)
+      value: postgresConnectionString.apply((connectionString) => connectionString),
     },
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    vaultName: envBase.KEYVAULT_NAME
+    vaultName: envBase.KEYVAULT_NAME,
   },
   {
     ignoreChanges: ['tags'],
-    dependsOn: [postgresqlCluster]
-  }
+    dependsOn: [postgresqlCluster],
+  },
 );
 
 // data storage account name StorageAccountName
@@ -52,15 +52,15 @@ new keyvault.Secret(
   {
     secretName: 'StorageAccountName',
     properties: {
-      value: dataStorage.name.apply((name) => name)
+      value: dataStorage.name.apply((name) => name),
     },
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    vaultName: envBase.KEYVAULT_NAME
+    vaultName: envBase.KEYVAULT_NAME,
   },
   {
     ignoreChanges: ['tags'],
-    dependsOn: [dataStorage]
-  }
+    dependsOn: [dataStorage],
+  },
 );
 
 // data storage account key StorageAccountKey
@@ -69,15 +69,15 @@ new keyvault.Secret(
   {
     secretName: 'StorageAccountKey',
     properties: {
-      value: dataStorageKey.apply((key) => key)
+      value: dataStorageKey.apply((key) => key),
     },
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    vaultName: envBase.KEYVAULT_NAME
+    vaultName: envBase.KEYVAULT_NAME,
   },
   {
     ignoreChanges: ['tags'],
-    dependsOn: [dataStorage]
-  }
+    dependsOn: [dataStorage],
+  },
 );
 
 // data storage account blob name StorageBlobName
@@ -86,15 +86,15 @@ new keyvault.Secret(
   {
     secretName: 'StorageBlobName',
     properties: {
-      value: dataBlobContainer.name.apply((name) => name)
+      value: dataBlobContainer.name.apply((name) => name),
     },
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    vaultName: envBase.KEYVAULT_NAME
+    vaultName: envBase.KEYVAULT_NAME,
   },
   {
     ignoreChanges: ['tags'],
-    dependsOn: [dataBlobContainer]
-  }
+    dependsOn: [dataBlobContainer],
+  },
 );
 
 // data storage queue name StorageQueueName
@@ -103,15 +103,15 @@ new keyvault.Secret(
   {
     secretName: 'StorageQueueName',
     properties: {
-      value: dataQueue.name.apply((name) => name)
+      value: dataQueue.name.apply((name) => name),
     },
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    vaultName: envBase.KEYVAULT_NAME
+    vaultName: envBase.KEYVAULT_NAME,
   },
   {
     ignoreChanges: ['tags'],
-    dependsOn: [dataQueue]
-  }
+    dependsOn: [dataQueue],
+  },
 );
 
 // B2C
@@ -122,14 +122,14 @@ new keyvault.Secret(
   {
     secretName: 'B2CTenantName',
     properties: {
-      value: `${envExtend.B2C_TENANT_NAME}`
+      value: `${envExtend.B2C_TENANT_NAME}`,
     },
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    vaultName: envBase.KEYVAULT_NAME
+    vaultName: envBase.KEYVAULT_NAME,
   },
   {
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
 // B2CClientId
@@ -138,14 +138,14 @@ new keyvault.Secret(
   {
     secretName: 'B2CClientId',
     properties: {
-      value: `${envExtend.B2C_CLIENT_ID}`
+      value: `${envExtend.B2C_CLIENT_ID}`,
     },
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    vaultName: envBase.KEYVAULT_NAME
+    vaultName: envBase.KEYVAULT_NAME,
   },
   {
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
 // B2CPolicyName
@@ -154,12 +154,12 @@ new keyvault.Secret(
   {
     secretName: 'B2CPolicyName',
     properties: {
-      value: `${envExtend.B2C_POLICY_NAME}`
+      value: `${envExtend.B2C_POLICY_NAME}`,
     },
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    vaultName: envBase.KEYVAULT_NAME
+    vaultName: envBase.KEYVAULT_NAME,
   },
   {
-    ignoreChanges: ['tags']
-  }
+    ignoreChanges: ['tags'],
+  },
 );

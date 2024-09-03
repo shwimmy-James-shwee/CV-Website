@@ -31,7 +31,7 @@ export const TitleText = ({
   style,
   color,
   'data-testid': dataTestId,
-  className
+  className,
 }: TitleTextProps) => {
   return (
     <TitleTextComponent

@@ -15,7 +15,7 @@ describe('UserModule (e2e)', () => {
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [UserModule]
+      imports: [UserModule],
     })
       .overrideGuard(AzureADGuard)
       .useValue({
@@ -23,7 +23,7 @@ describe('UserModule (e2e)', () => {
           const request = context.switchToHttp().getRequest();
           request.user = { ...adminAdUser, roles: [UserRole.ADMINISTRATOR] } as User;
           return true;
-        }
+        },
       })
       .compile();
 

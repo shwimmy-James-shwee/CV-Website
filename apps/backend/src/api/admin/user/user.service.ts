@@ -8,14 +8,14 @@ export class UserService {
   async create(createEmployeeDto: Prisma.UserCreateInput, addInclude: Prisma.UserInclude = {}) {
     return this.databaseService.user.create({
       data: createEmployeeDto,
-      include: addInclude
+      include: addInclude,
     });
   }
 
   async findAll(role?: UserRole) {
     if (role)
       return this.databaseService.user.findMany({
-        where: { roles: { has: role } }
+        where: { roles: { has: role } },
       });
 
     return this.databaseService.user.findMany();
@@ -24,13 +24,13 @@ export class UserService {
   async findOne(id: string, addInclude: Prisma.UserInclude = {}) {
     return this.databaseService.user.findUnique({
       where: { id },
-      include: addInclude
+      include: addInclude,
     });
   }
   async findOneByEmail(loginEmail: string, addInclude: Prisma.UserInclude = {}) {
     return this.databaseService.user.findUnique({
       where: { loginEmail },
-      include: addInclude
+      include: addInclude,
     });
   }
 
@@ -38,7 +38,7 @@ export class UserService {
     return this.databaseService.user.update({
       where: { id },
       data: updateEmployeeDto,
-      include: addInclude
+      include: addInclude,
     });
   }
 

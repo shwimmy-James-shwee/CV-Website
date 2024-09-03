@@ -22,23 +22,23 @@ export let seedMember: Member;
 
 export const testSeedSetup = async () => {
   seedUser = await prisma.user.create({
-    data: seedUserData
+    data: seedUserData,
   });
 
   seedUserActivityLog = await prisma.userActivityLog.create({
-    data: { ...seedUserActivityLogData, User: { connect: { id: seedUser.id } } }
+    data: { ...seedUserActivityLogData, User: { connect: { id: seedUser.id } } },
   });
 
   seedParentBusinessUnit = await prisma.businessUnit.create({ data: seedParentBusinessUnitData });
   seedBusinessUnit = await prisma.businessUnit.create({
-    data: { ...seedBusinessUnitData, ParentBusinessUnit: { connect: { id: seedParentBusinessUnit.id } } }
+    data: { ...seedBusinessUnitData, ParentBusinessUnit: { connect: { id: seedParentBusinessUnit.id } } },
   });
 
   seedMember = await prisma.member.create({
     data: {
       User: { connect: { id: seedUser.id } },
-      BusinessUnit: { connect: { id: seedBusinessUnit.id } }
-    }
+      BusinessUnit: { connect: { id: seedBusinessUnit.id } },
+    },
   });
 };
 

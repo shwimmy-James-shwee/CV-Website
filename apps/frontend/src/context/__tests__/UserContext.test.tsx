@@ -13,7 +13,7 @@ describe('UserProvider', () => {
       render(
         <UserProvider>
           <div>Test Component</div>
-        </UserProvider>
+        </UserProvider>,
       );
     });
 
@@ -32,7 +32,7 @@ describe('UserProvider', () => {
     render(
       <UserProvider>
         <div>Test Component</div>
-      </UserProvider>
+      </UserProvider>,
     );
 
     // Wait for the data to be fetched and set in the context
@@ -44,7 +44,7 @@ describe('UserProvider', () => {
       <UserProvider>
         <></>
       </UserProvider>,
-      {}
+      {},
     );
 
     // Wait for the data to be fetched and set in the context

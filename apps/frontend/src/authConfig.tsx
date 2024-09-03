@@ -14,20 +14,20 @@ export const b2cPolicies = {
   names: {
     signUpSignIn: import.meta.env.VITE_POLICY_NAME_SIGN_IN_UP,
     forgotPassword: import.meta.env.VITE_POLICY_NAME_RESET,
-    editProfile: import.meta.env.VITE_POLICY_NAME_EDIT_PROFILE
+    editProfile: import.meta.env.VITE_POLICY_NAME_EDIT_PROFILE,
   },
   authorities: {
     signUpSignIn: {
-      authority: `https://${import.meta.env.VITE_B2C_TENANT_NAME}.b2clogin.com/${import.meta.env.VITE_B2C_TENANT_NAME}.onmicrosoft.com/${import.meta.env.VITE_POLICY_NAME_SIGN_IN_UP}`
+      authority: `https://${import.meta.env.VITE_B2C_TENANT_NAME}.b2clogin.com/${import.meta.env.VITE_B2C_TENANT_NAME}.onmicrosoft.com/${import.meta.env.VITE_POLICY_NAME_SIGN_IN_UP}`,
     },
     forgotPassword: {
-      authority: `https://${import.meta.env.VITE_B2C_TENANT_NAME}.b2clogin.com/${import.meta.env.VITE_B2C_TENANT_NAME}.onmicrosoft.com/${import.meta.env.VITE_POLICY_NAME_RESET}`
+      authority: `https://${import.meta.env.VITE_B2C_TENANT_NAME}.b2clogin.com/${import.meta.env.VITE_B2C_TENANT_NAME}.onmicrosoft.com/${import.meta.env.VITE_POLICY_NAME_RESET}`,
     },
     editProfile: {
-      authority: `https://${import.meta.env.VITE_B2C_TENANT_NAME}.b2clogin.com/${import.meta.env.VITE_B2C_TENANT_NAME}.onmicrosoft.com/${import.meta.env.VITE_POLICY_NAME_EDIT_PROFILE}`
-    }
+      authority: `https://${import.meta.env.VITE_B2C_TENANT_NAME}.b2clogin.com/${import.meta.env.VITE_B2C_TENANT_NAME}.onmicrosoft.com/${import.meta.env.VITE_POLICY_NAME_EDIT_PROFILE}`,
+    },
   },
-  authorityDomain: `${import.meta.env.VITE_B2C_TENANT_NAME}.b2clogin.com`
+  authorityDomain: `${import.meta.env.VITE_B2C_TENANT_NAME}.b2clogin.com`,
 };
 
 /**
@@ -42,11 +42,11 @@ export const msalConfig: Configuration = {
     knownAuthorities: [b2cPolicies.authorityDomain], // Mark your B2C tenant's domain as trusted.
     redirectUri: '/', // You must register this URI on Azure Portal/App Registration. Defaults to window.location.origin
     postLogoutRedirectUri: '/logout', // Indicates the page to navigate after logout.
-    navigateToLoginRequestUrl: true // If "true", will navigate back to the original request location before processing the auth code response.
+    navigateToLoginRequestUrl: true, // If "true", will navigate back to the original request location before processing the auth code response.
   },
   cache: {
     cacheLocation: 'sessionStorage', // Configures cache location. "sessionStorage" is more secure, but "localStorage" gives you SSO between tabs.
-    storeAuthStateInCookie: false // Set this to "true" if you are having issues on IE11 or Edge
+    storeAuthStateInCookie: false, // Set this to "true" if you are having issues on IE11 or Edge
   },
   system: {
     loggerOptions: {
@@ -72,9 +72,9 @@ export const msalConfig: Configuration = {
           default:
             return;
         }
-      }
-    }
-  }
+      },
+    },
+  },
 };
 
 /**
@@ -85,9 +85,9 @@ export const protectedResources = {
   api: {
     scopes: {
       read: [`https://${import.meta.env.VITE_B2C_TENANT_NAME}.onmicrosoft.com/api/Client.Read`],
-      write: [`https://${import.meta.env.VITE_B2C_TENANT_NAME}.onmicrosoft.com/api/Client.Write`]
-    }
-  }
+      write: [`https://${import.meta.env.VITE_B2C_TENANT_NAME}.onmicrosoft.com/api/Client.Write`],
+    },
+  },
 };
 
 /**
@@ -97,5 +97,5 @@ export const protectedResources = {
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
  */
 export const loginRequest = {
-  scopes: [...protectedResources.api.scopes.read, ...protectedResources.api.scopes.write]
+  scopes: [...protectedResources.api.scopes.read, ...protectedResources.api.scopes.write],
 };

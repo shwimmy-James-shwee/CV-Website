@@ -20,7 +20,7 @@ const ModalComponent = ({
   backdrop,
   closeButton = true,
   size,
-  onHide
+  onHide,
 }: ModalComponentProps) => {
   return (
     <Modal show={show} size={size} onHide={onHide} data-testid='modal' centered backdrop={backdrop}>
