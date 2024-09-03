@@ -58,8 +58,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile --filter="./apps/backend/"  --filter="./libs/**/"
+      - name: Install & Build dependencies
+        run: |
+          pnpm install --frozen-lockfile --filter="./apps/backend/"  --filter="./libs/**/"
+          pnpm run build --filter="./libs/**/"
 
       - name: Test BE Integration Test
         run: |
@@ -90,7 +92,7 @@ jobs:
 
       - name: Install Playwright
         run: |
-          npm install playwright -g
+          npm install playwright wait-on http-server concurrently -g
           npx playwright install --with-deps
 
       - name: Build And Test FE Storybook Test
