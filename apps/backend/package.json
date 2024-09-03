@@ -20,7 +20,7 @@
     "db:generate": "prisma generate --schema node_modules/@core/db/prisma/schema.prisma"
   },
   "prisma": {
-    "seed": "ts-node src/database/seed.ts"
+    "seed": "node dist/src/database/seed.ts"
   },
   "dependencies": {
     "@core/utils": "workspace:*",

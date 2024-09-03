@@ -42,6 +42,7 @@
     "TIME_TRIGGER",
     "AzureWebJobsStorage",
     "EMAIL_QUEUE_NAME",
-    "STORAGE_BLOB_NAME"
+    "STORAGE_BLOB_NAME",
+    "QUEUE_NAME"
   ]
 }
