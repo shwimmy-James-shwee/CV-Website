@@ -9,7 +9,6 @@ concurrency:
   cancel-in-progress: true
 jobs:
   prettier:
-    name: Prettier
     runs-on: ubuntu-22.04
     strategy:
       matrix:
