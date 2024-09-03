@@ -31,7 +31,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile 
+        run: pnpm install --frozen-lockfile
 
       - name: Test All Unit Tests
         run: pnpm run test:action
@@ -89,8 +89,9 @@ jobs:
         run: pnpm install --frozen-lockfile --filter="./apps/frontend/"  --filter="./libs/**/"
 
       - name: Install Playwright
-        run: npx playwright install --with-deps
-
+        run: |
+          npm install playwright -g
+          npx playwright install --with-deps
 
       - name: Build And Test FE Storybook Test
         run: |
@@ -102,4 +103,3 @@ jobs:
             "npx wait-on tcp:6006 && yarn test-storybook"
 
           popd
-        
