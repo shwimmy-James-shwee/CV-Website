@@ -16,6 +16,8 @@ on:
           # - uat
           # - main
         default: dev
+env:
+  NODE_DOCKER_IMAGE: 'node:lts-slim'
 jobs:
   build-base:
     name: Build Docker Base
@@ -28,7 +30,7 @@ jobs:
       - uses: actions/cache@v4
         id: cache
         with:
-          path: ./nodeBase.tar
+          path: /tmp/nodeBase.tar
           key: ${{ runner.os }}-pip-${{ hashFiles('**/apps/backend/dockerfiles/nodeBase.Dockerfile') }}
 
       - name: Install Dependencies
@@ -100,14 +102,13 @@ jobs:
           retention-days: 1
 
   deploy:
-    name: Build Docker
+    name: Deploy Docker
     needs: build
     runs-on: opch
     environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
     env:
       AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
       AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
-      NODE_DOCKER_IMAGE: 'node:lts-slim'
     steps:
       - uses: actions/checkout@v3
       - name: Branch name
