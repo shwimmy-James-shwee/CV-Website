@@ -133,6 +133,7 @@ jobs:
       - name: Load And Push Image
         run: |
           docker image load --input /tmp/webappapi.tar
+          az acr login --name $AZURE_CONTAINER_REGISTRY_NAME
 
           docker tag webappapi $AZURE_CONTAINER_REGISTRY/webappapi:${{ github.run_id }}
           docker tag webappapi $AZURE_CONTAINER_REGISTRY/webappapi
