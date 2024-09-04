@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import { User } from '@core/db';
+import { prisma } from '@core/db';
 import useFetchWithMsal from '../hooks/useFetchWithMsal';
 import { API } from '../shared/endpoints';
 import { UserReturnStatus } from '../enum';
@@ -9,7 +9,7 @@ export type CurrentUserBusinessUnitsType = {
   name: string;
 };
 
-export interface CurrentUserType extends User {
+export interface CurrentUserType extends prisma.User {
   InBusinessUnits: CurrentUserBusinessUnitsType[];
 }
 

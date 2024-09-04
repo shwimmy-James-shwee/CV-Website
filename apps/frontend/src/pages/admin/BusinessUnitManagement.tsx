@@ -2,7 +2,7 @@ import { Row, Col, ListGroup, Form } from 'react-bootstrap';
 import useFetchWithMsal from '../../hooks/useFetchWithMsal';
 import { API } from '../../shared/endpoints';
 import { Fragment, useEffect, useState } from 'react';
-import { BusinessUnit, BusinessUnitType, Feature } from '@core/db';
+import { prisma } from '@core/db';
 import TextFormField from '../../components/Form/TextFormField';
 import SelectFormField from '../../components/Form/SelectFormField';
 import RadioFormField from '../../components/Form/RadioFormField';
@@ -10,12 +10,12 @@ import RadioFormField from '../../components/Form/RadioFormField';
 function BusinessUnitManagement() {
   const { execute, error } = useFetchWithMsal();
 
-  const [businessUnitListData, setBusinessUnitListData] = useState<BusinessUnit[]>([]);
-  const [businessUnitData, setBusinessUnitData] = useState<BusinessUnit | null>(null);
+  const [businessUnitListData, setBusinessUnitListData] = useState<prisma.BusinessUnit[]>([]);
+  const [businessUnitData, setBusinessUnitData] = useState<prisma.BusinessUnit | null>(null);
 
   useEffect(() => {
     if (!error) {
-      execute('GET', API.admin.businessUnit.root).then((data: BusinessUnit[]) => {
+      execute('GET', API.admin.businessUnit.root).then((data: prisma.BusinessUnit[]) => {
         if (data) {
           setBusinessUnitListData(data);
         }
@@ -26,7 +26,7 @@ function BusinessUnitManagement() {
   useEffect(() => {}, [businessUnitData]);
   function getBusinessUnitDetail(id: string) {
     setBusinessUnitData(null);
-    execute('GET', `${API.admin.businessUnit.byId}${id}`).then((data: BusinessUnit) => {
+    execute('GET', `${API.admin.businessUnit.byId}${id}`).then((data: prisma.BusinessUnit) => {
       if (data) {
         setBusinessUnitData(data);
       }
@@ -88,12 +88,12 @@ function BusinessUnitManagement() {
                     onChange={(e) =>
                       setBusinessUnitData({
                         ...businessUnitData,
-                        type: BusinessUnitType[e.target.value as keyof typeof BusinessUnitType],
+                        type: prisma.BusinessUnitType[e.target.value as keyof typeof prisma.BusinessUnitType],
                       })
                     }
                     data-testid='type-field'
                   >
-                    {Object.entries(BusinessUnitType).map((item) => {
+                    {Object.entries(prisma.BusinessUnitType).map((item) => {
                       return (
                         <option key={item[1]} value={item[1]}>
                           {item[1]}
@@ -103,7 +103,7 @@ function BusinessUnitManagement() {
                   </SelectFormField>
 
                   <Row data-testid='feature-field'>
-                    {Object.entries(Feature).map((item) => {
+                    {Object.entries(prisma.Feature).map((item) => {
                       return (
                         <Col key={item[1]}>
                           <RadioFormField

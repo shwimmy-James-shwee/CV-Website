@@ -44,6 +44,12 @@ module.exports = {
     'src/prisma.env.ts',
     'src/make.env.ts',
     'src/middleware/',
+
+    // ignore graphql files for now
+    'src/models',
+    'src/modules',
+    'src/resolvers',
+    'src/types',
   ],
 
   // An array of file extensions your modules use
