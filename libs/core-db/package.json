@@ -21,9 +21,9 @@
   "scripts": {
     "lint": "eslint .",
     "db:generate": "prisma generate",
-    "db:push": "dotenv -e ../../apps/backend/.env -- prisma db push --skip-generate",
-    "db:makemigrate": "dotenv -e ../../apps/backend/.env -- prisma migrate dev --create-only && prisma generate",
-    "db:studio": "dotenv -e ../../apps/backend/.env -- prisma studio",
+    "db:push": "dotenv -e ../../.env -- prisma db push --skip-generate",
+    "db:makemigrate": "dotenv -e ../../.env -- prisma migrate dev --create-only && prisma generate",
+    "db:studio": "dotenv -e ../../.env -- prisma studio",
     "build": "prisma generate && tsup src/*.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
     "make:types": "pal schema typescript -o ./",

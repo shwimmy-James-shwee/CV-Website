@@ -2,7 +2,7 @@
   "name": "frontend",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3000",
+    "dev": "pnpm exec vite -- --dotenv ../../.env -- vite --port 3000",
     "test": "vitest --coverage",
     "test:action": "vitest run --coverage",
     "build": "tsc && vite build",
