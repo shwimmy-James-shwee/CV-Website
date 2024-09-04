@@ -67,6 +67,7 @@ jobs:
           name: fa-app
           path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           retention-days: 1
+          include-hidden-files: true
 
   deploy:
     runs-on: opch # For Non KPMG Agent (Host), use ubuntu-latest

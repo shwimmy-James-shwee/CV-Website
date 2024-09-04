@@ -71,6 +71,7 @@ jobs:
           name: fe-app
           path: ./apps/frontend/dist
           retention-days: 1
+          include-hidden-files: true
 
   build-storybook:
     name: Build Storybook
@@ -105,6 +106,7 @@ jobs:
           name: storybook-static
           path: ./apps/frontend/storybook-static
           retention-days: 1
+          include-hidden-files: true
 
   deploy:
     name: Deploy to Cloud
