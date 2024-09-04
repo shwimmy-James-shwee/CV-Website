@@ -5,7 +5,6 @@ on:
     branches: ['dev', 'qa', 'staging']
     paths:
       - 'apps/functions/**'
-      - 'libs/**'
       - '.github/workflows/deploy-functions.yml'
   workflow_dispatch:
     inputs:
@@ -21,17 +20,13 @@ env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: './prod/functions' # set this to the path to your function app project, defaults to the repository root
   NODE_VERSION: 'v20.15.1'
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  build:
-    name: Build FA
-    runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        node-version: [20.15.1]
+  build-and-deploy:
+    runs-on: opch # For Non KPMG Agent (Host), use ubuntu-latest
+    environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
+    env:
+      AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
+      AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
 
     steps:
       - name: 'Checkout GitHub Action'
@@ -44,12 +39,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
-
-      - name: Add Commit Message to File
-        run: |
-          git log -4 --date=format-local:'%Y-%m-%d %H:%M:%S' >> ./apps/functions/git_commit_msg.txt
-          command git --no-pager log -1 --format="%ai" >> ./apps/functions/git_commit_msg.txt
-          echo ${{ github.run_id }} >> ./apps/functions/git_commit_msg.txt
 
       - name: 'Resolve Project Dependencies Using Npm'
         shell: bash
@@ -65,33 +54,6 @@ jobs:
         env:
           CI: true
 
-      - name: Upload FA Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: fa-app
-          path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          retention-days: 1
-
-  deploy:
-    runs-on: opch # For Non KPMG Agent (Host), use ubuntu-latest
-    name: Deploy FA
-    needs: [build]
-    environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
-    env:
-      AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
-      AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
-
-    steps:
-      - name: Download FE App artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: fa-app
-          path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-      - name: LS Files
-        run: |
-          ls -la
-          cd ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          ls -la
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:

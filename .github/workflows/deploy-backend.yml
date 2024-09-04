@@ -125,6 +125,12 @@ jobs:
           name: webappapi
           path: /tmp
 
+      - name: Remove existing api images if any
+        if: success() || failure()
+        continue-on-error: true
+        run: |
+          docker image rm webappapi
+
       - name: Load And Push Image
         run: |
           docker image load --input /tmp/webappapi.tar
@@ -150,4 +156,4 @@ jobs:
         continue-on-error: true
         run: |
           docker image rm webappapi
-          rm -rf /tmp/*
+          rm -rf /tmp/webappapi.tar
