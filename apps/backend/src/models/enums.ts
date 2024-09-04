@@ -15,7 +15,7 @@ export enum NotificationFrequency {
   WEEKLY,
 }
 registerEnumType(NotificationFrequency, {
-  name: `NotificationFrequency`,
+  name: 'NotificationFrequency',
 });
 
 export enum UserRole {
@@ -23,7 +23,7 @@ export enum UserRole {
   ADMINISTRATOR,
 }
 registerEnumType(UserRole, {
-  name: `UserRole`,
+  name: 'UserRole',
 });
 
 export enum NotificationStatus {
@@ -31,7 +31,7 @@ export enum NotificationStatus {
   READ,
 }
 registerEnumType(NotificationStatus, {
-  name: `NotificationStatus`,
+  name: 'NotificationStatus',
 });
 
 export enum MemberRole {
@@ -39,7 +39,7 @@ export enum MemberRole {
   STANDARD,
 }
 registerEnumType(MemberRole, {
-  name: `MemberRole`,
+  name: 'MemberRole',
 });
 
 export enum BusinessUnitType {
@@ -49,7 +49,7 @@ export enum BusinessUnitType {
   COMPANY,
 }
 registerEnumType(BusinessUnitType, {
-  name: `BusinessUnitType`,
+  name: 'BusinessUnitType',
 });
 
 export enum Feature {
@@ -57,5 +57,5 @@ export enum Feature {
   BASIC_REPORTING,
 }
 registerEnumType(Feature, {
-  name: `Feature`,
+  name: 'Feature',
 });

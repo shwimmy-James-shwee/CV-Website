@@ -6,12 +6,15 @@ import { UserFindManyArgs } from '@/types/user/user-find-many.args';
 export class UserResolver {
   @Query(() => UserFindManyResponse)
   public async findManyUsers(
-    @Args(`args`, { type: () => UserFindManyArgs })
+    @Args('args', { type: () => UserFindManyArgs })
     args: UserFindManyArgs,
   ): Promise<UserFindManyResponse> {
-    console.log(JSON.stringify(args));
     return {
-      items: [],
+      items: [
+        {
+          id: args?.take?.toString(),
+        },
+      ],
     };
   }
 }
