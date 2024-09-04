@@ -86,11 +86,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: fa-app
-          path: ./prod/functions
+          path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
       - name: LS Files
         run: |
           ls -la
-          cd ./prod/functions
+          cd ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           ls -la
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
@@ -102,6 +102,6 @@ jobs:
         id: fa
         with:
           app-name: '${{ vars.PROJECT_NAME_ABBREVIATION }}-fa-${{ vars.ENV }}'
-          package: ./prod/functions
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           scm-do-build-during-deployment: false
           enable-oryx-build: false
