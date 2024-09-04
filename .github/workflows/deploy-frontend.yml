@@ -134,10 +134,6 @@ jobs:
           name: storybook-static
           path: ./storybook-static/
 
-      - name: Unzip artifacts
-        run: |
-          ls -la
-
       - name: Push to FE Storage
         run: |
           export AZURE_STORAGE_KEY=$(az storage account keys list -n $FE_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
