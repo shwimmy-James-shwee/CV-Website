@@ -126,6 +126,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: fe-app
+      - name: Unzip FE App artifacts
+        run: |
+          mkdir -p ./dist
+          unzip -o fe-app.zip -d ./dist
 
       - name: Push to FE Storage
         run: |
@@ -137,6 +141,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: storybook-static
+
+      - name: Unzip Storybook artifacts
+        run: |
+          mkdir -p ./storybook-static
+          unzip -o storybook-static.zip -d ./storybook-static
 
       - name: Push to Storybook FE Storage
         continue-on-error: true
