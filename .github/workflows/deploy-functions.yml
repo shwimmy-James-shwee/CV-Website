@@ -22,13 +22,12 @@ env:
   NODE_VERSION: 'v20.15.1'
 
 jobs:
-  build-deploy:
-    runs-on: opch # For Non KPMG Agent (Host), use ubuntu-latest
-    name: Deploy FA
-    environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
-    env:
-      AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
-      AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
+  build:
+    name: Build FA
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20.15.1]
 
     steps:
       - name: 'Checkout GitHub Action'
@@ -47,6 +46,46 @@ jobs:
           git log -4 --date=format-local:'%Y-%m-%d %H:%M:%S' >> ./apps/functions/git_commit_msg.txt
           command git --no-pager log -1 --format="%ai" >> ./apps/functions/git_commit_msg.txt
           echo ${{ github.run_id }} >> ./apps/functions/git_commit_msg.txt
+
+      - name: 'Resolve Project Dependencies Using Npm'
+        shell: bash
+        run: |
+          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
+          pnpm build --filter="./libs/**/" --filter="./apps/functions/"
+        env:
+          CI: true
+
+      - name: Upload FA Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa-app
+          path: .
+          retention-days: 1
+
+  deploy:
+    runs-on: opch # For Non KPMG Agent (Host), use ubuntu-latest
+    name: Deploy FA
+    environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
+    env:
+      AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
+      AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
+
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@v4
+      - name: Download FE App artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: fa-app
+          path: ./
+
+      - uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js Environment - Version ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
       - name: 'Resolve Project Dependencies Using Npm'
         shell: bash
