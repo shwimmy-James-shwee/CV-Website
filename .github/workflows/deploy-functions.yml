@@ -102,6 +102,6 @@ jobs:
         id: fa
         with:
           app-name: '${{ vars.PROJECT_NAME_ABBREVIATION }}-fa-${{ vars.ENV }}'
-          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          package: ./prod/functions
           scm-do-build-during-deployment: false
           enable-oryx-build: false
