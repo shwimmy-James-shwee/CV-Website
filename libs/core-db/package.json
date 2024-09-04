@@ -28,8 +28,8 @@
     "db:push": "dotenv -e ../../apps/backend/.env -- prisma db push --skip-generate",
     "db:makemigrate": "dotenv -e ../../apps/backend/.env -- prisma migrate dev --create-only && prisma generate",
     "db:studio": "dotenv -e ../../apps/backend/.env -- prisma studio",
-    "build": "prisma generate && tsup src/*.ts --format cjs,esm --dts",
-    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "build": "prisma generate && pnpm make:types && tsup src/*.ts --format cjs,esm --dts",
+    "dev": "prisma generate && pnpm make:types && tsup src/*.ts --format cjs,esm --dts --watch",
     "make:types": "pal schema typescript -o ./src",
     "docker:db:create": "docker-compose -f docker-compose-db.yml up -d"
   },
