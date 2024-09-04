@@ -86,22 +86,18 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: fa-app
-          path: ./dist/
+          path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
 
-      - name: Add Commit Message to File
-        run: |
-          cd ./dist
-          ls -la
-      # - name: 'Login via Azure CLI'
-      #   uses: azure/login@v1
-      #   with:
-      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # - name: 'Run Azure Functions Action'
-      #   uses: Azure/functions-action@v1
-      #   id: fa
-      #   with:
-      #     app-name: '${{ vars.PROJECT_NAME_ABBREVIATION }}-fa-${{ vars.ENV }}'
-      #     package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-      #     scm-do-build-during-deployment: false
-      #     enable-oryx-build: false
+      - name: 'Run Azure Functions Action'
+        uses: Azure/functions-action@v1
+        id: fa
+        with:
+          app-name: '${{ vars.PROJECT_NAME_ABBREVIATION }}-fa-${{ vars.ENV }}'
+          package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+          scm-do-build-during-deployment: false
+          enable-oryx-build: false
