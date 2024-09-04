@@ -5,6 +5,7 @@ on:
     branches: ['dev', 'qa', 'staging']
     paths:
       - 'apps/functions/**'
+      - 'libs/**'
       - '.github/workflows/deploy-functions.yml'
   workflow_dispatch:
     inputs:
@@ -40,6 +41,12 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
 
+      - name: Add Commit Message to File
+        run: |
+          git log -4 --date=format-local:'%Y-%m-%d %H:%M:%S' >> ./apps/functions/git_commit_msg.txt
+          command git --no-pager log -1 --format="%ai" >> ./apps/functions/git_commit_msg.txt
+          echo ${{ github.run_id }} >> ./apps/functions/git_commit_msg.txt
+
       - name: 'Resolve Project Dependencies Using Npm'
         shell: bash
         run: |
@@ -49,7 +56,7 @@ jobs:
 
           pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
           pnpm db:generate
-          cp -r ./node_modules/@core/db/node_modules/.prisma ./node_modules/
+          cp -r ./node_modules/@core/db/src/.prisma ./node_modules/
           popd
         env:
           CI: true

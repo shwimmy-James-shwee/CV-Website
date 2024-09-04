@@ -4,6 +4,7 @@ on:
     branches: ['dev', 'qa', 'staging']
     paths:
       - 'apps/backend/**'
+      - 'libs/**'
       - '.github/workflows/deploy-backend.yml'
   workflow_dispatch:
     inputs:
@@ -68,14 +69,14 @@ jobs:
           docker tag node-base $AZURE_CONTAINER_REGISTRY/node-base
           docker push $AZURE_CONTAINER_REGISTRY/node-base
 
-      - name: Build And Push
+      - name: Add Commit Message to File
         run: |
-
-          # git log -1 --pretty=%s >> git_commit_msg.txt
           git log -4 --date=format-local:'%Y-%m-%d %H:%M:%S' >> ./apps/backend/git_commit_msg.txt
           command git --no-pager log -1 --format="%ai" >> ./apps/backend/git_commit_msg.txt
-          echo ${{ github.run_id }} >> git_commit_msg.txt
+          echo ${{ github.run_id }} >> ./apps/backend/git_commit_msg.txt
 
+      - name: Build And Push
+        run: |
 
           # get use the dynamic base file from different env
           cp ./apps/backend/dockerfiles/node.Dockerfile ./apps/backend/dockerfiles/node.Dockerfile_og ;\

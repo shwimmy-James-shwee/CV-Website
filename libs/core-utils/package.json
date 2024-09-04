@@ -9,14 +9,7 @@
     "dev": "pnpm run build -- --watch"
   },
   "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
-    },
-    "./dist/": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
-    }
+    ".": "./src/index.ts"
   },
   "dependencies": {
     "zod": "3.23.8"

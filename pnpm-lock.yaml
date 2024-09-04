@@ -222,6 +222,9 @@ importers:
       '@azure/msal-react':
         specifier: 2.0.22
         version: 2.0.22(@azure/msal-browser@3.21.0)(react@18.3.1)
+      '@core/db':
+        specifier: workspace:*
+        version: link:../../libs/core-db
       '@core/utils':
         specifier: workspace:*
         version: link:../../libs/core-utils

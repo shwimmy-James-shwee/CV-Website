@@ -6,7 +6,7 @@ export class AppService {
   getHello(): string {
     try {
       return readFileSync('./git_commit_msg.txt', 'utf8');
-    } catch (err) {
+    } catch (_) {
       return 'Hello World!';
     }
   }

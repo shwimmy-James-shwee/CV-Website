@@ -58,5 +58,4 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 git_commit_msg.txt
 coverage
 
-src/shared/schema_cp.ts
 tsconfig.build.tsbuildinfo
