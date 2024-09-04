@@ -90,7 +90,7 @@ jobs:
       - name: LS Files
         run: |
           ls -la
-          ./prod/functions
+          cd ./prod/functions
           ls -la
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
