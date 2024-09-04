@@ -4,7 +4,7 @@ import { API } from '../../shared/endpoints';
 import { Fragment, useEffect, useState } from 'react';
 import TextFormField from '../../components/Form/TextFormField';
 import ButtonComponent from '../../components/toolkit/Button';
-import { User } from '../../shared/schema';
+import { User } from '@core/db/schema';
 
 function UserManagement() {
   const { execute, error } = useFetchWithMsal();

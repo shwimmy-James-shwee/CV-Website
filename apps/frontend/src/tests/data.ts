@@ -1,5 +1,5 @@
 import { CurrentUserType } from '../context/UserContext';
-import { NotificationFrequency, UserRole } from '../shared/schema';
+import { NotificationFrequency, UserRole } from '@core/db/schema';
 
 export const dummyUser: CurrentUserType = {
   id: 'fake-0741-4354-8d28-e649380cbc4f',
