@@ -12,7 +12,7 @@ import UserActivityPage from './pages/UserActivityPage';
 import FAQPage from './pages/FAQPage';
 import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
-import { UserRole } from './shared/schema';
+import { UserRole } from '@core/db';
 import AdminPage from './pages/AdminPage';
 import styled from 'styled-components';
 import { Container } from 'react-bootstrap';

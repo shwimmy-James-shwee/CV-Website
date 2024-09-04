@@ -34,7 +34,6 @@ module.exports = {
   coveragePathIgnorePatterns: [
     'src/api/v1/file/file.validator.ts', // dynamic import is not supported in Jest and will throw an error
     'src/database/*',
-    'src/shared/schema*',
     'src/test-unit/',
     'src/shared/questionnaire*',
     'src/utilities/logger',
@@ -43,6 +42,7 @@ module.exports = {
     'src/main.ts',
     'src/all-exceptions-filter.ts',
     'src/prisma.env.ts',
+    'src/make.env.ts',
     'src/middleware/',
   ],
 

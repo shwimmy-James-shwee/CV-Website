@@ -16,8 +16,8 @@ export const objectIsEmpty = (args: unknown): args is { [key: string]: never } =
 };
 
 /** Returns true if data is an empty string */
-export const stringIsEmpty = (args: string): args is `` => {
-  if (typeof args === `string`) {
+export const stringIsEmpty = (args: string): args is '' => {
+  if (typeof args === 'string') {
     return args?.length === 0;
   }
   return false;
@@ -40,17 +40,17 @@ export const arrayIsNotEmpty = <T>(args: T[]): args is [T, ...T[]] => {
  * NaN is not considered a number in this case
  */
 export const isNumber = (args: unknown): args is number => {
-  return typeof args === `number` && isFinite(args);
+  return typeof args === 'number' && isFinite(args);
 };
 
 /** Return true if input is a boolean */
 export const isBoolean = (args: unknown): args is boolean => {
-  return typeof args === `boolean`;
+  return typeof args === 'boolean';
 };
 
 /** Return true if input is a string */
 export const isString = (args: unknown): args is string => {
-  return typeof args === `string`;
+  return typeof args === 'string';
 };
 
 /** Returns true if input is strictly a date */
@@ -71,7 +71,7 @@ export const isArray = <T>(args: unknown): args is T[] => {
 export const isObject = (args: unknown): args is Record<string, unknown> => {
   if (isUndefinedOrNull(args)) return false;
   const converted = JSON.stringify(args);
-  return converted[0] === `{` && converted[converted.length - 1] === `}`;
+  return converted[0] === '{' && converted[converted.length - 1] === '}';
 };
 
 /** Returns true if input is undefined */

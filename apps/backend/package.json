@@ -8,19 +8,20 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
+    "test:action": "pnpm test:unit:cov",
     "test:unit": "dotenv -e .env.test --override -- jest --config ./jest.config.js",
     "test:unit:watch": "dotenv -e .env.test --override -- jest --watch --coverage --config ./jest.config.js",
     "test:unit:cov": "dotenv -e .env.test --override -- jest --coverage --config ./jest.config.js",
     "test:debug": "dotenv -e .env.test --override -- node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "pnpm db:deploy:test && dotenv -e .env.test -- jest --config ./test-e2e/jest-e2e.config.js --runInBand",
-    "test:e2e:watch": "yarn prisma:deploy:test && dotenv -e .env.test -- jest --watch --config ./test-e2e/jest-e2e.config.js --coverage --runInBand",
-    "test:e2e:cov": "yarn prisma:deploy:test && dotenv -e .env.test -- jest --config ./test-e2e/jest-e2e.config.js --coverage --runInBand",
+    "test:e2e:watch": "pnpm db:deploy:test && dotenv -e .env.test -- jest --watch --config ./test-e2e/jest-e2e.config.js --coverage --runInBand",
+    "test:e2e:cov": "pnpm db:deploy:test && dotenv -e .env.test -- jest --config ./test-e2e/jest-e2e.config.js --coverage --runInBand",
     "db:deploy:test": "dotenv -e .env.test -- prisma migrate reset --force --skip-generate  --schema node_modules/@core/db/prisma/schema.prisma && dotenv -e .env.test -- prisma migrate deploy  --schema node_modules/@core/db/prisma/schema.prisma",
     "db:deploy": "prisma migrate deploy --schema node_modules/@core/db/prisma/schema.prisma",
     "db:generate": "prisma generate --schema node_modules/@core/db/prisma/schema.prisma"
   },
   "prisma": {
-    "seed": "node dist/src/database/seed.ts"
+    "seed": "ts-node src/database/seed.ts"
   },
   "dependencies": {
     "@apollo/server": "4.11.0",
@@ -61,7 +62,9 @@
     "swagger-ui-express": "^5.0.0",
     "ts-md5": "^1.3.1",
     "uuid": "^9.0.1",
-    "zod": "^3.22.4"
+    "@types/uuid": "^9.0.8",
+    "zod": "^3.22.4",
+    "ts-node": "10.9.1"
   },
   "devDependencies": {
     "@nestjs/cli": "10.4.1",
@@ -86,7 +89,6 @@
     "supertest": "7.0.0",
     "ts-jest": "29.1.0",
     "ts-loader": "9.4.3",
-    "ts-node": "10.9.1",
     "tsconfig-paths": "4.2.0",
     "typescript": "^5.5.4",
     "webpack": "^5.93.0"
