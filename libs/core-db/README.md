@@ -9,7 +9,7 @@ This package is designed to be consumed internally by apps within this repo. It 
 
 ## Setting up local database
 
-Ensure you are in `./libs/core-db` directory:
+Ensure you are in the `./libs/core-db` directory & have already opened your Docker Desktop:
 
 1. Add create a .env file in `./apps/backend/.env` file and add the environment variables below
 2. Run `nvm use 20.15.1`
