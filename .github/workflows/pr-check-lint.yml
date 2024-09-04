@@ -27,10 +27,10 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install -D
+        run: pnpm install
 
       - name: Build
-        run: pnpm build
+        run: pnpm run build
 
       - name: Check linting
         run: pnpm lint
