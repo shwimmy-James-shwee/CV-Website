@@ -86,8 +86,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: fa-app
-          path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-
+          path: ./prod/functions
+      - name: LS Files
+        run: |
+          ls -la
+          ./prod/functions
+          ls -la
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
