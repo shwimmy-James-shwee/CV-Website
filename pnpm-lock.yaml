@@ -234,9 +234,6 @@ importers:
       '@azure/msal-react':
         specifier: 2.0.22
         version: 2.0.22(@azure/msal-browser@3.21.0)(react@18.3.1)
-      '@core/db':
-        specifier: workspace:*
-        version: link:../../libs/core-db
       '@core/utils':
         specifier: workspace:*
         version: link:../../libs/core-utils
@@ -544,6 +541,9 @@ importers:
         specifier: 5.19.0
         version: 5.19.0(prisma@5.19.0)
     devDependencies:
+      '@mermaid-js/mermaid-cli':
+        specifier: ^10.9.0
+        version: 10.9.1(encoding@0.1.13)(typescript@5.5.4)
       '@paljs/cli':
         specifier: 5.3.3
         version: 5.3.3(@swc/core@1.7.21(@swc/helpers@0.5.12))(@types/node@20.14.15)(encoding@0.1.13)(typescript@5.5.4)
@@ -559,6 +559,12 @@ importers:
       prisma:
         specifier: 5.19.0
         version: 5.19.0
+      prisma-dbml-generator:
+        specifier: ^0.12.0
+        version: 0.12.0(encoding@0.1.13)
+      prisma-erd-generator:
+        specifier: ^1.11.2
+        version: 1.11.2(@prisma/client@5.19.0(prisma@5.19.0))(encoding@0.1.13)(typescript@5.5.4)
       tsup:
         specifier: 8.2.4
         version: 8.2.4(@swc/core@1.7.21(@swc/helpers@0.5.12))(jiti@1.21.6)(postcss@8.4.41)(typescript@5.5.4)

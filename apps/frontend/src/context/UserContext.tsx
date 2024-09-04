@@ -1,15 +1,15 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
-import { prisma } from '@core/db';
 import useFetchWithMsal from '../hooks/useFetchWithMsal';
 import { API } from '../shared/endpoints';
 import { UserReturnStatus } from '../enum';
+import { User } from '../shared/schema';
 
 export type CurrentUserBusinessUnitsType = {
   id: string;
   name: string;
 };
 
-export interface CurrentUserType extends prisma.User {
+export interface CurrentUserType extends User {
   InBusinessUnits: CurrentUserBusinessUnitsType[];
 }
 

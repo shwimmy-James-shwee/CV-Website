@@ -1,5 +1,5 @@
-import { prisma } from '@core/db';
 import { CurrentUserType } from '../context/UserContext';
+import { NotificationFrequency, UserRole } from '../shared/schema';
 
 export const dummyUser: CurrentUserType = {
   id: 'fake-0741-4354-8d28-e649380cbc4f',
@@ -8,12 +8,12 @@ export const dummyUser: CurrentUserType = {
   firstName: 'han',
   lastName: 'li',
   isSuperAdmin: false,
-  roles: [prisma.UserRole.STANDARD_USER],
+  roles: [UserRole.STANDARD_USER],
   avatarUrl: '/assets/defaultAvatar.png',
   thumbnailPhoto: [],
   timeZoneOffSet: '-780',
   timeZone: 'Pacific/Auckland',
-  notificationFrequency: prisma.NotificationFrequency.REALTIME,
+  notificationFrequency: NotificationFrequency.REALTIME,
   createdAt: new Date('2024-04-02T01:59:25.943Z'),
   updatedAt: new Date('2024-04-02T01:59:25.943Z'),
   InBusinessUnits: [

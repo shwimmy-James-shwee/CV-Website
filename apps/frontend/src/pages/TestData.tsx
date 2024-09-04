@@ -1,6 +1,6 @@
-import { prisma } from '@core/db';
+import { BusinessUnit, BusinessUnitType, NotificationFrequency, User, UserRole } from '../shared/schema';
 
-export const businessUnitTestData: prisma.BusinessUnit[] = [
+export const businessUnitTestData: BusinessUnit[] = [
   {
     id: '1',
     name: 'Test Business Unit 1',
@@ -9,7 +9,7 @@ export const businessUnitTestData: prisma.BusinessUnit[] = [
     parentBusinessUnitId: undefined,
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
-    type: prisma.BusinessUnitType.TEAM,
+    type: BusinessUnitType.TEAM,
   },
   {
     id: '2',
@@ -19,7 +19,7 @@ export const businessUnitTestData: prisma.BusinessUnit[] = [
     parentBusinessUnitId: undefined,
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
-    type: prisma.BusinessUnitType.DEPARTMENT,
+    type: BusinessUnitType.DEPARTMENT,
   },
   {
     id: '3',
@@ -29,7 +29,7 @@ export const businessUnitTestData: prisma.BusinessUnit[] = [
     parentBusinessUnitId: undefined,
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
-    type: prisma.BusinessUnitType.DIVISION,
+    type: BusinessUnitType.DIVISION,
   },
   {
     id: '4',
@@ -39,11 +39,11 @@ export const businessUnitTestData: prisma.BusinessUnit[] = [
     parentBusinessUnitId: undefined,
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
-    type: prisma.BusinessUnitType.COMPANY,
+    type: BusinessUnitType.COMPANY,
   },
 ];
 
-export const UserTestData: prisma.User[] = [
+export const UserTestData: User[] = [
   {
     avatarUrl: 'https://regtechtimes.com/wp-content/uploads/2019/06/kpmg12.jpg',
     externalOid: 'fake-9ab2-4950-b55b-b256697c583e',
@@ -54,11 +54,11 @@ export const UserTestData: prisma.User[] = [
     firstName: 'Test User 1',
     lastName: 'Tester',
     id: '1',
-    notificationFrequency: prisma.NotificationFrequency.REALTIME,
+    notificationFrequency: NotificationFrequency.REALTIME,
     loginEmail: 'tester1@kpmg.co.nz',
     timeZoneOffSet: '-780',
     timeZone: 'Pacific/Auckland',
-    roles: [prisma.UserRole.ADMINISTRATOR],
+    roles: [UserRole.ADMINISTRATOR],
   },
   {
     avatarUrl: 'https://regtechtimes.com/wp-content/uploads/2019/06/kpmg12.jpg',
@@ -70,11 +70,11 @@ export const UserTestData: prisma.User[] = [
     firstName: 'Test User 2',
     lastName: 'Tester',
     id: '2',
-    notificationFrequency: prisma.NotificationFrequency.REALTIME,
+    notificationFrequency: NotificationFrequency.REALTIME,
     loginEmail: 'tester2@kpmg.co.nz',
     timeZoneOffSet: '-780',
     timeZone: 'Pacific/Auckland',
-    roles: [prisma.UserRole.ADMINISTRATOR],
+    roles: [UserRole.ADMINISTRATOR],
   },
   {
     avatarUrl: 'https://regtechtimes.com/wp-content/uploads/2019/06/kpmg12.jpg',
@@ -87,10 +87,10 @@ export const UserTestData: prisma.User[] = [
     lastName: 'Tester',
     id: '3',
     loginEmail: 'tester3@kpmg.co.nz',
-    notificationFrequency: prisma.NotificationFrequency.REALTIME,
+    notificationFrequency: NotificationFrequency.REALTIME,
     timeZoneOffSet: '-780',
     timeZone: 'Pacific/Auckland',
-    roles: [prisma.UserRole.STANDARD_USER],
+    roles: [UserRole.STANDARD_USER],
   },
   {
     avatarUrl: 'https://regtechtimes.com/wp-content/uploads/2019/06/kpmg12.jpg',
@@ -101,11 +101,11 @@ export const UserTestData: prisma.User[] = [
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
     firstName: 'Test User 4',
     lastName: 'Tester',
-    notificationFrequency: prisma.NotificationFrequency.REALTIME,
+    notificationFrequency: NotificationFrequency.REALTIME,
     id: '4',
     loginEmail: 'tester4@kpmg.co.nz',
     timeZoneOffSet: '-780',
     timeZone: 'Pacific/Auckland',
-    roles: [prisma.UserRole.ADMINISTRATOR],
+    roles: [UserRole.ADMINISTRATOR],
   },
 ];

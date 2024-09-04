@@ -37,7 +37,6 @@ const viteConfig = defineViteConfig({
           }
         },
       },
-      external: ['@core/db'],
     },
   },
 });

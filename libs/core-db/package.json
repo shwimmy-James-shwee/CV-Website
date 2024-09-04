@@ -24,9 +24,9 @@
     "db:push": "dotenv -e ../../apps/backend/.env -- prisma db push --skip-generate",
     "db:makemigrate": "dotenv -e ../../apps/backend/.env -- prisma migrate dev --create-only && prisma generate",
     "db:studio": "dotenv -e ../../apps/backend/.env -- prisma studio",
-    "build": "prisma generate && pnpm make:types && tsup src/*.ts --format cjs,esm --dts",
+    "build": "prisma generate && tsup src/*.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
-    "make:types": "pal schema typescript -o src/",
+    "make:types": "pal schema typescript -o ./",
     "docker:db:create": "docker-compose -f docker-compose-db.yml up -d"
   },
   "dependencies": {
@@ -40,6 +40,9 @@
     "@repo/eslint-config": "workspace:*",
     "tsup": "8.2.4",
     "typescript": "5.5.4",
+    "prisma-dbml-generator": "^0.12.0",
+    "prisma-erd-generator": "^1.11.2",
+    "@mermaid-js/mermaid-cli": "^10.9.0",
     "uuid": "^9.0.1"
   }
 }

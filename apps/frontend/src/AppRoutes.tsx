@@ -12,7 +12,6 @@ import UserActivityPage from './pages/UserActivityPage';
 import FAQPage from './pages/FAQPage';
 import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
-import { prisma } from '@core/db';
 import AdminPage from './pages/AdminPage';
 import styled from 'styled-components';
 import { Container } from 'react-bootstrap';
@@ -22,6 +21,7 @@ import FullFrameSpinner from './components/toolkit/FullFrameSpinner';
 import NotValidPage from './components/page/NotValidPage';
 import AlertProvider from './components/toolkit/AlertContext';
 import AlertComponent from './components/toolkit/Alert';
+import { UserRole } from './shared/schema';
 
 // this guarantees that the container will always be full width and Row/Col will be contained within it
 const HighLevelContainer = styled(Container)`
@@ -109,7 +109,7 @@ function AppRoutes() {
     {
       lable: 'Admin',
       url: pageUrl.adminPage,
-      hide: !currentUserData?.roles?.includes(prisma.UserRole.ADMINISTRATOR),
+      hide: !currentUserData?.roles?.includes(UserRole.ADMINISTRATOR),
     },
   ];
 
@@ -151,7 +151,7 @@ function AppRoutes() {
                 <Route path={pageUrl.userActivityPage} element={<UserActivityRoute />} />
 
                 {/* Admin Routes */}
-                {currentUserData?.roles?.includes(prisma.UserRole.ADMINISTRATOR) && (
+                {currentUserData?.roles?.includes(UserRole.ADMINISTRATOR) && (
                   <Route path={pageUrl.adminPage} element={<AdminRoute />} />
                 )}
                 {/* New Routes can be added below */}
