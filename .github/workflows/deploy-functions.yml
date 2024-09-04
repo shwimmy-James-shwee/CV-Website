@@ -52,6 +52,14 @@ jobs:
         run: |
           pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
           pnpm build --filter="./libs/**/" --filter="./apps/functions/"
+          pnpm deploy --filter="./apps/functions/" --prod ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+
+          pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
+          pnpm db:generate
+          cp -r ./node_modules/@core/db/node_modules/.prisma ./node_modules/
+          popd
+
+          tar cvf /tmp/fa-app.tar.gz ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
         env:
           CI: true
 
@@ -59,7 +67,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: fa-app
-          path: .
+          path: /tmp/fa-app.tar.gz
           retention-days: 1
 
   deploy:
@@ -78,29 +86,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: fa-app
-          path: ./
+          path: /tmp/
 
-      - uses: pnpm/action-setup@v4
-
-      - name: Setup Node.js Environment - Version ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
-      - name: 'Resolve Project Dependencies Using Npm'
+      - name: Unpack FA App artifacts
         shell: bash
         run: |
-          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
-          pnpm build --filter="./libs/**/" --filter="./apps/functions/"
-          pnpm deploy --filter="./apps/functions/" --prod ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-
-          pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          pnpm db:generate
-          cp -r ./node_modules/@core/db/node_modules/.prisma ./node_modules/
-          popd
-        env:
-          CI: true
+          tar xvf /tmp/fa-app.tar.gz
 
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
