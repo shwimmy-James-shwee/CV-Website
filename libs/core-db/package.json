@@ -12,6 +12,10 @@
     "./dist/": {
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./schema/": {
+      "import": "./dist/schema.mjs",
+      "require": "./dist/schema.js"
     }
   },
   "scripts": {
@@ -20,8 +24,9 @@
     "db:push": "dotenv -e ../../apps/backend/.env -- prisma db push --skip-generate",
     "db:makemigrate": "dotenv -e ../../apps/backend/.env -- prisma migrate dev --create-only && prisma generate",
     "db:studio": "dotenv -e ../../apps/backend/.env -- prisma studio",
-    "build": "prisma generate && tsup src/index.ts --format cjs,esm --dts",
+    "build": "prisma generate && pnpm make:types && tsup src/*.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "make:types": "pal schema typescript -o src/",
     "docker:db:create": "docker-compose -f docker-compose-db.yml up -d"
   },
   "dependencies": {
@@ -29,6 +34,7 @@
   },
   "devDependencies": {
     "dotenv": "16.4.5",
+    "@paljs/cli": "5.3.3",
     "prisma": "5.19.0",
     "dotenv-cli": "7.4.2",
     "@repo/eslint-config": "workspace:*",

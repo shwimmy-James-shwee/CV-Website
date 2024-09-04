@@ -2,22 +2,22 @@ import { Row, Col, ListGroup, Form } from 'react-bootstrap';
 import useFetchWithMsal from '../../hooks/useFetchWithMsal';
 import { API } from '../../shared/endpoints';
 import { Fragment, useEffect, useState } from 'react';
-import { User } from '@core/db';
+import { prisma } from '@core/db';
 import TextFormField from '../../components/Form/TextFormField';
 import ButtonComponent from '../../components/toolkit/Button';
 
 function UserManagement() {
   const { execute, error } = useFetchWithMsal();
 
-  const [userListData, setUserListData] = useState<User[]>([]);
-  const [userData, setUserData] = useState<User | null>(null);
+  const [userListData, setUserListData] = useState<prisma.User[]>([]);
+  const [userData, setUserData] = useState<prisma.User | null>(null);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [validated, setValidated] = useState(false);
 
   useEffect(() => {
     if (!error) {
-      execute('GET', API.admin.user.root).then((data: User[]) => {
+      execute('GET', API.admin.user.root).then((data: prisma.User[]) => {
         if (data) {
           setUserListData(data);
         }
@@ -30,7 +30,7 @@ function UserManagement() {
   }, [userData]);
   function getUserDetail(id: string) {
     setUserData(null);
-    execute('GET', `${API.admin.user.byId}${id}`).then((data: User) => {
+    execute('GET', `${API.admin.user.byId}${id}`).then((data: prisma.User) => {
       if (data) {
         setUserData(data);
         setFirstName(data.firstName);
@@ -58,11 +58,11 @@ function UserManagement() {
         lastName: lastName,
       };
 
-      execute('PATCH', `${API.admin.user.byId}${userData?.id}`, payload).then((response: User) => {
+      execute('PATCH', `${API.admin.user.byId}${userData?.id}`, payload).then((response: prisma.User) => {
         if (response) {
           // TODO: Add alerts here for successfull or fail cases
           getUserDetail(response.id);
-          execute('GET', API.admin.user.root).then((data: User[]) => {
+          execute('GET', API.admin.user.root).then((data: prisma.User[]) => {
             if (data) {
               setUserListData(data);
             }

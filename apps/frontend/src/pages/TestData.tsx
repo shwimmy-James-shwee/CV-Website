@@ -1,49 +1,49 @@
-import { BusinessUnit, BusinessUnitType, NotificationFrequency, User, UserRole } from '@core/db';
+import { prisma } from '@core/db';
 
-export const businessUnitTestData: BusinessUnit[] = [
+export const businessUnitTestData: prisma.BusinessUnit[] = [
   {
     id: '1',
     name: 'Test Business Unit 1',
     description: 'Test Business Unit 1 Description',
     features: [],
-    parentBusinessUnitId: null,
+    parentBusinessUnitId: undefined,
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
-    type: BusinessUnitType.TEAM,
+    type: prisma.BusinessUnitType.TEAM,
   },
   {
     id: '2',
     name: 'Test Business Unit 2',
     description: 'Test Business Unit 2 Description',
     features: [],
-    parentBusinessUnitId: null,
+    parentBusinessUnitId: undefined,
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
-    type: BusinessUnitType.DEPARTMENT,
+    type: prisma.BusinessUnitType.DEPARTMENT,
   },
   {
     id: '3',
     name: 'Test Business Unit 3',
     description: 'Test Business Unit 3 Description',
     features: [],
-    parentBusinessUnitId: null,
+    parentBusinessUnitId: undefined,
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
-    type: BusinessUnitType.DIVISION,
+    type: prisma.BusinessUnitType.DIVISION,
   },
   {
     id: '4',
     name: 'Test Business Unit 4',
     description: 'Test Business Unit 4 Description',
     features: [],
-    parentBusinessUnitId: null,
+    parentBusinessUnitId: undefined,
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
-    type: BusinessUnitType.COMPANY,
+    type: prisma.BusinessUnitType.COMPANY,
   },
 ];
 
-export const UserTestData: User[] = [
+export const UserTestData: prisma.User[] = [
   {
     avatarUrl: 'https://regtechtimes.com/wp-content/uploads/2019/06/kpmg12.jpg',
     externalOid: 'fake-9ab2-4950-b55b-b256697c583e',
@@ -54,11 +54,11 @@ export const UserTestData: User[] = [
     firstName: 'Test User 1',
     lastName: 'Tester',
     id: '1',
-    notificationFrequency: NotificationFrequency.REALTIME,
+    notificationFrequency: prisma.NotificationFrequency.REALTIME,
     loginEmail: 'tester1@kpmg.co.nz',
     timeZoneOffSet: '-780',
     timeZone: 'Pacific/Auckland',
-    roles: [UserRole.ADMINISTRATOR],
+    roles: [prisma.UserRole.ADMINISTRATOR],
   },
   {
     avatarUrl: 'https://regtechtimes.com/wp-content/uploads/2019/06/kpmg12.jpg',
@@ -70,11 +70,11 @@ export const UserTestData: User[] = [
     firstName: 'Test User 2',
     lastName: 'Tester',
     id: '2',
-    notificationFrequency: NotificationFrequency.REALTIME,
+    notificationFrequency: prisma.NotificationFrequency.REALTIME,
     loginEmail: 'tester2@kpmg.co.nz',
     timeZoneOffSet: '-780',
     timeZone: 'Pacific/Auckland',
-    roles: [UserRole.ADMINISTRATOR],
+    roles: [prisma.UserRole.ADMINISTRATOR],
   },
   {
     avatarUrl: 'https://regtechtimes.com/wp-content/uploads/2019/06/kpmg12.jpg',
@@ -87,10 +87,10 @@ export const UserTestData: User[] = [
     lastName: 'Tester',
     id: '3',
     loginEmail: 'tester3@kpmg.co.nz',
-    notificationFrequency: NotificationFrequency.REALTIME,
+    notificationFrequency: prisma.NotificationFrequency.REALTIME,
     timeZoneOffSet: '-780',
     timeZone: 'Pacific/Auckland',
-    roles: [UserRole.STANDARD_USER],
+    roles: [prisma.UserRole.STANDARD_USER],
   },
   {
     avatarUrl: 'https://regtechtimes.com/wp-content/uploads/2019/06/kpmg12.jpg',
@@ -101,11 +101,11 @@ export const UserTestData: User[] = [
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
     firstName: 'Test User 4',
     lastName: 'Tester',
-    notificationFrequency: NotificationFrequency.REALTIME,
+    notificationFrequency: prisma.NotificationFrequency.REALTIME,
     id: '4',
     loginEmail: 'tester4@kpmg.co.nz',
     timeZoneOffSet: '-780',
     timeZone: 'Pacific/Auckland',
-    roles: [UserRole.ADMINISTRATOR],
+    roles: [prisma.UserRole.ADMINISTRATOR],
   },
 ];

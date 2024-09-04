@@ -12,7 +12,7 @@ import UserActivityPage from './pages/UserActivityPage';
 import FAQPage from './pages/FAQPage';
 import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
-import { UserRole } from '@core/db';
+import { prisma } from '@core/db';
 import AdminPage from './pages/AdminPage';
 import styled from 'styled-components';
 import { Container } from 'react-bootstrap';
@@ -109,7 +109,7 @@ function AppRoutes() {
     {
       lable: 'Admin',
       url: pageUrl.adminPage,
-      hide: !currentUserData?.roles?.includes(UserRole.ADMINISTRATOR),
+      hide: !currentUserData?.roles?.includes(prisma.UserRole.ADMINISTRATOR),
     },
   ];
 
@@ -151,7 +151,7 @@ function AppRoutes() {
                 <Route path={pageUrl.userActivityPage} element={<UserActivityRoute />} />
 
                 {/* Admin Routes */}
-                {currentUserData?.roles?.includes(UserRole.ADMINISTRATOR) && (
+                {currentUserData?.roles?.includes(prisma.UserRole.ADMINISTRATOR) && (
                   <Route path={pageUrl.adminPage} element={<AdminRoute />} />
                 )}
                 {/* New Routes can be added below */}

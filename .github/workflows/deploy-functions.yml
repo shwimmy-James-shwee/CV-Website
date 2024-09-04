@@ -21,14 +21,15 @@ env:
   AZURE_FUNCTIONAPP_PACKAGE_PATH: './prod/functions' # set this to the path to your function app project, defaults to the repository root
   NODE_VERSION: 'v20.15.1'
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
-  build:
-    name: Build FA
-    runs-on: ubuntu-22.04
+  build-deploy:
+    runs-on: opch # For Non KPMG Agent (Host), use ubuntu-latest
+    name: Deploy FA
+    environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
+    env:
+      AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
+      AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
+
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v4
@@ -60,39 +61,6 @@ jobs:
           popd
         env:
           CI: true
-
-      - name: Upload FA Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: fa-app
-          path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          retention-days: 1
-          include-hidden-files: true
-
-  deploy:
-    runs-on: opch # For Non KPMG Agent (Host), use ubuntu-latest
-    name: Deploy FA
-    needs: build
-    environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
-    env:
-      AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
-      AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
-
-    steps:
-      - name: 'Checkout GitHub Action'
-        uses: actions/checkout@v4
-
-      - name: Download FA App artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: fa-app
-          path: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-      - name: LS Files
-        run: |
-          ls -la
-          pushd ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          ls -la
-          popd
 
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
