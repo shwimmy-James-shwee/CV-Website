@@ -1,4 +1,4 @@
-import { BusinessUnit, BusinessUnitType, NotificationFrequency, User, UserRole } from '../shared/schema';
+import { BusinessUnit, BusinessUnitType, NotificationFrequency, User, UserRole } from '@core/db/schema';
 
 export const businessUnitTestData: BusinessUnit[] = [
   {

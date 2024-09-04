@@ -80,7 +80,7 @@ yarn storybook
 
 #### Page Components (Business UIs)
 
-> When there is new endpoint added, the new [endpoints.ts](src/shared/endpoints.ts) and [schema.ts](src/shared/schema.ts) need to be cloned from the backend repo.
+> When there is new endpoint added, the new [endpoints.ts](src/shared/endpoints.ts) need to be cloned from the backend repo.
 
 > Components that is not consider generic and pretty much bespoke for a business logic.
 

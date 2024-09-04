@@ -22,13 +22,12 @@ env:
   NODE_VERSION: 'v20.15.1'
 
 jobs:
-  build-deploy:
-    runs-on: opch # For Non KPMG Agent (Host), use ubuntu-latest
-    name: Deploy FA
-    environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
-    env:
-      AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
-      AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
+  build:
+    name: Build FA
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20.15.1]
 
     steps:
       - name: 'Checkout GitHub Action'
@@ -59,8 +58,40 @@ jobs:
           pnpm db:generate
           cp -r ./node_modules/@core/db/node_modules/.prisma ./node_modules/
           popd
+
+          tar cvf /tmp/fa-app.tar.gz ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
         env:
           CI: true
+
+      - name: Upload FA Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa-app
+          path: /tmp/fa-app.tar.gz
+          retention-days: 1
+
+  deploy:
+    runs-on: opch # For Non KPMG Agent (Host), use ubuntu-latest
+    name: Deploy FA
+    needs: build
+    environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
+    env:
+      AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
+      AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
+
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@v4
+      - name: Download FE App artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: fa-app
+          path: /tmp/
+
+      - name: Unpack FA App artifacts
+        shell: bash
+        run: |
+          tar xvf /tmp/fa-app.tar.gz
 
       - name: 'Login via Azure CLI'
         uses: azure/login@v1

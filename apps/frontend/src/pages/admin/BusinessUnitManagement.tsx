@@ -5,7 +5,7 @@ import { Fragment, useEffect, useState } from 'react';
 import TextFormField from '../../components/Form/TextFormField';
 import SelectFormField from '../../components/Form/SelectFormField';
 import RadioFormField from '../../components/Form/RadioFormField';
-import { BusinessUnit, BusinessUnitType, Feature } from '../../shared/schema';
+import { BusinessUnit, BusinessUnitType, Feature } from '@core/db/schema';
 
 function BusinessUnitManagement() {
   const { execute, error } = useFetchWithMsal();

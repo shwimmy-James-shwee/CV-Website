@@ -21,7 +21,7 @@ import FullFrameSpinner from './components/toolkit/FullFrameSpinner';
 import NotValidPage from './components/page/NotValidPage';
 import AlertProvider from './components/toolkit/AlertContext';
 import AlertComponent from './components/toolkit/Alert';
-import { UserRole } from './shared/schema';
+import { UserRole } from '@core/db/schema';
 
 // this guarantees that the container will always be full width and Row/Col will be contained within it
 const HighLevelContainer = styled(Container)`
