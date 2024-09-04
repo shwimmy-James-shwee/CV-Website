@@ -65,6 +65,7 @@ jobs:
   deploy:
     runs-on: opch # For Non KPMG Agent (Host), use ubuntu-latest
     name: Deploy FA
+    needs: build
     environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
     env:
       AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
