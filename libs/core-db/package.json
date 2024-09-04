@@ -1,10 +1,18 @@
 {
   "name": "@core/db",
+  "main": "./dist/index.js",
   "version": "0.0.1",
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./dist/": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
   },
   "scripts": {
     "lint": "eslint .",
@@ -12,7 +20,7 @@
     "db:push": "prisma db push --skip-generate",
     "db:makemigrate": "dotenv -e ../../apps/backend/.env -- prisma migrate dev --create-only && prisma generate",
     "db:studio": "dotenv -e ../../apps/backend/.env -- prisma studio",
-    "build": "prisma generate",
+    "build": "prisma generate && tsup src/index.ts --format cjs,esm --dts",
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
     "docker:db:create": "docker-compose -f docker-compose-db.yml up -d"
   },

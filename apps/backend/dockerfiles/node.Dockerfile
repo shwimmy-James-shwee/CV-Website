@@ -18,7 +18,7 @@ RUN pnpm deploy --filter="./apps/backend/" --prod /prod/backend
 # setup prisma engine binary to connect to db
 WORKDIR /prod/backend
 RUN pnpm db:generate \ 
-    && cp -r ./node_modules/@core/db/src/.prisma ./node_modules/
+    && cp -r ./node_modules/@core/db/node_modules/.prisma ./node_modules/
 
 FROM base AS backend
 ENV DISABLE_ERD true
