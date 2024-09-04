@@ -52,7 +52,7 @@ jobs:
   build:
     name: Build Docker
     needs: build-base
-    runs-on: opch
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - name: Branch name
