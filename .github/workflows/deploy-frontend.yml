@@ -117,6 +117,11 @@ jobs:
       AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
 
     steps:
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Download FE App artifacts
         uses: actions/download-artifact@v4
         with:
@@ -128,10 +133,6 @@ jobs:
           az storage account show -n $FE_STORAGE_ACCOUNT --query networkRuleSet
           az storage blob upload-batch --account-name $FE_STORAGE_ACCOUNT --auth-mode key -d '$web' -s "./dist" --overwrite
 
-      - name: 'Login via Azure CLI'
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Download FE App artifacts
         uses: actions/download-artifact@v4
         with:
