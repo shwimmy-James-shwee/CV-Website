@@ -126,21 +126,17 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: fe-app
-          path: ./
+          path: ./dist/
 
       - name: Download FE App artifacts
         uses: actions/download-artifact@v4
         with:
           name: storybook-static
-          path: ./
+          path: ./storybook-static/
 
       - name: Unzip artifacts
         run: |
           ls -la
-          mkdir -p ./dist
-          unzip -o fe-app.zip -d ./dist
-          mkdir -p ./storybook-static
-          unzip -o storybook-static.zip -d ./storybook-static
 
       - name: Push to FE Storage
         run: |
