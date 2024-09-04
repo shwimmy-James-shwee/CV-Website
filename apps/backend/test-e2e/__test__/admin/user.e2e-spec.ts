@@ -7,7 +7,7 @@ import { adminAdUser } from '../../__data__/user.data';
 import { User, UserRole } from '@core/db';
 import { APIReturnObjectify, seedUser } from '../../utils';
 import { DatabaseService } from '../../../src/database/database.service';
-import { ROUTE } from '../../../src/shared/endpoints';
+import { ROUTE } from '@core/routes';
 
 describe('UserModule (e2e)', () => {
   let app: INestApplication;

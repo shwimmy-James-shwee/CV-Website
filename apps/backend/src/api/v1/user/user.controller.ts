@@ -4,7 +4,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AzureADGuard } from '../../../guard/auth/azuread.guard';
 import { Request } from 'express';
 import { RoleGuard } from '../../../guard/role/role.guard';
-import { PREFIX, ROUTE } from '../../../shared/endpoints';
+import { PREFIX, ROUTE } from '@core/routes';
 import { CurrentUserBusinessUnitsType, UserService } from './user.service';
 
 interface CurrentUser extends User {

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useFetchWithMsal from './useFetchWithMsal';
-import { API } from '../shared/endpoints';
+import { API } from '@core/routes';
 import { useLocation } from 'react-router-dom';
 
 type pageTimerType = {

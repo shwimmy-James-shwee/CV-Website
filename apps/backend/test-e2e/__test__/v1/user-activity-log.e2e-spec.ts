@@ -6,7 +6,7 @@ import { AzureADGuard } from '../../../src/guard/auth/azuread.guard';
 import { Prisma } from '@core/db';
 import { APIReturnObjectify, seedParentBusinessUnit, seedUser, seedUserActivityLog } from '../../utils';
 import { DatabaseService } from '../../../src/database/database.service';
-import { ROUTE } from '../../../src/shared/endpoints';
+import { ROUTE } from '@core/routes';
 
 describe('UserActivityLogModule (e2e)', () => {
   let app: INestApplication;

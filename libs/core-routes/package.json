@@ -1,0 +1,33 @@
+{
+  "name": "@core/routes",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "lint": "eslint .",
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "test": "jest --watch --coverage --config ./jest.config.js",
+    "test:action": "jest --coverage --config ./jest.config.js",
+    "test:unit:cov": "jest --coverage --config ./jest.config.js",
+    "dev": "pnpm run build -- --watch"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./dist/": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "tsup": "8.2.4",
+    "jest": "29.5.0",
+    "@types/jest": "29.5.2",
+    "typescript": "5.5.4"
+  }
+}

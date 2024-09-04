@@ -5,7 +5,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import UserManagement from '../UserManagement';
 import { FakeResponsiveContainer, mockUseFetchWithMsal } from '../../../tests/utils';
 import { UserTestData } from '../../TestData';
-import { API } from '../../../shared/endpoints';
+import { API } from '@core/routes';
 
 FakeResponsiveContainer();
 

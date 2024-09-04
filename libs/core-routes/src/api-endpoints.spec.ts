@@ -1,4 +1,4 @@
-import { ROUTE, API } from './endpoints';
+import { ROUTE, API } from './api-endpoints';
 
 describe('endpoints file', () => {
   it('Each ROUTE should also have matching API', () => {
