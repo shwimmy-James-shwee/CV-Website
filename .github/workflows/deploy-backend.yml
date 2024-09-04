@@ -44,7 +44,6 @@ jobs:
           docker save --output /tmp/nodeBase.tar node-base
 
       - name: Upload Node Base Artifacts
-        if: steps.cache.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: node-base
