@@ -2,10 +2,124 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type SignInLog {
+  id: Int
+  userId: String
+  signInDate: DateTime
+  createdAt: DateTime
+  updatedAt: DateTime
+  User: User
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserActivityLog {
+  id: Int
+  userId: String
+  sessionIdentifier: String
+  eventStartTime: DateTime
+  eventEndTime: DateTime
+  eventDuration: Int
+  eventParam: String
+  eventUrl: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  User: User
+}
+
+type UserNotification {
+  id: Int
+  status: [NotificationStatus!]
+  message: String
+  createdAt: DateTime
+  updatedAt: DateTime
+  userId: String
+  User: User
+}
+
+enum NotificationStatus {
+  NOTIFIED
+  READ
+}
+
+type BusinessUnit {
+  id: String
+  type: BusinessUnitType
+  name: String
+  description: String
+  features: [Feature!]
+  parentBusinessUnitId: String
+  ParentBusinessUnit: BusinessUnit
+  createdAt: DateTime
+  updatedAt: DateTime
+  Members: Member
+  ChildBusinessUnits: [BusinessUnit!]
+}
+
+enum BusinessUnitType {
+  TEAM
+  DEPARTMENT
+  DIVISION
+  COMPANY
+}
+
+enum Feature {
+  BASIC
+  BASIC_REPORTING
+}
+
+type Member {
+  id: Int
+  roles: [MemberRole!]
+  createdAt: DateTime
+  updatedAt: DateTime
+  businessUnitId: String
+  BusinessUnit: BusinessUnit
+  userId: String
+  User: User
+}
+
+enum MemberRole {
+  ADMINISTRATOR
+  STANDARD
+}
+
 type User {
   id: String
+  externalOid: String
+  loginEmail: String
   firstName: String
   lastName: String
+  isSuperAdmin: Boolean
+  roles: [UserRole!]
+  avatarUrl: String
+  thumbnailPhoto: [Int!]
+  timeZoneOffSet: String
+  timeZone: String
+  notificationFrequency: NotificationFrequency
+  createdAt: DateTime
+  updatedAt: DateTime
+  SignInLogs: SignInLog
+  UserActivityLogs: UserActivityLog
+  UserNotifications: UserNotification
+  MemberOfBusinessUnits: Member
+}
+
+enum UserRole {
+  STANDARD_USER
+  ADMINISTRATOR
+}
+
+enum NotificationFrequency {
+  DISABLED
+  REALTIME
+  HOURLY
+  DAILYEVE
+  DAILYMORN
+  WEEKLY
 }
 
 type UserFindManyResponse {
