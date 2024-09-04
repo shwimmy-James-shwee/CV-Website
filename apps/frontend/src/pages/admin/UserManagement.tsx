@@ -2,7 +2,7 @@ import { Row, Col, ListGroup, Form } from 'react-bootstrap';
 import useFetchWithMsal from '../../hooks/useFetchWithMsal';
 import { API } from '../../shared/endpoints';
 import { Fragment, useEffect, useState } from 'react';
-import { User } from '../../shared/schema';
+import { User } from '@core/db';
 import TextFormField from '../../components/Form/TextFormField';
 import ButtonComponent from '../../components/toolkit/Button';
 

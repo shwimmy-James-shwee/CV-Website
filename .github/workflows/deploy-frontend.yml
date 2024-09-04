@@ -4,6 +4,7 @@ on:
     branches: ['dev', 'qa', 'staging']
     paths:
       - 'apps/frontend/**'
+      - 'libs/**'
       - '.github/workflows/deploy-frontend.yml'
   workflow_dispatch:
     inputs:

@@ -1,21 +1,5 @@
 const fs = require('fs');
 
-function compareFileContents() {
-  const fileNameA = './src/shared/schema.ts';
-  const fileNameB = './src/shared/schema_cp.ts';
-
-  // Read the contents of the files and remove special characters
-  const contentA = fs.readFileSync(fileNameA, 'utf-8').replace(/[^0-9a-zA-Z{}: \n]/g, '');
-  const contentB = fs.readFileSync(fileNameB, 'utf-8').replace(/[^0-9a-zA-Z{}: \n]/g, '');
-
-  // Compare the contents of the files
-  if (contentA !== contentB) {
-    throw new Error(
-      '\nError: schema.ts does not match your Prisma schema file. Please update the type file and commit again.\n',
-    );
-  }
-}
-
 function checkSchemaNamings() {
   const schemaFile = './prisma/schema.prisma';
   const schemaContent = fs.readFileSync(schemaFile, 'utf-8');
@@ -199,4 +183,3 @@ function checkSchemaNamings() {
 }
 
 checkSchemaNamings();
-compareFileContents();

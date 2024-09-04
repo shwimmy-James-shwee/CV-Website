@@ -1,9 +1,12 @@
-import { BusinessUnit, BusinessUnitType, NotificationFrequency, User, UserRole } from '../shared/schema';
+import { BusinessUnit, BusinessUnitType, NotificationFrequency, User, UserRole } from '@core/db';
 
 export const businessUnitTestData: BusinessUnit[] = [
   {
     id: '1',
     name: 'Test Business Unit 1',
+    description: 'Test Business Unit 1 Description',
+    features: [],
+    parentBusinessUnitId: null,
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
     type: BusinessUnitType.TEAM,
@@ -11,6 +14,9 @@ export const businessUnitTestData: BusinessUnit[] = [
   {
     id: '2',
     name: 'Test Business Unit 2',
+    description: 'Test Business Unit 2 Description',
+    features: [],
+    parentBusinessUnitId: null,
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
     type: BusinessUnitType.DEPARTMENT,
@@ -18,6 +24,9 @@ export const businessUnitTestData: BusinessUnit[] = [
   {
     id: '3',
     name: 'Test Business Unit 3',
+    description: 'Test Business Unit 3 Description',
+    features: [],
+    parentBusinessUnitId: null,
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
     type: BusinessUnitType.DIVISION,
@@ -25,6 +34,9 @@ export const businessUnitTestData: BusinessUnit[] = [
   {
     id: '4',
     name: 'Test Business Unit 4',
+    description: 'Test Business Unit 4 Description',
+    features: [],
+    parentBusinessUnitId: null,
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
     type: BusinessUnitType.COMPANY,
@@ -34,6 +46,9 @@ export const businessUnitTestData: BusinessUnit[] = [
 export const UserTestData: User[] = [
   {
     avatarUrl: 'https://regtechtimes.com/wp-content/uploads/2019/06/kpmg12.jpg',
+    externalOid: 'fake-9ab2-4950-b55b-b256697c583e',
+    isSuperAdmin: false,
+    thumbnailPhoto: [],
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
     firstName: 'Test User 1',
@@ -47,6 +62,9 @@ export const UserTestData: User[] = [
   },
   {
     avatarUrl: 'https://regtechtimes.com/wp-content/uploads/2019/06/kpmg12.jpg',
+    externalOid: 'fake-9ab2-4950-b55b-b256697c584e',
+    isSuperAdmin: false,
+    thumbnailPhoto: [],
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
     firstName: 'Test User 2',
@@ -60,6 +78,9 @@ export const UserTestData: User[] = [
   },
   {
     avatarUrl: 'https://regtechtimes.com/wp-content/uploads/2019/06/kpmg12.jpg',
+    externalOid: 'fake-9ab2-4950-b55b-b256697c585e',
+    isSuperAdmin: false,
+    thumbnailPhoto: [],
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
     firstName: 'Test User 3',
@@ -73,6 +94,9 @@ export const UserTestData: User[] = [
   },
   {
     avatarUrl: 'https://regtechtimes.com/wp-content/uploads/2019/06/kpmg12.jpg',
+    externalOid: 'fake-9ab2-4950-b55b-b256697c585e',
+    isSuperAdmin: false,
+    thumbnailPhoto: [],
     createdAt: '2022-01-19T00:00:00.000Z' as Date & string,
     updatedAt: '2022-01-19T00:00:00.000Z' as Date & string,
     firstName: 'Test User 4',
