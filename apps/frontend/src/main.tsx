@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import { PublicClientApplication, EventType, EventMessage, AuthenticationResult } from '@azure/msal-browser';
 import { msalConfig } from './authConfig';
 import { Md5 } from 'ts-md5';
+import ClickJackingPage from './components/page/ClickJackingPage.js';
 // import React from 'react'
 
 /**
@@ -43,26 +44,7 @@ if (window.self === window.top) {
     // </React.StrictMode>,
   );
 } else {
-  root.render(
-    <div>
-      <h1 style={{ color: 'red' }}>
-        If you see this page, Web App link you have clicked on is under click jacking security attack.
-      </h1>
-      <h2>Please inform team with the reference of the application from where you clicked this link.</h2>
-      <h2>
-        Click
-        <a
-          style={{ color: 'red', textDecoration: 'none' }}
-          href={window.self.location.href}
-          title='Web Application'
-          target='blank'
-        >
-          here
-        </a>
-        to access WebApp safely.
-      </h2>
-    </div>,
-  );
+  root.render(<ClickJackingPage />);
 }
 
 // If you want to start measuring performance in your app, pass a function

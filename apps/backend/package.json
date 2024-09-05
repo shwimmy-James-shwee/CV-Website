@@ -8,6 +8,7 @@
     "start:debug": "dotenv -e ../../.env -- nest start --debug --watch",
     "start:prod": "node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
+    "test": "concurrently -k -s first -n 'Unit,Inte' -c 'magenta,blue' 'pnpm test:unit:watch' 'pnpm test:e2e:watch'",
     "test:action": "pnpm test:unit:cov",
     "test:unit": "dotenv -e .env.test --override -- jest --config ./jest.config.js",
     "test:unit:watch": "dotenv -e .env.test --override -- jest --watch --coverage --config ./jest.config.js",
@@ -91,6 +92,7 @@
     "ts-loader": "9.4.3",
     "tsconfig-paths": "4.2.0",
     "typescript": "5.5.4",
+    "concurrently": "^8.2.2",
     "webpack": "5.93.0"
   },
   "packageManager": "pnpm@9.7.1",

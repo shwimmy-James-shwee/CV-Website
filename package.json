@@ -4,6 +4,7 @@
     "build": "turbo build",
     "build-storybook": "turbo build-storybook",
     "dev": "turbo dev",
+    "test": "turbo test",
     "lint": "turbo lint",
     "test:action": "turbo test:action",
     "prettier:check": "prettier --check .",

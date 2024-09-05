@@ -8,6 +8,11 @@ const viteConfig = defineViteConfig({
     'process.env': {},
   },
   envPrefix: 'VITE_',
+  resolve: {
+    alias: {
+      '@': '/src',
+    },
+  },
   build: {
     rollupOptions: {
       output: {
