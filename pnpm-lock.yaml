@@ -554,17 +554,14 @@ importers:
         version: 5.19.0(prisma@5.19.0)
     devDependencies:
       '@mermaid-js/mermaid-cli':
-        specifier: ^10.9.0
-        version: 10.9.1(encoding@0.1.13)(typescript@5.5.4)
+        specifier: 10.9.0
+        version: 10.9.0(encoding@0.1.13)(typescript@5.5.4)
       '@paljs/cli':
         specifier: 5.3.3
         version: 5.3.3(@swc/core@1.7.21(@swc/helpers@0.5.12))(@types/node@20.14.15)(encoding@0.1.13)(typescript@5.5.4)
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      dotenv:
-        specifier: 16.4.5
-        version: 16.4.5
       dotenv-cli:
         specifier: 7.4.2
         version: 7.4.2
@@ -572,10 +569,10 @@ importers:
         specifier: 5.19.0
         version: 5.19.0
       prisma-dbml-generator:
-        specifier: ^0.12.0
+        specifier: 0.12.0
         version: 0.12.0(encoding@0.1.13)
       prisma-erd-generator:
-        specifier: ^1.11.2
+        specifier: 1.11.2
         version: 1.11.2(@prisma/client@5.19.0(prisma@5.19.0))(encoding@0.1.13)(typescript@5.5.4)
       tsup:
         specifier: 8.2.4
@@ -584,7 +581,7 @@ importers:
         specifier: 5.5.4
         version: 5.5.4
       uuid:
-        specifier: ^9.0.1
+        specifier: 9.0.1
         version: 9.0.1
 
   libs/core-routes:
@@ -2230,8 +2227,8 @@ packages:
       '@types/react': '>=16'
       react: '>=16'
 
-  '@mermaid-js/mermaid-cli@10.9.1':
-    resolution: {integrity: sha512-ajpGUKmB5YbRRzrFR+0dbykF9mTvce4FpHWGYPYTry8ZsOgP6h7SUnojyCJDGgbReCnArODCM8L212qIcxshIw==}
+  '@mermaid-js/mermaid-cli@10.9.0':
+    resolution: {integrity: sha512-zQL27VjsRilKFkauU4G0V/GteZuYF27lqg46Vekvosflmt4C3PNMzGunsgMCB9DeMk5VJxqjfSvZF4US9QRRPQ==}
     engines: {node: ^14.13 || >=16.0}
     hasBin: true
 
@@ -12081,7 +12078,7 @@ snapshots:
       '@types/react': 18.3.3
       react: 18.3.1
 
-  '@mermaid-js/mermaid-cli@10.9.1(encoding@0.1.13)(typescript@5.5.4)':
+  '@mermaid-js/mermaid-cli@10.9.0(encoding@0.1.13)(typescript@5.5.4)':
     dependencies:
       chalk: 5.3.0
       commander: 10.0.1
@@ -19843,7 +19840,7 @@ snapshots:
 
   prisma-erd-generator@1.11.2(@prisma/client@5.19.0(prisma@5.19.0))(encoding@0.1.13)(typescript@5.5.4):
     dependencies:
-      '@mermaid-js/mermaid-cli': 10.9.1(encoding@0.1.13)(typescript@5.5.4)
+      '@mermaid-js/mermaid-cli': 10.9.0(encoding@0.1.13)(typescript@5.5.4)
       '@prisma/client': 5.19.0(prisma@5.19.0)
       '@prisma/generator-helper': 5.19.0
       dotenv: 16.4.5
