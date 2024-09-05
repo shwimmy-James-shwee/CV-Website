@@ -1,6 +1,6 @@
 import { expect, test, describe, vi, afterEach } from 'vitest';
 
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 import FAQPage from '../FAQPage';
 
@@ -28,8 +28,9 @@ describe('Test FAQPage', () => {
     const scrollBtn = screen.getByTestId('back-to-top-button');
     fireEvent.click(scrollBtn);
 
-    expect(scrollToMock).toHaveBeenCalled();
-
+    await waitFor(() => {
+      expect(scrollToMock).toHaveBeenCalled();
+    });
     vi.resetAllMocks();
   });
 });

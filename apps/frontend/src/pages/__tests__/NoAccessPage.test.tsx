@@ -1,5 +1,5 @@
 import { expect, test, describe, vi, afterEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import NoAccessPage from '../NoAccessPage';
 
@@ -33,9 +33,12 @@ describe('Test NoAccessPage', () => {
     render(ToRender());
 
     const returnToLoginButton = screen.getByText('Return to Login');
-    await userEvent.click(returnToLoginButton);
+    userEvent.click(returnToLoginButton);
 
     // screen.debug()
-    expect(logoutRedirectMock).toHaveBeenCalledTimes(1);
+
+    await waitFor(() => {
+      expect(logoutRedirectMock).toHaveBeenCalledTimes(1);
+    });
   });
 });

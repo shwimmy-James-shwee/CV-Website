@@ -17,7 +17,12 @@
       "dependsOn": ["^build-storybook"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
-    "lint": {},
+    "lint": {
+      "cache": false
+    },
+    "test": {
+      "cache": false
+    },
     "dev": {
       "cache": false,
       "persistent": true

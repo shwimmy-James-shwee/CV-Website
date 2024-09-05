@@ -2,7 +2,7 @@ import './App.css';
 import AppRoutes from './AppRoutes';
 import './styles/global-imports.scss';
 
-import { MsalProvider, useMsal } from '@azure/msal-react';
+import { MsalAuthenticationTemplate, MsalProvider, useMsal } from '@azure/msal-react';
 import {
   AccountInfo,
   AuthError,
@@ -10,8 +10,9 @@ import {
   EventMessage,
   EventType,
   IPublicClientApplication,
+  InteractionType,
 } from '@azure/msal-browser';
-import { b2cPolicies, protectedResources } from './authConfig';
+import { b2cPolicies, loginRequest, protectedResources } from './authConfig';
 import { useEffect, useRef } from 'react';
 import { compareIssuingPolicy } from './utils/MsalClaims';
 import UserProvider from './context/UserContext';
@@ -114,9 +115,11 @@ type AppProps = {
 
 const MainApplication = ({ instance }: AppProps) => (
   <MsalProvider instance={instance}>
-    <UserProvider>
-      <Pages />
-    </UserProvider>
+    <MsalAuthenticationTemplate interactionType={InteractionType.Redirect} authenticationRequest={{ ...loginRequest }}>
+      <UserProvider>
+        <Pages />
+      </UserProvider>
+    </MsalAuthenticationTemplate>
   </MsalProvider>
 );
 

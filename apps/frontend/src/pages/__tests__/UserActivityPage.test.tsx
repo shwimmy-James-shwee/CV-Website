@@ -34,11 +34,15 @@ describe('Test UserActivity', () => {
     contextedRender(ToRender());
     expect(executeMock).toHaveBeenCalledTimes(2);
 
-    await userEvent.click(screen.getByTestId('useractivity-refresh'));
-    expect(executeMock).toHaveBeenCalledTimes(4);
+    userEvent.click(screen.getByTestId('useractivity-refresh'));
+    await waitFor(() => {
+      expect(executeMock).toHaveBeenCalledTimes(4);
+    });
 
-    await userEvent.selectOptions(screen.getByTestId('useractivity-options'), 'userId');
-    expect(executeMock).toHaveBeenCalledTimes(6);
+    userEvent.selectOptions(screen.getByTestId('useractivity-options'), 'userId');
+    await waitFor(() => {
+      expect(executeMock).toHaveBeenCalledTimes(6);
+    });
   });
 
   test('UserActivity should update data', async () => {
