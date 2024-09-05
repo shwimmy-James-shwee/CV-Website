@@ -46,7 +46,7 @@ Currently, the shared packages we're using:
 ## How to setup the project locally?
 
 1. Clone the repo
-2. In root folder, add an `.env` file according to the `.env.example` file. You may need to ask your team to get the full set of `.env` with proper values 
+2. In root folder, add an `.env` file according to the `.env.example` file. You may need to ask your team to get the full set of `.env` with proper values
 3. In root folder, run `pnpm install`
 4. In root folder, run `pnpm build`
 5. To run the frontend locally: refer to [this guide](./apps/frontend/README.md)

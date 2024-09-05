@@ -3,9 +3,11 @@
 This is an Serverless app built using Typescript and Azure Function App V4 Programming Model.
 
 ## How to run this app locally?
+
 1. Make sure you have a `.env` file at the root level
 2. Make sure the `.env` file has all the required environment variables for this function app
 3. Create a `local.settings.json` in this folder (yes, you still need this file!) and pase the following content:
+
 ```json
 {
   "IsEncrypted": false,
@@ -20,6 +22,7 @@ This is an Serverless app built using Typescript and Azure Function App V4 Progr
   }
 }
 ```
+
 4. Run ``pnpm build`
 5. Run `pnpm start:dev`
 
