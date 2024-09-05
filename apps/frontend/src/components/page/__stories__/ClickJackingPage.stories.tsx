@@ -1,8 +1,8 @@
+import React from 'react';
 import { Meta, StoryObj } from '@storybook/react';
 
 import ClickJackingPage from '../ClickJackingPage';
 import { within, expect } from '@storybook/test';
-import React from 'react';
 
 const meta: Meta<typeof ClickJackingPage> = {
   title: 'Components/Page/ClickJackingPage',
@@ -16,13 +16,21 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: () => {
-    return <ClickJackingPage />;
+    return (
+      <React.Fragment>
+        <ClickJackingPage />
+      </React.Fragment>
+    );
   },
 };
 
 export const UnitTest: Story = {
   render: () => {
-    return <ClickJackingPage />;
+    return (
+      <React.Fragment>
+        <ClickJackingPage />
+      </React.Fragment>
+    );
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
