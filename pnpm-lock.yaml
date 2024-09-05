@@ -500,6 +500,9 @@ importers:
       azure-functions-core-tools:
         specifier: 4.0.5907
         version: 4.0.5907
+      dotenv-cli:
+        specifier: 7.4.2
+        version: 7.4.2
       jest:
         specifier: 29.7.0
         version: 29.7.0(@types/node@20.14.15)(ts-node@10.9.1(@swc/core@1.7.21(@swc/helpers@0.5.12))(@types/node@20.14.15)(typescript@5.5.4))
