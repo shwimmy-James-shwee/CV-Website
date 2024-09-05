@@ -1,8 +1,32 @@
-# Template Function App
+# Azure Functions
 
-This is a template function is built using Typescript and Azure function app programming v4.
+This is an Serverless app built using Typescript and Azure Function App V4 Programming Model.
 
-## To make changes locally
+## How to run this app locally?
+
+1. Make sure you have a `.env` file at the root level
+2. Make sure the `.env` file has all the required environment variables for this function app
+3. Create a `local.settings.json` in this folder (yes, you still need this file!) and pase the following content:
+
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobs.health.Disabled": false
+  },
+  "Host": {
+    "LocalHttpPort": 7071,
+    "CORS": "*",
+    "CORSCredentials": false,
+    "nodeDebugPort": 5860
+  }
+}
+```
+
+4. Run ``pnpm build`
+5. Run `pnpm start:dev`
+
+## How to make changes locally?
 
 #### [Functions](src/handlers)
 

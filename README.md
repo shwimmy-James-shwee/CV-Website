@@ -46,11 +46,12 @@ Currently, the shared packages we're using:
 ## How to setup the project locally?
 
 1. Clone the repo
-2. In root folder, run `pnpm install`
-3. In root folder, run `pnpm build`
-4. To run the frontend locally: enter `cd apps/frontend`, then run `pnpm dev`
-5. To run the backend locally: enter `cd apps/backend`, then run `pnpm dev`
-6. To run the Azure Functions App locally: enter `cd apps/functions` directory, add a `local.settings.json` file, run `pnpm buils`, then run `pnpm dev`. You can get a sample of `local.settings.json` file from [Microsoft's docs](https://learn.microsoft.com/en-us/azure/azure-functions/functions-develop-local#local-settings-file)
+2. In root folder, add an `.env` file according to the `.env.example` file. You may need to ask your team to get the full set of `.env` with proper values
+3. In root folder, run `pnpm install`
+4. In root folder, run `pnpm build`
+5. To run the frontend locally: refer to [this guide](./apps/frontend/README.md)
+6. To run the backend locally: refer to [this guide](./apps/backend/README.md)
+7. To run the Azure Functions App locally: refer to [this guide](./apps/functions/README.md)
 
 ## Which environments are the apps deployed to?
 

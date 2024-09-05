@@ -25,9 +25,9 @@
   "scripts": {
     "lint": "eslint .",
     "db:generate": "prisma generate",
-    "db:push": "dotenv -e ../../apps/backend/.env -- prisma db push --skip-generate",
-    "db:makemigrate": "dotenv -e ../../apps/backend/.env -- prisma migrate dev --create-only && prisma generate",
-    "db:studio": "dotenv -e ../../apps/backend/.env -- prisma studio",
+    "db:push": "dotenv -e ../../.env -- prisma db push --skip-generate",
+    "db:makemigrate": "dotenv -e ../../.env -- prisma migrate dev --create-only && prisma generate",
+    "db:studio": "dotenv -e ../../.env -- prisma studio",
     "build": "prisma generate && pnpm make:types && tsup src/*.ts --format cjs,esm --dts",
     "dev": "prisma generate && pnpm make:types && tsup src/*.ts --format cjs,esm --dts --watch",
     "make:types": "pal schema typescript -o ./src",
@@ -37,16 +37,15 @@
     "@prisma/client": "5.19.0"
   },
   "devDependencies": {
-    "dotenv": "16.4.5",
+    "@mermaid-js/mermaid-cli": "10.9.0",
     "@paljs/cli": "5.3.3",
-    "prisma": "5.19.0",
-    "dotenv-cli": "7.4.2",
     "@repo/eslint-config": "workspace:*",
+    "dotenv-cli": "7.4.2",
+    "prisma": "5.19.0",
+    "prisma-dbml-generator": "0.12.0",
+    "prisma-erd-generator": "1.11.2",
     "tsup": "8.2.4",
     "typescript": "5.5.4",
-    "prisma-dbml-generator": "^0.12.0",
-    "prisma-erd-generator": "^1.11.2",
-    "@mermaid-js/mermaid-cli": "^10.9.0",
-    "uuid": "^9.0.1"
+    "uuid": "9.0.1"
   }
 }
