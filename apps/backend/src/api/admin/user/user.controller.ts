@@ -5,7 +5,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AzureADGuard } from '../../../guard/auth/azuread.guard';
 import { RoleGuard } from '../../../guard/role/role.guard';
 import { Roles } from '../../../guard/role/role.decorator';
-import { PREFIX } from '../../../shared/endpoints';
+import { PREFIX } from '@core/routes';
 @ApiTags('User (Admin)')
 @Controller(PREFIX.user)
 // !important, AzureADGuard must be first in the list of guards, it provide the user object to the request

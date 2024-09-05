@@ -7,7 +7,7 @@ import { createDTOExample } from './user-activity-log.dto.sample';
 import { Request } from 'express';
 import { FeatureGuard } from '../../../guard/feature/feature.guard';
 import { Features } from '../../../guard/feature/feature.decorator';
-import { PREFIX, ROUTE } from '../../../shared/endpoints';
+import { PREFIX, ROUTE } from '@core/routes';
 
 @ApiTags('User Activity Log')
 @UseGuards(AzureADGuard, FeatureGuard)

@@ -15,6 +15,7 @@
   "dependencies": {
     "@core/utils": "workspace:*",
     "@core/db": "workspace:*",
+    "@core/routes": "workspace:*",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "@azure/msal-common": "14.14.2",

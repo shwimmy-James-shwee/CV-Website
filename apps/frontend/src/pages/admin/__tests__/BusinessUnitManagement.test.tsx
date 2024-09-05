@@ -5,7 +5,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import BusinessUnitManagement from '../BusinessUnitManagement';
 import { FakeResponsiveContainer, mockUseFetchWithMsal } from '../../../tests/utils';
 import { businessUnitTestData } from '../../TestData';
-import { API } from '../../../shared/endpoints';
+import { API } from '@core/routes';
 
 FakeResponsiveContainer();
 

@@ -92,6 +92,7 @@ jobs:
         shell: bash
         run: |
           tar xvf /tmp/fa-app.tar.gz
+          rm /tmp/fa-app.tar.gz
 
       - name: 'Login via Azure CLI'
         uses: azure/login@v1

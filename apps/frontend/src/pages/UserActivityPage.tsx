@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 // import { CurrentUserType } from '../../context/UserContext'
-import { API } from '../shared/endpoints';
+import { API } from '@core/routes';
 import useFetchWithMsal from '../hooks/useFetchWithMsal';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Area, AreaChart, CartesianGrid, Legend, Tooltip, ResponsiveContainer, XAxis, YAxis } from 'recharts';

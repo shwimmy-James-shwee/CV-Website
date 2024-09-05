@@ -6,7 +6,7 @@ import { adminAdUser } from '../../__data__/user.data';
 import { User, UserRole } from '@core/db';
 import { APIReturnObjectify, seedBusinessUnit } from '../../utils';
 import { DatabaseService } from '../../../src/database/database.service';
-import { ROUTE } from '../../../src/shared/endpoints';
+import { ROUTE } from '@core/routes';
 import { BusinessUnitModule } from '../../../src/api/admin/business-unit/business-unit.module';
 
 describe('BusinessUnitModule (e2e)', () => {

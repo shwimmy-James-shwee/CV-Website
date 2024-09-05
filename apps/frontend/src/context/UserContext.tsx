@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import useFetchWithMsal from '../hooks/useFetchWithMsal';
-import { API } from '../shared/endpoints';
+import { API } from '@core/routes';
 import { UserReturnStatus } from '../enum';
 import { User } from '@core/db/schema';
 
