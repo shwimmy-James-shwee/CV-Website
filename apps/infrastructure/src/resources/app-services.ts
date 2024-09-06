@@ -162,7 +162,7 @@ const restAPI = new web.WebApp(
       alwaysOn: true,
       numberOfWorkers: 2,
       linuxFxVersion: 'DOCKER|nginx:latest',
-      healthCheckPath: '/',
+      healthCheckPath: '/api/health',
       cors: {
         allowedOrigins: cors,
         supportCredentials: true,
@@ -269,7 +269,7 @@ new insights.DiagnosticSetting(
 );
 
 // webapp clone for staging
-if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase()) && envExtend.addSlot) {
+if (!envExtend.usingBasicAppPlan && envExtend.addSlot) {
   const restAPIStaging = new web.WebAppSlot(
     `${webAppServiceName}-staging`,
     {
@@ -290,7 +290,7 @@ if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase()) && e
         alwaysOn: true,
         numberOfWorkers: 2,
         linuxFxVersion: 'DOCKER|nginx:latest',
-        healthCheckPath: '/',
+        healthCheckPath: '/api/health',
         cors: {
           allowedOrigins: cors,
           supportCredentials: true,
@@ -391,6 +391,119 @@ if (!['b1', 'b2', 'b3', 'f1'].includes(envExtend.pricingTier.toLowerCase()) && e
     },
     {
       dependsOn: [restAPIStagingPept, logAnalyticsWorkspace],
+    },
+  );
+}
+
+// Auto scale settings
+
+if (!envExtend.usingBasicAppPlan) {
+  new insights.AutoscaleSetting(
+    `${envBase.PROJECT_NAME_ABBREVIATION}-asp-${envBase.ENV}-autoscale`,
+    {
+      resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
+      autoscaleSettingName: `${envBase.PROJECT_NAME_ABBREVIATION}-asp-${envBase.ENV}-autoscale`,
+      targetResourceUri: appServicePlan.id,
+      enabled: true,
+      profiles: [
+        {
+          name: 'apiProfile',
+          capacity: {
+            default: `${envExtend.minCapacity}`,
+            minimum: `${envExtend.minCapacity}`,
+            maximum: `${envExtend.maxCapacity}`,
+          },
+          rules: [
+            // Increase will always be OR condition
+            {
+              scaleAction: {
+                direction: insights.ScaleDirection.Increase,
+                type: insights.ScaleType.ChangeCount,
+                value: '1',
+                cooldown: 'PT1M',
+              },
+              metricTrigger: {
+                metricName: 'CpuPercentage',
+                metricNamespace: 'microsoft.web/serverfarms',
+                metricResourceUri: appServicePlan.id.apply((id) => `${id}`),
+                operator: 'GreaterThanOrEqual',
+                statistic: 'Average',
+                threshold: 75,
+                timeAggregation: 'Average',
+                timeGrain: 'PT1M',
+                timeWindow: 'PT5M',
+                dividePerInstance: false,
+              },
+            },
+            {
+              scaleAction: {
+                direction: insights.ScaleDirection.Increase,
+                type: insights.ScaleType.ChangeCount,
+                value: '1',
+                cooldown: 'PT1M',
+              },
+              metricTrigger: {
+                metricName: 'HttpResponseTime',
+                metricNamespace: 'microsoft.web/sites',
+                metricResourceUri: restAPI.id.apply((id) => id),
+                operator: 'GreaterThanOrEqual',
+                statistic: 'Average',
+                threshold: 1.5,
+                timeAggregation: 'Average',
+                timeGrain: 'PT1M',
+                timeWindow: 'PT5M',
+                dividePerInstance: false,
+              },
+            },
+
+            // Decrease will be AND condition
+            {
+              scaleAction: {
+                direction: insights.ScaleDirection.Decrease,
+                type: insights.ScaleType.ChangeCount,
+                value: '1',
+                cooldown: 'PT1M',
+              },
+              metricTrigger: {
+                metricName: 'CpuPercentage',
+                metricNamespace: 'microsoft.web/serverfarms',
+                metricResourceUri: appServicePlan.id.apply((id) => `${id}`),
+                operator: 'LessThanOrEqual',
+                statistic: 'Average',
+                threshold: 45,
+                timeAggregation: 'Average',
+                timeGrain: 'PT1M',
+                timeWindow: 'PT5M',
+                dividePerInstance: false,
+              },
+            },
+
+            {
+              scaleAction: {
+                direction: insights.ScaleDirection.Decrease,
+                type: insights.ScaleType.ChangeCount,
+                value: '1',
+                cooldown: 'PT1M',
+              },
+              metricTrigger: {
+                metricName: 'HttpResponseTime',
+                metricNamespace: 'microsoft.web/sites',
+                metricResourceUri: restAPI.id.apply((id) => id),
+                operator: 'LessThanOrEqual',
+                statistic: 'Average',
+                threshold: 1,
+                timeAggregation: 'Average',
+                timeGrain: 'PT1M',
+                timeWindow: 'PT5M',
+                dividePerInstance: false,
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      dependsOn: [restAPI, appServicePlan],
     },
   );
 }

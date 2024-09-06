@@ -93,6 +93,7 @@ export const validateEnvs = (): Env => {
 export const envExtend = {
   ...validateEnvs(),
   ...mainParams,
+  usingBasicAppPlan: ['b1', 'b2', 'b3', 'f1'].includes(webappParams.pricingTier.toLowerCase()),
   ...webappParams,
   ...containerParams,
   ...dbParams,

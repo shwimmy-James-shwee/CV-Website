@@ -394,23 +394,13 @@ export const dsSettings = {
   ] as input.insights.MetricSettingsArgs[],
 };
 
-if (!['b1', 'b2', 'f1', 'b3'].includes(envExtend.pricingTier.toLowerCase())) {
-  dsSettings.webAppDSLogItem.push(
-    {
-      category: 'AppServiceAntivirusScanAuditLogs',
+if (!envExtend.usingBasicAppPlan) {
+  dsSettings.webAppDSLogItem.push({
+    category: 'AppServiceFileAuditLogs',
+    enabled: false,
+    retentionPolicy: {
+      days: envExtend.logRetentionDays,
       enabled: false,
-      retentionPolicy: {
-        days: envExtend.logRetentionDays,
-        enabled: false,
-      },
-    } as input.insights.LogSettingsArgs,
-    {
-      category: 'AppServiceFileAuditLogs',
-      enabled: false,
-      retentionPolicy: {
-        days: envExtend.logRetentionDays,
-        enabled: false,
-      },
-    } as input.insights.LogSettingsArgs,
-  );
+    },
+  } as input.insights.LogSettingsArgs);
 }
