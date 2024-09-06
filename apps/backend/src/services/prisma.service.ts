@@ -6,8 +6,8 @@ export const prismaReadService = new PrismaClient({
 });
 
 export const prismaWriteService = new PrismaClient({
-    log: ['query', 'warn'],
-  });
+  log: ['query', 'warn'],
+});
 
 /**
  * Given a value, determine the appropriate number of

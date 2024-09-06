@@ -21,11 +21,11 @@ export class UserResolver {
     });
     const result = await service.findMany({ requestId: 'TO_BE_ADDED', args, fields });
     if (result.isErr()) {
-      logger.error(result.error.message)
+      logger.error(result.error.message);
       throw result.error;
     }
 
-    logger.verbose(`${UserResolver.name}.${this.findManyUsers.name}() did not throw errors`)
+    logger.verbose(`${UserResolver.name}.${this.findManyUsers.name}() did not throw errors`);
     return result.value;
   }
 }
