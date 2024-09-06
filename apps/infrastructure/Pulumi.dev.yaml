@@ -10,7 +10,7 @@ config:
     pricingTier: P0V3 # remember to remove slot first (do 2 deployment, by changing the addSlot to false first) before moving to a lower tier that doenst support slots
     maxCapacity: 1
     minCapacity: 1
-    addSlot: False
+    addSlot: False # slot is only available for P0V3 and above
 
   infra-iac:containerParams:
     avCPU: 1
