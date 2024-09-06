@@ -404,6 +404,7 @@ if (!envExtend.usingBasicAppPlan) {
       resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
       autoscaleSettingName: `${envBase.PROJECT_NAME_ABBREVIATION}-asp-${envBase.ENV}-autoscale`,
       targetResourceUri: appServicePlan.id,
+      enabled: true,
       profiles: [
         {
           name: 'apiProfile',
