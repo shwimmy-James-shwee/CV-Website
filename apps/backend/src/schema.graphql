@@ -102,10 +102,10 @@ type User {
   notificationFrequency: NotificationFrequency
   createdAt: DateTime
   updatedAt: DateTime
-  SignInLogs: SignInLog
-  UserActivityLogs: UserActivityLog
-  UserNotifications: UserNotification
-  MemberOfBusinessUnits: Member
+  SignInLogs: [SignInLog!]
+  UserActivityLogs: [UserActivityLog!]
+  UserNotifications: [UserNotification!]
+  MemberOfBusinessUnits: [Member!]
 }
 
 enum UserRole {
