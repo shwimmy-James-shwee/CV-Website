@@ -162,7 +162,7 @@ const restAPI = new web.WebApp(
       alwaysOn: true,
       numberOfWorkers: 2,
       linuxFxVersion: 'DOCKER|nginx:latest',
-      healthCheckPath: '/',
+      healthCheckPath: '/api/health',
       cors: {
         allowedOrigins: cors,
         supportCredentials: true,
@@ -290,7 +290,7 @@ if (!envExtend.usingBasicAppPlan && envExtend.addSlot) {
         alwaysOn: true,
         numberOfWorkers: 2,
         linuxFxVersion: 'DOCKER|nginx:latest',
-        healthCheckPath: '/',
+        healthCheckPath: '/api/health',
         cors: {
           allowedOrigins: cors,
           supportCredentials: true,
