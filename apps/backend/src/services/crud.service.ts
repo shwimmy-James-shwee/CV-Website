@@ -36,16 +36,9 @@ export type RelationField = (typeof relationFields)[number];
 export type FieldsRequested = {
   mainFields: string[];
 } & {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [key in RelationField]?: FieldsRequested;
 };
-
-// const hahah: FieldsRequested = {
-//     mainFields: ['id', 'firkjas', 'lasrname'],
-//     'UserActivityLogs': {
-//         mainFields: ['id', 'envturl'],
-//     },
-//     'SignInLogs':
-// }
 
 export const entityNames = [
   'User',

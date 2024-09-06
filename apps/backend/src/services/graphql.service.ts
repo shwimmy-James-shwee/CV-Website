@@ -52,7 +52,7 @@ export const extractFields = (args: ExtractFieldsArgs): FieldsRequested => {
         }
       }
     }
-    entityFields.mainFields = [...entityFields?.mainFields, field];
+    entityFields.mainFields = [...entityFields.mainFields, field];
   }
   return entityFields;
 };

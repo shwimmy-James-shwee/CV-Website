@@ -41,7 +41,7 @@ export const findMany = async (
   );
 
   if (result.isErr()) {
-    const message = `Failed to retrieve data from db`;
+    const message = 'Failed to retrieve data from db';
     logger.error(message);
     return err(new Error(message));
   }
