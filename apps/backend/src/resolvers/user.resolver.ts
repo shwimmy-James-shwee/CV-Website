@@ -55,7 +55,7 @@ export class UserResolver {
     const baseLoggerArgs: BaseLoggerArgs = {
       requestId,
       file,
-      scope: this.findManyUsers.name,
+      scope: this.findOneUser.name,
     };
 
     const fields = GraphQlService.extractFields({
