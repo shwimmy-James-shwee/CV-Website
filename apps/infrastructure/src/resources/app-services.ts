@@ -118,11 +118,11 @@ const appSettings: input.web.NameValuePairArgs[] = [
   },
   {
     name: 'DATABASE_URL',
-    value: postgresConnectionString.apply((connectionString) => connectionString).withPgBouncer,
+    value: postgresConnectionString.apply((connectionString) => connectionString.withPgBouncer),
   },
   {
     name: 'DIRECT_URL',
-    value: postgresConnectionString.apply((connectionString) => connectionString).direct,
+    value: postgresConnectionString.apply((connectionString) => connectionString.direct),
   },
   // B2C settings
   {

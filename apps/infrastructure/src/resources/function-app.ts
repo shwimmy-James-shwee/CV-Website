@@ -92,11 +92,11 @@ const functionApp = new web.WebApp(
         },
         {
           name: 'DATABASE_URL',
-          value: postgresConnectionString.apply((connectionString) => connectionString).withPgBouncer,
+          value: postgresConnectionString.apply((connectionString) => connectionString.withPgBouncer),
         },
         {
           name: 'DIRECT_URL',
-          value: postgresConnectionString.apply((connectionString) => connectionString).direct,
+          value: postgresConnectionString.apply((connectionString) => connectionString.direct),
         },
         {
           name: 'FRONTEND_URL',
