@@ -5,14 +5,22 @@ import { getDefaultNumberOfItemsToRetrieve, prismaReadService } from '@/services
 import { FindManyDto } from '@/types/common/io';
 import { UserFindManyArgs } from '@/types/user/user-find-many.args';
 import { UserFindManyResponse } from '@/types/user/user-find-many.response';
-import { logger } from '@/utilities/logger/logger';
+import { logger, BaseLoggerArgs, ProjectFileName } from '@/utilities/logger/logger';
 import { UserFindOneArgs } from '@/types/user/user-find-one.args';
 import { FindOneInputWhereIdIsStringSchema } from '@/types/common/find-one.input';
+import { isNull } from '@core/utils';
+
+const file: ProjectFileName = 'user.repository.ts';
 
 export const findMany = async (
   dto: FindManyDto<UserFindManyArgs>,
 ): Promise<ResultAsync<UserFindManyResponse, Error>> => {
   const { requestId, fields, args } = dto;
+  const baseLoggerArgs: BaseLoggerArgs = {
+    requestId,
+    file,
+    scope: findMany.name,
+  };
 
   const result = await fromPromise(
     prismaReadService.user.findMany({
@@ -44,13 +52,13 @@ export const findMany = async (
   );
 
   if (result.isErr()) {
-    const message = `Request ID (${requestId}) - Failed to retrieve data from db`;
-    logger.error(message);
+    const message = 'Failed to retrieve data from db';
+    logger.error({ ...baseLoggerArgs, message });
     return err(new Error(message));
   }
 
-  const message = `Request ID (${requestId}) - Found ${result.value?.length} items in db`;
-  logger.verbose(message);
+  const message = `Found ${result.value?.length} items in db`;
+  logger.verbose({ ...baseLoggerArgs, message });
 
   const response: UserFindManyResponse = {
     items: result.value as unknown as User[],
@@ -61,13 +69,17 @@ export const findMany = async (
 
 export const findOne = async (dto: FindManyDto<UserFindOneArgs>): Promise<ResultAsync<User, Error>> => {
   const { requestId, fields, args } = dto;
+  const baseLoggerArgs: BaseLoggerArgs = {
+    requestId,
+    file,
+    scope: findOne.name,
+  };
 
   const validateInput = FindOneInputWhereIdIsStringSchema.safeParse(args?.where);
   if (validateInput.success === false) {
     const { message } = fromError(validateInput.error);
-    const errorMessage = `Request ID (${requestId}) - ${message}`;
-    logger.error(errorMessage);
-    return err(new Error(errorMessage));
+    logger.error({ ...baseLoggerArgs, message });
+    return err(new Error(message));
   }
 
   const result = await fromPromise(
@@ -98,13 +110,19 @@ export const findOne = async (dto: FindManyDto<UserFindOneArgs>): Promise<Result
   );
 
   if (result.isErr()) {
-    const message = `Request ID (${requestId}) - Failed to retrieve data from db`;
-    logger.error(message);
+    const message = 'Failed to retrieve data from db';
+    logger.error({ ...baseLoggerArgs, message });
     return err(new Error(message));
   }
 
-  const message = `Request ID (${requestId}) - Found item in db`;
-  logger.verbose(message);
+  if (isNull(result.value)) {
+    const message = 'Database query successfull, but cannot find the item you are looking for';
+    logger.error({ ...baseLoggerArgs, message });
+    return err(new Error(message));
+  }
+
+  const message = 'Found item in db';
+  logger.verbose({ ...baseLoggerArgs, message });
 
   return ok<User>(result.value as unknown as User);
 };

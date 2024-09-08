@@ -14,7 +14,10 @@ export class FindOneInputWhereIdIsInteger {
 }
 
 export const FindOneInputWhereIdIsStringSchema = z.object({
-  id: z.string().min(1).refine((s) => !s.includes(' '), 'No space characters allowed for ID'),
+  id: z
+    .string()
+    .min(1)
+    .refine((s) => !s.includes(' '), 'No space characters allowed for ID'),
 });
 
 export const FindOneInputWhereIdIsIntegerSchema = z.object({
