@@ -9,7 +9,7 @@
 
 import { keyvault } from '@pulumi/azure-native';
 import { envBase } from '../env-base';
-import { postgresConnectionString, postgresqlCluster } from './cosmosdb-postgres';
+import { pgbouncerConnectionString, postgresqlCluster } from './cosmosdb-postgres';
 import { dataBlobContainer, dataQueue, dataStorage, dataStorageKey } from './data-storage-account';
 import { envExtend } from '../env-extend';
 
@@ -35,7 +35,7 @@ new keyvault.Secret(
   {
     secretName: 'DatabaseConnectionString',
     properties: {
-      value: postgresConnectionString.apply((connectionString) => connectionString),
+      value: pgbouncerConnectionString.apply((connectionString) => connectionString),
     },
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     vaultName: envBase.KEYVAULT_NAME,

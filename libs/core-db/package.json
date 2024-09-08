@@ -24,6 +24,7 @@
   },
   "scripts": {
     "lint": "eslint .",
+    "test": "node schemaCheck.js",
     "db:generate": "prisma generate",
     "db:push": "dotenv -e ../../.env -- prisma db push --skip-generate",
     "db:makemigrate": "dotenv -e ../../.env -- prisma migrate dev --create-only && prisma generate",
@@ -31,7 +32,7 @@
     "build": "prisma generate && pnpm make:types && tsup src/*.ts --format cjs,esm --dts",
     "dev": "prisma generate && pnpm make:types && tsup src/*.ts --format cjs,esm --dts --watch",
     "make:types": "pal schema typescript -o ./src",
-    "docker:db:create": "docker-compose -f docker-compose-db.yml up -d"
+    "docker:db:create": "docker compose -f docker-compose-db.yml up -d"
   },
   "dependencies": {
     "@prisma/client": "5.19.0"

@@ -2,7 +2,7 @@
   "name": "functions",
   "main": "dist/src/handlers/*.js",
   "scripts": {
-    "build": "tsc -b tsconfig.build.json",
+    "build": "pnpm run clean && tsc -b tsconfig.build.json",
     "watch": "tsc --watch",
     "clean": "rimraf dist",
     "start:dev": "dotenv -e ../../.env -- func start --typescript",

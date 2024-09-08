@@ -131,3 +131,70 @@ it will call a protected envronment which will prompt for approval before procee
 Deploy changes shown on the IaC Preview
 
 _Majority of the wait time is on waiting for the DNS to resolve for the container registry private endpoint and then build the dummy container image_
+
+
+
+##
+
+## Database recovery
+
+(The database will keep the last two day continously backedup and retain for over 35 days. ie. we cant go back further than last 2 days.)
+
+(You will need the help from IT cloud team, your local pc does not able to connect to the cloud postgres on port 5432, docker compose is needed in the operation host. Options are creating a container instance that runs the docker compose image or provision an VM to do so.)
+
+### 1. Create Clone database, Enable access to both database (live, restore)
+
+- go to the live database resource and start the restore process, select point in time to create the restore database (take awhile to create)
+- in the restored cosmos postgres resource, enable the public access for the restore resource and also the live database resource.
+
+
+### 2. (Local PC) Setup and run the restore process
+
+(require docker to be installed and functional)
+
+```bash
+# Host Console:
+# setup the docker postgres for the pg_dump and psql client, and then enter the container to perform restore actions
+docker-compose -f docker-compose-restore.yml up --build -d
+docker exec -it postgres_db_restore_container bash
+
+```
+
+```bash
+# Container Console:
+# setup the variables for the postgres restore commands, these should come from the keyvault and the resource itself
+
+# The password that was set for the database when provision
+export PGPASSWORD=xxxxxxx
+# LiveHost: the database host which you want to put the data into
+export LiveHost=c-tplv1-postgresql-cluster-dev.livexxxcoordinateid.postgres.cosmos.azure.com
+# RestoreHost: the database host which you want to get the data from
+export RestoreHost=c-restoreddbtplv1dev.restorexxxcoordinateid.postgres.cosmos.azure.com
+
+# make sure this is the right commit/version , use git to compare what you've commited and the message shown
+
+# remove the live db restore schema if exist
+PGPASSWORD=$PGPASSWORD psql -U citus -h "$LiveHost" -p "5432" --dbname="citus" -c 'DROP SCHEMA IF EXISTS DBDataRestore CASCADE'
+
+# clone the restore schema to the live database as DBDataRestore schema
+PGPASSWORD=$PGPASSWORD pg_dump -Fp -U citus -h "$RestoreHost" -p "5432" --schema="AppDBSchema" --dbname="citus" > restore.sql
+cat restore.sql | sed 's/AppDBSchema/DBDataRestore/g' | PGPASSWORD=$PGPASSWORD psql -U citus -h "$LiveHost" -p "5432" --dbname="citus"
+
+# rename the live db AppDBSchema schema is case of reverting back
+run_date=$(date +"%Y_%m_%d_%I_%M%p") && PGPASSWORD=$PGPASSWORD psql -U citus -h "$LiveHost" -p "5432" --dbname="citus" -c "ALTER SCHEMA AppDBSchema RENAME TO ex_live_AppDBSchema_${run_date}; ALTER SCHEMA DBDataRestore RENAME TO AppDBSchema"
+
+exit
+
+```
+
+```bash
+# Host Console:
+# clean up the local setup for the client
+docker-compose -f docker-compose-restore.yml down
+
+```
+
+### 3. Disbale public access to both database (live, restore)
+
+- in the restored cosmos postgres resource, disable the public access for the restore resource and also the live database resource.
+- base on requirement, delete or leave the restore database

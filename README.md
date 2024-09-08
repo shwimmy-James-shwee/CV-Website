@@ -1,6 +1,6 @@
 # Monorepo Template
 
-Note: This repo is still a WIP
+Note: This is a ongoing WIP repo
 
 This template is a ["monorepo"](https://monorepo.tools/) built on top of [Turborepo](https://turbo.build/). It uses **pnpm** as the package manager and **TypeScript** as the primary language.
 
@@ -19,6 +19,7 @@ Currently, the shared packages we're using:
 
 1. `@core/utils` - Common type-guards, helpers, non-sensitive variables/constants
 2. `@core/db` - Source of truth for the database, exposes everything from `@prisma/client`, as well as any helpers.
+3. `@core/routes` - Centralized endpoints/routes/paths variables for the all the apps 
 
 ## Project Structure (Key parts)
 
@@ -31,27 +32,46 @@ Currently, the shared packages we're using:
 
 /libs
   /core-db
+  /core-routes
   /core-utils
   /eslint-config
   /tsconfig
 ```
 
+## Getting started
+> Within KPMG network you will run into restrictions on most of the network request - [To solve ssl issues](https://dlh-portal.kpmg.co.nz/docs/docs/Guides%20and%20Training/KPMG/certs#wsl---ubuntu)
+>  - general ssl problem - `WSL - Ubuntu`
+>  - general request ssl problem - `Requests/Poetry`
+>  - nodejs ssl problem - similar to `Requests/Poetry`, but use `NODE_EXTRA_CA_CERTS` instead of `REQUESTS_CA_BUNDLE`
+
+
 ## Prerequisites for setting up the project locally
 
-1. Install Node.js - `v20.15.1`
+1. Install [Node.js - `v20.15.1`](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04)
 2. Install npm - `10.7.0`
 3. Install pnpm - `9.7.1`
-4. Install docker desktop
+4. Install [docker desktop](https://www.docker.com/products/docker-desktop/)
+
+>  We recommend you to use [fnm](https://github.com/Schniz/fnm) or [nvm](https://github.com/nvm-sh/nvm) to manage the node versions after installing nodejs above.
 
 ## How to setup the project locally?
 
+Docker is used to setup the required database connection. Use the command `docker compose -f ./libs/core-db/docker-compose-db.yml up -d` to setup a postgres on port 5432 and with username `postgres` password `postgres`. **You do not need this step if you alread have a postgres database with the same [configuration](./libs/core-db/docker-compose-db.yml)**
+
 1. Clone the repo
 2. In root folder, add an `.env` file according to the `.env.example` file. You may need to ask your team to get the full set of `.env` with proper values
-3. In root folder, run `pnpm install`
+3. In root folder, run `pnpm install` **(make sure you are in nodejs v20 in case of any incompatible library)**
 4. In root folder, run `pnpm build`
 5. To run the frontend locally: refer to [this guide](./apps/frontend/README.md)
 6. To run the backend locally: refer to [this guide](./apps/backend/README.md)
 7. To run the Azure Functions App locally: refer to [this guide](./apps/functions/README.md)
+
+To run the webapp locally on the root level
+1. To run the frontend and the backend use the command `pnpm run dev`
+2. To run the function app use the command `pnpm run start:dev`
+   
+> Packages under [libs](./libs/) is crucial dependencie for any of the apps, make sure test all the apps thoroughly if you made any change to these packages.
+
 
 ## Which environments are the apps deployed to?
 
@@ -72,24 +92,34 @@ All the environments (dev, qa, staging, prod) require the same set of environmen
 
 Environment Secrets:
 
-1. `AZURE_CREDENTIALS` - To be setup by the IT/Cloud team
+1. `AZURE_CREDENTIALS` - The credentials for login AZ CLI to make change to the cloud resource group, to be setup by the IT/Cloud team.
+
+> The `AZURE_CREDENTIALS` is a `JSON` string:
+```json
+{
+    "clientId":"***", 
+    "clientSecret":"***", 
+    "subscriptionId":"***", 
+    "tenantId":"***"
+}
+```
 
 Environment Variables:
 
-1. `AZURE_RESOURCE_GROUP` - ID of the resource group for your apps to be deployed to on Azure
-2. `AZURE_RESOURCE_LOCATION`- In most cases, set it to `Australia East`
-3. `B2C_CLIENT_ID` -
-4. `B2C_POLICY_NAME` -
-5. `B2C_TENANT_NAME` -
-6. `ENV` - Strictly limit to one of the following: `dev`, `qa`, `staging`, `prod`
-7. `INITIAL_PULUMI_CONFIG_PASSPHRASE`
-8. `POSTGRES_ADMIN_PASSWORD` -
-9. `PRIVATE_ENDPOINT_SUBNET` -
-10. `PULUMI_CONFIG_PASSPHRASE` -
-11. `SERVICE_ENDPOINT_SUBNET` -
+1. `PROJECT_NAME_ABBREVIATION` - Determine the all resource names deployed by `IaC` and destination resource name the apps deploying to.
+2. `AZURE_RESOURCE_GROUP` - ID of the resource group for your apps to be deployed to on Azure
+3. `AZURE_RESOURCE_LOCATION`- In most cases, set it to `Australia East`
+4. `ENV` - Strictly limit to one of the following: `dev`, `qa`, `staging`, `prod`
+5. `B2C_CLIENT_ID` - The B2C API app registration client id
+6. `B2C_POLICY_NAME` - The B2C authentication userflow use by the frontend portal
+7. `B2C_TENANT_NAME` - The B2C tenant name
+8. `PULUMI_CONFIG_PASSPHRASE` - The passphrase to make change to the IaC via Pulumi
+9.  `POSTGRES_ADMIN_PASSWORD` - Posgres database password
+10. `PRIVATE_ENDPOINT_SUBNET` - Subnet for all the private endpoints to be created in
+11. `SERVICE_ENDPOINT_SUBNET` - Subnet for the app service, webapp, function app instance
 12. `VITE_API_URL` - URL of the backend API for the frontend app
-13. `VITE_B2C_CLIENT_ID` -
-14. `VITE_B2C_TENANT_NAME` -
-15. `VITE_POLICY_NAME_EDIT_PROFILE` -
-16. `VITE_POLICY_NAME_RESET` -
-17. `VITE_POLICY_NAME_SIGN_IN_UP` -
+13. `VITE_B2C_CLIENT_ID` - The B2C Portal app (should setup using the API App Reg exposed endpoitns) regitration client id
+14. `VITE_B2C_TENANT_NAME` - The B2C tenant name
+15. `VITE_POLICY_NAME_EDIT_PROFILE` - The B2C userflow for profile edit
+16. `VITE_POLICY_NAME_RESET` - The B2C userflow for reset password
+17. `VITE_POLICY_NAME_SIGN_IN_UP` - The B2C userflow for sign in and sign up
