@@ -128,12 +128,14 @@ type UserFindManyResponse {
 
 type Query {
   findManyUsers(args: UserFindManyArgs!): UserFindManyResponse!
+  findOneUser(args: UserFindOneArgs!): User!
 }
 
 input UserFindManyArgs {
   take: Int
   skip: Int
   where: UserWhereInput
+  cursor: UserWhereUniqueInput
 }
 
 input UserWhereInput {
@@ -160,4 +162,12 @@ input StringFilter {
 enum QueryMode {
   Default
   Insensitive
+}
+
+input UserWhereUniqueInput {
+  id: String!
+}
+
+input UserFindOneArgs {
+  where: UserWhereUniqueInput!
 }
