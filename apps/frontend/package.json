@@ -9,7 +9,7 @@
     "build": "tsc && vite build",
     "lint": "eslint \"src/**/*.{ts,tsx}\" --ext ts,tsx",
     "preview": "vite preview",
-    "storybook": "npm install -g playwright && pnpm playwright install && VITE_NODE_ENV=test storybook dev -p 6006",
+    "storybook": "npm install -g playwright && pnpm exec playwright install && pnpm playwright install && VITE_NODE_ENV=test storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test-storybook": "test-storybook --coverage --verbose && npx nyc report"
   },
@@ -92,7 +92,8 @@
     "typescript": "5.5.4",
     "vitest": "^1.6.0",
     "concurrently": "^8.2.2",
-    "wait-on": "8.0.0"
+    "wait-on": "8.0.0",
+    "playwright": "1.47.0"
   },
   "msw": {
     "workerDirectory": [
