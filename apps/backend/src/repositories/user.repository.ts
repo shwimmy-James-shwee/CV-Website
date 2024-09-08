@@ -7,7 +7,7 @@ import { UserFindManyArgs } from '@/types/user/user-find-many.args';
 import { UserFindManyResponse } from '@/types/user/user-find-many.response';
 import { logger, BaseLoggerArgs, ProjectFileName } from '@/utilities/logger/logger';
 import { UserFindOneArgs } from '@/types/user/user-find-one.args';
-import { FindOneInputWhereIdIsStringSchema } from '@/types/common/find-one.input';
+import { StringWhereUniqueInputSchema } from '@/types/common/where-unique.input';
 import { isNull } from '@core/utils';
 
 const file: ProjectFileName = 'user.repository.ts';
@@ -75,7 +75,7 @@ export const findOne = async (dto: FindManyDto<UserFindOneArgs>): Promise<Result
     scope: findOne.name,
   };
 
-  const validateInput = FindOneInputWhereIdIsStringSchema.safeParse(args?.where);
+  const validateInput = StringWhereUniqueInputSchema.safeParse(args?.where);
   if (validateInput.success === false) {
     const { message } = fromError(validateInput.error);
     logger.error({ ...baseLoggerArgs, message });
