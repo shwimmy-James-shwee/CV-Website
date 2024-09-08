@@ -118,11 +118,11 @@ const appSettings: input.web.NameValuePairArgs[] = [
   },
   {
     name: 'DATABASE_URL',
-    value: postgresConnectionString.apply((connectionString) => connectionString),
+    value: postgresConnectionString.apply((connectionString) => connectionString).withPgBouncer,
   },
   {
     name: 'DIRECT_URL',
-    value: postgresConnectionString.apply((connectionString) => connectionString),
+    value: postgresConnectionString.apply((connectionString) => connectionString).direct,
   },
   // B2C settings
   {
@@ -162,7 +162,7 @@ const restAPI = new web.WebApp(
       alwaysOn: true,
       numberOfWorkers: 2,
       linuxFxVersion: 'DOCKER|nginx:latest',
-      healthCheckPath: '/api/health',
+      healthCheckPath: '/', // remember to change this in the portal to the health check path /api/health or which ever path you use
       cors: {
         allowedOrigins: cors,
         supportCredentials: true,
@@ -290,7 +290,7 @@ if (!envExtend.usingBasicAppPlan && envExtend.addSlot) {
         alwaysOn: true,
         numberOfWorkers: 2,
         linuxFxVersion: 'DOCKER|nginx:latest',
-        healthCheckPath: '/api/health',
+        healthCheckPath: '/', // remember to change this in the portal to the health check path /api/health or which ever path you use
         cors: {
           allowedOrigins: cors,
           supportCredentials: true,
