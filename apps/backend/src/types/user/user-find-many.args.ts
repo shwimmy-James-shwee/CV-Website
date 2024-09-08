@@ -1,6 +1,6 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 import { UserWhereInput } from './user-where.input';
-import { UserWhereUniqueInput } from './user-where-unique.input';
+import { FindOneInputWhereIdIsString } from '../common/find-one.input';
 
 @InputType()
 export class UserFindManyArgs {
@@ -13,6 +13,6 @@ export class UserFindManyArgs {
   @Field(() => UserWhereInput, { nullable: true })
   where?: UserWhereInput;
 
-  @Field(() => UserWhereUniqueInput, { nullable: true })
-  cursor?: UserWhereUniqueInput;
+  @Field(() => FindOneInputWhereIdIsString, { nullable: true })
+  cursor?: FindOneInputWhereIdIsString;
 }

@@ -135,7 +135,7 @@ input UserFindManyArgs {
   take: Int
   skip: Int
   where: UserWhereInput
-  cursor: UserWhereUniqueInput
+  cursor: FindOneInputWhereIdIsString
 }
 
 input UserWhereInput {
@@ -164,10 +164,10 @@ enum QueryMode {
   Insensitive
 }
 
-input UserWhereUniqueInput {
+input FindOneInputWhereIdIsString {
   id: String!
 }
 
 input UserFindOneArgs {
-  where: UserWhereUniqueInput!
+  where: FindOneInputWhereIdIsString!
 }

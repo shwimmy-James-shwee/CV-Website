@@ -1,4 +1,5 @@
 import { err, fromPromise, ok, ResultAsync } from 'neverthrow';
+import { fromError } from 'zod-validation-error';
 import { User } from '@/models/user';
 import { getDefaultNumberOfItemsToRetrieve, prismaReadService } from '@/services/prisma.service';
 import { FindManyDto } from '@/types/common/io';
@@ -6,6 +7,7 @@ import { UserFindManyArgs } from '@/types/user/user-find-many.args';
 import { UserFindManyResponse } from '@/types/user/user-find-many.response';
 import { logger } from '@/utilities/logger/logger';
 import { UserFindOneArgs } from '@/types/user/user-find-one.args';
+import { FindOneInputWhereIdIsStringSchema } from '@/types/common/find-one.input';
 
 export const findMany = async (
   dto: FindManyDto<UserFindManyArgs>,
@@ -59,6 +61,14 @@ export const findMany = async (
 
 export const findOne = async (dto: FindManyDto<UserFindOneArgs>): Promise<ResultAsync<User, Error>> => {
   const { requestId, fields, args } = dto;
+
+  const validateInput = FindOneInputWhereIdIsStringSchema.safeParse(args?.where);
+  if (validateInput.success === false) {
+    const { message } = fromError(validateInput.error);
+    const errorMessage = `Request ID (${requestId}) - ${message}`;
+    logger.error(errorMessage);
+    return err(new Error(errorMessage));
+  }
 
   const result = await fromPromise(
     prismaReadService.user.findUnique({

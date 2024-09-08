@@ -1,8 +1,8 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { UserWhereUniqueInput } from './user-where-unique.input';
+import { FindOneInputWhereIdIsString } from '../common/find-one.input';
 
 @InputType()
 export class UserFindOneArgs {
-  @Field(() => UserWhereUniqueInput, { nullable: false })
-  where: UserWhereUniqueInput;
+  @Field(() => FindOneInputWhereIdIsString, { nullable: false })
+  where: FindOneInputWhereIdIsString;
 }
