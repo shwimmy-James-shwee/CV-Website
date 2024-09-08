@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+pnpm lint
+pnpm prettier:check
+pushd ./libs/core-db
+node schemaCheck.js
+popd

@@ -19,7 +19,7 @@ Currently, the shared packages we're using:
 
 1. `@core/utils` - Common type-guards, helpers, non-sensitive variables/constants
 2. `@core/db` - Source of truth for the database, exposes everything from `@prisma/client`, as well as any helpers.
-3. `@core/routes` - Centralized endpoints/routes/paths variables for the all the apps 
+3. `@core/routes` - Centralized endpoints/routes/paths variables for the all the apps
 
 ## Project Structure (Key parts)
 
@@ -39,11 +39,12 @@ Currently, the shared packages we're using:
 ```
 
 ## Getting started
-> Within KPMG network you will run into restrictions on most of the network request - [To solve ssl issues](https://dlh-portal.kpmg.co.nz/docs/docs/Guides%20and%20Training/KPMG/certs#wsl---ubuntu)
->  - general ssl problem - `WSL - Ubuntu`
->  - general request ssl problem - `Requests/Poetry`
->  - nodejs ssl problem - similar to `Requests/Poetry`, but use `NODE_EXTRA_CA_CERTS` instead of `REQUESTS_CA_BUNDLE`
 
+> Within KPMG network you will run into restrictions on most of the network request - [To solve ssl issues](https://dlh-portal.kpmg.co.nz/docs/docs/Guides%20and%20Training/KPMG/certs#wsl---ubuntu)
+>
+> - general ssl problem - `WSL - Ubuntu`
+> - general request ssl problem - `Requests/Poetry`
+> - nodejs ssl problem - similar to `Requests/Poetry`, but use `NODE_EXTRA_CA_CERTS` instead of `REQUESTS_CA_BUNDLE`
 
 ## Prerequisites for setting up the project locally
 
@@ -52,7 +53,7 @@ Currently, the shared packages we're using:
 3. Install pnpm - `9.7.1`
 4. Install [docker desktop](https://www.docker.com/products/docker-desktop/)
 
->  We recommend you to use [fnm](https://github.com/Schniz/fnm) or [nvm](https://github.com/nvm-sh/nvm) to manage the node versions after installing nodejs above.
+> We recommend you to use [fnm](https://github.com/Schniz/fnm) or [nvm](https://github.com/nvm-sh/nvm) to manage the node versions after installing nodejs above.
 
 ## How to setup the project locally?
 
@@ -67,11 +68,11 @@ Docker is used to setup the required database connection. Use the command `docke
 7. To run the Azure Functions App locally: refer to [this guide](./apps/functions/README.md)
 
 To run the webapp locally on the root level
+
 1. To run the frontend and the backend use the command `pnpm run dev`
 2. To run the function app use the command `pnpm run start:dev`
-   
-> Packages under [libs](./libs/) is crucial dependencie for any of the apps, make sure test all the apps thoroughly if you made any change to these packages.
 
+> Packages under [libs](./libs/) is crucial dependencie for any of the apps, make sure test all the apps thoroughly if you made any change to these packages.
 
 ## Which environments are the apps deployed to?
 
@@ -95,12 +96,13 @@ Environment Secrets:
 1. `AZURE_CREDENTIALS` - The credentials for login AZ CLI to make change to the cloud resource group, to be setup by the IT/Cloud team.
 
 > The `AZURE_CREDENTIALS` is a `JSON` string:
+
 ```json
 {
-    "clientId":"***", 
-    "clientSecret":"***", 
-    "subscriptionId":"***", 
-    "tenantId":"***"
+  "clientId": "***",
+  "clientSecret": "***",
+  "subscriptionId": "***",
+  "tenantId": "***"
 }
 ```
 
@@ -114,7 +116,7 @@ Environment Variables:
 6. `B2C_POLICY_NAME` - The B2C authentication userflow use by the frontend portal
 7. `B2C_TENANT_NAME` - The B2C tenant name
 8. `PULUMI_CONFIG_PASSPHRASE` - The passphrase to make change to the IaC via Pulumi
-9.  `POSTGRES_ADMIN_PASSWORD` - Posgres database password
+9. `POSTGRES_ADMIN_PASSWORD` - Posgres database password
 10. `PRIVATE_ENDPOINT_SUBNET` - Subnet for all the private endpoints to be created in
 11. `SERVICE_ENDPOINT_SUBNET` - Subnet for the app service, webapp, function app instance
 12. `VITE_API_URL` - URL of the backend API for the frontend app

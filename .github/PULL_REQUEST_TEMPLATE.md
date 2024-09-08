@@ -28,6 +28,7 @@ Briefly outline the changes you made in bullet points, so you reviewer can prior
 2. TBD
 
 ## 📝 Checklist
+
 - [ ] This PR require a deployment of the frontend app
 - [ ] This PR require a deployment of the backend app
 - [ ] this PR require a deployment of the functions app

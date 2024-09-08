@@ -132,8 +132,6 @@ Deploy changes shown on the IaC Preview
 
 _Majority of the wait time is on waiting for the DNS to resolve for the container registry private endpoint and then build the dummy container image_
 
-
-
 ##
 
 ## Database recovery
@@ -146,7 +144,6 @@ _Majority of the wait time is on waiting for the DNS to resolve for the containe
 
 - go to the live database resource and start the restore process, select point in time to create the restore database (take awhile to create)
 - in the restored cosmos postgres resource, enable the public access for the restore resource and also the live database resource.
-
 
 ### 2. (Local PC) Setup and run the restore process
 
