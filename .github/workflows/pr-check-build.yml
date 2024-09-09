@@ -91,3 +91,6 @@ jobs:
     name: All Built
     needs: [frontend, backend-api, function-app]
     runs-on: ubuntu-22.04
+    steps:
+      - name: Build check passed
+        run: echo "Build check passed"

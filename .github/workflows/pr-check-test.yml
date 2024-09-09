@@ -115,3 +115,6 @@ jobs:
     name: All Tested
     needs: [combine-unit-tests, be-int-test, fe-storybook-test]
     runs-on: ubuntu-22.04
+    steps:
+      - name: All tests passed
+        run: echo "All tests passed"

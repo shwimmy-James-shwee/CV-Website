@@ -40,3 +40,6 @@ jobs:
     name: All Linted
     needs: ESLint
     runs-on: ubuntu-22.04
+    steps:
+      - name: Lint check passed
+        run: echo "Lint check passed"

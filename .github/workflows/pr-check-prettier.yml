@@ -37,3 +37,6 @@ jobs:
     name: All Prettied
     needs: prettier
     runs-on: ubuntu-22.04
+    steps:
+      - name: Prettier check passed
+        run: echo "Prettier check passed"
