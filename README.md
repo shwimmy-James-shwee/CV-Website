@@ -50,22 +50,25 @@ Currently, the shared packages we're using:
 
 1. Install [Node.js - `v20.15.1`](https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04)
 2. Install npm - `10.7.0`
-3. Install pnpm - `9.7.1`
+3. Install pnpm - `9.7.1` (npm install -g pnpm@9.7.1)
 4. Install [docker desktop](https://www.docker.com/products/docker-desktop/)
 
 > We recommend you to use [fnm](https://github.com/Schniz/fnm) or [nvm](https://github.com/nvm-sh/nvm) to manage the node versions after installing nodejs above.
 
 ## How to setup the project locally?
 
-Docker is used to setup the required database connection. Use the command `docker compose -f ./libs/core-db/docker-compose-db.yml up -d` to setup a postgres on port 5432 and with username `postgres` password `postgres`. **You do not need this step if you alread have a postgres database with the same [configuration](./libs/core-db/docker-compose-db.yml)**
-
 1. Clone the repo
-2. In root folder, add an `.env` file according to the `.env.example` file. You may need to ask your team to get the full set of `.env` with proper values
-3. In root folder, run `pnpm install` **(make sure you are in nodejs v20 in case of any incompatible library)**
-4. In root folder, run `pnpm build`
-5. To run the frontend locally: refer to [this guide](./apps/frontend/README.md)
-6. To run the backend locally: refer to [this guide](./apps/backend/README.md)
-7. To run the Azure Functions App locally: refer to [this guide](./apps/functions/README.md)
+2. Run `docker compose -f ./libs/core-db/docker-compose-db.yml up -d`
+
+   > Docker is used to setup the required database connection. This command will setup a postgres on port 5432 and with username `postgres` password `postgres`. **You do not need this step if you alread have a postgres database with the same [configuration](./libs/core-db/docker-compose-db.yml)**
+
+3. In root folder, add an `.env` file according to the `.env.example` file. You may need to ask your team to get the full set of `.env` with proper values
+4. In root folder, run `pnpm install` **(make sure you are in nodejs v20 in case of any incompatible library)**
+5. In root folder, run `pnpm build`
+6. To setup the database, run `pushd ./apps/backend`, then `pnpm run dev:db:reset` and then `popd`
+7. To run the frontend locally: refer to [this guide](./apps/frontend/README.md)
+8. To run the backend locally: refer to [this guide](./apps/backend/README.md)
+9. To run the Azure Functions App locally: refer to [this guide](./apps/functions/README.md)
 
 To run the webapp locally on the root level
 
@@ -107,6 +110,9 @@ Environment Secrets:
 ```
 
 Environment Variables:
+
+> Please note that some of the variable below should be a secret instead, it is only a variable in this repo for demo purpose.
+> Changing them to secret will need to update the github workflow files to use `secrets.XXX` instead of `vars.XXX`
 
 1. `PROJECT_NAME_ABBREVIATION` - Determine the all resource names deployed by `IaC` and destination resource name the apps deploying to.
 2. `AZURE_RESOURCE_GROUP` - ID of the resource group for your apps to be deployed to on Azure
