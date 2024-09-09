@@ -18,7 +18,7 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
     "lint": {
-      "cache": false
+      "cache": true
     },
     "test": {
       "cache": false
