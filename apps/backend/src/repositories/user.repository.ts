@@ -25,6 +25,7 @@ export const findMany = async (
   };
 
   // validate columns to reterieve
+  logger.warn({ ...baseLoggerArgs, message: 'Validating columns to retrieve...' });
   const validateColumns = CrudService.validateFieldsRequested({ requestId, args: fields });
   if (validateColumns.isErr()) {
     const { message } = validateColumns.error;
@@ -87,6 +88,7 @@ export const findOne = async (dto: FindOneDto<UserFindOneArgs>): Promise<ResultA
   };
 
   // validate ID
+  logger.warn({ ...baseLoggerArgs, message: 'Validating ID...' });
   const validateId = StringWhereUniqueInputSchema.safeParse(args?.where);
   if (validateId.success === false) {
     const { message } = fromError(validateId.error);
@@ -95,6 +97,7 @@ export const findOne = async (dto: FindOneDto<UserFindOneArgs>): Promise<ResultA
   }
 
   // validate columns to reterieve
+  logger.warn({ ...baseLoggerArgs, message: 'Validating columns to retrieve...' });
   const validateColumns = CrudService.validateFieldsRequested({ requestId, args: fields });
   if (validateColumns.isErr()) {
     const { message } = validateColumns.error;
@@ -103,6 +106,7 @@ export const findOne = async (dto: FindOneDto<UserFindOneArgs>): Promise<ResultA
   }
 
   // db call
+  logger.warn({ ...baseLoggerArgs, message: 'Calling db...' });
   const result = await fromPromise(
     prismaReadService.user.findUnique({
       where: args?.where,
@@ -157,6 +161,7 @@ export const update = async (dto: UpdateDto<UserUpdateArgs>): Promise<ResultAsyn
   };
 
   // validate ID
+  logger.warn({ ...baseLoggerArgs, message: 'Validating ID...' });
   const validateId = StringWhereUniqueInputSchema.safeParse(args?.where);
   if (validateId.success === false) {
     const { message } = fromError(validateId.error);
@@ -165,6 +170,7 @@ export const update = async (dto: UpdateDto<UserUpdateArgs>): Promise<ResultAsyn
   }
 
   // validate payload
+  logger.warn({ ...baseLoggerArgs, message: 'Validating payload...' });
   if (objectIsEmpty(args?.data)) {
     const message = 'Please specify the properties you would like to update, we received an empty object';
     logger.error({ ...baseLoggerArgs, message });
@@ -172,6 +178,7 @@ export const update = async (dto: UpdateDto<UserUpdateArgs>): Promise<ResultAsyn
   }
 
   // validate columns to reterieve
+  logger.warn({ ...baseLoggerArgs, message: 'Validating columns to retrieve...' });
   const validateColumns = CrudService.validateFieldsRequested({ requestId, args: fields });
   if (validateColumns.isErr()) {
     const { message } = validateColumns.error;
@@ -180,6 +187,7 @@ export const update = async (dto: UpdateDto<UserUpdateArgs>): Promise<ResultAsyn
   }
 
   // db call
+  logger.warn({ ...baseLoggerArgs, message: 'Calling db...' });
   const result = await fromPromise(
     prismaReadService.user.update({
       where: args?.where,

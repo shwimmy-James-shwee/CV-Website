@@ -9,6 +9,7 @@ import { UserFindOneArgs } from '@/types/user/user-find-one.args';
 import { User } from '@/models/user';
 import { parseResolveInfo, ResolveTree } from 'graphql-parse-resolve-info';
 import { UserUpdateArgs } from '@/types/user/user-update.args';
+import { randomUUID } from 'crypto';
 
 const file: ProjectFileName = 'user.resolver.ts';
 
@@ -20,7 +21,7 @@ export class UserResolver {
     args: UserFindManyArgs,
     @Info() info: GraphQLResolveInfo,
   ): Promise<UserFindManyResponse> {
-    const requestId = 'TO_BE_ADDED';
+    const requestId = randomUUID();
 
     const baseLoggerArgs: BaseLoggerArgs = {
       requestId,
@@ -51,7 +52,7 @@ export class UserResolver {
     args: UserFindOneArgs,
     @Info() info: GraphQLResolveInfo,
   ): Promise<User> {
-    const requestId = 'TO_BE_ADDED';
+    const requestId = randomUUID();
 
     const baseLoggerArgs: BaseLoggerArgs = {
       requestId,
@@ -82,7 +83,7 @@ export class UserResolver {
     args: UserUpdateArgs,
     @Info() info: GraphQLResolveInfo,
   ): Promise<User> {
-    const requestId = 'TO_BE_ADDED';
+    const requestId = randomUUID();
 
     const baseLoggerArgs: BaseLoggerArgs = {
       requestId,
