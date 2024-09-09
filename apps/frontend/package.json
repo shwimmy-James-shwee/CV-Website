@@ -92,7 +92,8 @@
     "typescript": "5.5.4",
     "vitest": "^1.6.0",
     "concurrently": "^8.2.2",
-    "wait-on": "8.0.0"
+    "wait-on": "8.0.0",
+    "playwright": "1.47.0"
   },
   "msw": {
     "workerDirectory": [

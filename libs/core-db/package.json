@@ -27,6 +27,7 @@
     "test": "node schemaCheck.js",
     "db:generate": "prisma generate",
     "db:push": "dotenv -e ../../.env -- prisma db push --skip-generate",
+    "db:reset": "dotenv -e ../../.env -- prisma migrate reset --force --skip-generate",
     "db:makemigrate": "dotenv -e ../../.env -- prisma migrate dev --create-only && prisma generate",
     "db:studio": "dotenv -e ../../.env -- prisma studio",
     "build": "prisma generate && pnpm make:types && tsup src/*.ts --format cjs,esm --dts",
