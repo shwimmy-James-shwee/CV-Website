@@ -58,7 +58,6 @@
     "neverthrow": "7.1.0",
     "passport": "0.7.0",
     "passport-azure-ad": "4.3.5",
-    "prisma": "5.19.0",
     "reflect-metadata": "0.2.0",
     "rxjs": "7.8.1",
     "swagger-ui-express": "5.0.0",
