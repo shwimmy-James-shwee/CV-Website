@@ -1,0 +1,15 @@
+# this docker image is only use for restoring the cloud live database for disaster recovery.
+# should not be use to serve any data etc, purely for the psql and pg_dump client
+version: '3.9'
+services:
+  postgres-restore:
+    container_name: postgres_db_restore_container
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    logging:
+      options:
+        max-size: 10m
+        max-file: '3'

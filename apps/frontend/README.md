@@ -2,4 +2,5 @@
 
 ## How to run this app locally?
 
-1. Run `pnpm dev`
+1. Run `pnpm dev `
+2.

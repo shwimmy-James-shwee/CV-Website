@@ -5,7 +5,7 @@ import { appServicePlan } from '../resources_base/app-service-plan';
 import { envExtend } from '../env-extend';
 import { dataBlobContainer, dataQueue, dataStorage, dataStorageConnectionString } from './data-storage-account';
 import { dsSettings } from '../resources_base/diagnostic-setting-configs';
-import { postgresConnectionString } from './cosmosdb-postgres';
+import { pgConnectionString, pgbouncerConnectionString } from './cosmosdb-postgres';
 import { frontendUrl } from './frontend-ui-storage';
 
 const functionAppServiceName = `${envBase.PROJECT_NAME_ABBREVIATION}-fa-${envBase.ENV}`;
@@ -92,11 +92,11 @@ const functionApp = new web.WebApp(
         },
         {
           name: 'DATABASE_URL',
-          value: postgresConnectionString.apply((connectionString) => connectionString.withPgBouncer),
+          value: pgbouncerConnectionString.apply((connectionString) => connectionString),
         },
         {
           name: 'DIRECT_URL',
-          value: postgresConnectionString.apply((connectionString) => connectionString.direct),
+          value: pgConnectionString.apply((connectionString) => connectionString),
         },
         {
           name: 'FRONTEND_URL',

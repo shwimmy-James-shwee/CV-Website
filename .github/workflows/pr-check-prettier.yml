@@ -9,6 +9,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   prettier:
+    name: Prettier All
     runs-on: ubuntu-22.04
     strategy:
       matrix:
@@ -31,3 +32,11 @@ jobs:
 
       - name: Check formatting with Prettier
         run: pnpm prettier:check
+
+  all-prettied:
+    name: All Prettied
+    needs: prettier
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Prettier check passed
+        run: echo "Prettier check passed"

@@ -2,4 +2,3 @@
 
 # Not to prettify the lockfile
 pnpm-lock.yaml
-**/storybook-static/

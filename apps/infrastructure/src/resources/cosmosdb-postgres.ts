@@ -82,10 +82,12 @@ new insights.DiagnosticSetting(
 );
 
 // exporting the postgres connection string
-export const postgresConnectionString = postgresqlCluster.serverNames.apply((serverNames) => {
+export const pgbouncerConnectionString = postgresqlCluster.serverNames.apply((serverNames) => {
   const firstServerName = serverNames[0];
-  return {
-    withPgBouncer: `postgres://citus:${envExtend.POSTGRES_ADMIN_PASSWORD}@${firstServerName?.fullyQualifiedDomainName}:6432/citus?sslmode=require&pgbouncer=true&schema=application`,
-    direct: `postgres://citus:${envExtend.POSTGRES_ADMIN_PASSWORD}@${firstServerName?.fullyQualifiedDomainName}:5432/citus?sslmode=require&schema=application`,
-  };
+  return `postgres://citus:${envExtend.POSTGRES_ADMIN_PASSWORD}@${firstServerName?.fullyQualifiedDomainName}:6432/citus?sslmode=require&pgbouncer=true&schema=application`;
+});
+
+export const pgConnectionString = postgresqlCluster.serverNames.apply((serverNames) => {
+  const firstServerName = serverNames[0];
+  return `postgres://citus:${envExtend.POSTGRES_ADMIN_PASSWORD}@${firstServerName?.fullyQualifiedDomainName}:5432/citus?sslmode=require&schema=application`;
 });
