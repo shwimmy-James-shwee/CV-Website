@@ -1,0 +1,40 @@
+{
+  "id": 1510965,
+  "name": "NonDeploymentBranchProtection",
+  "target": "branch",
+  "source_type": "Repository",
+  "source": "kpmg-nz/template-webapp-monorepo",
+  "enforcement": "active",
+  "conditions": {
+    "ref_name": {
+      "exclude": [],
+      "include": [
+        "~ALL"
+      ]
+    }
+  },
+  "rules": [
+    {
+      "type": "non_fast_forward"
+    },
+    {
+      "type": "branch_name_pattern",
+      "parameters": {
+        "operator": "regex",
+        "pattern": "^(prod|uat|develop|dev|release_candidate|main){1}$|^(feature|feat|fix|hotfix|ci)\\/([a-zA-Z0-9-_]{2,10})\\/([0-9]{4,}|no-ref|noref)-[a-zA-Z0-9-_]+$",
+        "negate": false,
+        "name": "Branch name must match this pattern ^(prod|uat|develop|dev|release_candidate|main){1}$|^(feature|feat|fix|hotfix|ci)\\/([a-zA-Z0-9-_]{2,10})\\/([0-9]{4,}|no-ref|noref)-[a-zA-Z0-9-_]+$ , example: feat/han/9394-branch-name-check"
+      }
+    },
+    {
+      "type": "commit_message_pattern",
+      "parameters": {
+        "operator": "regex",
+        "pattern": "^(build|chore|chore\\(deps\\)|ci|docs|feat|feature|fix|perf|refactor|revert|style|test):\\s(.|\\n){5,}$|^(Merge)(.|\\n)*|^(Apply)(.|\\n)*",
+        "negate": false,
+        "name": "Commit message must match this pattern: ^(build|chore|chore\\(deps\\)|ci|docs|feat|feature|fix|perf|refactor|revert|style|test):\\s(.|\\n){5,}$|^(Merge)(.|\\n)*|^(Apply)(.|\\n)* , example: chore: remove unused variables"
+      }
+    }
+  ],
+  "bypass_actors": []
+}
