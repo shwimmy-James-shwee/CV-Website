@@ -9,6 +9,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   ESLint:
+    name: ESLint All
     runs-on: ubuntu-22.04
     strategy:
       matrix:
@@ -34,3 +35,11 @@ jobs:
 
       - name: Check linting
         run: pnpm lint
+
+  all-linted:
+    name: All Linted
+    needs: ESLint
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Lint check passed
+        run: echo "Lint check passed"
