@@ -13,6 +13,7 @@ env:
 
 jobs:
   combine-unit-tests:
+    name: Combined Unit Test
     runs-on: ubuntu-22.04
     strategy:
       matrix:
@@ -39,6 +40,7 @@ jobs:
         run: pnpm run test:action
 
   be-int-test:
+    name: BE Integration Test
     runs-on: ubuntu-22.04
     strategy:
       matrix:
@@ -72,6 +74,7 @@ jobs:
           popd
 
   fe-storybook-test:
+    name: FE Storybook Test
     runs-on: ubuntu-22.04
     strategy:
       matrix:

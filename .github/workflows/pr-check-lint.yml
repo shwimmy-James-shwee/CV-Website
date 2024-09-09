@@ -9,6 +9,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   ESLint:
+    name: ESLint All
     runs-on: ubuntu-22.04
     strategy:
       matrix:
