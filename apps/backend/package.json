@@ -93,7 +93,7 @@
     "tsconfig-paths": "4.2.0",
     "typescript": "5.5.4",
     "concurrently": "^8.2.2",
-    "webpack": "5.93.0"
+    "webpack": "5.94.0"
   },
   "packageManager": "pnpm@9.7.1",
   "jest": {
