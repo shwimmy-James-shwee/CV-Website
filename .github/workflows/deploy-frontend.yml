@@ -1,10 +1,11 @@
 name: Deploy Frontend
 on:
   push:
-    branches: ["dev", "qa", "staging"]
+    branches: ['dev', 'qa', 'staging']
     paths:
-      - "apps/frontend/**"
-      - ".github/workflows/deploy-frontend.yml"
+      - 'apps/frontend/**'
+      - 'libs/**'
+      - '.github/workflows/deploy-frontend.yml'
   workflow_dispatch:
     inputs:
       name:
@@ -19,10 +20,20 @@ on:
         type: boolean
         description: deploy storybook
         default: true
+env:
+  NODE_VERSION: 'v20.15.1'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  deploy:
-    name: Deploy to Cloud
-    runs-on: opch
+  build-app:
+    name: Build Frontend
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20.15.1]
     environment: ${{github.event.inputs.name || (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
     env:
       FE_STORAGE_ACCOUNT: ${{ vars.PROJECT_NAME_ABBREVIATION }}fe${{ vars.ENV }}
@@ -41,40 +52,99 @@ jobs:
       - name: Branch name
         run: echo running on branch ${GITHUB_REF##*/} - ${{github.ref_name}} - ${{github.event.inputs.name || (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v3.7.0
+      - uses: pnpm/action-setup@v4
+      - name: Setup Node.js Environment - Version ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
-          # cache: 'yarn'
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: PNPM Install and Build
+        run: |
+          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/frontend/" 
+          pnpm run build --filter="./apps/frontend/"  --filter="./libs/**/"
+        env:
+          CI: true
+      - name: Upload FE App Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: fe-app
+          path: ./apps/frontend/dist
+          retention-days: 1
+          include-hidden-files: true
+
+  build-storybook:
+    name: Build Storybook
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20.15.1]
+    steps:
+      - uses: actions/checkout@v3
 
       - uses: pnpm/action-setup@v4
+      - name: Setup Node.js Environment - Version ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
 
       - name: PNPM Install and Build
         run: |
           pnpm install --frozen-lockfile --filter="./apps/frontend/"
-          pnpm run build --filter="./apps/frontend/"
         env:
           CI: true
 
-      - name: "Login via Azure CLI"
+      - name: Storybook Build
+        continue-on-error: true
+        run: |
+          pnpm run build-storybook --filter="./apps/frontend/"
+
+      - name: Upload Storybook Static Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-static
+          path: ./apps/frontend/storybook-static
+          retention-days: 1
+          include-hidden-files: true
+
+  deploy:
+    name: Deploy to Cloud
+    needs: [build-app, build-storybook]
+    runs-on: opch
+    environment: ${{github.event.inputs.name || (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
+    env:
+      FE_STORAGE_ACCOUNT: ${{ vars.PROJECT_NAME_ABBREVIATION }}fe${{ vars.ENV }}
+      FE_SB_STORAGE_ACCOUNT: ${{ vars.PROJECT_NAME_ABBREVIATION }}sbfe${{ vars.ENV }}
+      AZURE_RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+
+    steps:
+      - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Download FE App artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: fe-app
+          path: ./dist/
+
+      - name: Download FE App artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: storybook-static
+          path: ./storybook-static/
 
       - name: Push to FE Storage
         run: |
           export AZURE_STORAGE_KEY=$(az storage account keys list -n $FE_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
           az storage account show -n $FE_STORAGE_ACCOUNT --query networkRuleSet
-          az storage blob upload-batch --account-name $FE_STORAGE_ACCOUNT --auth-mode key -d '$web' -s "./apps/frontend/dist" --overwrite
+          az storage blob upload-batch --account-name $FE_STORAGE_ACCOUNT --auth-mode key -d '$web' -s "./dist" --overwrite
 
-      # - name: Storybook Build
-      #   continue-on-error: true
-      #   run: |
-      #     yarn build-storybook
-
-      # - name: Push to Storybook FE Storage
-      #   continue-on-error: true
-      #   run: |
-      #     export AZURE_STORAGE_KEY=$(az storage account keys list -n $FE_SB_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
-      #     az storage account show -n $FE_SB_STORAGE_ACCOUNT --query networkRuleSet
-      #     az storage blob upload-batch --account-name $FE_SB_STORAGE_ACCOUNT --auth-mode key -d '$web' -s "storybook-static" --overwrite
+      - name: Push to Storybook FE Storage
+        continue-on-error: true
+        run: |
+          export AZURE_STORAGE_KEY=$(az storage account keys list -n $FE_SB_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
+          az storage account show -n $FE_SB_STORAGE_ACCOUNT --query networkRuleSet
+          az storage blob upload-batch --account-name $FE_SB_STORAGE_ACCOUNT --auth-mode key -d '$web' -s "./storybook-static" --overwrite

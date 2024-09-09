@@ -2,18 +2,65 @@
   "name": "template-webapp-monorepo",
   "scripts": {
     "build": "turbo build",
+    "build-storybook": "turbo build-storybook",
     "dev": "turbo dev",
+    "test": "turbo test",
     "lint": "turbo lint",
-    "prettier": "prettier **/*.{ts,js,json,md,cjs,mjs} --write"
+    "test:action": "turbo test:action",
+    "prettier:check": "prettier --cache --check .",
+    "prettier:write": "prettier --write .",
+    "prepare": "husky",
+    "fix:husky": "chmod ug+x .husky/*"
   },
   "devDependencies": {
+    "@commitlint/cli": "^18.4.1",
+    "@commitlint/config-conventional": "^18.4.0",
+    "validate-branch-name": "^1.3.0",
     "eslint": "8.57.0",
     "prettier": "3.2.5",
     "turbo": "2.0.14",
-    "typescript": "5.4.5"
+    "typescript": "5.5.4",
+    "husky": "9.1.5"
+  },
+  "resolutions": {
+    "@types/mime": "3.0.4"
   },
   "packageManager": "pnpm@9.7.1",
   "engines": {
     "node": ">=20"
+  },
+  "validate-branch-name": {
+    "pattern": "^(prod|uat|qa|staging|develop|dev|release_candidate|main){1}$|^(feature|feat|fix|hotfix|ci)/([a-zA-Z0-9-_]{2,10})/([0-9]{4,}|no-ref|noref)-[a-zA-Z0-9-_]+$",
+    "errorMsg": "Branch name must match this pattern = (feature|feat|fix|hotfix|ci)/yourfirstname/taskid-shortdescription, example: feat/han/9394-branch-name-check"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "type-enum": [
+        2,
+        "always",
+        [
+          "build",
+          "chore",
+          "ci",
+          "cd",
+          "docs",
+          "feat",
+          "feature",
+          "fix",
+          "perf",
+          "refactor",
+          "revert",
+          "style",
+          "test"
+        ]
+      ],
+      "subject-empty": [
+        0,
+        "never"
+      ]
+    }
   }
 }

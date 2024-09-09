@@ -1,0 +1,42 @@
+name: PR Check - Prettier
+
+on:
+  pull_request:
+    branches: [main, dev]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  prettier:
+    name: Prettier All
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20.15.1]
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9.7.1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install -D
+
+      - name: Check formatting with Prettier
+        run: pnpm prettier:check
+
+  all-prettied:
+    name: All Prettied
+    needs: prettier
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Prettier check passed
+        run: echo "Prettier check passed"

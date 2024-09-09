@@ -6,11 +6,11 @@ When first time create docker image it will need to wait for the private endpoin
 If the private endpoint is created, it takes about 10 mins for the DNS to resolve.
 
 */
-import { insights, keyvault, network, containerregistry } from "@pulumi/azure-native";
-import { envBase } from "../env-base";
-import { managedIdentity, managedIdentityKeyVal } from "./codedeploy-identity";
-import { logAnalyticsWorkspace } from "./log-analytic-workspace";
-import { dsSettings } from "./diagnostic-setting-configs";
+import { insights, keyvault, network, containerregistry } from '@pulumi/azure-native';
+import { envBase } from '../env-base';
+import { managedIdentity, managedIdentityKeyVal } from './codedeploy-identity';
+import { logAnalyticsWorkspace } from './log-analytic-workspace';
+import { dsSettings } from './diagnostic-setting-configs';
 
 const containerRegistryName = `${envBase.PROJECT_NAME_ABBREVIATION}acr${envBase.ENV}`;
 
@@ -22,12 +22,12 @@ const containerKey = new keyvault.Key(
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     vaultName: envBase.KEYVAULT_NAME,
     properties: {
-      kty: `RSA`
-    }
+      kty: 'RSA',
+    },
   },
   {
-    ignoreChanges: [`tags`]
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
 // container registry
@@ -37,7 +37,7 @@ export const containerRegistry = new containerregistry.Registry(
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     registryName: containerRegistryName,
     sku: {
-      name: `Premium`
+      name: 'Premium',
     },
     adminUserEnabled: true,
     publicNetworkAccess: containerregistry.PublicNetworkAccess.Disabled,
@@ -46,19 +46,19 @@ export const containerRegistry = new containerregistry.Registry(
       status: containerregistry.EncryptionStatus.Enabled,
       keyVaultProperties: {
         keyIdentifier: containerKey.keyUri.apply((uri) => uri),
-        identity: managedIdentity.then((v) => v.clientId)
-      }
+        identity: managedIdentity.then((v) => v.clientId),
+      },
     },
     identity: {
       type: containerregistry.ResourceIdentityType.UserAssigned,
       userAssignedIdentities: {
-        ...managedIdentityKeyVal
-      }
-    }
+        ...managedIdentityKeyVal,
+      },
+    },
   },
   {
-    ignoreChanges: [`tags`]
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
 // acr diagnostic setting
@@ -69,12 +69,12 @@ new insights.DiagnosticSetting(
     resourceUri: containerRegistry.id.apply((id) => id),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.containerRegistryDSLogItem,
-    metrics: dsSettings.containerRegistryDSMetricsItem
+    metrics: dsSettings.containerRegistryDSMetricsItem,
   },
   {
     dependsOn: [logAnalyticsWorkspace, containerRegistry],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 // private endpoint for container registry
@@ -85,20 +85,20 @@ const containerRegistryPept = new network.PrivateEndpoint(
     privateEndpointName: `${containerRegistryName}-pept`,
     customNetworkInterfaceName: `${containerRegistryName}-pept-nic`,
     subnet: {
-      id: envBase.PRIVATE_ENDPOINT_SUBNET
+      id: envBase.PRIVATE_ENDPOINT_SUBNET,
     },
     privateLinkServiceConnections: [
       {
         name: `${containerRegistryName}-pept-connection`,
         privateLinkServiceId: containerRegistry.id.apply((id) => id),
-        groupIds: [`registry`]
-      }
-    ]
+        groupIds: ['registry'],
+      },
+    ],
   },
   {
-    ignoreChanges: [`tags`],
-    dependsOn: [containerRegistry]
-  }
+    ignoreChanges: ['tags'],
+    dependsOn: [containerRegistry],
+  },
 );
 
 // acr pept diagnostic setting
@@ -114,21 +114,21 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
-    metrics: dsSettings.peptDSMetricsItem
+    metrics: dsSettings.peptDSMetricsItem,
   },
   {
     dependsOn: [logAnalyticsWorkspace, containerRegistryPept],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 export const acrCredentials = containerregistry
   .listRegistryCredentialsOutput({
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-    registryName: containerRegistry.name.apply((name) => name)
+    registryName: containerRegistry.name.apply((name) => name),
   })
   .apply((creds) => {
     return creds;

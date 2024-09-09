@@ -4,19 +4,19 @@ Import managed identity from code deployed resources
 The Identity should be use by service that need to access particular resources that need to be secured.
 */
 // import * as pulumi from '@pulumi/pulumi';
-import { insights, keyvault, network } from "@pulumi/azure-native";
-import { envBase } from "../env-base";
-import { dsSettings } from "./diagnostic-setting-configs";
-import { logAnalyticsWorkspace } from "./log-analytic-workspace";
+import { insights, keyvault, network } from '@pulumi/azure-native';
+import { envBase } from '../env-base';
+import { dsSettings } from './diagnostic-setting-configs';
+import { logAnalyticsWorkspace } from './log-analytic-workspace';
 
 export const vault = keyvault.getVault({
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-  vaultName: envBase.KEYVAULT_NAME
+  vaultName: envBase.KEYVAULT_NAME,
 });
 
 const vaultPept = network.getPrivateEndpoint({
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-  privateEndpointName: `${envBase.KEYVAULT_NAME}-pept`
+  privateEndpointName: `${envBase.KEYVAULT_NAME}-pept`,
 });
 
 new insights.DiagnosticSetting(
@@ -27,12 +27,12 @@ new insights.DiagnosticSetting(
     resourceUri: vault.then((v) => v.id),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.vaultDSLogItem,
-    metrics: dsSettings.vaultDSMetricsItem
+    metrics: dsSettings.vaultDSMetricsItem,
   },
   {
     dependsOn: [logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 new insights.DiagnosticSetting(
@@ -50,13 +50,13 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
-    metrics: dsSettings.peptDSMetricsItem
+    metrics: dsSettings.peptDSMetricsItem,
   },
   {
     dependsOn: [logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );

@@ -1,11 +1,6 @@
 # Frontend
 
-## Key technologies used:
+## How to run this app locally?
 
-1. Language: Typescript
-2. Framework: React + Vite
-3. UI component library: \_\_\_
-4. Routing: Tanstack router
-5. State management: Zustand
-6. API client: Apollo Client (GraphQL) / Tanstack Query (REST APIs)
-7. Form management: Tanstack Forms / React-Hook-Forms
+1. Run `pnpm dev `
+2.

@@ -1,86 +1,140 @@
 name: Deploy Backend API
 on:
   push:
-    branches: ["dev", "qa", "staging"]
+    branches: ['dev', 'qa', 'staging']
     paths:
-      - "apps/backend/**"
-      - ".github/workflows/deploy-backend.yml"
+      - 'apps/backend/**'
+      - 'libs/**'
+      - '.github/workflows/deploy-backend.yml'
   workflow_dispatch:
-
+    inputs:
+      name:
+        type: choice
+        description: which env to deploy the changes to
+        options:
+          - dev
+          # - uat
+          # - main
+        default: dev
+env:
+  NODE_DOCKER_IMAGE: 'node:lts-slim'
 jobs:
-  deploy:
-    name: Build Docker
-    runs-on: opch
-    environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
-    env:
-      AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
-      AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
-      NODE_DOCKER_IMAGE: "node:lts-slim"
+  build-base:
+    name: Build Docker Base
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - name: Branch name
         run: echo running on branch ${GITHUB_REF##*/} - ${{github.ref_name}} - ${{ github.event.inputs.name }}
 
-      # - name: Set Dependencies
-      #   run: |
-      #     curl -sL https://aka.ms/InstallAzureCLIDeb | bash
-      #     apt install -y docker docker-compose
-
-      - name: "Login via Azure CLI"
-        uses: azure/login@v1
+      - uses: actions/cache@v4
+        id: cache
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          path: /tmp/nodeBase.tar
+          key: ${{ runner.os }}-node-base-${{ hashFiles('**/apps/backend/dockerfiles/nodeBase.Dockerfile') }}
 
-      # only need to run this once, so we can comment it out after the first run
-      # - name: Set Permission to Docker Compose
-      #   run: |
-      #     sudo chmod +x /usr/local/bin/docker-compose;
-      #     sudo usermod -aG docker $USER
-      #     sudo chgrp docker /usr/local/bin/docker-compose
-      #     sudo chmod 750 /usr/local/bin/docker-compose
-
-      - name: Check Base
-        id: check
-        continue-on-error: true
-        run: |
-          echo $AZURE_CONTAINER_REGISTRY_NAME
-          az acr login --name $AZURE_CONTAINER_REGISTRY_NAME
-          docker pull $AZURE_CONTAINER_REGISTRY/node-base:latest
-
-      - name: Build Base
-        if: steps.check.outcome != 'success'
+      - name: Install Dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
         run: |
           echo "Base not found, build from scratch"
           docker system prune -f -a
           docker ps -a
           docker image ls -a
+          docker build -t node-base -f ./apps/backend/dockerfiles/nodeBase.Dockerfile .
+          docker save --output /tmp/nodeBase.tar node-base
 
-          docker-compose -f docker-compose-base.yml build
+      - name: Upload Node Base Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-base
+          path: /tmp/nodeBase.tar
+          retention-days: 1
 
-          docker tag node-base $AZURE_CONTAINER_REGISTRY/node-base
-          docker push $AZURE_CONTAINER_REGISTRY/node-base
+  build:
+    name: Build Docker
+    needs: build-base
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Branch name
+        run: echo running on branch ${GITHUB_REF##*/} - ${{github.ref_name}} - ${{ github.event.inputs.name }}
+
+      - name: Download Node Base artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: node-base
+          path: /tmp
+
+      - name: Load Node Base Image
+        run: |
+          docker image load --input /tmp/nodeBase.tar
+          docker image ls -a
+
+      - name: Add Commit Message to File
+        run: |
+          git log -4 --date=format-local:'%Y-%m-%d %H:%M:%S' >> ./apps/backend/git_commit_msg.txt
+          command git --no-pager log -1 --format="%ai" >> ./apps/backend/git_commit_msg.txt
+          echo ${{ github.run_id }} >> ./apps/backend/git_commit_msg.txt
 
       - name: Build And Push
         run: |
 
-          # git log -1 --pretty=%s >> git_commit_msg.txt
-          git log -4 --date=format-local:'%Y-%m-%d %H:%M:%S' >> git_commit_msg.txt
-          command git --no-pager log -1 --format="%ai" >> git_commit_msg.txt
-          echo ${{ github.run_id }} >> git_commit_msg.txt
-
-
           # get use the dynamic base file from different env
-          cp ./dockerfiles/node.Dockerfile ./dockerfiles/node.Dockerfile_og ;\
-          sed -i "s|FROM $NODE_DOCKER_IMAGE|FROM $AZURE_CONTAINER_REGISTRY/node-base:latest|g" ./dockerfiles/node.Dockerfile
-          cat ./dockerfiles/node.Dockerfile
+          cp ./apps/backend/dockerfiles/node.Dockerfile ./apps/backend/dockerfiles/node.Dockerfile_og ;\
+          sed -i "s|FROM $NODE_DOCKER_IMAGE|FROM node-base:latest|g" ./apps/backend/dockerfiles/node.Dockerfile
+          cat ./apps/backend/dockerfiles/node.Dockerfile
 
           docker ps -a
           docker image ls -a
 
-          docker-compose -f docker-compose-deployment.yml up --build -d --force-recreate
+          docker build -t webappapi -f ./apps/backend/dockerfiles/node.Dockerfile .
           docker ps -a
           docker image ls
           docker container ls
+          docker save --output /tmp/webappapi.tar webappapi
+
+      - name: Upload API App Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: webappapi
+          path: /tmp/webappapi.tar
+          retention-days: 1
+
+  deploy:
+    name: Deploy Docker
+    needs: build
+    runs-on: opch
+    environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
+    env:
+      AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
+      AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
+    steps:
+      - uses: actions/checkout@v3
+      - name: Branch name
+        run: echo running on branch ${GITHUB_REF##*/} - ${{github.ref_name}} - ${{ github.event.inputs.name }}
+
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Download API App artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: webappapi
+          path: /tmp
+
+      - name: Remove existing api images if any
+        if: success() || failure()
+        continue-on-error: true
+        run: |
+          docker image rm webappapi
+
+      - name: Load And Push Image
+        run: |
+          docker image load --input /tmp/webappapi.tar
+          az acr login --name $AZURE_CONTAINER_REGISTRY_NAME
+
           docker tag webappapi $AZURE_CONTAINER_REGISTRY/webappapi:${{ github.run_id }}
           docker tag webappapi $AZURE_CONTAINER_REGISTRY/webappapi
 
@@ -91,9 +145,9 @@ jobs:
       - name: Deploy to Staging
         uses: azure/webapps-deploy@v2
         with:
-          app-name: "${{ vars.PROJECT_NAME_ABBREVIATION }}-be-${{ vars.ENV }}"
+          app-name: '${{ vars.PROJECT_NAME_ABBREVIATION }}-be-${{ vars.ENV }}'
           slot-name: ${{ vars.ENV == 'prod' && 'staging' || 'production' }}
-          images: "${{ env.AZURE_CONTAINER_REGISTRY }}/webappapi:${{ github.run_id }}"
+          images: '${{ env.AZURE_CONTAINER_REGISTRY }}/webappapi:${{ github.run_id }}'
           # ${{ github.run_id }}
 
       - name: Remove old images/container
@@ -101,11 +155,5 @@ jobs:
         if: success() || failure()
         continue-on-error: true
         run: |
-          # ! this does not work any more due to KPMG Global policy change disabling public access, workers cant reach ACR
-          # az acr run --cmd "acr purge --filter 'webappapi:.*' --ago 1d --untagged --keep 10" --registry $AZURE_CONTAINER_REGISTRY_NAME /dev/null
-          docker-compose -f docker-compose-deployment.yml down --remove-orphans
-          docker ps -aq | xargs docker rm -f
-          docker images | grep -v 'base' | awk '{print $1":"$2}' | tail -n +2 | xargs -r docker rmi
-          docker image ls
-          docker container ls
-          docker volume ls
+          docker image rm webappapi
+          rm -rf /tmp/webappapi.tar

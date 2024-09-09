@@ -2,22 +2,35 @@ name: Deploy Functions App
 
 on:
   push:
-    branches: ["dev", "qa", "staging"]
+    branches: ['dev', 'qa', 'staging']
     paths:
-      - "apps/functions/**"
-      - ".github/workflows/deploy-functions.yml"
+      - 'apps/functions/**'
+      - 'libs/**'
+      - '.github/workflows/deploy-functions.yml'
   workflow_dispatch:
-
+    inputs:
+      name:
+        type: choice
+        description: which env to deploy the changes to
+        options:
+          - dev
+          # - uat
+          # - main
+        default: dev
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: "./apps/functions" # set this to the path to your function app project, defaults to the repository root
-  NODE_VERSION: "v20.15.1"
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: './prod/functions' # set this to the path to your function app project, defaults to the repository root
+  NODE_VERSION: 'v20.15.1'
 
 jobs:
-  build-and-deploy:
-    runs-on: opch # For Linux, use ubuntu-latest
-    environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
+  build:
+    name: Build FA
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20.15.1]
+
     steps:
-      - name: "Checkout GitHub Action"
+      - name: 'Checkout GitHub Action'
         uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
@@ -26,41 +39,71 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "pnpm"
+          cache: 'pnpm'
 
-      - name: Install dependencies
-        run: pnpm install
+      - name: Add Commit Message to File
+        run: |
+          git log -4 --date=format-local:'%Y-%m-%d %H:%M:%S' >> ./apps/functions/git_commit_msg.txt
+          command git --no-pager log -1 --format="%ai" >> ./apps/functions/git_commit_msg.txt
+          echo ${{ github.run_id }} >> ./apps/functions/git_commit_msg.txt
 
-        # Need to update this step once we start using shared packages in function app
-      - name: Build shared packages
-        run: echo "Placeholder step"
-
-      - name: Install dependencies with pre-built shared packages
-        run: pnpm install
-
-      - name: Build
-        run: pnpm build -F functions
-
-      - name: "Resolve Project Dependencies Using Npm"
+      - name: 'Resolve Project Dependencies Using Npm'
         shell: bash
         run: |
+          pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/" 
+          pnpm build --filter="./libs/**/" --filter="./apps/functions/"
+          pnpm deploy --filter="./apps/functions/" --prod ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+
           pushd '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-          rm -rf node_modules
-          ls
-          npm install --install-links
-          npm run build --if-present
+          pnpm db:generate
+          cp -r ./node_modules/@core/db/node_modules/.prisma ./node_modules/
           popd
 
-      - name: "Login via Azure CLI"
+          tar cvf /tmp/fa-app.tar.gz ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        env:
+          CI: true
+
+      - name: Upload FA Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: fa-app
+          path: /tmp/fa-app.tar.gz
+          retention-days: 1
+
+  deploy:
+    runs-on: opch # For Non KPMG Agent (Host), use ubuntu-latest
+    name: Deploy FA
+    needs: build
+    environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
+    env:
+      AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
+      AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
+
+    steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@v4
+      - name: Download FE App artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: fa-app
+          path: /tmp/
+
+      - name: Unpack FA App artifacts
+        shell: bash
+        run: |
+          tar xvf /tmp/fa-app.tar.gz
+          rm /tmp/fa-app.tar.gz
+
+      - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: "Run Azure Functions Action"
+      - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         id: fa
         with:
-          app-name: "${{ vars.PROJECT_NAME_ABBREVIATION }}-fa-${{ vars.ENV }}"
+          app-name: '${{ vars.PROJECT_NAME_ABBREVIATION }}-fa-${{ vars.ENV }}'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          scm-do-build-during-deployment: true
-          enable-oryx-build: true
+          scm-do-build-during-deployment: false
+          enable-oryx-build: false

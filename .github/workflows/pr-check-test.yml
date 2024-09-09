@@ -1,0 +1,120 @@
+name: PR Check - TEST
+
+on:
+  pull_request:
+    branches: [main, dev]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  PNPM_VERSION: 9.7.1
+
+jobs:
+  combine-unit-tests:
+    name: Combined Unit Test
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20.15.1]
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install & Build dependencies
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build --filter="./libs/**/"
+
+      - name: Test All Unit Tests
+        run: pnpm run test:action
+
+  be-int-test:
+    name: BE Integration Test
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20.15.1]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Prepare Env for test
+        run: |
+          docker compose -f ./libs/core-db/docker-compose-db.yml up -d
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install & Build dependencies
+        run: |
+          pnpm install --frozen-lockfile --filter="./apps/backend/"  --filter="./libs/**/"
+          pnpm run build --filter="./libs/**/"
+
+      - name: Test BE Integration Test
+        run: |
+          pushd ./apps/backend
+          pnpm run test:e2e:cov
+          popd
+
+  fe-storybook-test:
+    name: FE Storybook Test
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20.15.1]
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter="./apps/frontend/"  --filter="./libs/**/"
+
+      - name: Install Playwright
+        run: |
+          npm install playwright wait-on http-server concurrently -g
+          npx playwright install --with-deps
+
+      - name: Build And Test FE Storybook Test
+        run: |
+          pushd ./apps/frontend
+
+          pnpm build-storybook 
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static --port 6006 --silent" \
+            "npx wait-on tcp:6006 && pnpm test-storybook"
+
+          popd
+
+  all-tested:
+    name: All Tested
+    needs: [combine-unit-tests, be-int-test, fe-storybook-test]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: All tests passed
+        run: echo "All tests passed"

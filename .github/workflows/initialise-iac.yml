@@ -72,21 +72,30 @@ jobs:
           echo $AZURE_CREDENTIALS
           echo $AZURE_RESOURCE_GROUP
 
+      - uses: pnpm/action-setup@v4
       - name: Set up NodeJS
         uses: actions/setup-node@v4
         with:
           node-version: 21.1.0
+          cache: 'pnpm'
 
-      - name: Install npm dependencies and prep package.json
+      - name: Install pnpm dependencies
         shell: bash
         # if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          pnpm install
+          cd ../..
           npm install -g ts-node
+          pnpm install --frozen-lockfile --filter="./apps/infrastructure/" 
+          curl -fsSL https://get.pulumi.com | sh -s -- --version 3.130.0
+
           # curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          curl -fsSL https://get.pulumi.com | sh -s -- --version 3.74.0
           # sudo apt install -y jq
           # sudo apt install -y docker docker-compose
+
+      - name: Prepare package.json of CodeDeploy
+        shell: bash
+        # if: steps.cache.outputs.cache-hit != 'true'
+        run: |
           ls -l
           pwd
           pnpm make:codedeploy
@@ -118,7 +127,6 @@ jobs:
         if: ${{ github.event.inputs.first == 'false' }}
         # Note: We have to use absolute path instead of relative path to run pulumi command because of some config issues on OPCH-Runner.
         run: |
-          cd src/codedeploy
           export AZURE_STORAGE_KEY=$(az storage account keys list -n $AZURE_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
 
           /home/lnxadmin/.pulumi/bin/pulumi login --local
@@ -146,8 +154,6 @@ jobs:
 
       - name: Upload State
         run: |
-          cd src/codedeploy
-
           export AZURE_STORAGE_KEY=$(az storage account keys list -n $AZURE_STORAGE_ACCOUNT -g $AZURE_RESOURCE_GROUP -o tsv --query '[0].value')
           /home/lnxadmin/.pulumi/bin/pulumi stack export --file storage-states.json
           echo "-----------------------------------Display State--------------------------------------------"

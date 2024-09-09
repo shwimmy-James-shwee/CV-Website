@@ -1,6 +1,6 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
-import { z } from "zod";
-import * as dotenv from "dotenv";
+import { z } from 'zod';
+import * as dotenv from 'dotenv';
 dotenv.config();
 
 const EnvSchema = z.object({
@@ -15,7 +15,7 @@ const EnvSchema = z.object({
     .string()
     .default(`${process.env.PROJECT_NAME_ABBREVIATION}-managed-identity-${process.env.ENV}`),
   KEYVAULT_NAME: z.string().default(`${process.env.PROJECT_NAME_ABBREVIATION}-keyvault-${process.env.ENV}`),
-  CODEDEPLOY_STORAGE_NAME: z.string().default(`${process.env.PROJECT_NAME_ABBREVIATION}codedeploy${process.env.ENV}`)
+  CODEDEPLOY_STORAGE_NAME: z.string().default(`${process.env.PROJECT_NAME_ABBREVIATION}codedeploy${process.env.ENV}`),
 });
 export type Env = z.infer<typeof EnvSchema>;
 

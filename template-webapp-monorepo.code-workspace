@@ -2,24 +2,24 @@
   "folders": [
     {
       "name": "frontend",
-      "path": "apps/frontend"
+      "path": "apps/frontend",
     },
     {
       "name": "backend",
-      "path": "apps/backend"
+      "path": "apps/backend",
     },
     {
       "name": "functions",
-      "path": "apps/functions"
+      "path": "apps/functions",
     },
     {
       "name": "infrastructure",
-      "path": "apps/infrastructure"
+      "path": "apps/infrastructure",
     },
     {
       "name": "root",
-      "path": "."
-    }
+      "path": ".",
+    },
   ],
   "settings": {
     "files.autoSave": "onFocusChange",
@@ -28,12 +28,12 @@
     "editor.formatOnSave": true,
     "[javascript]": {
       //   "editor.tabSize": 2,
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
       //   "javascript.preferences.importModuleSpecifier": "relative"
     },
     "[typescript]": {
       //   "editor.tabSize": 2,
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
       //   "typescript.preferences.importModuleSpecifier": "relative"
     },
     // "prettier.printWidth": 120,
@@ -45,9 +45,9 @@
         "text": "TODO",
         "color": "#fff",
         "backgroundColor": "#ffbd2a",
-        "overviewRulerColor": "rgba(255,189,42,0.8)"
-      }
-    ]
+        "overviewRulerColor": "rgba(255,189,42,0.8)",
+      },
+    ],
   },
   "extensions": {
     "recommendations": [
@@ -59,7 +59,7 @@
       "styled-components.vscode-styled-components",
       "ms-azuretools.vscode-azurefunctions",
       "iuyoy.highlight-string-code",
-      "pulumi.pulumi-lsp-client"
-    ]
-  }
+      "pulumi.pulumi-lsp-client",
+    ],
+  },
 }

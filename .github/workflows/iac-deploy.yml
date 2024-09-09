@@ -29,9 +29,6 @@ jobs:
   Preview:
     name: Run IaC Preview
     runs-on: opch
-    defaults:
-      run:
-        working-directory: ./apps/infrastructure
     environment: ${{github.event.inputs.environment}} # this will decide the environment to run the job on and will use the variable and secrets defined in the github environment setting
     env:
       ENV: ${{ vars.ENV }}
@@ -60,27 +57,21 @@ jobs:
         run: |
           echo running on branch ${GITHUB_REF##*/} - ${{github.event.inputs.environment}}
 
+      - uses: pnpm/action-setup@v4
       - name: Set up NodeJS
         uses: actions/setup-node@v4
         with:
           node-version: 21.1.0
-
-      - uses: pnpm/action-setup@v4
+          cache: 'pnpm'
 
       - name: Install node dependencies
         shell: bash
         # if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          pnpm install
           npm install -g ts-node
+          pnpm install --frozen-lockfile --filter="./apps/infrastructure/"
 
-          # curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          # sudo apt install -y jq
-          # sudo apt install -y docker docker-compose
-          ls -l
-          pwd
-
-      - name: "Login via Azure CLI"
+      - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
@@ -106,7 +97,8 @@ jobs:
       - uses: pulumi/actions@v5.4.0
         with:
           command: preview
-          cloud-url: "azblob://pulumistate"
+          pulumi-version: 3.130.0
+          cloud-url: 'azblob://pulumistate'
           stack-name: ${{ github.event.inputs.environment }} # When using an individual account, only use stack-name.
           upsert: true
           refresh: true
@@ -127,9 +119,6 @@ jobs:
     needs: ManualApprove
     name: Run IaC Deploy
     runs-on: opch
-    defaults:
-      run:
-        working-directory: ./apps/infrastructure
     environment: ${{github.event.inputs.environment}}
     env:
       ENV: ${{ vars.ENV }}
@@ -158,27 +147,21 @@ jobs:
       - name: Branch name
         run: echo running on branch ${GITHUB_REF##*/} - ${{github.event.inputs.environment}}
 
+      - uses: pnpm/action-setup@v4
       - name: Set up NodeJS
         uses: actions/setup-node@v4
         with:
           node-version: 21.1.0
-
-      - uses: pnpm/action-setup@v4
+          cache: 'pnpm'
 
       - name: Install node dependencies
         shell: bash
         # if: steps.cache.outputs.cache-hit != 'true'
         run: |
-          pnpm install
           npm install -g ts-node
+          pnpm install --frozen-lockfile --filter="./apps/infrastructure/"
 
-          # curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-          # sudo apt install -y jq
-          # sudo apt install -y docker docker-compose
-          ls -l
-          pwd
-
-      - name: "Login via Azure CLI"
+      - name: 'Login via Azure CLI'
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
@@ -205,7 +188,8 @@ jobs:
       - uses: pulumi/actions@v5.4.0
         with:
           command: up
-          cloud-url: "azblob://pulumistate"
+          pulumi-version: 3.130.0
+          cloud-url: 'azblob://pulumistate'
           stack-name: ${{ github.event.inputs.environment }} # When using an individual account, only use stack-name.
           upsert: true
           refresh: true

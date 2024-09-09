@@ -2,15 +2,57 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "tasks": {
+    "db:generate": {
+      "cache": false
+    },
+    "db:push": {
+      "cache": false
+    },
     "build": {
       "dependsOn": ["^build"],
+      "cache": false,
       "inputs": ["$TURBO_DEFAULT$", ".env*"]
     },
-    "lint": {},
+    "build-storybook": {
+      "dependsOn": ["^build-storybook"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
+    },
+    "lint": {
+      "cache": true
+    },
+    "test": {
+      "cache": false
+    },
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "test:action": {
+      "dependsOn": ["^test:action"],
+      "cache": false,
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
     }
   },
-  "globalEnv": ["APP_PORT"]
+  "globalEnv": [
+    "NODE_EXTRA_CA_CERTS",
+    "APP_PORT",
+    "PORT",
+    "NODE_ENV",
+    "VITE_NODE_ENV",
+    "VITE_POLICY_NAME_SIGN_IN_UP",
+    "VITE_POLICY_NAME_EDIT_PROFILE",
+    "VITE_POLICY_NAME_RESET",
+    "VITE_API_URL",
+    "VITE_B2C_CLIENT_ID",
+    "VITE_B2C_TENANT_NAME",
+    "ESLINT_NO_DEV_ERRORS",
+
+    "AZURE_KEY_VAULT_NAME",
+    "SENDGRID_KEY",
+    "TIME_TRIGGER",
+    "AzureWebJobsStorage",
+    "EMAIL_QUEUE_NAME",
+    "STORAGE_BLOB_NAME",
+    "QUEUE_NAME"
+  ]
 }

@@ -21,7 +21,7 @@ As product-oriented engineers, our responsibility covers not only the code we pr
 ## 🙋‍♂️ These are the changes I've made:
 
 <!--
-Briefly outline the changes you made in bullet points, so you reviewer can prioritise what to review
+Briefly outline the changes you made in bullet points, so you reviewer can prioritise what to review or to look out for
 -->
 
 1. TBD
@@ -29,13 +29,12 @@ Briefly outline the changes you made in bullet points, so you reviewer can prior
 
 ## 📝 Checklist
 
-1. Does this PR require a deployment of the frontend app? - Yes/No
-2. Does this PR require a deployment of the backend app? - Yes/No
-3. Does this PR require a deployment of the functions app? - Yes/No
-4. Does this PR involve a change of any parts of our infrastructures? - Yes/No
-5. Does this PR require a deployment of the frontend app? - Yes/No
-6. Have I wrote tests for the changes I made? Yes/No
-7. Am I breaking any existing beaviours of any parts of the system due to this PR? Yes/No
+- [ ] This PR require a deployment of the frontend app
+- [ ] This PR require a deployment of the backend app
+- [ ] this PR require a deployment of the functions app
+- [ ] this PR involve a change of any parts of our infrastructures
+- [ ] I wrote tests for the changes I made
+- [ ] I'm not breaking any existing beaviours of any parts of the system due to this PR
 
 ## ☝️ Special notes to the reviewer (s)
 
@@ -43,13 +42,4 @@ Briefly outline the changes you made in bullet points, so you reviewer can prior
 Optional: outline anything the reviewer needs to take care of / keep in mind when reviewing your changes
 -->
 
-1. TBD
-2. TBD
-
-<!-- This part is only applicable to UI changes-->
-
-## Screenshots:
-
-| Scenarios          | Before     | After      |
-| :----------------- | :--------- | :--------- |
-| DESCRIBE_UI_CHANGE | INSERT_IMG | INSERT_IMG |
+TBD

@@ -1,0 +1,131 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id String [pk]
+  externalOid String
+  loginEmail String [unique, not null]
+  firstName String [not null]
+  lastName String [not null]
+  isSuperAdmin Boolean [default: false]
+  roles UserRole[] [not null]
+  avatarUrl String [not null, default: '/assets/defaultAvatar.png']
+  thumbnailPhoto Int[] [not null]
+  timeZoneOffSet String [not null, default: '-780']
+  timeZone String [not null, default: 'Pacific/Auckland']
+  notificationFrequency NotificationFrequency [not null, default: 'REALTIME']
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  SignInLogs SignInLog [not null]
+  UserActivityLogs UserActivityLog [not null]
+  UserNotifications UserNotification [not null]
+  MemberOfBusinessUnits Member [not null]
+}
+
+Table UserNotification {
+  id Int [pk, increment]
+  status NotificationStatus[] [not null]
+  message String [not null]
+  additionalAttribute Json
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  userId String [not null]
+  User User [not null]
+}
+
+Table SignInLog {
+  id Int [pk, increment]
+  userId String [not null]
+  signInDateTime DateTime [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  User User [not null]
+}
+
+Table UserActivityLog {
+  id Int [pk, increment]
+  userId String [not null]
+  sessionIdentifier String
+  eventStartTime DateTime [not null]
+  eventEndTime DateTime [not null]
+  eventDuration Int [not null]
+  eventParam String
+  eventUrl String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  User User [not null]
+}
+
+Table BusinessUnit {
+  id String [pk]
+  type BusinessUnitType [not null, default: 'TEAM']
+  name String [not null]
+  description String
+  features Feature[] [not null]
+  parentBusinessUnitId String
+  ParentBusinessUnit BusinessUnit
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  Members Member [not null]
+  ChildBusinessUnits BusinessUnit [not null]
+}
+
+Table Member {
+  id Int [pk, increment]
+  roles MemberRole[] [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  businessUnitId String [not null]
+  BusinessUnit BusinessUnit [not null]
+  userId String [not null]
+  User User [not null]
+}
+
+Enum UserRole {
+  STANDARD_USER
+  ADMINISTRATOR
+}
+
+Enum NotificationFrequency {
+  DISABLED
+  REALTIME
+  HOURLY
+  DAILYEVE
+  DAILYMORN
+  WEEKLY
+}
+
+Enum NotificationStatus {
+  NOTIFIED
+  READ
+}
+
+Enum Feature {
+  BASIC
+  BASIC_REPORTING
+}
+
+Enum BusinessUnitType {
+  TEAM
+  DEPARTMENT
+  DIVISION
+  COMPANY
+}
+
+Enum MemberRole {
+  ADMINISTRATOR
+  STANDARD
+}
+
+Ref: UserNotification.userId > User.id [delete: Cascade]
+
+Ref: SignInLog.userId > User.id [delete: Cascade]
+
+Ref: UserActivityLog.userId > User.id [delete: Cascade]
+
+Ref: BusinessUnit.parentBusinessUnitId - BusinessUnit.id [delete: Cascade]
+
+Ref: Member.businessUnitId > BusinessUnit.id [delete: Cascade]
+
+Ref: Member.userId > User.id [delete: Cascade]

@@ -1,20 +1,21 @@
 module.exports = {
   root: true,
-  extends: ["@repo/eslint-config/typescript"],
+  extends: ['@repo/eslint-config/typescript'],
+  plugins: ['react-refresh', 'react', 'react-hooks', 'prettier'],
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
-    ecmaVersion: "latest",
-    sourceType: "module"
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
-  plugins: [],
   settings: {
-    "import/resolver": {
-      typescript: {}
+    'import/resolver': {
+      typescript: {},
     },
     react: {
-      version: "detect"
-    }
-  }
+      version: 'detect',
+    },
+  },
+  ignorePatterns: ['**/schema.ts'],
 };

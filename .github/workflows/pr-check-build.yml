@@ -1,0 +1,96 @@
+name: PR Check - Build
+
+on:
+  pull_request:
+    branches: [main, dev]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  PNPM_VERSION: 9.7.1
+
+jobs:
+  frontend:
+    name: Frontend Build
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20.15.1]
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/frontend/"
+
+      - name: Build FE and Packages
+        run: pnpm run build --filter="./apps/frontend/"  --filter="./libs/**/"
+
+  backend-api:
+    name: Backend API Build
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20.15.1]
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter="./apps/backend/"  --filter="./libs/**/"
+
+      - name: Build BE and Packages
+        run: pnpm run build --filter="./apps/backend/" --filter="./libs/**/"
+
+  function-app:
+    name: Function App Build
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        node-version: [20.15.1]
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --filter="./libs/**/" --filter="./apps/functions/"
+
+      - name: Build BE and Packages
+        run: pnpm build --filter="./libs/**/" --filter="./apps/functions/"
+
+  all-built:
+    name: All Built
+    needs: [frontend, backend-api, function-app]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Build check passed
+        run: echo "Build check passed"

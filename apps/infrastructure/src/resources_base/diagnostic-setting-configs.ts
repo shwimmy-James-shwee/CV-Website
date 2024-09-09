@@ -2,8 +2,8 @@
 Configures diagnostic settings for various resources.
 
 */
-import { input } from "@pulumi/azure-native/types";
-import { envExtend } from "../env-extend";
+import { input } from '@pulumi/azure-native/types';
+import { envExtend } from '../env-extend';
 
 // from config import logRetentionDays, pricing_tier
 // : {
@@ -13,404 +13,394 @@ export const dsSettings = {
   // Diagnostic setttings
   logAnalyticDSMetricsItem: [
     {
-      category: `AllMetrics`,
+      category: 'AllMetrics',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.MetricSettingsArgs[],
 
   logAnalyticDSLogItem: [
     {
-      category: `Audit`,
+      category: 'Audit',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `SummaryLogs`,
+      category: 'SummaryLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: true
-      }
-    }
+        enabled: true,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   // DS
 
   appInsightDSLogItem: [
     {
-      category: `AppServiceAuthenticationLogs`,
+      category: 'AppServiceAuthenticationLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppAvailabilityResults`,
+      category: 'AppAvailabilityResults',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppBrowserTimings`,
+      category: 'AppBrowserTimings',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppEvents`,
+      category: 'AppEvents',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppMetrics`,
+      category: 'AppMetrics',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppDependencies`,
+      category: 'AppDependencies',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppExceptions`,
+      category: 'AppExceptions',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppPageViews`,
+      category: 'AppPageViews',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppPerformanceCounters`,
+      category: 'AppPerformanceCounters',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppRequests`,
+      category: 'AppRequests',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppSystemEvents`,
+      category: 'AppSystemEvents',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppTraces`,
+      category: 'AppTraces',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   storageDSLogItem: [
     {
-      category: `StorageRead`,
+      category: 'StorageRead',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `StorageWrite`,
+      category: 'StorageWrite',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `StorageDelete`,
+      category: 'StorageDelete',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   storageDSMetricsItem: [
     {
-      category: `Capacity`,
+      category: 'Capacity',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `Transaction`,
+      category: 'Transaction',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.MetricSettingsArgs[],
 
   // private endpoint DS
 
   peptDSMetricsItem: [
     {
-      category: `AllMetrics`,
+      category: 'AllMetrics',
       enabled: true,
       retentionPolicy: {
         days: 0,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.MetricSettingsArgs[],
 
   // Vault DS
 
   vaultDSMetricsItem: [
     {
-      category: `AllMetrics`,
+      category: 'AllMetrics',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.MetricSettingsArgs[],
 
   vaultDSLogItem: [
     {
-      category: `AuditEvent`,
+      category: 'AuditEvent',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AzurePolicyEvaluationDetails`,
+      category: 'AzurePolicyEvaluationDetails',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   // Container Registry DS
 
   containerRegistryDSLogItem: [
     {
-      category: `ContainerRegistryRepositoryEvents`,
+      category: 'ContainerRegistryRepositoryEvents',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `ContainerRegistryLoginEvents`,
+      category: 'ContainerRegistryLoginEvents',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   containerRegistryDSMetricsItem: [
     {
-      category: `AllMetrics`,
+      category: 'AllMetrics',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.MetricSettingsArgs[],
 
   // Cosmos Postgres DS
 
   cosmosPostgresDSLogItem: [
     {
-      category: `PostgreSQLLogs`,
+      category: 'PostgreSQLLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   cosmosPostgresDSMetricsItem: [
     {
-      category: `AllMetrics`,
+      category: 'AllMetrics',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.MetricSettingsArgs[],
 
   // Function App DS
 
   functionAppDSLogItem: [
     {
-      category: `AppServiceAuthenticationLogs`,
+      category: 'AppServiceAuthenticationLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `FunctionAppLogs`,
+      category: 'FunctionAppLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   functionAppDSMetricsItem: [
     {
-      category: `AllMetrics`,
+      category: 'AllMetrics',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.MetricSettingsArgs[],
 
   // Web App DS
 
   webAppDSLogItem: [
     {
-      category: `AppServiceAuthenticationLogs`,
+      category: 'AppServiceAuthenticationLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppServiceHTTPLogs`,
+      category: 'AppServiceHTTPLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppServiceConsoleLogs`,
+      category: 'AppServiceConsoleLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppServiceAppLogs`,
+      category: 'AppServiceAppLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppServiceAuditLogs`,
+      category: 'AppServiceAuditLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppServiceIPSecAuditLogs`,
+      category: 'AppServiceIPSecAuditLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     {
-      category: `AppServicePlatformLogs`,
+      category: 'AppServicePlatformLogs',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
+        enabled: false,
+      },
+    },
   ] as input.insights.LogSettingsArgs[],
 
   webAppDSMetricsItem: [
     {
-      category: `AllMetrics`,
+      category: 'AllMetrics',
       enabled: true,
       retentionPolicy: {
         days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    }
-  ] as input.insights.MetricSettingsArgs[]
+        enabled: false,
+      },
+    },
+  ] as input.insights.MetricSettingsArgs[],
 };
 
-if (![`b1`, `b2`, `f1`, `b3`].includes(envExtend.pricingTier.toLowerCase())) {
-  dsSettings.webAppDSLogItem.push(
-    {
-      category: `AppServiceAntivirusScanAuditLogs`,
+if (!envExtend.usingBasicAppPlan) {
+  dsSettings.webAppDSLogItem.push({
+    category: 'AppServiceFileAuditLogs',
+    enabled: false,
+    retentionPolicy: {
+      days: envExtend.logRetentionDays,
       enabled: false,
-      retentionPolicy: {
-        days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    } as input.insights.LogSettingsArgs,
-    {
-      category: `AppServiceFileAuditLogs`,
-      enabled: false,
-      retentionPolicy: {
-        days: envExtend.logRetentionDays,
-        enabled: false
-      }
-    } as input.insights.LogSettingsArgs
-  );
+    },
+  } as input.insights.LogSettingsArgs);
 }

@@ -16,11 +16,11 @@ Dependencies:
 - resources_base.codedeploy_keyvault
 - config
 */
-import { insights, keyvault, network, storage } from "@pulumi/azure-native";
-import { envBase } from "../env-base";
-import { managedIdentity } from "../resources_base/codedeploy-identity";
-import { logAnalyticsWorkspace } from "../resources_base/log-analytic-workspace";
-import { dsSettings } from "../resources_base/diagnostic-setting-configs";
+import { insights, keyvault, network, storage } from '@pulumi/azure-native';
+import { envBase } from '../env-base';
+import { managedIdentity } from '../resources_base/codedeploy-identity';
+import { logAnalyticsWorkspace } from '../resources_base/log-analytic-workspace';
+import { dsSettings } from '../resources_base/diagnostic-setting-configs';
 
 const dataStorageAccountName = `${envBase.PROJECT_NAME_ABBREVIATION}data${envBase.ENV}`;
 
@@ -29,15 +29,15 @@ const storageKey = new keyvault.Key(dataStorageAccountName, {
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
   vaultName: envBase.KEYVAULT_NAME,
   properties: {
-    kty: `RSA`
-  }
+    kty: 'RSA',
+  },
 });
 
 export const dataStorage = new storage.StorageAccount(dataStorageAccountName, {
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
   accountName: dataStorageAccountName,
   sku: {
-    name: storage.SkuName.Standard_GRS
+    name: storage.SkuName.Standard_GRS,
   },
   kind: storage.Kind.StorageV2,
   accessTier: storage.AccessTier.Hot,
@@ -46,11 +46,11 @@ export const dataStorage = new storage.StorageAccount(dataStorageAccountName, {
   allowBlobPublicAccess: true,
   networkRuleSet: {
     defaultAction: storage.DefaultAction.Deny,
-    bypass: storage.Bypass.AzureServices
+    bypass: storage.Bypass.AzureServices,
   },
   identity: {
     type: storage.IdentityType.UserAssigned,
-    userAssignedIdentities: [managedIdentity.then((v) => v.id)]
+    userAssignedIdentities: [managedIdentity.then((v) => v.id)],
   },
   encryption: {
     keySource: storage.KeySource.Microsoft_Keyvault,
@@ -59,37 +59,37 @@ export const dataStorage = new storage.StorageAccount(dataStorageAccountName, {
       file: { enabled: true },
       table: {
         keyType: storage.KeyType.Account,
-        enabled: true
+        enabled: true,
       },
       queue: {
         keyType: storage.KeyType.Account,
-        enabled: true
-      }
+        enabled: true,
+      },
     },
     requireInfrastructureEncryption: true,
     keyVaultProperties: {
       keyName: storageKey.name,
-      keyVaultUri: `https://${envBase.KEYVAULT_NAME}.vault.azure.net`
+      keyVaultUri: `https://${envBase.KEYVAULT_NAME}.vault.azure.net`,
     },
     encryptionIdentity: {
-      encryptionUserAssignedIdentity: managedIdentity.then((v) => v.id)
-    }
-  }
+      encryptionUserAssignedIdentity: managedIdentity.then((v) => v.id),
+    },
+  },
 });
 
 const storageIgnoreList = [
-  `tags`,
-  `defaultEncryptionScope`,
-  `denyEncryptionScopeOverride`,
-  `publicAccess`,
-  `etag`,
-  `hasImmutabilityPolicy`,
-  `hasLegalHold`,
-  `lastModifiedTime`,
-  `leaseState`,
-  `leaseStatus`,
-  `legalHold`,
-  `remainingRetentionDays`
+  'tags',
+  'defaultEncryptionScope',
+  'denyEncryptionScopeOverride',
+  'publicAccess',
+  'etag',
+  'hasImmutabilityPolicy',
+  'hasLegalHold',
+  'lastModifiedTime',
+  'leaseState',
+  'leaseStatus',
+  'legalHold',
+  'remainingRetentionDays',
 ];
 // create storage blob
 export const dataBlobContainer = new storage.BlobContainer(
@@ -98,29 +98,29 @@ export const dataBlobContainer = new storage.BlobContainer(
     accountName: dataStorage.name,
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     containerName: `${dataStorageAccountName}-blob`,
-    publicAccess: storage.PublicAccess.None
+    publicAccess: storage.PublicAccess.None,
   },
   {
     dependsOn: [dataStorage],
     // ITS policies will make the change to the resource directly with default policies.
     // Ignore those changes or the script might fail due to restricted actions.
-    ignoreChanges: storageIgnoreList
-  }
+    ignoreChanges: storageIgnoreList,
+  },
 );
 
 // configure blob service
 new storage.BlobServiceProperties(`${dataStorageAccountName}-service`, {
   accountName: dataStorage.name.apply((v) => v),
   resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-  blobServicesName: `default`,
+  blobServicesName: 'default',
   deleteRetentionPolicy: {
     allowPermanentDelete: false,
     days: 30,
-    enabled: true
+    enabled: true,
   },
   cors: {
-    corsRules: []
-  }
+    corsRules: [],
+  },
 });
 
 // create an general queue
@@ -129,12 +129,12 @@ export const dataQueue = new storage.Queue(
   {
     accountName: dataStorage.name,
     queueName: `${dataStorageAccountName}-queue`,
-    resourceGroupName: envBase.AZURE_RESOURCE_GROUP
+    resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
   },
   {
     ignoreChanges: storageIgnoreList,
-    dependsOn: [dataStorage]
-  }
+    dependsOn: [dataStorage],
+  },
 );
 
 // private endpoint for the storage account
@@ -147,19 +147,19 @@ const dataStoragePept = new network.PrivateEndpoint(
     id: `${dataStorageAccountName}-pept`,
     customDnsConfigs: [],
     subnet: {
-      id: envBase.PRIVATE_ENDPOINT_SUBNET
+      id: envBase.PRIVATE_ENDPOINT_SUBNET,
     },
     privateLinkServiceConnections: [
       {
         name: `${dataStorageAccountName}-plink`,
         privateLinkServiceId: dataStorage.id,
-        groupIds: [`web`]
-      }
-    ]
+        groupIds: ['web'],
+      },
+    ],
   },
   {
-    ignoreChanges: [`tags`, `privateLinkServiceConnections`]
-  }
+    ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+  },
 );
 
 // data blob private endpoint
@@ -171,19 +171,19 @@ const dataBlobPept = new network.PrivateEndpoint(
     customNetworkInterfaceName: `${dataStorageAccountName}-blob-pept-nic`,
     id: `${dataStorageAccountName}-blob-pept`,
     subnet: {
-      id: envBase.PRIVATE_ENDPOINT_SUBNET
+      id: envBase.PRIVATE_ENDPOINT_SUBNET,
     },
     privateLinkServiceConnections: [
       {
         name: `${dataStorageAccountName}-blob-plink`,
         privateLinkServiceId: dataStorage.id,
-        groupIds: [`blob`]
-      }
-    ]
+        groupIds: ['blob'],
+      },
+    ],
   },
   {
-    ignoreChanges: [`tags`, `privateLinkServiceConnections`]
-  }
+    ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+  },
 );
 
 // data queue private endpoint
@@ -195,19 +195,19 @@ const dataQueuePept = new network.PrivateEndpoint(
     customNetworkInterfaceName: `${dataStorageAccountName}-queue-pept-nic`,
     id: `${dataStorageAccountName}-queue-pept`,
     subnet: {
-      id: envBase.PRIVATE_ENDPOINT_SUBNET
+      id: envBase.PRIVATE_ENDPOINT_SUBNET,
     },
     privateLinkServiceConnections: [
       {
         name: `${dataStorageAccountName}-queue-plink`,
         privateLinkServiceId: dataStorage.id,
-        groupIds: [`queue`]
-      }
-    ]
+        groupIds: ['queue'],
+      },
+    ],
   },
   {
-    ignoreChanges: [`tags`, `privateLinkServiceConnections`]
-  }
+    ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+  },
 );
 
 // diagnostic setting for the storage account pept
@@ -223,15 +223,15 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
-    metrics: dsSettings.peptDSMetricsItem
+    metrics: dsSettings.peptDSMetricsItem,
   },
   {
     dependsOn: [dataStoragePept, logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 // diagnostic setting for the storage account blob pept
@@ -247,15 +247,15 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
-    metrics: dsSettings.peptDSMetricsItem
+    metrics: dsSettings.peptDSMetricsItem,
   },
   {
     dependsOn: [dataBlobPept, logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 // diagnostic setting for the storage account queue pept
@@ -271,15 +271,15 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
-    metrics: dsSettings.peptDSMetricsItem
+    metrics: dsSettings.peptDSMetricsItem,
   },
   {
     dependsOn: [dataQueuePept, logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 // diagnostic setting for the storage account, blob, file, table, and queue
@@ -290,12 +290,12 @@ new insights.DiagnosticSetting(
     name: `${dataStorageAccountName}-diagnostic`,
     resourceUri: dataStorage.id,
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
-    metrics: dsSettings.storageDSMetricsItem
+    metrics: dsSettings.storageDSMetricsItem,
   },
   {
     dependsOn: [dataStorage, logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 new insights.DiagnosticSetting(
   `${dataStorageAccountName}-blob-diagnostic`,
@@ -304,12 +304,12 @@ new insights.DiagnosticSetting(
     resourceUri: dataStorage.id.apply((v) => `${v}/blobServices/default`),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
-    metrics: dsSettings.storageDSMetricsItem
+    metrics: dsSettings.storageDSMetricsItem,
   },
   {
     dependsOn: [dataStorage, logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 new insights.DiagnosticSetting(
   `${dataStorageAccountName}-file-diagnostic`,
@@ -318,12 +318,12 @@ new insights.DiagnosticSetting(
     resourceUri: dataStorage.id.apply((v) => `${v}/fileServices/default`),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
-    metrics: dsSettings.storageDSMetricsItem
+    metrics: dsSettings.storageDSMetricsItem,
   },
   {
     dependsOn: [dataStorage, logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 new insights.DiagnosticSetting(
   `${dataStorageAccountName}-table-diagnostic`,
@@ -332,12 +332,12 @@ new insights.DiagnosticSetting(
     resourceUri: dataStorage.id.apply((v) => `${v}/tableServices/default`),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
-    metrics: dsSettings.storageDSMetricsItem
+    metrics: dsSettings.storageDSMetricsItem,
   },
   {
     dependsOn: [dataStorage, logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 new insights.DiagnosticSetting(
@@ -347,19 +347,19 @@ new insights.DiagnosticSetting(
     resourceUri: dataStorage.id.apply((v) => `${v}/queueServices/default`),
     workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     logs: dsSettings.storageDSLogItem,
-    metrics: dsSettings.storageDSMetricsItem
+    metrics: dsSettings.storageDSMetricsItem,
   },
   {
     dependsOn: [dataStorage, logAnalyticsWorkspace],
-    deleteBeforeReplace: true
-  }
+    deleteBeforeReplace: true,
+  },
 );
 
 export const dataStorageKey = dataStorage.name
   .apply((name) => {
     return storage.listStorageAccountKeys({
       resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
-      accountName: name
+      accountName: name,
     });
   })
   .apply((keysRes) => {
@@ -372,7 +372,7 @@ export const dataStorageKey = dataStorage.name
         }
       }
     }
-    return ``;
+    return '';
   });
 
 export const dataStorageConnectionString = dataStorageKey.apply((key) => {

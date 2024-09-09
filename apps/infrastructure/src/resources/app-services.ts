@@ -1,14 +1,14 @@
-import { insights, keyvault, network, web } from "@pulumi/azure-native";
-import { envBase } from "../env-base";
-import { logAnalyticsWorkspace } from "../resources_base/log-analytic-workspace";
-import { frontendUIStorage, frontendUrl } from "./frontend-ui-storage";
-import { appServicePlan } from "../resources_base/app-service-plan";
-import { envExtend } from "../env-extend";
-import { acrCredentials, containerRegistry } from "../resources_base/container-registry";
-import { postgresqlCluster } from "./cosmosdb-postgres";
-import { dsSettings } from "../resources_base/diagnostic-setting-configs";
-import { vault } from "../resources_base/codedeploy-keyvault";
-import { input } from "@pulumi/azure-native/types";
+import { insights, keyvault, network, web } from '@pulumi/azure-native';
+import { envBase } from '../env-base';
+import { logAnalyticsWorkspace } from '../resources_base/log-analytic-workspace';
+import { frontendUIStorage, frontendUrl } from './frontend-ui-storage';
+import { appServicePlan } from '../resources_base/app-service-plan';
+import { envExtend } from '../env-extend';
+import { acrCredentials, containerRegistry } from '../resources_base/container-registry';
+import { pgbouncerConnectionString, postgresqlCluster, pgConnectionString } from './cosmosdb-postgres';
+import { dsSettings } from '../resources_base/diagnostic-setting-configs';
+import { vault } from '../resources_base/codedeploy-keyvault';
+import { input } from '@pulumi/azure-native/types';
 
 const webAppServiceName = `${envBase.PROJECT_NAME_ABBREVIATION}-be-${envBase.ENV}`;
 
@@ -19,76 +19,73 @@ const webappInsight = new insights.Component(
     location: envBase.AZURE_RESOURCE_LOCATION,
     resourceName: `${webAppServiceName}-insight`,
     applicationType: insights.ApplicationType.Web,
-    kind: `web`,
+    kind: 'web',
     retentionInDays: 90,
     ingestionMode: insights.IngestionMode.LogAnalytics,
     workspaceResourceId: logAnalyticsWorkspace.id.apply((id) => id),
-    flowType: insights.FlowType.Bluefield
+    flowType: insights.FlowType.Bluefield,
   },
   {
     dependsOn: [logAnalyticsWorkspace],
-    ignoreChanges: [`tags`]
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
-const cors = frontendUrl.apply((url) => {
-  const urls = [url];
-  if (envBase.ENV == `dev`) {
-    urls.push(`http://localhost:3000`);
-  }
-  return urls;
-});
+const cors = [frontendUrl];
+if (envBase.ENV == 'dev') {
+  cors.push('http://localhost:3000');
+}
 
 const appSettings: input.web.NameValuePairArgs[] = [
   // unless needed, try use keyvault to store other secrets and configs, changing these will cause the app to restart
   // app service settings
   {
-    name: `APPINSIGHTS_INSTRUMENTATIONKEY`,
-    value: webappInsight.instrumentationKey.apply((key) => key)
+    name: 'APPINSIGHTS_INSTRUMENTATIONKEY',
+    value: webappInsight.instrumentationKey.apply((key) => key),
   },
   {
-    name: `APPLICATIONINSIGHTS_CONNECTION_STRING`,
-    value: webappInsight.connectionString.apply((conn) => conn)
+    name: 'APPLICATIONINSIGHTS_CONNECTION_STRING',
+    value: webappInsight.connectionString.apply((conn) => conn),
   },
   {
-    name: `ApplicationInsightsAgent_EXTENSION_VERSION`,
-    value: `~3`
+    name: 'ApplicationInsightsAgent_EXTENSION_VERSION',
+    value: '~3',
   },
   {
-    name: `DiagnosticServices_EXTENSION_VERSION`,
-    value: `~3`
+    name: 'DiagnosticServices_EXTENSION_VERSION',
+    value: '~3',
   },
   {
-    name: `InstrumentationEngine_EXTENSION_VERSION`,
-    value: `disabled`
+    name: 'InstrumentationEngine_EXTENSION_VERSION',
+    value: 'disabled',
   },
   {
-    name: `XDT_MicrosoftApplicationInsights_BaseExtensions`,
-    value: `disabled`
+    name: 'XDT_MicrosoftApplicationInsights_BaseExtensions',
+    value: 'disabled',
   },
   {
-    name: `XDT_MicrosoftApplicationInsights_Mode`,
-    value: `recommended`
+    name: 'XDT_MicrosoftApplicationInsights_Mode',
+    value: 'recommended',
   },
   {
-    name: `XDT_MicrosoftApplicationInsights_PreemptSdk`,
-    value: `disabled`
+    name: 'XDT_MicrosoftApplicationInsights_PreemptSdk',
+    value: 'disabled',
   },
   {
-    name: `WEBSITE_PULL_IMAGE_OVER_VNET`,
-    value: `true`
+    name: 'WEBSITE_PULL_IMAGE_OVER_VNET',
+    value: 'true',
   },
   // docker registry settings
   {
-    name: `DOCKER_REGISTRY_SERVER_URL`,
-    value: containerRegistry.loginServer.apply((server) => `https://${server}`)
+    name: 'DOCKER_REGISTRY_SERVER_URL',
+    value: containerRegistry.loginServer.apply((server) => `https://${server}`),
   },
   {
-    name: `DOCKER_REGISTRY_SERVER_USERNAME`,
-    value: acrCredentials.apply((creds) => creds.username || ``)
+    name: 'DOCKER_REGISTRY_SERVER_USERNAME',
+    value: acrCredentials.apply((creds) => creds.username || ''),
   },
   {
-    name: `DOCKER_REGISTRY_SERVER_PASSWORD`,
+    name: 'DOCKER_REGISTRY_SERVER_PASSWORD',
     value: acrCredentials.apply((creds) => {
       if (creds) {
         if (creds?.passwords) {
@@ -99,29 +96,53 @@ const appSettings: input.web.NameValuePairArgs[] = [
           }
         }
       }
-      return ``;
-    })
+      return '';
+    }),
   },
   // application settings
   {
-    name: `AZURE_KEY_VAULT_NAME`,
-    value: vault.then((resVault) => resVault.name)
+    name: 'AZURE_KEY_VAULT_NAME',
+    value: vault.then((resVault) => resVault.name),
   },
   {
-    name: `PORT`,
-    value: `80`
+    name: 'PORT',
+    value: '80',
   },
   {
-    name: `APP_PORT`,
-    value: `80`
+    name: 'APP_PORT',
+    value: '80',
   },
   {
-    name: `WEBSITES_PORT`,
-    value: `80`
-  }
+    name: 'WEBSITES_PORT',
+    value: '80',
+  },
+  {
+    name: 'DATABASE_URL',
+    value: pgbouncerConnectionString.apply((connectionString) => connectionString),
+  },
+  {
+    name: 'DIRECT_URL',
+    value: pgConnectionString.apply((connectionString) => connectionString),
+  },
+  // B2C settings
+  {
+    name: 'B2C_CLIENT_ID',
+    value: envExtend.B2C_CLIENT_ID,
+  },
+  {
+    name: 'B2C_POLICY_NAME',
+    value: envExtend.B2C_POLICY_NAME,
+  },
+  {
+    name: 'B2C_TENANT_ID',
+    value: envExtend.B2C_TENANT_ID,
+  },
+  {
+    name: 'B2C_TENANT_NAME',
+    value: envExtend.B2C_TENANT_NAME,
+  },
   // unless needed, try use keyvault to store other secrets and configs, changing these will cause the app to restart
 ];
-
 const restAPI = new web.WebApp(
   webAppServiceName,
   {
@@ -133,33 +154,33 @@ const restAPI = new web.WebApp(
     clientCertEnabled: false,
     httpsOnly: true,
     identity: {
-      type: web.ManagedServiceIdentityType.SystemAssigned
+      type: web.ManagedServiceIdentityType.SystemAssigned,
     },
     siteConfig: {
-      publicNetworkAccess: `Disabled`,
+      publicNetworkAccess: 'Disabled',
       ftpsState: web.FtpsState.FtpsOnly,
       alwaysOn: true,
       numberOfWorkers: 2,
-      linuxFxVersion: `DOCKER|nginx:latest`,
-      healthCheckPath: `/`,
+      linuxFxVersion: 'DOCKER|nginx:latest',
+      healthCheckPath: '/', // remember to change this in the portal to the health check path /api/health or which ever path you use
       cors: {
-        allowedOrigins: cors.apply((urls) => urls),
-        supportCredentials: true
+        allowedOrigins: cors,
+        supportCredentials: true,
       },
       httpLoggingEnabled: true,
       logsDirectorySizeLimit: 35,
-      appSettings: appSettings
-    }
+      appSettings: appSettings,
+    },
   },
   {
     dependsOn: [webappInsight, containerRegistry, appServicePlan, frontendUIStorage, postgresqlCluster],
-    ignoreChanges: [`tags`, `siteConfig.linuxFxVersion`, `siteConfig.healthCheckPath`],
+    ignoreChanges: ['tags', 'siteConfig.linuxFxVersion', 'siteConfig.healthCheckPath'],
     customTimeouts: {
-      create: `30m`,
-      update: `30m`,
-      delete: `30m`
-    }
-  }
+      create: '30m',
+      update: '30m',
+      delete: '30m',
+    },
+  },
 );
 
 // app service will need access to keyvault
@@ -170,18 +191,18 @@ new keyvault.AccessPolicy(
     resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
     vaultName: envBase.KEYVAULT_NAME,
     policy: {
-      objectId: restAPI.identity.apply((identity) => identity?.principalId || ``),
+      objectId: restAPI.identity.apply((identity) => identity?.principalId || ''),
       tenantId: envBase.ARM_TENANT_ID,
       permissions: {
-        keys: [`Decrypt`, `Get`, `List`],
-        secrets: [`Get`, `List`]
-      }
-    }
+        keys: ['Decrypt', 'Get', 'List'],
+        secrets: ['Get', 'List'],
+      },
+    },
   },
   {
     dependsOn: [restAPI],
-    ignoreChanges: [`tags`]
-  }
+    ignoreChanges: ['tags'],
+  },
 );
 
 const restAPIPept = new network.PrivateEndpoint(
@@ -192,20 +213,20 @@ const restAPIPept = new network.PrivateEndpoint(
     privateEndpointName: `${webAppServiceName}-pept`,
     customNetworkInterfaceName: `${webAppServiceName}-pept-nic`,
     subnet: {
-      id: envExtend.PRIVATE_ENDPOINT_SUBNET
+      id: envExtend.PRIVATE_ENDPOINT_SUBNET,
     },
     privateLinkServiceConnections: [
       {
         name: `${webAppServiceName}-plink`,
         privateLinkServiceId: restAPI.id.apply((id) => id),
-        groupIds: [`sites`]
-      }
-    ]
+        groupIds: ['sites'],
+      },
+    ],
   },
   {
     dependsOn: [restAPI],
-    ignoreChanges: [`tags`, `privateLinkServiceConnections`]
-  }
+    ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+  },
 );
 
 // diagnostic setting for the web app
@@ -216,11 +237,11 @@ new insights.DiagnosticSetting(
     logs: dsSettings.webAppDSLogItem,
     metrics: dsSettings.webAppDSMetricsItem,
     resourceUri: restAPI.id.apply((id) => id),
-    workspaceId: logAnalyticsWorkspace.id.apply((id) => id)
+    workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
   },
   {
-    dependsOn: [restAPI, logAnalyticsWorkspace]
-  }
+    dependsOn: [restAPI, logAnalyticsWorkspace],
+  },
 );
 
 // diagnostic setting for the web app pept
@@ -238,56 +259,56 @@ new insights.DiagnosticSetting(
           }
         }
       }
-      return ``;
+      return '';
     }),
-    workspaceId: logAnalyticsWorkspace.id.apply((id) => id)
+    workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
   },
   {
-    dependsOn: [restAPIPept, logAnalyticsWorkspace]
-  }
+    dependsOn: [restAPIPept, logAnalyticsWorkspace],
+  },
 );
 
 // webapp clone for staging
-if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase()) && envExtend.addSlot) {
+if (!envExtend.usingBasicAppPlan && envExtend.addSlot) {
   const restAPIStaging = new web.WebAppSlot(
     `${webAppServiceName}-staging`,
     {
       resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
       name: restAPI.name.apply((name) => name),
-      slot: `staging`,
+      slot: 'staging',
       serverFarmId: appServicePlan.id.apply((id) => id),
       virtualNetworkSubnetId: envExtend.SERVICE_ENDPOINT_SUBNET,
       vnetRouteAllEnabled: true,
       clientCertEnabled: false,
       httpsOnly: true,
       identity: {
-        type: web.ManagedServiceIdentityType.SystemAssigned
+        type: web.ManagedServiceIdentityType.SystemAssigned,
       },
       siteConfig: {
-        publicNetworkAccess: `Disabled`,
+        publicNetworkAccess: 'Disabled',
         ftpsState: web.FtpsState.FtpsOnly,
         alwaysOn: true,
         numberOfWorkers: 2,
-        linuxFxVersion: `DOCKER|nginx:latest`,
-        healthCheckPath: `/`,
+        linuxFxVersion: 'DOCKER|nginx:latest',
+        healthCheckPath: '/', // remember to change this in the portal to the health check path /api/health or which ever path you use
         cors: {
-          allowedOrigins: cors.apply((urls) => urls),
-          supportCredentials: true
+          allowedOrigins: cors,
+          supportCredentials: true,
         },
         httpLoggingEnabled: true,
         logsDirectorySizeLimit: 35,
-        appSettings: appSettings
-      }
+        appSettings: appSettings,
+      },
     },
     {
       dependsOn: [webappInsight, containerRegistry, appServicePlan, frontendUIStorage, postgresqlCluster, restAPI],
-      ignoreChanges: [`tags`, `siteConfig.linuxFxVersion`, `siteConfig.healthCheckPath`],
+      ignoreChanges: ['tags', 'siteConfig.linuxFxVersion', 'siteConfig.healthCheckPath'],
       customTimeouts: {
-        create: `30m`,
-        update: `30m`,
-        delete: `30m`
-      }
-    }
+        create: '30m',
+        update: '30m',
+        delete: '30m',
+      },
+    },
   );
 
   new keyvault.AccessPolicy(
@@ -296,18 +317,18 @@ if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase()) && e
       resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
       vaultName: envBase.KEYVAULT_NAME,
       policy: {
-        objectId: restAPIStaging.identity.apply((identity) => identity?.principalId || ``),
+        objectId: restAPIStaging.identity.apply((identity) => identity?.principalId || ''),
         tenantId: envBase.ARM_TENANT_ID,
         permissions: {
-          keys: [`Decrypt`, `Get`, `List`],
-          secrets: [`Get`, `List`]
-        }
-      }
+          keys: ['Decrypt', 'Get', 'List'],
+          secrets: ['Get', 'List'],
+        },
+      },
     },
     {
       dependsOn: [restAPIStaging],
-      ignoreChanges: [`tags`]
-    }
+      ignoreChanges: ['tags'],
+    },
   );
 
   const restAPIStagingPept = new network.PrivateEndpoint(
@@ -318,20 +339,20 @@ if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase()) && e
       privateEndpointName: `${webAppServiceName}-staging-pept`,
       customNetworkInterfaceName: `${webAppServiceName}-staging-pept-nic`,
       subnet: {
-        id: envExtend.PRIVATE_ENDPOINT_SUBNET
+        id: envExtend.PRIVATE_ENDPOINT_SUBNET,
       },
       privateLinkServiceConnections: [
         {
           name: `${webAppServiceName}-staging-plink`,
           privateLinkServiceId: restAPI.id.apply((id) => id),
-          groupIds: [`sites-staging`]
-        }
-      ]
+          groupIds: ['sites-staging'],
+        },
+      ],
     },
     {
       dependsOn: [restAPIStaging],
-      ignoreChanges: [`tags`, `privateLinkServiceConnections`]
-    }
+      ignoreChanges: ['tags', 'privateLinkServiceConnections'],
+    },
   );
   // diagnostic setting for the web app
   new insights.DiagnosticSetting(
@@ -339,14 +360,14 @@ if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase()) && e
     {
       name: `${webAppServiceName}-staging-diagnostic-setting`,
       // staging doesnt like app service authentication logs
-      logs: dsSettings.webAppDSLogItem.filter((item) => item.category !== `AppServiceAuthenticationLogs`),
+      logs: dsSettings.webAppDSLogItem.filter((item) => item.category !== 'AppServiceAuthenticationLogs'),
       metrics: dsSettings.webAppDSMetricsItem,
       resourceUri: restAPIStaging.id.apply((id) => id),
-      workspaceId: logAnalyticsWorkspace.id.apply((id) => id)
+      workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     },
     {
-      dependsOn: [restAPIStaging, logAnalyticsWorkspace]
-    }
+      dependsOn: [restAPIStaging, logAnalyticsWorkspace],
+    },
   );
 
   // diagnostic setting for the web app pept
@@ -364,12 +385,125 @@ if (![`b1`, `b2`, `b3`, `f1`].includes(envExtend.pricingTier.toLowerCase()) && e
             }
           }
         }
-        return ``;
+        return '';
       }),
-      workspaceId: logAnalyticsWorkspace.id.apply((id) => id)
+      workspaceId: logAnalyticsWorkspace.id.apply((id) => id),
     },
     {
-      dependsOn: [restAPIStagingPept, logAnalyticsWorkspace]
-    }
+      dependsOn: [restAPIStagingPept, logAnalyticsWorkspace],
+    },
+  );
+}
+
+// Auto scale settings
+
+if (!envExtend.usingBasicAppPlan) {
+  new insights.AutoscaleSetting(
+    `${envBase.PROJECT_NAME_ABBREVIATION}-asp-${envBase.ENV}-autoscale`,
+    {
+      resourceGroupName: envBase.AZURE_RESOURCE_GROUP,
+      autoscaleSettingName: `${envBase.PROJECT_NAME_ABBREVIATION}-asp-${envBase.ENV}-autoscale`,
+      targetResourceUri: appServicePlan.id,
+      enabled: true,
+      profiles: [
+        {
+          name: 'apiProfile',
+          capacity: {
+            default: `${envExtend.minCapacity}`,
+            minimum: `${envExtend.minCapacity}`,
+            maximum: `${envExtend.maxCapacity}`,
+          },
+          rules: [
+            // Increase will always be OR condition
+            {
+              scaleAction: {
+                direction: insights.ScaleDirection.Increase,
+                type: insights.ScaleType.ChangeCount,
+                value: '1',
+                cooldown: 'PT1M',
+              },
+              metricTrigger: {
+                metricName: 'CpuPercentage',
+                metricNamespace: 'microsoft.web/serverfarms',
+                metricResourceUri: appServicePlan.id.apply((id) => `${id}`),
+                operator: 'GreaterThanOrEqual',
+                statistic: 'Average',
+                threshold: 75,
+                timeAggregation: 'Average',
+                timeGrain: 'PT1M',
+                timeWindow: 'PT5M',
+                dividePerInstance: false,
+              },
+            },
+            {
+              scaleAction: {
+                direction: insights.ScaleDirection.Increase,
+                type: insights.ScaleType.ChangeCount,
+                value: '1',
+                cooldown: 'PT1M',
+              },
+              metricTrigger: {
+                metricName: 'HttpResponseTime',
+                metricNamespace: 'microsoft.web/sites',
+                metricResourceUri: restAPI.id.apply((id) => id),
+                operator: 'GreaterThanOrEqual',
+                statistic: 'Average',
+                threshold: 1.5,
+                timeAggregation: 'Average',
+                timeGrain: 'PT1M',
+                timeWindow: 'PT5M',
+                dividePerInstance: false,
+              },
+            },
+
+            // Decrease will be AND condition
+            {
+              scaleAction: {
+                direction: insights.ScaleDirection.Decrease,
+                type: insights.ScaleType.ChangeCount,
+                value: '1',
+                cooldown: 'PT1M',
+              },
+              metricTrigger: {
+                metricName: 'CpuPercentage',
+                metricNamespace: 'microsoft.web/serverfarms',
+                metricResourceUri: appServicePlan.id.apply((id) => `${id}`),
+                operator: 'LessThanOrEqual',
+                statistic: 'Average',
+                threshold: 45,
+                timeAggregation: 'Average',
+                timeGrain: 'PT1M',
+                timeWindow: 'PT5M',
+                dividePerInstance: false,
+              },
+            },
+
+            {
+              scaleAction: {
+                direction: insights.ScaleDirection.Decrease,
+                type: insights.ScaleType.ChangeCount,
+                value: '1',
+                cooldown: 'PT1M',
+              },
+              metricTrigger: {
+                metricName: 'HttpResponseTime',
+                metricNamespace: 'microsoft.web/sites',
+                metricResourceUri: restAPI.id.apply((id) => id),
+                operator: 'LessThanOrEqual',
+                statistic: 'Average',
+                threshold: 1,
+                timeAggregation: 'Average',
+                timeGrain: 'PT1M',
+                timeWindow: 'PT5M',
+                dividePerInstance: false,
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      dependsOn: [restAPI, appServicePlan],
+    },
   );
 }
