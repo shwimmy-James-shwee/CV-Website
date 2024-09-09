@@ -7,7 +7,7 @@
     "test": "turbo test",
     "lint": "turbo lint",
     "test:action": "turbo test:action",
-    "prettier:check": "prettier --check .",
+    "prettier:check": "prettier --cache --check .",
     "prettier:write": "prettier --write ."
   },
   "devDependencies": {
