@@ -23,3 +23,8 @@ export type CreateDto<T> = {
   fields: FieldsRequested;
   args: T;
 };
+
+export type Invocable<T> = {
+  requestId: string;
+  args: T;
+};

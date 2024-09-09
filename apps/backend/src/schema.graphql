@@ -174,3 +174,26 @@ input StringWhereUniqueInput {
 input UserFindOneArgs {
   where: StringWhereUniqueInput!
 }
+
+type Mutation {
+  updateUser(args: UserUpdateArgs!): User!
+}
+
+input UserUpdateArgs {
+  where: StringWhereUniqueInput!
+  data: UserUpdateInput!
+}
+
+input UserUpdateInput {
+  externalOid: String
+  loginEmail: String
+  firstName: String
+  lastName: String
+  isSuperAdmin: Boolean
+  roles: [UserRole!]
+  avatarUrl: String
+  thumbnailPhoto: [Int!]
+  timeZoneOffSet: String
+  timeZone: String
+  notificationFrequency: NotificationFrequency
+}
