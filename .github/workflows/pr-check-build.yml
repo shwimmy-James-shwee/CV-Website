@@ -86,3 +86,8 @@ jobs:
 
       - name: Build BE and Packages
         run: pnpm build --filter="./libs/**/" --filter="./apps/functions/"
+
+  all-built:
+    name: All Built
+    needs: [frontend, backend-api, function-app]
+    runs-on: ubuntu-22.04

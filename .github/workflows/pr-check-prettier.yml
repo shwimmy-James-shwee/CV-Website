@@ -32,3 +32,8 @@ jobs:
 
       - name: Check formatting with Prettier
         run: pnpm prettier:check
+
+  all-prettied:
+    name: All Prettied
+    needs: prettier
+    runs-on: ubuntu-22.04

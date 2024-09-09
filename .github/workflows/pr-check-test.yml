@@ -110,3 +110,8 @@ jobs:
             "npx wait-on tcp:6006 && pnpm test-storybook"
 
           popd
+
+  all-tested:
+    name: All Tested
+    needs: [combine-unit-tests, be-int-test, fe-storybook-test]
+    runs-on: ubuntu-22.04
