@@ -2,7 +2,7 @@ import { Catch, ArgumentsHost, HttpStatus, HttpException } from '@nestjs/common'
 
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Request, Response } from 'express';
-import { PrismaClientValidationError } from '@prisma/client/runtime/library';
+import { PrismaClientValidationError } from '@core/db';
 import { InsightLoggerService } from './utilities/logger/insight-logger.service';
 
 type MyResponseObj = {
