@@ -62,6 +62,15 @@ jobs:
       - name: Build BE and Packages
         run: pnpm run build --filter="./apps/backend/" --filter="./libs/**/"
 
+  backend-api-docker:
+    name: Backend API (Docker)
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build BE Docker
+        run: docker build -t webappapi -f ./apps/backend/dockerfiles/node.Dockerfile .
+
   function-app:
     name: Function App Build
     runs-on: ubuntu-22.04
@@ -89,7 +98,7 @@ jobs:
 
   all-built:
     name: All Built
-    needs: [frontend, backend-api, function-app]
+    needs: [frontend, backend-api, function-app, backend-api-docker]
     runs-on: ubuntu-22.04
     steps:
       - name: Build check passed
