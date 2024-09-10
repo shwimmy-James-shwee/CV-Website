@@ -63,7 +63,7 @@ jobs:
         run: pnpm run build --filter="./apps/backend/" --filter="./libs/**/"
 
   backend-api-docker:
-    name: Backend API Build
+    name: Backend API (Docker)
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
