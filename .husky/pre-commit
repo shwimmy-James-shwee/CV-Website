@@ -1,6 +1,5 @@
-
 pnpm lint
 pnpm prettier:check
-pushd ./libs/core-db
+cd ./libs/core-db
 node schemaCheck.js
-popd
+cd ../..
