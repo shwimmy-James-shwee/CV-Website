@@ -18,6 +18,13 @@ import { UserResolver } from '@/resolvers/user.resolver';
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       installSubscriptionHandlers: true,
+      formatError: (e) => {
+        const { message } = e;
+        return {
+          message,
+          code: 400,
+        };
+      },
     }),
   ],
   exports: [UserResolver],
