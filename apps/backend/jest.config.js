@@ -45,11 +45,13 @@ module.exports = {
     'src/make.env.ts',
     'src/middleware/',
 
-    // ignore graphql files for now
+    // ignore graphql-related for now
     'src/models',
     'src/modules',
     'src/resolvers',
     'src/types',
+    'src/services',
+    'src/repositories',
   ],
 
   // An array of file extensions your modules use

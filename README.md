@@ -57,6 +57,8 @@ Currently, the shared packages we're using:
 
 ## How to setup the project locally?
 
+Docker is used to setup the required database connection. Use the command `docker compose -f ./libs/core-db/docker-compose-db.yml up -d` to setup a postgres on port 5432 and with username `postgres` password `postgres`. **You do not need this step if you alread have a postgres database with the same [configuration](./libs/core-db/docker-compose-db.yml)**
+
 1. Clone the repo
 2. Run `docker compose -f ./libs/core-db/docker-compose-db.yml up -d`
 

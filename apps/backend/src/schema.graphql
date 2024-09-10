@@ -102,10 +102,10 @@ type User {
   notificationFrequency: NotificationFrequency
   createdAt: DateTime
   updatedAt: DateTime
-  SignInLogs: SignInLog
-  UserActivityLogs: UserActivityLog
-  UserNotifications: UserNotification
-  MemberOfBusinessUnits: Member
+  SignInLogs: [SignInLog!]
+  UserActivityLogs: [UserActivityLog!]
+  UserNotifications: [UserNotification!]
+  MemberOfBusinessUnits: [Member!]
 }
 
 enum UserRole {
@@ -128,12 +128,14 @@ type UserFindManyResponse {
 
 type Query {
   findManyUsers(args: UserFindManyArgs!): UserFindManyResponse!
+  findOneUser(args: UserFindOneArgs!): User!
 }
 
 input UserFindManyArgs {
   take: Int
   skip: Int
   where: UserWhereInput
+  cursor: StringWhereUniqueInput
 }
 
 input UserWhereInput {
@@ -160,4 +162,38 @@ input StringFilter {
 enum QueryMode {
   Default
   Insensitive
+}
+
+"""
+Useful for specifying a record of a table where the IDs are stored as strings
+"""
+input StringWhereUniqueInput {
+  id: String!
+}
+
+input UserFindOneArgs {
+  where: StringWhereUniqueInput!
+}
+
+type Mutation {
+  updateUser(args: UserUpdateArgs!): User!
+}
+
+input UserUpdateArgs {
+  where: StringWhereUniqueInput!
+  data: UserUpdateInput!
+}
+
+input UserUpdateInput {
+  externalOid: String
+  loginEmail: String
+  firstName: String
+  lastName: String
+  isSuperAdmin: Boolean
+  roles: [UserRole!]
+  avatarUrl: String
+  thumbnailPhoto: [Int!]
+  timeZoneOffSet: String
+  timeZone: String
+  notificationFrequency: NotificationFrequency
 }

@@ -49,15 +49,15 @@ export class User {
   @Field(() => Date, { nullable: true })
   updatedAt?: Date;
 
-  @Field(() => SignInLog, { nullable: true })
+  @Field(() => [SignInLog], { nullable: true })
   SignInLogs?: SignInLog[];
 
-  @Field(() => UserActivityLog, { nullable: true })
+  @Field(() => [UserActivityLog], { nullable: true })
   UserActivityLogs?: UserActivityLog[];
 
-  @Field(() => UserNotification, { nullable: true })
+  @Field(() => [UserNotification], { nullable: true })
   UserNotifications?: UserNotification[];
 
-  @Field(() => Member, { nullable: true })
+  @Field(() => [Member], { nullable: true })
   MemberOfBusinessUnits?: Member[];
 }
