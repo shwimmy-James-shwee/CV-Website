@@ -1,0 +1,17 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@core/db": "workspace:*",
+    "@ngneat/falso": "7.2.0"
+  },
+  "devDependencies": {
+    "typescript": "5.5.4",
+    "@repo/eslint-config": "workspace:*"
+  },
+  "packageManager": "pnpm@9.7.1"
+}
