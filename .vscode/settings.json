@@ -1,0 +1,31 @@
+{
+  "editor.codeLens": true,
+  "files.autoSave": "onFocusChange",
+  // "editor.tabSize": 2,
+  // "files.eol": "\n",
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    //   "editor.tabSize": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    //   "javascript.preferences.importModuleSpecifier": "relative"
+  },
+  "[typescript]": {
+    //   "editor.tabSize": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    //   "typescript.preferences.importModuleSpecifier": "relative"
+  },
+  "typescript.referencesCodeLens.enabled": true,
+  "javascript.referencesCodeLens.enabled": true,
+  // "prettier.printWidth": 120,
+  // "prettier.semi": true,
+  // "prettier.prettierPath": "./node_modules/prettier",
+  // "prettier.singleQuote": false,
+  "todohighlight.keywords": [
+    {
+      "text": "TODO",
+      "color": "#fff",
+      "backgroundColor": "#ffbd2a",
+      "overviewRulerColor": "rgba(255,189,42,0.8)"
+    }
+  ]
+}
