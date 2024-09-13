@@ -1,6 +1,8 @@
 import { err, fromPromise, ok, ResultAsync } from 'neverthrow';
-import { PrismaClient } from '@core/db';
+import { PrismaClient, User } from '@core/db';
 import { logger } from '@/common/logger';
+import { generateUserCreateInput } from './data-preparation.service';
+import { prisma } from '@/common/prisma';
 
 export type DataOperationService = {
   CLEAR_ALL_ROWS_IN_ALL_TABLES: (prisma: PrismaClient) => Promise<ResultAsync<void, Error>>;
@@ -44,4 +46,40 @@ export const CLEAR_ALL_ROWS_IN_ALL_TABLES: DataOperationService['CLEAR_ALL_ROWS_
 
   logger.info(`Function ${CLEAR_ALL_ROWS_IN_ALL_TABLES}() succeeded`);
   return ok<void>(undefined);
+};
+
+export const seedUsers = async (userCount: number): Promise<ResultAsync<Map<string, User>, Error>> => {
+  logger.warn('Generating items to seed...');
+  const inputs = Array.from({ length: userCount }, () => {
+    return generateUserCreateInput();
+  });
+  logger.verbose(`Generated ${inputs?.length} items to seed`);
+
+  const itemsCreated = new Map<string, User>();
+
+  logger.warn(`Inserting ${inputs?.length} items to db...`);
+
+  for await (const input of inputs) {
+    logger.warn(`Inserting item (${input?.firstName} ${input?.lastName})...`);
+
+    // db call
+    const result = await fromPromise(prisma.user.create({ data: input }), (e) => e);
+
+    if (result.isErr()) {
+      const message = `Failed to insert item (${input?.firstName} ${input?.lastName}). ${JSON.stringify(result.error)}`;
+      logger.error(message);
+      continue;
+    }
+
+    logger.verbose(`Inserted item (${input?.firstName} ${input?.lastName}) to db`);
+    itemsCreated.set(result.value?.id, result.value);
+  }
+
+  logger.info(`Inserted ${itemsCreated.size} items to db.`);
+  return ok<Map<string, User>>(itemsCreated);
+};
+
+export const seedDb = async (userCount: number): Promise<ResultAsync<void, Error>> => {
+  seedUsers(userCount);
+  return ok(undefined);
 };

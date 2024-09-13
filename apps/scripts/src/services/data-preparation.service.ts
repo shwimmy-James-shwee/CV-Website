@@ -6,144 +6,158 @@ import {
   MemberRole,
   NotificationFrequency,
   NotificationStatus,
+  Prisma,
   SignInLog,
-  User,
   UserActivityLog,
-  UserNotification,
   UserRole,
 } from '@core/db';
 import * as f from '@ngneat/falso';
 
-/**
- * Helper functions to generate random indexes
- */
-// Generate a random number between 2 ranges (min and max included)
-function generateRandomIndex(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
+// ===== Helper functions to generate random indexes =====
 
-function generateBiasedRandomBinaryIndex(biasThreshold: number): number {
+/**
+ * Generate a random number between 2 ranges (min and max included)
+ */
+export const generateRandomIndex = (min: number, max: number): number => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
+export const generateBiasedRandomBinaryIndex = (biasThreshold: number): number => {
   if (Math.random() < biasThreshold) {
     return 1;
   }
   return 0;
-}
+};
 
-function generateBiasedRandomBool(biasThreshold: number): boolean {
+export const generateBiasedRandomBool = (biasThreshold: number): boolean => {
   if (Math.random() < biasThreshold) {
     return true;
   }
   return false;
-}
+};
 
 // Generates a random array of object (type T) with no duplicates
-function generateRandomLengthObjectOfArrayUnique<T>(length: number, callback: () => T): T[] {
+export const generateRandomLengthObjectOfArrayUnique = <T>(length: number, callback: () => T): T[] => {
   const objs = new Set<T>();
   for (let i = 0; i < length; i++) {
     objs.add(callback());
   }
   return Array.from(objs);
-}
+};
+
+// ===== Functions to generate Enums variants randomly =====
 
 /**
- * Functions to generate Enums variants randomly
+ * Should randomly generate STANDARD_USER 95% of the time and rest ADMINISTRATOR
  */
-// Should randomly generate STANDARD_USER 95% of the time and rest ADMINISTRATOR
-function getUserRole(): UserRole {
+export const getUserRole = (): UserRole => {
   const randomIdx = generateBiasedRandomBinaryIndex(0.05);
   const randomEnum = Object.keys(UserRole)[randomIdx];
   return randomEnum as UserRole;
-}
+};
 
-// Should randomly generate STANDARD 95% of the time and rest ADMINISTRATOR
-function getMemberRole(): MemberRole {
+/**
+ * Should randomly generate STANDARD 95% of the time and rest ADMINISTRATOR
+ */
+export const getMemberRole = (): MemberRole => {
   const randomIdx = generateBiasedRandomBinaryIndex(0.05);
   const randomEnum = Object.keys(MemberRole)[randomIdx];
   return randomEnum as MemberRole;
-}
+};
 
-function getNotificationFreqRand(): NotificationFrequency {
+/**
+ * Generate random NotificationFrequency
+ */
+export const getRandNotificationFrequence = (): NotificationFrequency => {
   const enumLength = Object.keys(NotificationFrequency).length - 1;
   const randomIdx = generateRandomIndex(0, enumLength);
   const randomEnum = Object.keys(NotificationFrequency)[randomIdx];
   return randomEnum as NotificationFrequency;
-}
+};
 
-function getNotificationStatusRand(): NotificationStatus {
+export const getRandNotificationStatus = (): NotificationStatus => {
   const enumLength = Object.keys(NotificationStatus).length - 1;
   const randomIdx = generateRandomIndex(0, enumLength);
   const randomEnum = Object.keys(NotificationStatus)[randomIdx];
   return randomEnum as NotificationStatus;
-}
+};
 
-function getFeatureRand(): Feature {
+export const getRandFeature = (): Feature => {
   const enumLength = Object.keys(Feature).length - 1;
   const randomIdx = generateRandomIndex(0, enumLength);
   const randomEnum = Object.keys(Feature)[randomIdx];
   return randomEnum as Feature;
-}
+};
 
-function getBusinessUnitTypeRand(): BusinessUnitType {
+export const getRandBusinessUnitType = (): BusinessUnitType => {
   const enumLength = Object.keys(BusinessUnitType).length - 1;
   const randomIdx = generateRandomIndex(0, enumLength);
   const randomEnum = Object.keys(BusinessUnitType)[randomIdx];
   return randomEnum as BusinessUnitType;
-}
+};
 
 /**
- * User
+ * Generate random `Prisma.UserCreateInput`
  */
-export function generateUser(): User {
-  return {
-    id: f.randUuid(),
-    externalOid: f.randUuid(),
-    loginEmail: f.randEmail(),
-    firstName: f.randFirstName(),
-    lastName: f.randLastName(),
+export const generateUserCreateInput = (): Prisma.UserCreateInput => {
+  const firstName = f.randFirstName({ withAccents: false });
+  const lastName = f.randLastName({ withAccents: false });
+  const loginEmail = f.randEmail({ firstName, lastName, nameSeparator: '-' });
+  const dateCreated = f.randPastDate({ years: 3 });
+
+  const item: Prisma.UserCreateInput = {
+    loginEmail,
+    firstName,
+    lastName,
     isSuperAdmin: generateBiasedRandomBool(0.01),
     roles: [getUserRole()],
-    avatarUrl: f.randUrl(),
     thumbnailPhoto: [f.randNumber()],
     timeZoneOffSet: `${f.randNumber()}`,
     timeZone: f.randTimeZone(),
-    notificationFrequency: getNotificationFreqRand(),
-    createdAt: f.randPastDate({ years: 3 }),
-    updatedAt: f.randPastDate({ years: 3 }),
+    notificationFrequency: getRandNotificationFrequence(),
+    createdAt: dateCreated,
+    updatedAt: dateCreated,
   };
-}
+
+  return item;
+};
 
 /**
- * User Notification
+ * Generate random `Prisma.UserNotificationCreateInput`
  */
-export function generateUserNotification(userId: string): UserNotification {
-  return {
-    id: f.randNumber(),
-    status: generateRandomLengthObjectOfArrayUnique(10, getNotificationStatusRand),
+export const generateUserNotificationCreateInput = (userId: string): Prisma.UserNotificationCreateInput => {
+  const dateCreated = f.randPastDate({ years: 3 });
+  const item: Prisma.UserNotificationCreateInput = {
+    status: generateRandomLengthObjectOfArrayUnique(10, getRandNotificationStatus),
     message: f.randPhrase(),
-    createdAt: f.randPastDate({ years: 3 }),
-    updatedAt: f.randPastDate({ years: 3 }),
-    userId: userId,
+    createdAt: dateCreated,
+    updatedAt: dateCreated,
+    User: {
+      connect: { id: userId },
+    },
     additionalAttribute: f.randJSON(),
   };
-}
+  return item;
+};
 
 /**
  * SignInLog
  */
-export function generateSignInLog(userId: string): SignInLog {
+export const generateSignInLog = (userId: string): SignInLog => {
+  // const item: Prisma.SignInLogCreateInput = {}
   return {
     id: f.randNumber(),
-    userId: userId,
+    userId,
     signInDateTime: new Date(),
     createdAt: f.randPastDate({ years: 3 }),
     updatedAt: f.randPastDate({ years: 3 }),
   };
-}
+};
 
 /**
  * User Activity Log
  */
-export function generateUserActivityLog(userId: string): UserActivityLog {
+export const generateUserActivityLog = (userId: string): UserActivityLog => {
   return {
     id: f.randNumber(),
     userId: userId,
@@ -156,28 +170,28 @@ export function generateUserActivityLog(userId: string): UserActivityLog {
     createdAt: f.randPastDate({ years: 3 }),
     updatedAt: f.randPastDate({ years: 3 }),
   };
-}
+};
 
 /**
  * Business Unit
  */
-export function generateBusinessUnit(): BusinessUnit {
+export const generateBusinessUnit = (): BusinessUnit => {
   return {
     id: f.randUuid(),
-    type: getBusinessUnitTypeRand(),
+    type: getRandBusinessUnitType(),
     name: f.randFullName(),
     description: f.randParagraph(),
-    features: generateRandomLengthObjectOfArrayUnique(5, getFeatureRand),
+    features: generateRandomLengthObjectOfArrayUnique(5, getRandFeature),
     createdAt: f.randPastDate({ years: 3 }),
     updatedAt: f.randPastDate({ years: 3 }),
     parentBusinessUnitId: f.randUuid(),
   };
-}
+};
 
 /**
  * Memebers
  */
-export function generateMember(): Member {
+export const generateMember = (): Member => {
   return {
     id: f.randNumber(),
     roles: generateRandomLengthObjectOfArrayUnique(2, getMemberRole),
@@ -186,4 +200,4 @@ export function generateMember(): Member {
     userId: f.randUuid(),
     businessUnitId: f.randUuid(),
   };
-}
+};
