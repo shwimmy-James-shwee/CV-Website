@@ -3,15 +3,23 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint .",
+    "db:seed": "ts-node -r tsconfig-paths/register src/executables/db-seed.ts",
+    "db:clear": "ts-node -r tsconfig-paths/register src/executables/db-clear.ts"
   },
   "dependencies": {
     "@core/db": "workspace:*",
-    "@ngneat/falso": "7.2.0"
+    "@ngneat/falso": "7.2.0",
+    "colorette": "2.0.20",
+    "neverthrow": "7.1.0",
+    "ts-node": "10.9.1"
   },
   "devDependencies": {
-    "typescript": "5.5.4",
-    "@repo/eslint-config": "workspace:*"
+    "@repo/eslint-config": "workspace:*",
+    "tsc-alias": "1.8.10",
+    "tsconfig-paths": "4.2.0",
+    "typescript": "5.5.4"
   },
   "packageManager": "pnpm@9.7.1"
 }
