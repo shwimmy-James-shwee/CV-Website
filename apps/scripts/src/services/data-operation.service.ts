@@ -1,7 +1,7 @@
 import { err, fromPromise, ok, ResultAsync } from 'neverthrow';
 import { User } from '@core/db';
 import { logger } from '@/common/logger';
-import { generateUserCreateInput } from './data-preparation.service';
+import { generateSignInLogsForAllUsers, generateUserCreateInput } from './data-preparation.service';
 import { prisma } from '@/common/prisma';
 
 export type DataOperationService = {
@@ -92,6 +92,26 @@ export const getAllUserIds = async (): Promise<ResultAsync<Array<string>, Error>
   return ok<Array<string>>(userIds);
 };
 
+export const seedSignInLogs = async (args: { userIds: string[] }) => {
+  const { userIds } = args;
+
+  logger.warn('Generating payload for seeding SignInLog table...');
+  const inputs = generateSignInLogsForAllUsers(userIds);
+  logger.warn(`Generated payload for seeding SignInLog table (${inputs?.length} items)`);
+
+  logger.warn(`Seeding SignInLog table...`);
+  const result = await fromPromise(prisma.signInLog.createMany({ data: inputs }), (e) => e);
+
+  if (result.isErr()) {
+    const message = `Failed to seed ${inputs?.length} SignInLogs. ${JSON.stringify(result.error)}`;
+    logger.error(message);
+    return err(new Error(message));
+  }
+
+  logger.info(`Created ${result.value?.count} items in SignInLog table...`);
+  return ok<void>(undefined);
+};
+
 export const seedDb = async (userCount: number): Promise<ResultAsync<void, Error>> => {
   // ===== seeding users =====
   const seedingUsers = await seedUsers(userCount);
@@ -110,6 +130,15 @@ export const seedDb = async (userCount: number): Promise<ResultAsync<void, Error
     return err(new Error(message));
   }
   logger.verbose('Got user IDs');
+
+  // ===== seeding SignInLogs =====
+  const seedingSignInLogs = await seedSignInLogs({ userIds: getUserIds.value });
+  if (seedingSignInLogs.isErr()) {
+    const message = 'Seeded users, but failed to seed SignInLog table tables';
+    logger.error(message);
+    return err(new Error(message));
+  }
+  logger.verbose('Seeded SignInLog table');
 
   return ok(undefined);
 };

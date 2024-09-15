@@ -1,3 +1,4 @@
+import { logger } from '@/common/logger';
 import {
   BusinessUnit,
   BusinessUnitType,
@@ -7,11 +8,13 @@ import {
   NotificationFrequency,
   NotificationStatus,
   Prisma,
-  SignInLog,
   UserActivityLog,
   UserRole,
 } from '@core/db';
 import * as f from '@ngneat/falso';
+import { err, ok, Result } from 'neverthrow';
+import { z } from 'zod';
+import { fromError } from 'zod-validation-error';
 
 // ===== Helper functions to generate random indexes =====
 
@@ -141,16 +144,15 @@ export const generateUserNotificationCreateInput = (userId: string): Prisma.User
 };
 
 /**
- * SignInLog
+ * Generate random `Prisma.SignInLogCreateInput`
  */
-export const generateSignInLog = (userId: string): SignInLog => {
-  // const item: Prisma.SignInLogCreateInput = {}
+export const generateSignInLogCreateInput = (userId: string): Prisma.SignInLogCreateManyInput => {
+  const signInDateTime = f.randPastDate({ years: 3 });
   return {
-    id: f.randNumber(),
     userId,
-    signInDateTime: new Date(),
-    createdAt: f.randPastDate({ years: 3 }),
-    updatedAt: f.randPastDate({ years: 3 }),
+    signInDateTime,
+    createdAt: signInDateTime,
+    updatedAt: signInDateTime,
   };
 };
 
@@ -200,4 +202,49 @@ export const generateMember = (): Member => {
     userId: f.randUuid(),
     businessUnitId: f.randUuid(),
   };
+};
+
+const SeedEntityOfUserArgsSchema = z.object({
+  userId: z.string().min(1),
+  count: z.number().int().positive(),
+});
+export type SeedEntityOfUserArgs = z.infer<typeof SeedEntityOfUserArgsSchema>;
+
+/**
+ * Generates an aray with x number of Prisma.SignInLogCreateInput[] for a particular user
+ */
+export const generateSignInLogsOfUser = (
+  args: SeedEntityOfUserArgs,
+): Result<Prisma.SignInLogCreateManyInput[], Error> => {
+  // validate input
+  const validateInput = SeedEntityOfUserArgsSchema.safeParse(args);
+  if (validateInput.success === false) {
+    const { message } = fromError(validateInput.error);
+    logger.error(message);
+    return err(new Error(message));
+  }
+
+  const { userId, count } = args;
+
+  // generating payloads for 1 user
+  const inputs = Array.from({ length: count }, () => generateSignInLogCreateInput(userId));
+
+  return ok<Prisma.SignInLogCreateManyInput[]>(inputs);
+};
+
+/**
+ * Generates all payloads for creating SignInLogs for all users
+ */
+export const generateSignInLogsForAllUsers = (userIds: string[]) => {
+  const result = userIds
+    ?.map((userId) => {
+      const signInLogsCreateInputs = generateSignInLogsOfUser({ userId, count: f.randNumber({ min: 10, max: 20 }) });
+      if (signInLogsCreateInputs.isErr()) {
+        return null;
+      }
+      return signInLogsCreateInputs.value;
+    })
+    ?.flatMap((item) => item)
+    ?.filter((item) => item !== null);
+  return result;
 };
