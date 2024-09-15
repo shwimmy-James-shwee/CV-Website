@@ -67,7 +67,49 @@ export const seedUsers = async (userCount: number): Promise<ResultAsync<Map<stri
   return ok<Map<string, User>>(itemsCreated);
 };
 
+/**
+ * Used for retrieving user IDs when seeding user-related tables,
+ * so that we only query user IDs once & pass the same IDs to different seeding functions
+ */
+export const getAllUserIds = async (): Promise<ResultAsync<Array<string>, Error>> => {
+  const result = await fromPromise(
+    prisma.user.findMany({ select: { id: true } }), // only get IDs to maximise for performance
+    (e) => e,
+  );
+
+  if (result.isErr()) {
+    const message = 'Failed to find all users from db';
+    logger.error(message);
+    return err(new Error(message));
+  }
+
+  logger.verbose(`Found ${result.value?.length} users with IDs from db`);
+
+  const userIds = result.value?.map((item) => item?.id);
+
+  logger.info(`Returning ${userIds?.length} user IDs`);
+
+  return ok<Array<string>>(userIds);
+};
+
 export const seedDb = async (userCount: number): Promise<ResultAsync<void, Error>> => {
-  seedUsers(userCount);
+  // ===== seeding users =====
+  const seedingUsers = await seedUsers(userCount);
+  if (seedingUsers.isErr()) {
+    const message = `Failed to seed users. ${seedingUsers.error.message}`;
+    logger.error(message);
+    return err(new Error(message));
+  }
+  logger.verbose('Seeded users');
+
+  // ===== getting user IDs of all users seeded =====
+  const getUserIds = await getAllUserIds();
+  if (getUserIds.isErr()) {
+    const message = 'Seeded users, but failed to get user IDs for seeding other tables';
+    logger.error(message);
+    return err(new Error(message));
+  }
+  logger.verbose('Got user IDs');
+
   return ok(undefined);
 };
