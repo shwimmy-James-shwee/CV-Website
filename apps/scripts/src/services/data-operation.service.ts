@@ -20,23 +20,19 @@ export const CLEAR_ALL_ROWS_IN_ALL_TABLES: DataOperationService['CLEAR_ALL_ROWS_
 > => {
   logger.warn('Clearing db - Deleting all rows in all columns...');
 
+  const clearAllRowsFromAllTables = async () => {
+    return prisma.$transaction([
+      prisma.user.deleteMany(),
+      prisma.userActivityLog?.deleteMany(),
+      prisma.userNotification.deleteMany(),
+      prisma.signInLog.deleteMany(),
+      prisma.businessUnit.deleteMany(),
+      prisma.member.deleteMany(),
+    ]);
+  };
+
   // db call
-  const result = await fromPromise(
-    prisma.$executeRawUnsafe(`
-        DO
-        $$
-        DECLARE
-          r RECORD;
-        BEGIN
-          -- Iterate over each table and truncate it
-          FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
-            EXECUTE 'TRUNCATE TABLE ' || quote_ident(r.tablename) || ' CASCADE';
-          END LOOP;
-        END
-        $$;
-      `),
-    (e) => e,
-  );
+  const result = await fromPromise(clearAllRowsFromAllTables(), (e) => e);
 
   if (result.isErr()) {
     const message = `Function ${CLEAR_ALL_ROWS_IN_ALL_TABLES.name}() failed. ${JSON.stringify(result.error)}`;
@@ -57,25 +53,17 @@ export const seedUsers = async (userCount: number): Promise<ResultAsync<Map<stri
 
   const itemsCreated = new Map<string, User>();
 
-  logger.warn(`Inserting ${inputs?.length} items to db...`);
+  logger.warn(`Inserting ${inputs?.length} users to db...`);
 
-  for await (const input of inputs) {
-    logger.warn(`Inserting item (${input?.firstName} ${input?.lastName})...`);
+  const result = await fromPromise(prisma.user.createMany({ data: inputs }), (e) => e);
 
-    // db call
-    const result = await fromPromise(prisma.user.create({ data: input }), (e) => e);
-
-    if (result.isErr()) {
-      const message = `Failed to insert item (${input?.firstName} ${input?.lastName}). ${JSON.stringify(result.error)}`;
-      logger.error(message);
-      continue;
-    }
-
-    logger.verbose(`Inserted item (${input?.firstName} ${input?.lastName}) to db`);
-    itemsCreated.set(result.value?.id, result.value);
+  if (result.isErr()) {
+    const message = `Failed to create ${inputs?.length} users. ${JSON.stringify(result.error)}`;
+    logger.error(message);
+    return err(new Error(message));
   }
 
-  logger.info(`Inserted ${itemsCreated.size} items to db.`);
+  logger.info(`Created ${result.value?.count} users in db.`);
   return ok<Map<string, User>>(itemsCreated);
 };
 

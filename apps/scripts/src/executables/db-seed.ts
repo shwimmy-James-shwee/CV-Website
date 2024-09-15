@@ -4,4 +4,4 @@
 
 import { seedDb } from '@/services/data-operation.service';
 
-seedDb(10);
+seedDb(1000);
