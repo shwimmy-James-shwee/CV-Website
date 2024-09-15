@@ -598,6 +598,9 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../../libs/eslint-config
+      dotenv-cli:
+        specifier: 7.4.2
+        version: 7.4.2
       tsc-alias:
         specifier: 1.8.10
         version: 1.8.10

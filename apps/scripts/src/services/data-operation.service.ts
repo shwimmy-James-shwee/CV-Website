@@ -1,11 +1,11 @@
 import { err, fromPromise, ok, ResultAsync } from 'neverthrow';
-import { PrismaClient, User } from '@core/db';
+import { User } from '@core/db';
 import { logger } from '@/common/logger';
 import { generateUserCreateInput } from './data-preparation.service';
 import { prisma } from '@/common/prisma';
 
 export type DataOperationService = {
-  CLEAR_ALL_ROWS_IN_ALL_TABLES: (prisma: PrismaClient) => Promise<ResultAsync<void, Error>>;
+  CLEAR_ALL_ROWS_IN_ALL_TABLES: () => Promise<ResultAsync<void, Error>>;
 };
 
 /**
@@ -15,9 +15,9 @@ export type DataOperationService = {
  *
  * Make sure you know what you're doing before calling this function.
  */
-export const CLEAR_ALL_ROWS_IN_ALL_TABLES: DataOperationService['CLEAR_ALL_ROWS_IN_ALL_TABLES'] = async (
-  prisma: PrismaClient,
-): Promise<ResultAsync<void, Error>> => {
+export const CLEAR_ALL_ROWS_IN_ALL_TABLES: DataOperationService['CLEAR_ALL_ROWS_IN_ALL_TABLES'] = async (): Promise<
+  ResultAsync<void, Error>
+> => {
   logger.warn('Clearing db - Deleting all rows in all columns...');
 
   // db call
@@ -44,7 +44,7 @@ export const CLEAR_ALL_ROWS_IN_ALL_TABLES: DataOperationService['CLEAR_ALL_ROWS_
     return err(new Error(message));
   }
 
-  logger.info(`Function ${CLEAR_ALL_ROWS_IN_ALL_TABLES}() succeeded`);
+  logger.info(`Function ${CLEAR_ALL_ROWS_IN_ALL_TABLES.name}() succeeded`);
   return ok<void>(undefined);
 };
 

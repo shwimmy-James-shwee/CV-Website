@@ -5,8 +5,8 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint .",
-    "db:seed": "ts-node -r tsconfig-paths/register src/executables/db-seed.ts",
-    "db:clear": "ts-node -r tsconfig-paths/register src/executables/db-clear.ts"
+    "db:seed": "dotenv -e ../../.env -- ts-node -r tsconfig-paths/register src/executables/db-seed.ts",
+    "db:clear": "dotenv -e ../../.env -- ts-node -r tsconfig-paths/register src/executables/db-clear.ts"
   },
   "dependencies": {
     "@core/db": "workspace:*",
@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
+    "dotenv-cli": "7.4.2",
     "tsc-alias": "1.8.10",
     "tsconfig-paths": "4.2.0",
     "typescript": "5.5.4"
