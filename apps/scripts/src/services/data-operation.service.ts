@@ -1,5 +1,4 @@
 import { err, fromPromise, ok, ResultAsync } from 'neverthrow';
-import { User } from '@core/db';
 import { logger } from '@/common/logger';
 import {
   generateSignInLogsForAllUsers,
@@ -48,14 +47,12 @@ export const CLEAR_ALL_ROWS_IN_ALL_TABLES: DataOperationService['CLEAR_ALL_ROWS_
   return ok<void>(undefined);
 };
 
-export const seedUsers = async (userCount: number): Promise<ResultAsync<Map<string, User>, Error>> => {
+export const seedUsers = async (userCount: number): Promise<ResultAsync<void, Error>> => {
   logger.warn('Generating items to seed...');
   const inputs = Array.from({ length: userCount }, () => {
     return generateUserCreateInput();
   });
   logger.verbose(`Generated ${inputs?.length} items to seed`);
-
-  const itemsCreated = new Map<string, User>();
 
   logger.warn(`Inserting ${inputs?.length} users to db...`);
 
@@ -68,7 +65,7 @@ export const seedUsers = async (userCount: number): Promise<ResultAsync<Map<stri
   }
 
   logger.info(`Created ${result.value?.count} items in User table...`);
-  return ok<Map<string, User>>(itemsCreated);
+  return ok<void>(undefined);
 };
 
 /**
