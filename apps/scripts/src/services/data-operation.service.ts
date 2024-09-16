@@ -141,7 +141,7 @@ export const seedSignInLogs = async (args: { userIds: string[] }) => {
   return ok<void>(undefined);
 };
 
-export const seedUserActivityLogs = async (args: { userIds: string[] }) => {
+export const seedUserActivityLogs = async (args: { userIds: string[] }): Promise<ResultAsync<void, Error>> => {
   const { userIds } = args;
 
   logger.warn('Generating payload for seeding UserActivityLog table...');
@@ -161,7 +161,7 @@ export const seedUserActivityLogs = async (args: { userIds: string[] }) => {
   return ok<void>(undefined);
 };
 
-export const seedUserNotifications = async (args: { userIds: string[] }) => {
+export const seedUserNotifications = async (args: { userIds: string[] }): Promise<ResultAsync<void, Error>> => {
   const { userIds } = args;
 
   logger.warn('Generating payload for seeding UserNotification table...');
@@ -181,7 +181,7 @@ export const seedUserNotifications = async (args: { userIds: string[] }) => {
   return ok<void>(undefined);
 };
 
-export const seedBusinessUnits = async () => {
+export const seedBusinessUnits = async (): Promise<ResultAsync<void, Error>> => {
   logger.warn('Generating payload for seeding BusinessUnit table...');
   const inputs = mockBusinssUnitCreateManyInput();
   logger.warn(`Generated payload for seeding BusinessUnit table (${inputs?.length} items)`);
@@ -199,7 +199,10 @@ export const seedBusinessUnits = async () => {
   return ok<void>(undefined);
 };
 
-export const seedMembers = async (args: { userIds: string[]; businessUnitIds: string[] }) => {
+export const seedMembers = async (args: {
+  userIds: string[];
+  businessUnitIds: string[];
+}): Promise<ResultAsync<void, Error>> => {
   const { userIds, businessUnitIds } = args;
 
   logger.warn('Generating payload for seeding BusinessUnit table...');

@@ -241,7 +241,10 @@ export const generateSignInLogsOfUser = (
   const { userId, count } = args;
 
   // generating payloads for 1 user
-  const inputs = Array.from({ length: count }, () => generateSignInLogCreateManyInput(userId));
+  const inputs = Array.from(
+    { length: count },
+    (): Prisma.SignInLogCreateManyInput => generateSignInLogCreateManyInput(userId),
+  );
 
   return ok<Prisma.SignInLogCreateManyInput[]>(inputs);
 };
@@ -280,7 +283,10 @@ export const generateUserActivityLogCreateManyInputsOfUser = (
   const { userId, count } = args;
 
   // generating payloads for 1 user
-  const inputs = Array.from({ length: count }, () => generateUserActivityLogCreateManyInput(userId));
+  const inputs = Array.from(
+    { length: count },
+    (): Prisma.UserActivityLogCreateManyInput => generateUserActivityLogCreateManyInput(userId),
+  );
 
   return ok<Prisma.UserActivityLogCreateManyInput[]>(inputs);
 };
@@ -352,20 +358,26 @@ export const generateUserNotificationCreateManyInputForAllUsers = (
  */
 export const mockBusinssUnitCreateManyInput = (): Prisma.BusinessUnitCreateManyInput[] => {
   const tierOne = [generateBusinessUnitCreateManyInput({ parentBusinessUnitId: undefined })];
-  const tierTwo = Array.from({ length: 3 }, () =>
-    generateBusinessUnitCreateManyInput({ parentBusinessUnitId: tierOne[0]?.id }),
+  const tierTwo = Array.from(
+    { length: 3 },
+    (): Prisma.BusinessUnitCreateManyInput =>
+      generateBusinessUnitCreateManyInput({ parentBusinessUnitId: tierOne[0]?.id }),
   );
 
-  const tierThree = Array.from({ length: 6 }, () =>
-    generateBusinessUnitCreateManyInput({
-      parentBusinessUnitId: tierTwo[f.randNumber({ min: 0, max: tierTwo?.length - 1 })]?.id,
-    }),
+  const tierThree = Array.from(
+    { length: 6 },
+    (): Prisma.BusinessUnitCreateManyInput =>
+      generateBusinessUnitCreateManyInput({
+        parentBusinessUnitId: tierTwo[f.randNumber({ min: 0, max: tierTwo?.length - 1 })]?.id,
+      }),
   );
 
-  const tierFour = Array.from({ length: 9 }, () =>
-    generateBusinessUnitCreateManyInput({
-      parentBusinessUnitId: tierTwo[f.randNumber({ min: 0, max: tierThree?.length - 1 })]?.id,
-    }),
+  const tierFour = Array.from(
+    { length: 9 },
+    (): Prisma.BusinessUnitCreateManyInput =>
+      generateBusinessUnitCreateManyInput({
+        parentBusinessUnitId: tierTwo[f.randNumber({ min: 0, max: tierThree?.length - 1 })]?.id,
+      }),
   );
 
   return [...tierOne, ...tierTwo, ...tierThree, ...tierFour];
@@ -388,7 +400,7 @@ export const generateMemberCreateManyInputs = (args: { userIds: string[]; busine
   userIds?.forEach((userId, _i) => {
     const isDividable = _i % 50 === 0;
 
-    logger.debug(`generateMemberCreateManyInputs - iteration ${_i + 1} | isDividableByHundred: ${isDividable}`);
+    logger.debug(`generateMemberCreateManyInputs - iteration ${_i + 1} | isDividable: ${isDividable}`);
 
     if (isDividable) {
       const notificationCount = f.randNumber({ min: 0, max: 10 });
