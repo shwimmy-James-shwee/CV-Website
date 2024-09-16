@@ -5,6 +5,7 @@ import {
   generateUserActivityLogCreateManyInputForAllUsers,
   generateUserCreateInput,
   generateUserNotificationCreateManyInputForAllUsers,
+  mockBusinssUnitCreateManyInput,
 } from './data-preparation.service';
 import { prisma } from '@/common/prisma';
 
@@ -145,12 +146,30 @@ export const seedUserNotifications = async (args: { userIds: string[] }) => {
   const result = await fromPromise(prisma.userNotification.createMany({ data: inputs }), (e) => e);
 
   if (result.isErr()) {
-    const message = `Failed to seed ${inputs?.length} UserNotification table. ${JSON.stringify(result.error)}`;
+    const message = `Failed to seed ${inputs?.length} items to UserNotification table. ${JSON.stringify(result.error)}`;
     logger.error(message);
     return err(new Error(message));
   }
 
   logger.info(`Created ${result.value?.count} items in UserNotification table...`);
+  return ok<void>(undefined);
+};
+
+export const seedBusinessUnit = async () => {
+  logger.warn('Generating payload for seeding BusinessUnit table...');
+  const inputs = mockBusinssUnitCreateManyInput();
+  logger.warn(`Generated payload for seeding BusinessUnit table (${inputs?.length} items)`);
+
+  logger.warn('Seeding BusinessUnit table...');
+  const result = await fromPromise(prisma.businessUnit.createMany({ data: inputs }), (e) => e);
+
+  if (result.isErr()) {
+    const message = `Failed to seed ${inputs?.length} items to BusinessUnit table. ${JSON.stringify(result.error)}`;
+    logger.error(message);
+    return err(new Error(message));
+  }
+
+  logger.info(`Created ${result.value?.count} items in BusinessUnit table...`);
   return ok<void>(undefined);
 };
 
@@ -199,6 +218,15 @@ export const seedDb = async (userCount: number): Promise<ResultAsync<void, Error
     return err(new Error(message));
   }
   logger.verbose('Seeded UserNotification table');
+
+  // ===== seeding BusinessUnit =====
+  const seedingBusinessUnit = await seedBusinessUnit();
+  if (seedingBusinessUnit.isErr()) {
+    const message = 'Failed to seed BusinessUnit table';
+    logger.error(message);
+    return err(new Error(message));
+  }
+  logger.verbose('Seeded BusinessUnit table');
 
   return ok(undefined);
 };
