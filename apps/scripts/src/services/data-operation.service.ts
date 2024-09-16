@@ -23,7 +23,7 @@ export type DataOperationService = {
 export const CLEAR_ALL_ROWS_IN_ALL_TABLES: DataOperationService['CLEAR_ALL_ROWS_IN_ALL_TABLES'] = async (): Promise<
   ResultAsync<void, Error>
 > => {
-  logger.warn('Clearing db - Deleting all rows in all columns...');
+  logger.warn('Deleting all rows from all tables in db...');
 
   const clearAllRowsFromAllTables = async () => {
     return prisma.$transaction([
@@ -40,12 +40,12 @@ export const CLEAR_ALL_ROWS_IN_ALL_TABLES: DataOperationService['CLEAR_ALL_ROWS_
   const result = await fromPromise(clearAllRowsFromAllTables(), (e) => e);
 
   if (result.isErr()) {
-    const message = `Function ${CLEAR_ALL_ROWS_IN_ALL_TABLES.name}() failed. ${JSON.stringify(result.error)}`;
+    const message = `Failed to delete all rows from all tables in db. ${JSON.stringify(result.error)}`;
     logger.error(message);
     return err(new Error(message));
   }
 
-  logger.info(`Function ${CLEAR_ALL_ROWS_IN_ALL_TABLES.name}() succeeded`);
+  logger.info('Deleted all rows from all tables in db');
   return ok<void>(undefined);
 };
 
