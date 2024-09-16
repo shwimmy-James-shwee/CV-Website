@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@core/db": "workspace:*",
+    "@core/utils": "workspace:*",
     "@ngneat/falso": "7.2.0",
     "colorette": "2.0.20",
     "neverthrow": "7.1.0",

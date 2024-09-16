@@ -2,13 +2,13 @@ import { logger } from '@/common/logger';
 import {
   BusinessUnitType,
   Feature,
-  Member,
   MemberRole,
   NotificationFrequency,
   NotificationStatus,
   Prisma,
   UserRole,
 } from '@core/db';
+import { arrayIsEmpty } from '@core/utils';
 import * as f from '@ngneat/falso';
 import { err, ok, Result } from 'neverthrow';
 import { z } from 'zod';
@@ -199,17 +199,23 @@ export const generateBusinessUnitCreateManyInput = (args: {
 };
 
 /**
- * Memebers
+ * Generates `Prisma.MemberCreateManyInput` given a `userId` and `businessUnitId`
  */
-export const generateMember = (): Member => {
-  return {
-    id: f.randNumber(),
+export const generateMemberCreateManyInput = (args: {
+  userId: string;
+  businessUnitId: string;
+}): Prisma.MemberCreateManyInput => {
+  const { userId, businessUnitId } = args;
+  const createdAt = f.randPastDate({ years: 3 });
+
+  const item: Prisma.MemberCreateManyInput = {
     roles: generateRandomLengthObjectOfArrayUnique(2, getMemberRole),
-    createdAt: f.randPastDate({ years: 3 }),
-    updatedAt: f.randPastDate({ years: 3 }),
-    userId: f.randUuid(),
-    businessUnitId: f.randUuid(),
+    userId,
+    businessUnitId,
+    createdAt,
+    updatedAt: createdAt,
   };
+  return item;
 };
 
 const SeedEntityOfUserArgsSchema = z.object({
@@ -339,6 +345,11 @@ export const generateUserNotificationCreateManyInputForAllUsers = (
   return inputs;
 };
 
+/**
+ * Generate an array of Prisma.BusinessUnitCreateManyInput,
+ * where there are 4 levels of hiearchies in terms of which
+ * BusinessUnit is the parent of another BusinessUnit
+ */
 export const mockBusinssUnitCreateManyInput = (): Prisma.BusinessUnitCreateManyInput[] => {
   const tierOne = [generateBusinessUnitCreateManyInput({ parentBusinessUnitId: undefined })];
   const tierTwo = Array.from({ length: 3 }, () =>
@@ -358,4 +369,45 @@ export const mockBusinssUnitCreateManyInput = (): Prisma.BusinessUnitCreateManyI
   );
 
   return [...tierOne, ...tierTwo, ...tierThree, ...tierFour];
+};
+
+export const generateMemberCreateManyInputs = (args: { userIds: string[]; businessUnitIds: string[] }) => {
+  const { userIds, businessUnitIds } = args;
+
+  if (arrayIsEmpty(userIds)) {
+    logger.error('Array "userIds" is empty');
+    return [];
+  }
+  if (arrayIsEmpty(businessUnitIds)) {
+    logger.error('Array "businessUnitIds" is empty');
+    return [];
+  }
+
+  let inputs: Prisma.MemberCreateManyInput[] = [];
+
+  userIds?.forEach((userId, _i) => {
+    const isDividable = _i % 50 === 0;
+
+    logger.debug(`generateMemberCreateManyInputs - iteration ${_i + 1} | isDividableByHundred: ${isDividable}`);
+
+    if (isDividable) {
+      const notificationCount = f.randNumber({ min: 0, max: 10 });
+
+      if (notificationCount > 0) {
+        logger.debug(`generateMemberCreateManyInputs - adding ${notificationCount} Member(s) for user "${userId}"`);
+        const userNotificationInputs: Prisma.MemberCreateManyInput[] = Array.from(
+          { length: notificationCount },
+          (): Prisma.MemberCreateManyInput => {
+            const businessUnitId = businessUnitIds[
+              f.randNumber({ min: 0, max: businessUnitIds?.length - 1 })
+            ] as string;
+            return generateMemberCreateManyInput({ userId, businessUnitId });
+          },
+        );
+        inputs = [...inputs, ...userNotificationInputs];
+      }
+    }
+  });
+
+  return inputs;
 };

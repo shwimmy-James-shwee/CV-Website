@@ -1,6 +1,7 @@
 import { err, fromPromise, ok, ResultAsync } from 'neverthrow';
 import { logger } from '@/common/logger';
 import {
+  generateMemberCreateManyInputs,
   generateSignInLogsForAllUsers,
   generateUserActivityLogCreateManyInputForAllUsers,
   generateUserCreateInput,
@@ -95,6 +96,31 @@ export const getAllUserIds = async (): Promise<ResultAsync<Array<string>, Error>
   return ok<Array<string>>(userIds);
 };
 
+/**
+ * Used for retrieving BusinessUnit IDs when seeding business-unit-related tables,
+ * so that we only query user IDs once & pass the same IDs to different seeding functions
+ */
+export const getAllBusinessUnitsIds = async (): Promise<ResultAsync<Array<string>, Error>> => {
+  const result = await fromPromise(
+    prisma.businessUnit.findMany({ select: { id: true } }), // only get IDs to maximise for performance
+    (e) => e,
+  );
+
+  if (result.isErr()) {
+    const message = 'Failed to find all BusinessUnits from db';
+    logger.error(message);
+    return err(new Error(message));
+  }
+
+  logger.verbose(`Found ${result.value?.length} BusinessUnits with IDs from db`);
+
+  const businessUnitIds = result.value?.map((item) => item?.id);
+
+  logger.info(`Returning ${businessUnitIds?.length} user IDs`);
+
+  return ok<Array<string>>(businessUnitIds);
+};
+
 export const seedSignInLogs = async (args: { userIds: string[] }) => {
   const { userIds } = args;
 
@@ -155,7 +181,7 @@ export const seedUserNotifications = async (args: { userIds: string[] }) => {
   return ok<void>(undefined);
 };
 
-export const seedBusinessUnit = async () => {
+export const seedBusinessUnits = async () => {
   logger.warn('Generating payload for seeding BusinessUnit table...');
   const inputs = mockBusinssUnitCreateManyInput();
   logger.warn(`Generated payload for seeding BusinessUnit table (${inputs?.length} items)`);
@@ -170,6 +196,26 @@ export const seedBusinessUnit = async () => {
   }
 
   logger.info(`Created ${result.value?.count} items in BusinessUnit table...`);
+  return ok<void>(undefined);
+};
+
+export const seedMembers = async (args: { userIds: string[]; businessUnitIds: string[] }) => {
+  const { userIds, businessUnitIds } = args;
+
+  logger.warn('Generating payload for seeding BusinessUnit table...');
+  const inputs = generateMemberCreateManyInputs({ userIds, businessUnitIds });
+  logger.warn(`Generated payload for seeding Member table (${inputs?.length} items)`);
+
+  logger.warn('Seeding BusinessUnit table...');
+  const result = await fromPromise(prisma.member.createMany({ data: inputs }), (e) => e);
+
+  if (result.isErr()) {
+    const message = `Failed to seed ${inputs?.length} items to Member table. ${JSON.stringify(result.error)}`;
+    logger.error(message);
+    return err(new Error(message));
+  }
+
+  logger.info(`Created ${result.value?.count} items in Member table...`);
   return ok<void>(undefined);
 };
 
@@ -220,13 +266,33 @@ export const seedDb = async (userCount: number): Promise<ResultAsync<void, Error
   logger.verbose('Seeded UserNotification table');
 
   // ===== seeding BusinessUnit =====
-  const seedingBusinessUnit = await seedBusinessUnit();
+  const seedingBusinessUnit = await seedBusinessUnits();
   if (seedingBusinessUnit.isErr()) {
     const message = 'Failed to seed BusinessUnit table';
     logger.error(message);
     return err(new Error(message));
   }
   logger.verbose('Seeded BusinessUnit table');
+
+  // ===== get IDs for all business unit
+  const getBusinessUnitIds = await getAllBusinessUnitsIds();
+  if (getBusinessUnitIds.isErr()) {
+    const message = 'Failed to get BusinessUnit IDs for seeding "Member" table';
+    logger.error(message);
+    return err(new Error(message));
+  }
+  logger.verbose('Got BusinessUnit IDs');
+
+  // ===== seeding Member =====
+  const seedingMembers = await seedMembers({ userIds: getUserIds.value, businessUnitIds: getBusinessUnitIds.value });
+  if (seedingMembers.isErr()) {
+    const message = 'Failed to seed Member table';
+    logger.error(message);
+    return err(new Error(message));
+  }
+  logger.verbose('Seeded Member table');
+
+  logger.info('Database seeding completed');
 
   return ok(undefined);
 };
