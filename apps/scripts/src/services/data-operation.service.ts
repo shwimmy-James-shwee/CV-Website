@@ -4,6 +4,7 @@ import {
   generateSignInLogsForAllUsers,
   generateUserActivityLogCreateManyInputForAllUsers,
   generateUserCreateInput,
+  generateUserNotificationCreateManyInputForAllUsers,
 } from './data-preparation.service';
 import { prisma } from '@/common/prisma';
 
@@ -64,7 +65,7 @@ export const seedUsers = async (userCount: number): Promise<ResultAsync<void, Er
     return err(new Error(message));
   }
 
-  logger.info(`Created ${result.value?.count} items in User table...`);
+  logger.info(`Created ${result.value?.count} items in User table`);
   return ok<void>(undefined);
 };
 
@@ -114,7 +115,6 @@ export const seedSignInLogs = async (args: { userIds: string[] }) => {
 };
 
 export const seedUserActivityLogs = async (args: { userIds: string[] }) => {
-  // generateUserActivityLogCreateManyInputForAllUsers
   const { userIds } = args;
 
   logger.warn('Generating payload for seeding UserActivityLog table...');
@@ -125,12 +125,32 @@ export const seedUserActivityLogs = async (args: { userIds: string[] }) => {
   const result = await fromPromise(prisma.userActivityLog.createMany({ data: inputs }), (e) => e);
 
   if (result.isErr()) {
-    const message = `Failed to seed ${inputs?.length} UserActivityLog. ${JSON.stringify(result.error)}`;
+    const message = `Failed to seed ${inputs?.length} UserActivityLog table. ${JSON.stringify(result.error)}`;
     logger.error(message);
     return err(new Error(message));
   }
 
   logger.info(`Created ${result.value?.count} items in UserActivityLog table...`);
+  return ok<void>(undefined);
+};
+
+export const seedUserNotifications = async (args: { userIds: string[] }) => {
+  const { userIds } = args;
+
+  logger.warn('Generating payload for seeding UserNotification table...');
+  const inputs = generateUserNotificationCreateManyInputForAllUsers(userIds);
+  logger.warn(`Generated payload for seeding UserNotification table (${inputs?.length} items)`);
+
+  logger.warn('Seeding UserActivityLog table...');
+  const result = await fromPromise(prisma.userNotification.createMany({ data: inputs }), (e) => e);
+
+  if (result.isErr()) {
+    const message = `Failed to seed ${inputs?.length} UserNotification table. ${JSON.stringify(result.error)}`;
+    logger.error(message);
+    return err(new Error(message));
+  }
+
+  logger.info(`Created ${result.value?.count} items in UserNotification table...`);
   return ok<void>(undefined);
 };
 
@@ -170,6 +190,15 @@ export const seedDb = async (userCount: number): Promise<ResultAsync<void, Error
     return err(new Error(message));
   }
   logger.verbose('Seeded UserActivityLog table');
+
+  // ===== seeding UserNotification =====
+  const seedingUserNotifications = await seedUserNotifications({ userIds: getUserIds.value });
+  if (seedingUserNotifications.isErr()) {
+    const message = 'Failed to seed UserNotification table';
+    logger.error(message);
+    return err(new Error(message));
+  }
+  logger.verbose('Seeded UserNotification table');
 
   return ok(undefined);
 };

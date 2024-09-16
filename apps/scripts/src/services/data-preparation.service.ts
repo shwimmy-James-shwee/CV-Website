@@ -125,18 +125,16 @@ export const generateUserCreateInput = (): Prisma.UserCreateInput => {
 };
 
 /**
- * Generate random `Prisma.UserNotificationCreateInput`
+ * Generate random `Prisma.UserNotificationCreateManyInput`
  */
-export const generateUserNotificationCreateInput = (userId: string): Prisma.UserNotificationCreateInput => {
+export const generateUserNotificationCreateManyInput = (userId: string): Prisma.UserNotificationCreateManyInput => {
   const dateCreated = f.randPastDate({ years: 3 });
-  const item: Prisma.UserNotificationCreateInput = {
+  const item: Prisma.UserNotificationCreateManyInput = {
     status: generateRandomLengthObjectOfArrayUnique(10, getRandNotificationStatus),
     message: f.randPhrase(),
     createdAt: dateCreated,
     updatedAt: dateCreated,
-    User: {
-      connect: { id: userId },
-    },
+    userId,
     additionalAttribute: f.randJSON(),
   };
   return item;
@@ -209,7 +207,7 @@ export const generateMember = (): Member => {
 
 const SeedEntityOfUserArgsSchema = z.object({
   userId: z.string().min(1),
-  count: z.number().int().positive(),
+  count: z.number().int().min(0),
 });
 export type SeedEntityOfUserArgs = z.infer<typeof SeedEntityOfUserArgsSchema>;
 
@@ -238,7 +236,7 @@ export const generateSignInLogsOfUser = (
 /**
  * Generates all payloads for creating SignInLogs for all users
  */
-export const generateSignInLogsForAllUsers = (userIds: string[]) => {
+export const generateSignInLogsForAllUsers = (userIds: string[]): Prisma.SignInLogCreateManyInput[] => {
   const result = userIds
     ?.map((userId) => {
       const createManyInputs = generateSignInLogsOfUser({ userId, count: f.randNumber({ min: 10, max: 20 }) });
@@ -294,4 +292,42 @@ export const generateUserActivityLogCreateManyInputForAllUsers = (
     ?.flatMap((item) => item)
     ?.filter((item) => item !== null);
   return result;
+};
+
+/**
+ * Generates all payloads for creating UserNotification for all users
+ */
+export const generateUserNotificationCreateManyInputForAllUsers = (
+  userIds: string[],
+): Prisma.UserNotificationCreateManyInput[] => {
+  logger.debug(`generateUserNotificationCreateManyInputForAllUsers - userIds.length => ${userIds?.length}`);
+
+  let inputs: Prisma.UserNotificationCreateManyInput[] = [];
+
+  userIds?.forEach((userId, _i) => {
+    const isDividable = _i % 50 === 0;
+
+    logger.debug(
+      `generateUserNotificationCreateManyInputForAllUsers - iteration ${_i + 1} | isDividableByHundred: ${isDividable}`,
+    );
+
+    if (isDividable) {
+      const notificationCount = f.randNumber({ min: 0, max: 10 });
+
+      if (notificationCount > 0) {
+        logger.debug(
+          `generateUserNotificationCreateManyInputForAllUsers - adding ${notificationCount} UserNotification for user "${userId}"`,
+        );
+        const userNotificationInputs: Prisma.UserNotificationCreateManyInput[] = Array.from(
+          { length: notificationCount },
+          (): Prisma.UserNotificationCreateManyInput => {
+            return generateUserNotificationCreateManyInput(userId);
+          },
+        );
+        inputs = [...inputs, ...userNotificationInputs];
+      }
+    }
+  });
+
+  return inputs;
 };
