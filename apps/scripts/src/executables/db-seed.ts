@@ -2,6 +2,7 @@
  * Called by `pnpm db:seed`
  */
 
+import { benchmarkPerformance } from '@/common/benchmark';
 import { seedDb } from '@/services/data-operation.service';
 
-seedDb(5000);
+benchmarkPerformance(seedDb(5000));
