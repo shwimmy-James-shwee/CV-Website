@@ -8,7 +8,6 @@ import {
   NotificationFrequency,
   NotificationStatus,
   Prisma,
-  UserActivityLog,
   UserRole,
 } from '@core/db';
 import * as f from '@ngneat/falso';
@@ -146,7 +145,7 @@ export const generateUserNotificationCreateInput = (userId: string): Prisma.User
 /**
  * Generate random `Prisma.SignInLogCreateInput`
  */
-export const generateSignInLogCreateInput = (userId: string): Prisma.SignInLogCreateManyInput => {
+export const generateSignInLogCreateManyInput = (userId: string): Prisma.SignInLogCreateManyInput => {
   const signInDateTime = f.randPastDate({ years: 3 });
   return {
     userId,
@@ -157,20 +156,24 @@ export const generateSignInLogCreateInput = (userId: string): Prisma.SignInLogCr
 };
 
 /**
- * User Activity Log
+ * Generates random `UserActivityLogCreateManyInput`
  */
-export const generateUserActivityLog = (userId: string): UserActivityLog => {
+export const generateUserActivityLogCreateManyInput = (userId: string): Prisma.UserActivityLogCreateManyInput => {
+  const eventStartTime = f.randPastDate({ years: 2 });
+  const eventEndTime = new Date(eventStartTime.getTime() + f.randNumber());
+  const eventDuration = Math.abs(eventEndTime.getTime() - eventStartTime.getTime());
+
+  const createdAt = f.randPastDate({ years: 3 });
+
   return {
-    id: f.randNumber(),
-    userId: userId,
+    userId,
     sessionIdentifier: f.randUuid(),
-    eventParam: f.randAbbreviation(),
-    eventStartTime: f.randPastDate({ years: 3 }),
-    eventEndTime: f.randPastDate({ years: 3 }),
-    eventDuration: f.randNumber(),
+    eventStartTime,
+    eventEndTime,
+    eventDuration,
     eventUrl: f.randUrl(),
-    createdAt: f.randPastDate({ years: 3 }),
-    updatedAt: f.randPastDate({ years: 3 }),
+    createdAt,
+    updatedAt: createdAt,
   };
 };
 
@@ -227,7 +230,7 @@ export const generateSignInLogsOfUser = (
   const { userId, count } = args;
 
   // generating payloads for 1 user
-  const inputs = Array.from({ length: count }, () => generateSignInLogCreateInput(userId));
+  const inputs = Array.from({ length: count }, () => generateSignInLogCreateManyInput(userId));
 
   return ok<Prisma.SignInLogCreateManyInput[]>(inputs);
 };
@@ -238,11 +241,55 @@ export const generateSignInLogsOfUser = (
 export const generateSignInLogsForAllUsers = (userIds: string[]) => {
   const result = userIds
     ?.map((userId) => {
-      const signInLogsCreateInputs = generateSignInLogsOfUser({ userId, count: f.randNumber({ min: 10, max: 20 }) });
-      if (signInLogsCreateInputs.isErr()) {
+      const createManyInputs = generateSignInLogsOfUser({ userId, count: f.randNumber({ min: 10, max: 20 }) });
+      if (createManyInputs.isErr()) {
         return null;
       }
-      return signInLogsCreateInputs.value;
+      return createManyInputs.value;
+    })
+    ?.flatMap((item) => item)
+    ?.filter((item) => item !== null);
+  return result;
+};
+
+/**
+ * Generates an aray with x number of Prisma.UserActivityLogCreateManyInput[] for a particular user
+ */
+export const generateUserActivityLogCreateManyInputsOfUser = (
+  args: SeedEntityOfUserArgs,
+): Result<Prisma.UserActivityLogCreateManyInput[], Error> => {
+  // validate input
+  const validateInput = SeedEntityOfUserArgsSchema.safeParse(args);
+  if (validateInput.success === false) {
+    const { message } = fromError(validateInput.error);
+    logger.error(message);
+    return err(new Error(message));
+  }
+
+  const { userId, count } = args;
+
+  // generating payloads for 1 user
+  const inputs = Array.from({ length: count }, () => generateUserActivityLogCreateManyInput(userId));
+
+  return ok<Prisma.UserActivityLogCreateManyInput[]>(inputs);
+};
+
+/**
+ * Generates all payloads for creating UserActivityLogs for all users
+ */
+export const generateUserActivityLogCreateManyInputForAllUsers = (
+  userIds: string[],
+): Prisma.UserActivityLogCreateManyInput[] => {
+  const result = userIds
+    ?.map((userId) => {
+      const createManyInputs = generateUserActivityLogCreateManyInputsOfUser({
+        userId,
+        count: f.randNumber({ min: 10, max: 20 }),
+      });
+      if (createManyInputs.isErr()) {
+        return null;
+      }
+      return createManyInputs.value;
     })
     ?.flatMap((item) => item)
     ?.filter((item) => item !== null);
