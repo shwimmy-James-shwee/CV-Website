@@ -24,6 +24,9 @@ export type DataOperationService = {
 export const CLEAR_ALL_ROWS_IN_ALL_TABLES: DataOperationService['CLEAR_ALL_ROWS_IN_ALL_TABLES'] = async (): Promise<
   ResultAsync<void, Error>
 > => {
+  // ===== benchmark =====
+  const startTime = Date.now();
+
   logger.warn('Deleting all rows from all tables in db...');
 
   const clearAllRowsFromAllTables = async () => {
@@ -46,7 +49,11 @@ export const CLEAR_ALL_ROWS_IN_ALL_TABLES: DataOperationService['CLEAR_ALL_ROWS_
     return err(new Error(message));
   }
 
-  logger.info('Deleted all rows from all tables in db');
+  // ===== benchmark finish =====
+  const endTime = Date.now();
+
+  logger.info(`Deleted all rows from all tables in db. Time taken: ${(endTime - startTime) / 1000} s`);
+
   return ok<void>(undefined);
 };
 
@@ -223,6 +230,9 @@ export const seedMembers = async (args: {
 };
 
 export const seedDb = async (userCount: number): Promise<ResultAsync<void, Error>> => {
+  // ===== benchmark =====
+  const startTime = Date.now();
+
   // ===== seeding User table =====
   const seedingUsers = await seedUsers(userCount);
   if (seedingUsers.isErr()) {
@@ -295,7 +305,10 @@ export const seedDb = async (userCount: number): Promise<ResultAsync<void, Error
   }
   logger.verbose('Seeded Member table');
 
-  logger.info('Database seeding completed');
+  // ===== benchmark finished =====
+  const endTime = Date.now();
+
+  logger.info(`Completed seeding database with ${userCount} users. Time taken: ${(endTime - startTime) / 1000} s`);
 
   return ok(undefined);
 };

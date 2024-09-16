@@ -189,7 +189,7 @@ export const generateBusinessUnitCreateManyInput = (args: {
   return {
     id: f.randUuid(),
     type: getRandBusinessUnitType(),
-    name: f.randFullName(),
+    name: f.randCompanyName(),
     description: f.randParagraph(),
     features: generateRandomLengthObjectOfArrayUnique(2, getRandFeature),
     createdAt,
@@ -319,16 +319,14 @@ export const generateUserActivityLogCreateManyInputForAllUsers = (
 export const generateUserNotificationCreateManyInputForAllUsers = (
   userIds: string[],
 ): Prisma.UserNotificationCreateManyInput[] => {
-  logger.debug(`generateUserNotificationCreateManyInputForAllUsers - userIds.length => ${userIds?.length}`);
-
   let inputs: Prisma.UserNotificationCreateManyInput[] = [];
+
+  logger.debug(
+    `generateUserNotificationCreateManyInputForAllUsers - getting payloads for seeding UserNotification table for ${userIds?.length} users...`,
+  );
 
   userIds?.forEach((userId, _i) => {
     const isDividable = _i % 50 === 0;
-
-    logger.debug(
-      `generateUserNotificationCreateManyInputForAllUsers - iteration ${_i + 1} | isDividableByHundred: ${isDividable}`,
-    );
 
     if (isDividable) {
       const notificationCount = f.randNumber({ min: 0, max: 10 });
@@ -347,6 +345,10 @@ export const generateUserNotificationCreateManyInputForAllUsers = (
       }
     }
   });
+
+  logger.debug(
+    `generateUserNotificationCreateManyInputForAllUsers - generated payloads for seeding UserNotification table for ${userIds?.length} users`,
+  );
 
   return inputs;
 };
@@ -397,10 +399,12 @@ export const generateMemberCreateManyInputs = (args: { userIds: string[]; busine
 
   let inputs: Prisma.MemberCreateManyInput[] = [];
 
+  logger.debug(
+    `generateMemberCreateManyInputs - getting payloads for seeding Member table for ${userIds?.length} users...`,
+  );
+
   userIds?.forEach((userId, _i) => {
     const isDividable = _i % 50 === 0;
-
-    logger.debug(`generateMemberCreateManyInputs - iteration ${_i + 1} | isDividable: ${isDividable}`);
 
     if (isDividable) {
       const notificationCount = f.randNumber({ min: 0, max: 10 });
@@ -420,6 +424,10 @@ export const generateMemberCreateManyInputs = (args: { userIds: string[]; busine
       }
     }
   });
+
+  logger.debug(
+    `generateMemberCreateManyInputs - generated payloads for seeding Member table for ${userIds?.length} users...`,
+  );
 
   return inputs;
 };
