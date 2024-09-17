@@ -17,7 +17,7 @@ on:
           # - main
         default: dev
 env:
-  NODE_DOCKER_IMAGE: 'node:lts-slim'
+  NODE_DOCKER_IMAGE: 'node:20-slim'
 jobs:
   build-base:
     name: Build Docker Base

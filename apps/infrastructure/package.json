@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
+    "@pulumi/eslint-plugin": "0.2.0",
     "@types/node": "20.14.15"
   }
 }
