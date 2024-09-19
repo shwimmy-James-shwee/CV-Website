@@ -9,7 +9,7 @@ import { getRandNotificationFrequence } from './data-preparation.service';
  * @firstName
  * @lastName
  */
-const teamMembers = [
+export const teamMembers: Prisma.UserCreateInput[] = [
   {
     loginEmail: 'example_email@kpmg.co.nz',
     firstName: 'John',
@@ -20,14 +20,5 @@ const teamMembers = [
     timeZoneOffSet: `${f.randNumber()}`,
     timeZone: f.randTimeZone(),
     notificationFrequency: getRandNotificationFrequence(),
-    createdAt: f.randPastDate({ years: 3 }),
-    updatedAt: f.randPastDate({ years: 3 }),
   },
 ];
-
-/**
- * Export function used in seedUsers() function
- */
-export const generateTeamUserCreateInput = (): Prisma.UserCreateInput[] => {
-  return teamMembers.map((user) => user as Prisma.UserCreateInput);
-};
