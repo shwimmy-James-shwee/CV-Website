@@ -9,6 +9,7 @@ import {
   mockBusinssUnitCreateManyInput,
 } from './data-preparation.service';
 import { prisma } from '@/common/prisma';
+import { generateTeamUserCreateInput } from './data-preparation-team.service';
 
 export type DataOperationService = {
   CLEAR_ALL_ROWS_IN_ALL_TABLES: () => Promise<ResultAsync<void, Error>>;
@@ -52,10 +53,14 @@ export const CLEAR_ALL_ROWS_IN_ALL_TABLES: DataOperationService['CLEAR_ALL_ROWS_
 };
 
 export const seedUsers = async (userCount: number): Promise<ResultAsync<void, Error>> => {
-  logger.warn('Generating items to seed...');
+  logger.warn('Generating random users to seed...');
   const inputs = Array.from({ length: userCount }, () => {
     return generateUserCreateInput();
   });
+
+  logger.warn('Generating team members to seed...');
+  inputs.push(...generateTeamUserCreateInput());
+
   logger.verbose(`Generated ${inputs?.length} items to seed`);
 
   logger.warn(`Inserting ${inputs?.length} users to db...`);
