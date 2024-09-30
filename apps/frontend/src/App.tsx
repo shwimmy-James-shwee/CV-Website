@@ -31,7 +31,9 @@ const LoggedOutApp = ({ url }: { url: string }) => {
     //     </a>
     //   </NotValidPage>
     // </GradienFullPage>
-    <p>err - {title}</p>
+    <>
+      <p>err - {title}</p>
+    </>
   );
 };
 

@@ -50,12 +50,15 @@ function AppRoutes() {
   // };
 
   const navLinkItems: navLinkItemProps[] = [
-    { lable: 'Home', url: pageUrl.landingPage },
-    // { lable: 'FAQ', url: pageUrl.faqPage },
-    // { lable: 'Contact', url: pageUrl.contactPage },
-    { lable: 'User Activity', url: pageUrl.userActivityPage },
+    { label: 'Home', url: pageUrl.landingPage },
+    { label: 'Projects', url: '' },
+    { label: 'Contact Me', url: '' },
     {
-      lable: 'Admin',
+      label: 'Admin login',
+      url: pageUrl.adminPage,
+    },
+    {
+      label: 'Analytics',
       url: pageUrl.adminPage,
       hide: !currentUserData?.roles?.includes(UserRole.ADMINISTRATOR),
     },
