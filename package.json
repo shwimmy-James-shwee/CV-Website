@@ -2,7 +2,6 @@
   "name": "template-webapp-monorepo",
   "scripts": {
     "build": "turbo build",
-    "build-storybook": "turbo build-storybook",
     "dev": "turbo dev",
     "test": "turbo test",
     "lint": "turbo lint",

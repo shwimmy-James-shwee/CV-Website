@@ -1,5 +1,5 @@
 import { vi, beforeEach, afterEach } from 'vitest';
-import * as msalFetch from '../hooks/useFetchWithMsal';
+import * as msalFetch from '../hooks/useFetchWithAuth';
 
 // default mock useFetchWithMsal
 export const defaultExecute = vi.fn(() => {

@@ -1,16 +1,14 @@
-import { Body, Controller, Get, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
 import { UserActivityLogService } from './user-activity-log.service';
-import { Feature, Prisma, User } from '@core/db';
-import { AzureADGuard } from '../../../guard/auth/azuread.guard';
+import { Prisma, User } from '@core/db';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { createDTOExample } from './user-activity-log.dto.sample';
 import { Request } from 'express';
-import { FeatureGuard } from '../../../guard/feature/feature.guard';
-import { Features } from '../../../guard/feature/feature.decorator';
+
 import { PREFIX, ROUTE } from '@core/routes';
 
 @ApiTags('User Activity Log')
-@UseGuards(AzureADGuard, FeatureGuard)
+// @UseGuards(AzureADGuard, )
 @Controller(PREFIX.userActivityLog)
 export class UserActivityLogController {
   constructor(private readonly userActivityLogService: UserActivityLogService) {}
@@ -62,7 +60,6 @@ export class UserActivityLogController {
   }
 
   @Get(ROUTE.userActivityLog.featuredLog)
-  @Features(Feature.BASIC_REPORTING)
   getActivityLogs() {
     return this.userActivityLogService.findAll({ id: 'desc' });
   }

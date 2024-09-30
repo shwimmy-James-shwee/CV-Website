@@ -1,9 +1,7 @@
-import { BadRequestException, Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Param, Req } from '@nestjs/common';
 import { User } from '@core/db';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AzureADGuard } from '../../../guard/auth/azuread.guard';
 import { Request } from 'express';
-import { RoleGuard } from '../../../guard/role/role.guard';
 import { PREFIX, ROUTE } from '@core/routes';
 import { CurrentUserBusinessUnitsType, UserService } from './user.service';
 
@@ -14,7 +12,7 @@ interface CurrentUser extends User {
 @ApiTags('User')
 @Controller(PREFIX.user)
 // !important, AzureADGuard must be first in the list of guards, it provide the user object to the request
-@UseGuards(AzureADGuard, RoleGuard)
+// @UseGuards(AzureADGuard, RoleGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

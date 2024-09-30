@@ -1,10 +1,8 @@
 import { useState, useCallback } from 'react';
 
-import { AuthError, InteractionType } from '@azure/msal-browser';
-import { useMsal, useMsalAuthentication } from '@azure/msal-react';
 import { baseUri } from '../ApiConstants';
 
-import { protectedResources } from '../authConfig';
+// import { protectedResources } from '../authConfig';
 
 /**
  * Custom hook to call a web API using bearer token obtained from MSAL
@@ -25,21 +23,19 @@ export type APIErrorMessageObjType = {
   response: ResponseType;
 };
 
-export type ExecuteError = AuthError | Error | unknown;
-
 const useFetchWithMsal = () => {
-  const { instance } = useMsal();
+  // const { instance } = useMsal();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<ExecuteError>(null);
+  const [error, setError] = useState<object | null>(null);
   const [apiError, setApiError] = useState<APIErrorMessageObjType | null>(null);
   const [data, setData] = useState(null);
 
   //   const activeAccount = instance.getActiveAccount()
-  const { result, error: msalError } = useMsalAuthentication(InteractionType.Redirect, {
-    scopes: protectedResources.api.scopes.read, // TODO update to final scope
-    account: instance.getActiveAccount() || undefined,
-    redirectUri: '/',
-  });
+  // const { result, error: msalError } = useMsalAuthentication(InteractionType.Redirect, {
+  //   scopes: protectedResources.api.scopes.read, // TODO update to final scope
+  //   account: instance.getActiveAccount() || undefined,
+  //   redirectUri: '/',
+  // });
   /**
    * Execute a fetch request with the given options
    * @param {string} method: GET, POST, PUT, DELETE
@@ -51,15 +47,17 @@ const useFetchWithMsal = () => {
     // force logout user after 15 minutes
 
     setIsLoading(true);
-    if (msalError) {
-      setError(msalError);
-      setIsLoading(false);
-      return;
-    }
-    if (result || import.meta.env.VITE_NODE_ENV === 'test') {
+    // if (msalError) {
+    //   setError(msalError);
+    //   setIsLoading(false);
+    //   return;
+    // }
+    // if (result || import.meta.env.VITE_NODE_ENV === 'test') {
+    if (import.meta.env.VITE_NODE_ENV === 'test') {
       try {
         const headers = new Headers();
-        const bearer = `Bearer ${result?.accessToken}`;
+        // const bearer = `Bearer ${result?.accessToken}`;
+        const bearer = 'Bearer TOKEN GOES HERE';
         headers.append('Authorization', bearer);
         headers.append('TimeZoneOffSet', `${new Date().getTimezoneOffset()}`);
         headers.append('TimeZone', Intl.DateTimeFormat().resolvedOptions().timeZone);
@@ -108,13 +106,13 @@ const useFetchWithMsal = () => {
           const error = (e as Error).message;
           // handle multiple session error, kick expired session out
           const apiReturnError = JSON.parse(error) as APIErrorMessageObjType;
-          if (`${JSON.stringify(apiReturnError)}`.includes('Multiple session') || !result) {
-            instance.logoutRedirect({ postLogoutRedirectUri: '/logout-multiple-sessions' });
-          }
+          // if (`${JSON.stringify(apiReturnError)}`.includes('Multiple session') || !result) {
+          //   instance.logoutRedirect({ postLogoutRedirectUri: '/logout-multiple-sessions' });
+          // }
           setApiError(apiReturnError);
           setError(apiReturnError);
         } catch (e) {
-          setError(e);
+          setError(e as object);
         }
         setIsLoading(false);
       }
@@ -127,7 +125,7 @@ const useFetchWithMsal = () => {
     data,
     apiError,
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    execute: useCallback(execute, [result, msalError]), // to avoid infinite calls when inside a `useEffect`
+    execute: useCallback(execute, []), // to avoid infinite calls when inside a `useEffect`
   };
 };
 

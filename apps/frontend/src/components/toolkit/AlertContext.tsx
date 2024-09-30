@@ -1,9 +1,9 @@
 import { createContext, ReactNode, useCallback, useState } from 'react';
-import { AlertProps } from 'react-bootstrap';
 
-type AlertPropsOmitted = Omit<AlertProps, 'content'>; // Omit content property to overwrite and allow ReactNode types
+// type AlertPropsOmitted = Omit<AlertProps, 'content'>; // Omit content property to overwrite and allow ReactNode types
 
-export interface AlertValues extends AlertPropsOmitted {
+export interface AlertValues {
+  // extends AlertPropsOmitted {
   id?: string | undefined;
   header?: string | ReactNode;
   alertContent?: string | ReactNode;
