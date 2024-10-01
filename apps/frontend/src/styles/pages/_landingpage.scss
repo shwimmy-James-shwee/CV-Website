@@ -1,10 +1,20 @@
 .projectCards {
-  height: 200px;
+  height: 100%;
   cursor: pointer;
-  transition: ease-in-out 2s;
 }
 
 .projectCards:hover {
   box-shadow: 0px 10px 10px grey;
-  height: 300px;
+  max-height: 1000px;
+}
+
+.projectCardsWrapper {
+  min-height: 250px;
+  max-height: 250px;
+  transition: ease-in-out 0.5s;
+  transition-delay: 0.25s;
+}
+.projectCardsWrapper:hover {
+     box-shadow: 0px 10px 10px grey;
+  max-height: 1000px;
 }
