@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Grid2 as Grid, ImageList, ImageListItem } from '@mui/material';
 import { styled } from '@mui/system';
 import solutionArch from '../../assets/images/solutionArch.png';
+import { ModalContext } from '../toolkit/ModalContext';
+import ProjectModalBody from './ProjectModalBody';
 
 const CardTextWrapper = styled('div')`
   display: flex;
@@ -20,6 +22,18 @@ const ProjectCardDesc = styled(Typography)`
   height: 145px;
 `;
 
+// TODO REMOVE and replace with SCHEMA
+export type testProjectDataType = {
+  id: number;
+  title: string;
+  description: string;
+  image: string[];
+  link: string;
+  highlighted: boolean;
+  dateStarted: Date;
+  dateCompleted: Date;
+};
+
 const projectTestData = [
   {
     id: 1,
@@ -29,6 +43,8 @@ const projectTestData = [
     image: [solutionArch, solutionArch, solutionArch],
     link: 'https://example.com/project1',
     highlighted: true,
+    dateStarted: new Date('2023-01-01'),
+    dateCompleted: new Date('2023-06-30'),
   },
   {
     id: 2,
@@ -38,6 +54,8 @@ const projectTestData = [
     image: [solutionArch, solutionArch, solutionArch, solutionArch, solutionArch],
     link: 'https://example.com/project1',
     highlighted: false,
+    dateStarted: new Date('2023-02-15'),
+    dateCompleted: new Date('2023-08-31'),
   },
   {
     id: 3,
@@ -47,6 +65,8 @@ const projectTestData = [
     image: [solutionArch, solutionArch],
     link: 'https://example.com/project3',
     highlighted: true,
+    dateStarted: new Date('2023-03-10'),
+    dateCompleted: new Date('2023-09-15'),
   },
   {
     id: 4,
@@ -56,6 +76,8 @@ const projectTestData = [
     image: [solutionArch, solutionArch, solutionArch, solutionArch],
     link: 'https://example.com/project4',
     highlighted: false,
+    dateStarted: new Date('2023-04-05'),
+    dateCompleted: new Date('2023-10-20'),
   },
   {
     id: 5,
@@ -65,6 +87,8 @@ const projectTestData = [
     image: [solutionArch, solutionArch, solutionArch, solutionArch, solutionArch, solutionArch],
     link: 'https://example.com/project5',
     highlighted: true,
+    dateStarted: new Date('2023-05-20'),
+    dateCompleted: new Date('2023-11-30'),
   },
   {
     id: 6,
@@ -74,6 +98,8 @@ const projectTestData = [
     image: [solutionArch, solutionArch, solutionArch],
     link: 'https://example.com/project6',
     highlighted: false,
+    dateStarted: new Date('2023-06-15'),
+    dateCompleted: new Date('2023-12-31'),
   },
   {
     id: 7,
@@ -83,6 +109,8 @@ const projectTestData = [
     image: [solutionArch, solutionArch, solutionArch, solutionArch, solutionArch],
     link: 'https://example.com/project7',
     highlighted: true,
+    dateStarted: new Date('2023-07-01'),
+    dateCompleted: new Date('2024-01-15'),
   },
   {
     id: 8,
@@ -92,55 +120,68 @@ const projectTestData = [
     image: [solutionArch, solutionArch, solutionArch, solutionArch],
     link: 'https://example.com/project8',
     highlighted: false,
+    dateStarted: new Date('2023-08-10'),
+    dateCompleted: new Date('2024-02-29'),
   },
-];
+] as testProjectDataType[];
 
 function ProjectCards() {
-  const [projects, setProjects] = useState(projectTestData);
+  const { handleModalOpen } = useContext(ModalContext);
+
+  const [projects, setProjects] = useState<testProjectDataType[]>(projectTestData);
 
   useEffect(() => {
     // TODO Fetch projects from API
     setProjects(projectTestData);
   }, []);
 
-  const parseProjectDescription = (description: string) => {
+  function parseProjectDescription(description: string) {
     const maxLength = 300;
     const descStr = description.replace(' ', '');
     if (descStr.length > maxLength) {
       return description.substring(0, maxLength) + '...';
     }
     return description;
+  }
+
+  const openProjectModal = (project: testProjectDataType) => {
+    handleModalOpen({
+      content: <ProjectModalBody projectData={project} />,
+      size: 'xl',
+    });
   };
 
   return (
-    <Grid container spacing={3}>
-      {projects.map((project) => (
-        <Grid component='div' size={{ xs: 12, sm: 6, md: 4 }} key={project.id} className='projectCardsWrapper'>
-          <Card className='projectCards'>
-            <CardContent>
-              <CardTextWrapper>
-                <ProjectCardHeader variant='h5'>{project.title}</ProjectCardHeader>
-                <ProjectCardDesc variant='body1'>{parseProjectDescription(project.description)}</ProjectCardDesc>
-              </CardTextWrapper>
-              <div className='imageListContainer'>
-                <ImageList sx={{ width: '100%' }} cols={4} gap={8}>
-                  {project.image.map((image, index) => (
-                    <ImageListItem key={index}>
-                      <img
-                        src={image}
-                        srcSet={image}
-                        alt={`Project ${project.id} - Image ${index + 1}`}
-                        loading='lazy'
-                      />
-                    </ImageListItem>
-                  ))}
-                </ImageList>
-              </div>
-            </CardContent>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
+    <>
+      <Grid container spacing={3}>
+        {projects.map((project: testProjectDataType) => (
+          <Grid component='div' size={{ xs: 12, sm: 6, md: 4 }} key={project.id} className='projectCardsWrapper'>
+            <Card className='projectCards' onClick={() => openProjectModal(project)}>
+              <CardContent>
+                <CardTextWrapper>
+                  <ProjectCardHeader variant='h5'>{project.title}</ProjectCardHeader>
+                  <ProjectCardDesc variant='body1'>{parseProjectDescription(project.description)}</ProjectCardDesc>
+                </CardTextWrapper>
+                <div className='imageListContainer'>
+                  <ImageList sx={{ width: '100%' }} cols={4} gap={8}>
+                    {project.image.map((image, index) => (
+                      <ImageListItem key={index}>
+                        <img
+                          src={image}
+                          srcSet={image}
+                          alt={`Project ${project.id} - Image ${index + 1}`}
+                          loading='lazy'
+                        />
+                      </ImageListItem>
+                    ))}
+                  </ImageList>
+                </div>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </>
   );
 }
 

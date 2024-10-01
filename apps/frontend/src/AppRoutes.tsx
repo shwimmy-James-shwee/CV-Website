@@ -17,6 +17,8 @@ import { UserContext } from './context/UserContext';
 import AlertProvider from './components/toolkit/AlertContext';
 // import AlertComponent from './components/toolkit/Alert';
 import { UserRole } from '@core/db/schema';
+import ModalProvider from './components/toolkit/ModalContext';
+import ModalComponent from './components/toolkit/Modal';
 
 // // this guarantees that the container will always be full width and Row/Col will be contained within it
 // const HighLevelContainer = styled(Container)`
@@ -83,35 +85,38 @@ function AppRoutes() {
   // if (userReturnStatus === UserReturnStatus.SUCCESS) {
   return (
     <AlertProvider>
-      {/* <AlertComponent /> */}
-      <Router>
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-          <NavBar
-            // handleLogin={() => {}}
-            // handleLogout={() => {}}
-            // userLoggedIn={!!currentUserData}
-            navLinkItems={navLinkItems}
-          />
+      <ModalProvider>
+        {/* <AlertComponent /> */}
+        <ModalComponent />
+        <Router>
+          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <NavBar
+              // handleLogin={() => {}}
+              // handleLogout={() => {}}
+              // userLoggedIn={!!currentUserData}
+              navLinkItems={navLinkItems}
+            />
 
-          <div style={{ flex: '1' }}>
-            <Routes>
-              {/* Public Routes */}
-              <Route path={pageUrl.landingPage} element={<LandingPage />} />
-              {/* <Route path={pageUrl.userActivityPage} element={<UserActivityPage />} /> */}
+            <div style={{ flex: '1' }}>
+              <Routes>
+                {/* Public Routes */}
+                <Route path={pageUrl.landingPage} element={<LandingPage />} />
+                {/* <Route path={pageUrl.userActivityPage} element={<UserActivityPage />} /> */}
 
-              {/* Admin Routes */}
-              {/* {currentUserData?.roles?.includes(UserRole.ADMINISTRATOR) && (
+                {/* Admin Routes */}
+                {/* {currentUserData?.roles?.includes(UserRole.ADMINISTRATOR) && (
                   <Route path={pageUrl.adminPage} element={<AdminPage />} />
                 )} */}
-              {/* New Routes can be added below */}
+                {/* New Routes can be added below */}
 
-              {/* New Routes can be added above */}
-              {/* <Route path='*' element={<NotFoundPage />} /> */}
-            </Routes>
+                {/* New Routes can be added above */}
+                {/* <Route path='*' element={<NotFoundPage />} /> */}
+              </Routes>
+            </div>
+            {/* <FooterBar /> */}
           </div>
-          {/* <FooterBar /> */}
-        </div>
-      </Router>
+        </Router>
+      </ModalProvider>
     </AlertProvider>
   );
   // }
