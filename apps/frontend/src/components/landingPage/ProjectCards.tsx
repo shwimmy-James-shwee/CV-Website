@@ -1,28 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography, Grid2 as Grid, Button } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Card, CardContent, Typography, Grid2 as Grid } from '@mui/material';
 import { styled } from '@mui/system';
-
-const ProjectCard = styled(Card, {
-  shouldForwardProp: (prop) => prop !== 'hoverShadow',
-})`
-  height: 200px;
-`;
-
-// type Props = {
-//   hoverShadow: number;
-// };
-// const options = {
-//   shouldForwardProp: (prop) => prop !== 'hoverShadow',
-// };
-// const ProjectCard = styled(
-//   Card,
-//   options,
-// )<Props>(({ theme, hoverShadow = 1 }) => ({
-//   ':hover': {
-//     boxShadow: theme.shadows[hoverShadow],
-//   },
-// }));
-//
 
 const ProjectCardHeader = styled(Typography)`
   margin-bottom: 20px;
@@ -120,18 +98,13 @@ function ProjectCards() {
   return (
     <Grid container spacing={3}>
       {projects.map((project) => (
-        <Grid component='div' size={{ xs: 12, sm: 6, md: 4 }} key={project.id}>
-          <ProjectCard hoverShadow={2}>
+        <Grid component='div' size={{ xs: 12, sm: 6, md: 4 }} key={project.id} className='projectCards'>
+          <Card className='projectCards'>
             <CardContent>
-              <ProjectCardHeader variant='h5' component='div'>
-                {project.title}
-              </ProjectCardHeader>
+              <ProjectCardHeader variant='h5'>{project.title}</ProjectCardHeader>
               <ProjectCardBody variant='body2'>{parseProjectDescription(project.description)}</ProjectCardBody>
-              <Button variant='contained' color='secondary' href={project.link} target='_blank'>
-                View more
-              </Button>
             </CardContent>
-          </ProjectCard>
+          </Card>
         </Grid>
       ))}
     </Grid>
