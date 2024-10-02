@@ -3,6 +3,16 @@ import { Box } from '@mui/system';
 import { testProjectDataType } from './ProjectCards';
 
 import { useState } from 'react';
+// import { Button } from '@mui/material';
+
+// const ImageButtonBox = styled(Box)`
+//   position: absolute;
+//   width: 90%;
+//   display: flex;
+//   justify-content: space-between;
+//   margin: 50px;
+//   top: 40%;
+// `;
 
 type ProjectModalBodyProps = {
   projectData: testProjectDataType;
@@ -44,6 +54,14 @@ const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
               />
             </div>
           ))}
+          {/* <ImageButtonBox>
+            {activeImage && activeImage > 0 && (
+              <Button onClick={() => setActiveImage(() => (activeImage ? activeImage - 1 : null))}>PREV</Button>
+            )}
+            {activeImage && activeImage < maxImages - 1 && (
+              <Button onClick={() => setActiveImage(() => (activeImage ? activeImage + 1 : null))}>NEXT</Button>
+            )}
+          </ImageButtonBox> */}
         </div>
       </Box>
 

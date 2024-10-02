@@ -20,7 +20,6 @@
   max-height: 1000px;
 }
 
-
 // Project Modal
 // .ProjectModalImageList {
 //   width: 100%;
@@ -77,8 +76,7 @@
 //   z-index: 999;
 // }
 
-
-
+// Project Modal Image bar classes
 .ProjectModalImageList {
   width: 100%;
   display: flex;
@@ -100,6 +98,7 @@
   flex-shrink: 0;
   transition: all 0.3s ease;
 
+  
   img {
     height: 100%;
     object-fit: cover;
@@ -112,7 +111,8 @@
 
 .ProjectModalImageItemSelected {
   height: 500px;
-  scroll-margin: 50%;
+  // scroll-margin: 50%;
+  transition: height 0.3s ease;
 }
 
 .ProjectModalImageList:has(.ProjectModalImageItemSelected) {
@@ -120,13 +120,8 @@
   scroll-snap-type: x mandatory;
 }
 
-// .ProjectModalImageItemSelected {
-//   scroll-margin: 50%;
-// }
-
 .ProjectModalImageList:has(.ProjectModalImageItemSelected) .ProjectModalImageItemSelected {
   scroll-snap-align: center;
 }
-
 
 

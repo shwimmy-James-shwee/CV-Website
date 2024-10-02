@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { Card, CardContent, Typography, Grid2 as Grid, ImageList, ImageListItem } from '@mui/material';
+import { Card, CardContent, Typography, Grid2 as Grid, ImageList, ImageListItem, Box } from '@mui/material';
 import { styled } from '@mui/system';
 import solutionArch from '../../assets/images/solutionArch.png';
 import { ModalContext } from '../toolkit/ModalContext';
@@ -37,7 +37,7 @@ export type testProjectDataType = {
 const projectTestData = [
   {
     id: 1,
-    title: 'Project 1',
+    title: 'Project 1Project 1Project 1Project 1Project 1Project 1Project 1Project 1Project 1',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     image: [solutionArch, solutionArch, solutionArch],
@@ -169,24 +169,27 @@ function ProjectCards() {
           <Grid component='div' size={{ xs: 12, sm: 6, md: 4 }} key={project.id} className='projectCardsWrapper'>
             <Card className='projectCards' onClick={() => openProjectModal(project)}>
               <CardContent>
-                <CardTextWrapper>
-                  <ProjectCardHeader variant='h5'>{project.title}</ProjectCardHeader>
-                  <ProjectCardDesc variant='body1'>{parseProjectDescription(project.description)}</ProjectCardDesc>
-                </CardTextWrapper>
-                <div className='imageListContainer'>
-                  <ImageList sx={{ width: '100%' }} cols={4} gap={8}>
-                    {project.image.map((image, index) => (
-                      <ImageListItem key={index}>
-                        <img
-                          src={image}
-                          srcSet={image}
-                          alt={`Project ${project.id} - Image ${index + 1}`}
-                          loading='lazy'
-                        />
-                      </ImageListItem>
-                    ))}
-                  </ImageList>
-                </div>
+                <Box sx={{ position: 'relative' }}>
+                  <Box sx={{ position: 'absolute', top: 8, right: 8 }}>*</Box>
+                  <CardTextWrapper>
+                    <ProjectCardHeader variant='h5'>{project.title}</ProjectCardHeader>
+                    <ProjectCardDesc variant='body1'>{parseProjectDescription(project.description)}</ProjectCardDesc>
+                  </CardTextWrapper>
+                  <div className='imageListContainer'>
+                    <ImageList sx={{ width: '100%' }} cols={4} gap={8}>
+                      {project.image.map((image, index) => (
+                        <ImageListItem key={index}>
+                          <img
+                            src={image}
+                            srcSet={image}
+                            alt={`Project ${project.id} - Image ${index + 1}`}
+                            loading='lazy'
+                          />
+                        </ImageListItem>
+                      ))}
+                    </ImageList>
+                  </div>
+                </Box>
               </CardContent>
             </Card>
           </Grid>
