@@ -33,7 +33,15 @@ const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
   // };
 
   const handleImageClick = (index: number) => {
-    activeImage === index ? setActiveImage(null) : setActiveImage(index);
+    setActiveImage(null);
+    if (activeImage === null) {
+      setActiveImage(index);
+    } else {
+      // This is disgusting, but it works for now, TODO fix this!
+      setTimeout(() => {
+        activeImage === index ? setActiveImage(null) : setActiveImage(index);
+      }, 200);
+    }
   };
   return (
     <div>

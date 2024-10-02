@@ -4,6 +4,7 @@ import { styled } from '@mui/system';
 import solutionArch from '../../assets/images/solutionArch.png';
 import { ModalContext } from '../toolkit/ModalContext';
 import ProjectModalBody from './ProjectModalBody';
+import { sortHighlightedProjects } from '@/utils/HelperFunctions';
 
 const CardTextWrapper = styled('div')`
   display: flex;
@@ -143,7 +144,8 @@ function ProjectCards() {
 
   useEffect(() => {
     // TODO Fetch projects from API
-    setProjects(projectTestData);
+    const sortedProjects = sortHighlightedProjects(projectTestData);
+    setProjects(sortedProjects);
   }, []);
 
   function parseProjectDescription(description: string) {
@@ -170,7 +172,7 @@ function ProjectCards() {
             <Card className='projectCards' onClick={() => openProjectModal(project)}>
               <CardContent>
                 <Box sx={{ position: 'relative' }}>
-                  <Box sx={{ position: 'absolute', top: 8, right: 8 }}>*</Box>
+                  {project.highlighted && <Box sx={{ position: 'absolute', top: 8, right: 8 }}>*</Box>}
                   <CardTextWrapper>
                     <ProjectCardHeader variant='h5'>{project.title}</ProjectCardHeader>
                     <ProjectCardDesc variant='body1'>{parseProjectDescription(project.description)}</ProjectCardDesc>
