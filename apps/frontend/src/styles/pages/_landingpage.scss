@@ -1,3 +1,4 @@
+// Project Cards
 .projectCards {
   height: 100%;
   cursor: pointer;
@@ -18,3 +19,114 @@
   box-shadow: 0px 10px 10px grey;
   max-height: 1000px;
 }
+
+
+// Project Modal
+// .ProjectModalImageList {
+//   width: 100%;
+//   display: flex;
+//   flex-direction: row;
+//   flex-wrap: nowrap;
+//   overflow-x: auto;
+//   justify-content: flex-start;
+//   align-items: flex-start;
+//   height: auto;
+//   min-height: 200px;
+//   gap: 20px;
+//   padding: 20px 0;
+//   position: relative;
+// }
+
+// .ProjectModalImageItem {
+//   cursor: pointer;
+//   height: 180px;
+//   flex-shrink: 0;
+//   transition: all 0.3s ease;
+
+//   img {
+//     height: 100%;
+//     object-fit: cover;
+//   }
+// }
+
+// .ProjectModalImageItem:hover {
+//   box-shadow: 0px 10px 10px grey;
+// }
+
+// .ProjectModalImageItemSelected {
+//   height: 500px;
+//   position: fixed;
+//   top: 50%;
+//   left: 50%;
+//   transform: translate(-50%, -50%);
+//   z-index: 1000;
+// }
+
+// .ProjectModalImageList:has(.ProjectModalImageItemSelected) {
+//   height: 540px;
+// }
+
+// .ProjectModalImageList:has(.ProjectModalImageItemSelected)::after {
+//   content: '';
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   background: rgba(0, 0, 0, 0.5);
+//   z-index: 999;
+// }
+
+
+
+.ProjectModalImageList {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: auto;
+  min-height: 200px;
+  gap: 20px;
+  padding: 20px 0;
+  scroll-behavior: smooth;
+}
+
+.ProjectModalImageItem {
+  cursor: pointer;
+  height: 180px;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+
+  img {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.ProjectModalImageItem:hover {
+  box-shadow: 0px 10px 10px grey;
+}
+
+.ProjectModalImageItemSelected {
+  height: 500px;
+  scroll-margin: 50%;
+}
+
+.ProjectModalImageList:has(.ProjectModalImageItemSelected) {
+  height: 540px;
+  scroll-snap-type: x mandatory;
+}
+
+// .ProjectModalImageItemSelected {
+//   scroll-margin: 50%;
+// }
+
+.ProjectModalImageList:has(.ProjectModalImageItemSelected) .ProjectModalImageItemSelected {
+  scroll-snap-align: center;
+}
+
+
+

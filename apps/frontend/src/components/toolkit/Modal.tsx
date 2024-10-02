@@ -12,6 +12,8 @@ const ModalContainer = styled(Container)`
   border: 2px solid #000;
   box-shadow: 24;
   padding: 20px;
+  max-height: 80vh;
+  overflow-y: scroll;
 `;
 
 function ModalComponent() {

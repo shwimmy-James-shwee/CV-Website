@@ -1,6 +1,7 @@
-import { Paper, MobileStepper, Button } from '@mui/material';
-import { Box, useTheme } from '@mui/system';
+// import { Paper, MobileStepper, Button, ImageList, ImageListItem } from '@mui/material';
+import { Box } from '@mui/system';
 import { testProjectDataType } from './ProjectCards';
+
 import { useState } from 'react';
 
 type ProjectModalBodyProps = {
@@ -9,59 +10,43 @@ type ProjectModalBodyProps = {
 
 // const ProjectModalBody = ({ id, title, description, image, highlighted }: testProjectDataType) => {
 const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
-  const theme = useTheme();
-  const [activeImage, setActiveImage] = useState(0);
-  const maxImages = projectData.image.length;
+  // const theme = useTheme();
+  const [activeImage, setActiveImage] = useState<number | null>(null);
+  // const maxImages = projectData.image.length;
 
-  const handleNext = () => {
-    setActiveImage((prevActiveImage) => prevActiveImage + 1);
-  };
+  // const handleNext = () => {
+  //   setActiveImage((prevActiveImage) => prevActiveImage + 1);
+  // };
 
-  const handleBack = () => {
-    setActiveImage((prevActiveImage) => prevActiveImage - 1);
+  // const handleBack = () => {
+  //   setActiveImage((prevActiveImage) => prevActiveImage - 1);
+  // };
+
+  const handleImageClick = (index: number) => {
+    activeImage === index ? setActiveImage(null) : setActiveImage(index);
   };
   return (
     <div>
-      <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
-        <Paper
-          square
-          elevation={0}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            height: 50,
-            pl: 2,
-            bgcolor: 'background.default',
-          }}
-        >
-          <img
-            width={'100%'}
-            src={projectData.image[activeImage]}
-            srcSet={projectData.image[activeImage]}
-            alt={`Project image - Image ${activeImage + 1}`}
-            loading='lazy'
-          />
-        </Paper>
-        <Box sx={{ height: 255, maxWidth: 400, width: '100%', p: 2 }}>this could be a description of the image</Box>
-        <MobileStepper
-          variant='text'
-          steps={maxImages}
-          position='static'
-          activeStep={activeImage}
-          nextButton={
-            <Button size='small' onClick={handleNext} disabled={activeImage === maxImages - 1}>
-              Next
-              {theme.direction === 'rtl' ? '<' : '>'}
-            </Button>
-          }
-          backButton={
-            <Button size='small' onClick={handleBack} disabled={activeImage === 0}>
-              {theme.direction === 'rtl' ? '>' : '<'}
-              Back
-            </Button>
-          }
-        />
+      <Box>
+        <div className='ProjectModalImageList'>
+          {projectData.image.map((image, index) => (
+            <div
+              className={`ProjectModalImageItem ${index === activeImage ? 'ProjectModalImageItemSelected' : ''}`}
+              key={index}
+              onClick={() => handleImageClick(index)}
+            >
+              <img
+                src={image}
+                srcSet={image}
+                alt={`Project ${projectData.id} - Image ${index + 1}`}
+                loading='lazy'
+                className=''
+              />
+            </div>
+          ))}
+        </div>
       </Box>
+
       <h2 className='project-title'>{projectData.title}</h2>
       <div className='project-subtitle-dates'>
         <h3 className='project-subtitle'>{'asdasd'}</h3>
@@ -70,7 +55,60 @@ const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
       <div className='project-body'>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit autem commodi quis consequatur ut harum neque
         tempora libero, accusantium hic deserunt aliquid nisi maxime laboriosam, recusandae magnam ipsum. Perspiciatis,
-        obcaecati.
+        obcaecati.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit autem commodi quis consequatur ut
+        harum neque tempora libero, accusantium hic deserunt aliquid nisi maxime laboriosam, recusandae magnam ipsum.
+        Perspiciatis, obcaecati.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit autem commodi quis
+        consequatur ut harum neque tempora libero, accusantium hic deserunt aliquid nisi maxime laboriosam, recusandae
+        magnam ipsum. Perspiciatis, obcaecati.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit autem
+        commodi quis consequatur ut harum neque tempora libero, accusantium hic deserunt aliquid nisi maxime laboriosam,
+        recusandae magnam ipsum. Perspiciatis, obcaecati.Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        Impedit autem commodi quis consequatur ut harum neque tempora libero, accusantium hic deserunt aliquid nisi
+        maxime laboriosam, recusandae magnam ipsum. Perspiciatis, obcaecati.Lorem ipsum dolor sit amet, consectetur
+        adipisicing elit. Impedit autem commodi quis consequatur ut harum neque tempora libero, accusantium hic deserunt
+        aliquid nisi maxime laboriosam, recusandae magnam ipsum. Perspiciatis, obcaecati.Lorem ipsum dolor sit amet,
+        consectetur adipisicing elit. Impedit autem commodi quis consequatur ut harum neque tempora libero, accusantium
+        hic deserunt aliquid nisi maxime laboriosam, recusandae magnam ipsum. Perspiciatis, obcaecati.Lorem ipsum dolor
+        sit amet, consectetur adipisicing elit. Impedit autem commodi quis consequatur ut harum neque tempora libero,
+        accusantium hic deserunt aliquid nisi maxime laboriosam, recusandae magnam ipsum. Perspiciatis, obcaecati.Lorem
+        ipsum dolor sit amet, consectetur adipisicing elit. Impedit autem commodi quis consequatur ut harum neque
+        tempora libero, accusantium hic deserunt aliquid nisi maxime laboriosam, recusandae magnam ipsum. Perspiciatis,
+        obcaecati.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit autem commodi quis consequatur ut
+        harum neque tempora libero, accusantium hic deserunt aliquid nisi maxime laboriosam, recusandae magnam ipsum.
+        Perspiciatis, obcaecati.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit autem commodi quis
+        consequatur ut harum neque tempora libero, accusantium hic deserunt aliquid nisi maxime laboriosam, recusandae
+        magnam ipsum. Perspiciatis, obcaecati.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit autem
+        commodi quis consequatur ut harum neque tempora libero, accusantium hic deserunt aliquid nisi maxime laboriosam,
+        recusandae magnam ipsum. Perspiciatis, obcaecati.Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        Impedit autem commodi quis consequatur ut harum neque tempora libero, accusantium hic deserunt aliquid nisi
+        maxime laboriosam, recusandae magnam ipsum. Perspiciatis, obcaecati.Lorem ipsum dolor sit amet, consectetur
+        adipisicing elit. Impedit autem commodi quis consequatur ut harum neque tempora libero, accusantium hic deserunt
+        aliquid nisi maxime laboriosam, recusandae magnam ipsum. Perspiciatis, obcaecati.Lorem ipsum dolor sit amet,
+        consectetur adipisicing elit. Impedit autem commodi quis consequatur ut harum neque tempora libero, accusantium
+        hic deserunt aliquid nisi maxime laboriosam, recusandae magnam ipsum. Perspiciatis, obcaecati.Lorem ipsum dolor
+        sit amet, consectetur adipisicing elit. Impedit autem commodi quis consequatur ut harum neque tempora libero,
+        accusantium hic deserunt aliquid nisi maxime laboriosam, recusandae magnam ipsum. Perspiciatis, obcaecati.Lorem
+        ipsum dolor sit amet, consectetur adipisicing elit. Impedit autem commodi quis consequatur ut harum neque
+        tempora libero, accusantium hic deserunt aliquid nisi maxime laboriosam, recusandae magnam ipsum. Perspiciatis,
+        obcaecati.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit autem commodi quis consequatur ut
+        harum neque tempora libero, accusantium hic deserunt aliquid nisi maxime laboriosam, recusandae magnam ipsum.
+        Perspiciatis, obcaecati.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit autem commodi quis
+        consequatur ut harum neque tempora libero, accusantium hic deserunt aliquid nisi maxime laboriosam, recusandae
+        magnam ipsum. Perspiciatis, obcaecati.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit autem
+        commodi quis consequatur ut harum neque tempora libero, accusantium hic deserunt aliquid nisi maxime laboriosam,
+        recusandae magnam ipsum. Perspiciatis, obcaecati.Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        Impedit autem commodi quis consequatur ut harum neque tempora libero, accusantium hic deserunt aliquid nisi
+        maxime laboriosam, recusandae magnam ipsum. Perspiciatis, obcaecati.Lorem ipsum dolor sit amet, consectetur
+        adipisicing elit. Impedit autem commodi quis consequatur ut harum neque tempora libero, accusantium hic deserunt
+        aliquid nisi maxime laboriosam, recusandae magnam ipsum. Perspiciatis, obcaecati.Lorem ipsum dolor sit amet,
+        consectetur adipisicing elit. Impedit autem commodi quis consequatur ut harum neque tempora libero, accusantium
+        hic deserunt aliquid nisi maxime laboriosam, recusandae magnam ipsum. Perspiciatis, obcaecati.Lorem ipsum dolor
+        sit amet, consectetur adipisicing elit. Impedit autem commodi quis consequatur ut harum neque tempora libero,
+        accusantium hic deserunt aliquid nisi maxime laboriosam, recusandae magnam ipsum. Perspiciatis, obcaecati.Lorem
+        ipsum dolor sit amet, consectetur adipisicing elit. Impedit autem commodi quis consequatur ut harum neque
+        tempora libero, accusantium hic deserunt aliquid nisi maxime laboriosam, recusandae magnam ipsum. Perspiciatis,
+        obcaecati.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit autem commodi quis consequatur ut
+        harum neque tempora libero, accusantium hic deserunt aliquid nisi maxime laboriosam, recusandae magnam ipsum.
+        Perspiciatis, obcaecati.
       </div>
     </div>
   );
