@@ -25,59 +25,29 @@ datasource db {
 //     mmdcPath = "node_modules/.bin"
 // }
 
-enum UserRole {
-    STANDARD_USER
-    ADMINISTRATOR
-}
-
-enum NotificationFrequency {
-    DISABLED
-    REALTIME
-    HOURLY // 
-    DAILYEVE // 5pm
-    DAILYMORN // 9am
-    WEEKLY // Monday morning?
-}
-
 model User {
-    id                    String                @id @default(uuid())
-    externalOid           String?
-    loginEmail            String                @unique
-    firstName             String                @db.VarChar(50)
-    lastName              String                @db.VarChar(50)
-    isSuperAdmin          Boolean?              @default(false)
-    roles                 UserRole[]            @default([STANDARD_USER]) // Global roles on App level
-    avatarUrl             String                @default("/assets/defaultAvatar.png")
-    thumbnailPhoto        Int[]                 @default([])
-    timeZoneOffSet        String                @default("-780")
-    timeZone              String                @default("Pacific/Auckland")
-    notificationFrequency NotificationFrequency @default(REALTIME)
+    id           String      @id @default(uuid())
+    loginEmail   String      @unique
+    firstName    String      @db.VarChar(50)
+    lastName     String      @db.VarChar(50)
+    isSuperAdmin Boolean?    @default(false)
+    avatarUrl    String      @default("/assets/defaultAvatar.png")
     // timestamps
-    createdAt             DateTime              @default(now())
-    updatedAt             DateTime              @updatedAt
+    createdAt    DateTime    @default(now())
+    updatedAt    DateTime    @updatedAt
     // relationships
-    SignInLogs            SignInLog[]
-    UserActivityLogs      UserActivityLog[]
-    UserNotifications     UserNotification[]
-    MemberOfBusinessUnits Member[]
+    SignInLogs   SignInLog[]
 }
 
-enum NotificationStatus {
-    NOTIFIED
-    READ // past tense
-}
-
-model UserNotification {
-    id                  Int                  @id @default(autoincrement())
-    status              NotificationStatus[]
+model ContactUsNotification {
+    id                  Int      @id @default(autoincrement())
+    title               String
     message             String
+    submittedByEmail    String
     additionalAttribute Json?
     // timestamps
-    createdAt           DateTime             @default(now())
-    updatedAt           DateTime             @updatedAt
-    // relationships
-    userId              String
-    User                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt           DateTime @default(now())
+    updatedAt           DateTime @updatedAt
 }
 
 model SignInLog {
@@ -91,66 +61,29 @@ model SignInLog {
     User           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model UserActivityLog {
-    id                Int      @id @default(autoincrement())
-    userId            String
-    sessionIdentifier String? // any value that can be use to identify the session
-    eventStartTime    DateTime
-    eventEndTime      DateTime
-    eventDuration     Int
-    eventParam        String?
-    eventUrl          String
+model Project {
+    id          String   @id @default(uuid())
+    title       String
+    description String // TODO change value to store HTML/MD
+    highlighted Boolean  @default(false)
+    dateStarted DateTime
+    dateEnded   DateTime
     // timestamps
-    createdAt         DateTime @default(now())
-    updatedAt         DateTime @updatedAt
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
     // relationships
-    User              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    Images      Image[]
 }
 
-// Business Unit
-
-enum Feature {
-    BASIC
-    BASIC_REPORTING
-}
-
-enum BusinessUnitType {
-    TEAM
-    DEPARTMENT
-    DIVISION
-    COMPANY
-}
-
-model BusinessUnit {
-    id                   String           @id @default(uuid())
-    type                 BusinessUnitType @default(TEAM)
-    name                 String
-    description          String?
-    features             Feature[]
-    parentBusinessUnitId String?
-    ParentBusinessUnit   BusinessUnit?    @relation("ParentBusinessUnit_ChildBusinessUnit", fields: [parentBusinessUnitId], references: [id], onDelete: Cascade)
+model Image {
+    id              String   @id @default(uuid())
+    imageUrl        String
+    altText         String
+    displaySequence Int?
     // timestamps
-    createdAt            DateTime         @default(now())
-    updatedAt            DateTime         @updatedAt
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
     // relationships
-    Members              Member[]
-    ChildBusinessUnits   BusinessUnit[]   @relation("ParentBusinessUnit_ChildBusinessUnit")
-}
-
-enum MemberRole {
-    ADMINISTRATOR
-    STANDARD
-}
-
-model Member {
-    id             Int          @id @default(autoincrement())
-    roles          MemberRole[] @default([STANDARD]) // Business Unit scoped roles
-    // timestamps
-    createdAt      DateTime     @default(now())
-    updatedAt      DateTime     @updatedAt
-    // relationships
-    businessUnitId String
-    BusinessUnit   BusinessUnit @relation(fields: [businessUnitId], references: [id], onDelete: Cascade)
-    userId         String
-    User           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    projectId       String
+    Project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
