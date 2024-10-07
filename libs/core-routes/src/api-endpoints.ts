@@ -1,7 +1,7 @@
 export const PREFIX = {
   user: '/user',
   userActivityLog: '/user-activity-log',
-  businessUnit: '/business-unit',
+  project: '/project',
 };
 
 const apiVersion = '/api/v1';
@@ -19,26 +19,22 @@ export const ROUTE = {
     byId: '/',
     featuredLog: '/featured-log',
   },
-  businessUnit: {
-    base: PREFIX.businessUnit,
+  project: {
+    base: PREFIX.project,
     byId: '/',
+    getAll: '/get-all',
   },
 };
 
 const user = ROUTE.user;
 const userActivityLog = ROUTE.userActivityLog;
-const businessUnit = ROUTE.businessUnit;
+const project = ROUTE.project;
 
 // If an endpoint ends in a "/" it implies a param/id should be passed to it
 export const API = {
   admin: {
-    businessUnit: {
-      root: apiAdmin + ROUTE.businessUnit.base, // POST, GET
-      byId: apiAdmin + businessUnit.base + businessUnit.byId, // Requires {id} param - GET, DELETE, PUT
-    },
     user: {
       root: apiAdmin + ROUTE.user.base, // POST, GET
-      byId: apiAdmin + user.base + businessUnit.byId, // Requires {id} param - GET, DELETE, PUT
     },
   },
   user: {
@@ -51,5 +47,10 @@ export const API = {
     root: apiVersion + ROUTE.userActivityLog.base, // POST, GET
     byId: apiVersion + userActivityLog.base + userActivityLog.byId, // Requires {id} param - GET, DELETE, PUT
     featuredLog: apiVersion + userActivityLog.base + userActivityLog.featuredLog, // GET
+  },
+  project: {
+    root: apiVersion + project.base, // POST, GET
+    byId: apiVersion + project.base + project.byId, // requires ID param
+    getAll: apiVersion + project.base + project.getAll, // GET, returns all projects and Images
   },
 };
