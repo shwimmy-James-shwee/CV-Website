@@ -6,7 +6,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { LoggerModule } from './utilities/logger/logger.module';
 import { V1Module } from './api/v1/v1.module';
 import { env } from './config/env';
-import { AdminModule } from './api/admin/admin.module';
+// import { AdminModule } from './api/admin/admin.module';
 import { AppLoggerMiddleware } from './middleware/logger.middleware';
 
 @Module({
@@ -30,7 +30,7 @@ import { AppLoggerMiddleware } from './middleware/logger.middleware';
     ]),
     LoggerModule,
     V1Module,
-    AdminModule,
+    // AdminModule,
     // ...(env.NODE_ENV === 'test' ? [] : [AuthModule]), // strip module that can not be run in test env
     ...(env.NODE_ENV === 'test' ? [] : []), // strip module that can not be run in test env
   ],

@@ -16,7 +16,6 @@ import { UserContext } from './context/UserContext';
 // import NotValidPage from './components/page/NotValidPage';
 import AlertProvider from './components/toolkit/AlertContext';
 // import AlertComponent from './components/toolkit/Alert';
-import { UserRole } from '@core/db/schema';
 import ModalProvider from './components/toolkit/ModalContext';
 import ModalComponent from './components/toolkit/Modal';
 
@@ -62,7 +61,7 @@ function AppRoutes() {
     {
       label: 'Analytics',
       url: pageUrl.adminPage,
-      hide: !currentUserData?.roles?.includes(UserRole.ADMINISTRATOR),
+      hide: !currentUserData?.isSuperAdmin,
     },
   ];
 

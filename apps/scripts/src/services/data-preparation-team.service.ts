@@ -1,6 +1,4 @@
-import { Prisma, UserRole } from '@core/db';
-import * as f from '@ngneat/falso';
-import { getRandNotificationFrequence } from './data-preparation.service';
+import { Prisma } from '@core/db';
 
 /**
  * Insert team members of project here. Copy and paste the first example
@@ -15,10 +13,5 @@ export const teamMembers: Prisma.UserCreateInput[] = [
     firstName: 'John',
     lastName: 'Doe',
     isSuperAdmin: true,
-    roles: [UserRole.ADMINISTRATOR, UserRole.STANDARD_USER],
-    thumbnailPhoto: [f.randNumber()],
-    timeZoneOffSet: `${f.randNumber()}`,
-    timeZone: f.randTimeZone(),
-    notificationFrequency: getRandNotificationFrequence(),
   },
 ];

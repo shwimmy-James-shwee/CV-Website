@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MemberRole, Prisma } from '@core/db';
+import { Prisma } from '@core/db';
 import { DatabaseService } from '../../../database/database.service';
 
 export type CurrentUserBusinessUnitsType = {
@@ -30,39 +30,39 @@ export class UserService {
     });
   }
 
-  async findUserBusinessUnits(userId: string): Promise<CurrentUserBusinessUnitsType[]> {
-    return this.databaseService.businessUnit.findMany({
-      where: {
-        Members: {
-          some: {
-            userId,
-          },
-        },
-      },
-      select: {
-        id: true,
-        name: true,
-      },
-    });
-  }
+  // async findUserBusinessUnits(userId: string): Promise<CurrentUserBusinessUnitsType[]> {
+  //   return this.databaseService.businessUnit.findMany({
+  //     where: {
+  //       Members: {
+  //         some: {
+  //           userId,
+  //         },
+  //       },
+  //     },
+  //     select: {
+  //       id: true,
+  //       name: true,
+  //     },
+  //   });
+  // }
 
-  async getAdminUsers(businessUnitId: string): Promise<AdminUsersType[]> {
-    return this.databaseService.user.findMany({
-      where: {
-        MemberOfBusinessUnits: {
-          some: {
-            businessUnitId,
-            roles: {
-              has: MemberRole.ADMINISTRATOR,
-            },
-          },
-        },
-      },
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-      },
-    });
-  }
+  // async getAdminUsers(businessUnitId: string): Promise<AdminUsersType[]> {
+  //   return this.databaseService.user.findMany({
+  //     where: {
+  //       MemberOfBusinessUnits: {
+  //         some: {
+  //           businessUnitId,
+  //           roles: {
+  //             has: MemberRole.ADMINISTRATOR,
+  //           },
+  //         },
+  //       },
+  //     },
+  //     select: {
+  //       id: true,
+  //       firstName: true,
+  //       lastName: true,
+  //     },
+  //   });
+  // }
 }

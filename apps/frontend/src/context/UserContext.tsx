@@ -10,7 +10,7 @@ export type CurrentUserBusinessUnitsType = {
 };
 
 export interface CurrentUserType extends User {
-  InBusinessUnits: CurrentUserBusinessUnitsType[];
+  // InBusinessUnits: CurrentUserBusinessUnitsType[];
 }
 
 export type UserContextType = {
