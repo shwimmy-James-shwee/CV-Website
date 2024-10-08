@@ -18,9 +18,7 @@ function LandingPage() {
           Projects
         </Typography>
         <ProjectCards />
-        <Typography variant='h4' component='h2' gutterBottom sx={{ marginTop: '50px' }}>
-          Clients
-        </Typography>
+
         <MyClients />
       </Box>
     </LandPageContainer>
