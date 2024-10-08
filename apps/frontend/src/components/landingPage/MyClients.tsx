@@ -10,20 +10,25 @@ const MyClientContainer = styled(Box)`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
-  /* gap: 10px; */
+  gap: 20px;
+`;
+
+const ClientImage = styled('img')`
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
 `;
 
 function MyClients() {
   return (
     <MyClientContainer>
       {/* <div className='clients-carousel'> */}
-      <img src={KPMG} alt={'Client KPMG'} height={120} />
-      <img src={WWNZ} alt={'Client WWNZ}'} height={100} />
-      <img src={NZSF} alt={'Client NZSF'} height={150} />
-      <img src={TFF} alt={'Client TFF'} height={100} />
-      <img src={briscoes} alt={'Client Briscoes'} height={100} />
+      <ClientImage src={KPMG} alt={'Client KPMG'} style={{ maxHeight: '90px' }} />
+      <ClientImage src={WWNZ} alt={'Client WWNZ}'} style={{ maxHeight: '70px' }} />
+      <ClientImage src={NZSF} alt={'Client NZSF'} style={{ maxHeight: '120px' }} />
+      <ClientImage src={TFF} alt={'Client TFF'} style={{ maxHeight: '70px' }} />
+      <ClientImage src={briscoes} alt={'Client Briscoes'} style={{ maxHeight: '70px' }} />
 
       {/* </div> */}
     </MyClientContainer>

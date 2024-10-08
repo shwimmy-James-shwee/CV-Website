@@ -1,23 +1,30 @@
-// import { BadRequestException, Controller, Get, Param, Req } from '@nestjs/common';
-// import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { BadRequestException, Controller, Get } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 // import { Request } from 'express';
-// import { PREFIX, ROUTE } from '@core/routes';
-// import { Project } from '@core/db';
+import { PREFIX, ROUTE } from '@core/routes';
+import { Project } from '@core/db';
+import { ProjectService } from './project.service';
 
-// @ApiTags('project')
-// @Controller(PREFIX.user)
-// export class UserController {
-//   constructor(private readonly projectService: ProjectService) {}
+@ApiTags('project')
+@Controller(PREFIX.project)
+export class ProjectController {
+  constructor(private readonly projectService: ProjectService) {}
 
-//   // This is a key endpoint for creating the user if they don't exist in the database
-//   @Get(ROUTE.project.getAll)
-//   @ApiOperation({ summary: 'Get the current user, also act as the main entry point to handle user creation logic' })
-//   @ApiResponse({
-//     status: 200,
-//     description: 'found user record',
-//   })
-//   async getCurrentUser(@Req() req: Request): Promise<Project> {
-//     // const userBusinessUnits = await this.userService.findUserBusinessUnits(user.id);
-//     // return { ...user, InBusinessUnits: userBusinessUnits };
-//   }
-// }
+  @Get(ROUTE.project.getAll)
+  @ApiOperation({ summary: 'Get all projects, unprotected endpoint for the public' })
+  @ApiResponse({
+    status: 200,
+    description: 'Projects retrieved',
+  })
+  //   async getAllProjects(@Req() req: Request): Promise<Project[]> {
+  async getAllProjects(): Promise<Project[]> {
+    // const userBusinessUnits = await this.userService.findUserBusinessUnits(user.id);
+    // return { ...user, InBusinessUnits: userBusinessUnits };
+    const projects = await this.projectService.findAll();
+    if (!projects) {
+      throw new BadRequestException('No projects found');
+    } else {
+      return projects;
+    }
+  }
+}

@@ -4,8 +4,8 @@ export const PREFIX = {
   project: '/project',
 };
 
-const apiVersion = '/api/v1';
-const apiAdmin = '/api/admin';
+export const apiVersion = '/api/v1';
+// const apiAdmin = '/api/admin';
 
 export const ROUTE = {
   user: {
@@ -34,7 +34,7 @@ const project = ROUTE.project;
 export const API = {
   admin: {
     user: {
-      root: apiAdmin + ROUTE.user.base, // POST, GET
+      root: apiVersion + ROUTE.user.base, // POST, GET
     },
   },
   user: {

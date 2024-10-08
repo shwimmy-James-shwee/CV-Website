@@ -1,4 +1,4 @@
-import { testProjectDataType } from '@/components/landingPage/ProjectCards';
+import { Project } from '@core/db/schema';
 
 // Re-usable functions should be placed in here
 export function formatDate(dateStr: string, numericDate: boolean | undefined = true) {
@@ -29,7 +29,7 @@ export function trimTextToLength(text: string, length: number) {
   return text.length > length ? text.substring(0, length) + '...' : text;
 }
 
-export function sortHighlightedProjects(projects: testProjectDataType[]) {
+export function sortHighlightedProjects(projects: Project[]) {
   const highlightedProjects = projects.filter((project) => project.highlighted);
   const nonHighlightedProjects = projects.filter((project) => !project.highlighted);
   return [...highlightedProjects, ...nonHighlightedProjects];

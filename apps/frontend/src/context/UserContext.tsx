@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
 import useFetchWithMsal from '../hooks/useFetchWithAuth';
-import { API } from '@core/routes';
+// import { API } from '@core/routes';
 import { UserReturnStatus } from '../enum';
 import { User } from '@core/db/schema';
 
@@ -33,13 +33,13 @@ const UserProvider = ({ children }: IUserProvider) => {
 
   useEffect(() => {
     if (!currentUserData && !error) {
-      execute('GET', API.user.currentUser).then((response: CurrentUserType) => {
-        // get the current users record (via API token in the BE), set context to use data throughout app
-        if (response) {
-          setCurrentUserData(response);
-          setUserReturnStatus(UserReturnStatus.SUCCESS);
-        }
-      });
+      // execute('GET', API.user.currentUser).then((response: CurrentUserType) => {
+      //   // get the current users record (via API token in the BE), set context to use data throughout app
+      //   if (response) {
+      //     setCurrentUserData(response);
+      //     setUserReturnStatus(UserReturnStatus.SUCCESS);
+      //   }
+      // });
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

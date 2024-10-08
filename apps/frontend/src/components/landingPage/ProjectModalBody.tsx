@@ -1,8 +1,8 @@
 // import { Paper, MobileStepper, Button, ImageList, ImageListItem } from '@mui/material';
 import { Box } from '@mui/system';
-import { testProjectDataType } from './ProjectCards';
 
 import { useState } from 'react';
+import { Project } from '@core/db/schema';
 // import { Button } from '@mui/material';
 
 // const ImageButtonBox = styled(Box)`
@@ -15,7 +15,7 @@ import { useState } from 'react';
 // `;
 
 type ProjectModalBodyProps = {
-  projectData: testProjectDataType;
+  projectData: Project;
 };
 
 // const ProjectModalBody = ({ id, title, description, image, highlighted }: testProjectDataType) => {
@@ -46,23 +46,23 @@ const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
   return (
     <div>
       <Box>
-        <div className='ProjectModalImageList'>
-          {projectData.image.map((image, index) => (
-            <div
-              className={`ProjectModalImageItem ${index === activeImage ? 'ProjectModalImageItemSelected' : ''}`}
-              key={index}
-              onClick={() => handleImageClick(index)}
-            >
-              <img
-                src={image}
-                srcSet={image}
-                alt={`Project ${projectData.id} - Image ${index + 1}`}
-                loading='lazy'
-                className=''
-              />
-            </div>
-          ))}
-          {/* <ImageButtonBox>
+        {projectData.Images && (
+          <div className='ProjectModalImageList'>
+            {projectData.Images.map((image, index) => (
+              <div
+                className={`ProjectModalImageItem ${index === activeImage ? 'ProjectModalImageItemSelected' : ''}`}
+                key={index}
+                onClick={() => handleImageClick(index)}
+              >
+                <img
+                  src={image.imageUrl}
+                  alt={`Project ${projectData.id} - Image ${index + 1}`}
+                  loading='lazy'
+                  className=''
+                />
+              </div>
+            ))}
+            {/* <ImageButtonBox>
             {activeImage && activeImage > 0 && (
               <Button onClick={() => setActiveImage(() => (activeImage ? activeImage - 1 : null))}>PREV</Button>
             )}
@@ -70,7 +70,8 @@ const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
               <Button onClick={() => setActiveImage(() => (activeImage ? activeImage + 1 : null))}>NEXT</Button>
             )}
           </ImageButtonBox> */}
-        </div>
+          </div>
+        )}
       </Box>
 
       <h2 className='project-title'>{projectData.title}</h2>

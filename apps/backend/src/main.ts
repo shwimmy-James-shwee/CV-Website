@@ -7,6 +7,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import './config';
 import { readFileSync } from 'fs';
 import * as bodyParser from 'body-parser';
+import { apiVersion } from '@core/routes';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -17,7 +18,7 @@ async function bootstrap() {
   app.use(bodyParser.json({ limit: '50mb' }));
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-  app.setGlobalPrefix('api', { exclude: ['/', '/api/'] });
+  app.setGlobalPrefix(apiVersion, { exclude: ['/', '/api/'] });
 
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));

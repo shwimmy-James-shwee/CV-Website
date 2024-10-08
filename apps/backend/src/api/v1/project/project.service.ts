@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@core/db';
+import { Prisma, Project } from '@core/db';
 import { DatabaseService } from '../../../database/database.service';
 
 export type CurrentUserBusinessUnitsType = {
@@ -14,7 +14,7 @@ export type AdminUsersType = {
 };
 
 @Injectable()
-export class UserService {
+export class ProjectService {
   constructor(private readonly databaseService: DatabaseService) {}
 
   async findOne(id: string, addInclude: Prisma.UserInclude = {}) {
@@ -27,6 +27,14 @@ export class UserService {
     return this.databaseService.user.findUnique({
       where: { loginEmail },
       include: addInclude,
+    });
+  }
+
+  async findAll(): Promise<Project[]> {
+    return this.databaseService.project.findMany({
+      include: {
+        Images: true,
+      },
     });
   }
 
