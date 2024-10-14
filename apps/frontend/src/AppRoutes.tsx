@@ -4,7 +4,7 @@ import LandingPage from './pages/LandingPage';
 import NavBar, { navLinkItemProps } from './components/layout/TopNavBar';
 // import FooterBar from './components/layout/FooterBar';
 // import { loginRequest } from './authConfig';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from './context/UserContext';
 // import UserActivityPage from './pages/UserActivityPage';
 
@@ -18,6 +18,8 @@ import AlertProvider from './components/toolkit/AlertContext';
 // import AlertComponent from './components/toolkit/Alert';
 import ModalProvider from './components/toolkit/ModalContext';
 import ModalComponent from './components/toolkit/Modal';
+import { ThemeProvider } from '@mui/material';
+import { darkTheme, lightTheme } from './styles/css-theme';
 
 // // this guarantees that the container will always be full width and Row/Col will be contained within it
 // const HighLevelContainer = styled(Container)`
@@ -49,6 +51,22 @@ function AppRoutes() {
   //     15 * 60 * 1000,
   //   );
   // };
+
+  const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches; // checks if the user's browser is in dark mode
+  const defaultTheme = defaultDark ? 'dark' : 'light';
+  const previousTheme = window.localStorage.getItem('theme'); // gets theme from previous session if exists
+  if (!previousTheme) {
+    window.localStorage.setItem('theme', defaultTheme); // sets the theme in local storage
+  }
+
+  const defaultThemeState = previousTheme ? previousTheme : defaultTheme;
+  const [stateTheme, setStateTheme] = useState<'dark' | 'light'>(defaultThemeState as 'dark' | 'light');
+
+  const changeTheme = () => {
+    const newTheme = stateTheme === 'light' ? 'dark' : 'light'; // if theme is light, change to dark, vise versa
+    window.localStorage.setItem('theme', newTheme); // sets the theme in local storage
+    setStateTheme(newTheme);
+  };
 
   const navLinkItems: navLinkItemProps[] = [
     { label: 'Home', url: pageUrl.landingPage },
@@ -83,40 +101,44 @@ function AppRoutes() {
   // } else
   // if (userReturnStatus === UserReturnStatus.SUCCESS) {
   return (
-    <AlertProvider>
-      <ModalProvider>
-        {/* <AlertComponent /> */}
-        <ModalComponent />
-        <Router>
-          <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-            <NavBar
-              // handleLogin={() => {}}
-              // handleLogout={() => {}}
-              // userLoggedIn={!!currentUserData}
-              navLinkItems={navLinkItems}
-            />
+    <ThemeProvider theme={stateTheme === 'light' ? lightTheme : darkTheme} disableTransitionOnChange>
+      <AlertProvider>
+        <ModalProvider>
+          {/* <AlertComponent /> */}
+          <ModalComponent />
+          <Router>
+            <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+              <NavBar
+                // handleLogin={() => {}}
+                // handleLogout={() => {}}
+                // userLoggedIn={!!currentUserData}
+                navLinkItems={navLinkItems}
+                changeTheme={changeTheme}
+                pageTheme={stateTheme}
+              />
 
-            <div style={{ flex: '1' }}>
-              <Routes>
-                {/* Public Routes */}
-                <Route path={pageUrl.landingPage} element={<LandingPage />} />
-                {/* <Route path={pageUrl.userActivityPage} element={<UserActivityPage />} /> */}
+              <div style={{ flex: '1' }}>
+                <Routes>
+                  {/* Public Routes */}
+                  <Route path={pageUrl.landingPage} element={<LandingPage />} />
+                  {/* <Route path={pageUrl.userActivityPage} element={<UserActivityPage />} /> */}
 
-                {/* Admin Routes */}
-                {/* {currentUserData?.roles?.includes(UserRole.ADMINISTRATOR) && (
+                  {/* Admin Routes */}
+                  {/* {currentUserData?.roles?.includes(UserRole.ADMINISTRATOR) && (
                   <Route path={pageUrl.adminPage} element={<AdminPage />} />
                 )} */}
-                {/* New Routes can be added below */}
+                  {/* New Routes can be added below */}
 
-                {/* New Routes can be added above */}
-                {/* <Route path='*' element={<NotFoundPage />} /> */}
-              </Routes>
+                  {/* New Routes can be added above */}
+                  {/* <Route path='*' element={<NotFoundPage />} /> */}
+                </Routes>
+              </div>
+              {/* <FooterBar /> */}
             </div>
-            {/* <FooterBar /> */}
-          </div>
-        </Router>
-      </ModalProvider>
-    </AlertProvider>
+          </Router>
+        </ModalProvider>
+      </AlertProvider>
+    </ThemeProvider>
   );
   // }
 }

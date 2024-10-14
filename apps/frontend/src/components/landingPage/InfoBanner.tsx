@@ -4,7 +4,7 @@ import { styled } from '@mui/system';
 const BannerContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(4),
   // backgroundColor: theme.palette.background.paper,
-  backgroundColor: '#f5f5f5',
+  backgroundColor: theme.palette.primary.main,
 }));
 
 const ImageContainer = styled(Box)({
@@ -36,7 +36,7 @@ function InfoBanner() {
               James Pearce
             </Typography>
             <Typography variant='h5' component='h2' gutterBottom>
-              Full Stack Developer - KPMG
+              Full Stack Developer, Consultant, Tinkerer.
             </Typography>
             <Typography variant='body1' paragraph>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut doloremque odio ratione eligendi in esse

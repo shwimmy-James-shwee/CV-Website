@@ -1,17 +1,17 @@
 @import './variables';
 // Override the default scrollbar across the application
 // simply by importing this file in the main stylesheet
-:root {
-  ::-webkit-scrollbar {
-    width: 10px;
-  }
-  ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 1px var(--theme-secondary-dark-background-color);
-    border-radius: 10px;
-  }
-  ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: var(--theme-tertiary-dark-background-color);
-    -webkit-box-shadow: inset 0 0 16px var(--theme-tertiary-dark-background-color);
-  }
-}
+// :root {
+//   ::-webkit-scrollbar {
+//     width: 10px;
+//   }
+//   ::-webkit-scrollbar-track {
+//     -webkit-box-shadow: inset 0 0 1px var(--theme-secondary-dark-background-color);
+//     border-radius: 10px;
+//   }
+//   ::-webkit-scrollbar-thumb {
+//     border-radius: 10px;
+//     background-color: var(--theme-tertiary-dark-background-color);
+//     -webkit-box-shadow: inset 0 0 16px var(--theme-tertiary-dark-background-color);
+//   }
+// }

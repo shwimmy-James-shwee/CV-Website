@@ -4,18 +4,8 @@
 // import Button from '@mui/material/Button';
 
 import React, { useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-// import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-// import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
 export interface navLinkItemProps {
@@ -23,6 +13,12 @@ export interface navLinkItemProps {
   url: string;
   hide?: boolean;
 }
+
+type NavBarProps = {
+  navLinkItems: navLinkItemProps[];
+  changeTheme: () => void;
+  pageTheme: 'light' | 'dark';
+};
 // interface NavBarProps {
 //   handleLogin: () => void;
 //   handleLogout: () => void;
@@ -32,8 +28,29 @@ export interface navLinkItemProps {
 //   navLinkItems: navLinkItemProps[];
 // }
 
-function NavBar({ navLinkItems }: { navLinkItems: navLinkItemProps[] }) {
+function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  // const { mode, setMode, systemMode } = useColorScheme();
+  // if (!mode) {
+  //   // setMode('light');
+  //   return null; // is undefined on first render, won't be after that
+  // }
+  // console.log(mode);
+  // const toggleTheme = () => {
+  //   const theme = mode === 'light' ? 'dark' : 'light';
+  //   setMode(theme);
+  //   setTheme(theme);
+  // };
+
+  // useEffect(() => {
+  //   // MUI theme swapping is buggy, setting mode and theme state to ensure it works on all browsers
+  //   if (systemMode) {
+  //     setMode(systemMode);
+  //   } else {
+  //     setMode('light');
+  //     setTheme('light');
+  //   }
+  // }, [systemMode]);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -61,7 +78,7 @@ function NavBar({ navLinkItems }: { navLinkItems: navLinkItemProps[] }) {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              // color: 'inherit',
               textDecoration: 'none',
             }}
           >
@@ -69,13 +86,14 @@ function NavBar({ navLinkItems }: { navLinkItems: navLinkItemProps[] }) {
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            {/* MOBILE VIEW */}
             <IconButton
               size='large'
               aria-label='account of current user'
               aria-controls='menu-appbar'
               aria-haspopup='true'
               onClick={handleOpenNavMenu}
-              color='inherit'
+              // color='inherit'
             >
               <MenuIcon />
             </IconButton>
@@ -100,9 +118,13 @@ function NavBar({ navLinkItems }: { navLinkItems: navLinkItemProps[] }) {
                   <Typography sx={{ textAlign: 'center' }}>{item.label}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem>
+                <Button onClick={changeTheme}>{pageTheme === 'dark' ? 'light' : 'dark'}</Button>
+              </MenuItem>
             </Menu>
           </Box>
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          {/* DESKTOP VIEW */}
           <Typography
             variant='h5'
             noWrap
@@ -115,7 +137,7 @@ function NavBar({ navLinkItems }: { navLinkItems: navLinkItemProps[] }) {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              // color: 'inherit',
               textDecoration: 'none',
             }}
           >
@@ -127,11 +149,15 @@ function NavBar({ navLinkItems }: { navLinkItems: navLinkItemProps[] }) {
                 key={item.label}
                 disabled={item.hide}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, display: 'block' }}
+                color='primary'
               >
                 {item.label}
               </Button>
             ))}
+            <Button onClick={changeTheme} sx={{ my: 2, display: 'block' }}>
+              {pageTheme === 'dark' ? 'light' : 'dark'}
+            </Button>
           </Box>
         </Toolbar>
       </Container>

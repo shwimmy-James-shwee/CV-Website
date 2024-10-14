@@ -9,7 +9,7 @@ html {
 
 body {
   font-family: $font-family-base;
-  color: var(--default-font-color);
+  // color: var(--default-font-color);
   font-size: 14px;
   background: var(--body-background);
   height: 100vh;
@@ -20,7 +20,7 @@ body {
 }
 
 a {
-  color: var(--default-font-color);
+  // color: var(--default-font-color);
   cursor: pointer;
 }
 .reorder-ul {
