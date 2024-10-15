@@ -6,7 +6,7 @@ export const darkTheme = createTheme({
     dark: {
       palette: {
         primary: {
-          main: '#000000', // used for default navbar text and button background color
+          main: '#132a13', // used for default navbar text and button background color
           light: '#000000', // not applied to any components currently in use
           dark: '#000000', // some buttons use this for hover background
           contrastText: '#ffffff', // some buttons use this for both default and hover text (can force style)
@@ -19,7 +19,7 @@ export const darkTheme = createTheme({
         },
         background: {
           default: '#00000000', // not applied to any components currently in use
-          paper: '#b4dd13', // several MUI element background
+          paper: '#132a13', // several MUI element background
         },
         text: {
           primary: '#ffffff', // used by the majority of text elements

@@ -2,7 +2,8 @@ import { Button, Typography, Box, Grid2 as Grid } from '@mui/material';
 import { styled } from '@mui/system';
 
 const BannerContainer = styled(Box)`
-  background-color: var(--mui-palette-background-paper);
+  background-color: var(--mui-palette-background-default);
+  height: 85vh;
 `;
 
 const ImageContainer = styled(Box)({
@@ -21,30 +22,74 @@ const ContentContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(4),
 }));
 
+const SubHeadingList = styled('ul')`
+  list-style: none;
+  margin-left: 1em;
+  padding-left: 0;
+`;
+
+const SubHeadingListItem = styled('li')`
+  padding-left: 1em;
+  text-indent: -1.2em;
+  font-size: 60px;
+  &:before {
+    content: '//';
+    margin-right: 0.5em;
+  }
+`;
+
+// const SubHeading = styled(Typography)(({ theme }) => ({
+//   marginBottom: 0,
+//   // whiteSpace: 'nowrap',
+//   // [theme.breakpoints.down('sm')]: {
+//   //   fontSize: '34px',
+//   // },
+// }));
+
 function InfoBanner() {
   return (
     <BannerContainer>
-      <Grid container spacing={4}>
-        <Grid component='div' size={{ xs: 12, md: 6 }}>
-          <ImageContainer style={{ backgroundImage: "url('')" }} />
-        </Grid>
-        <Grid component='div' size={{ xs: 12, md: 6 }}>
+      <Grid container spacing={2}>
+        <Grid component='div' size={{ xs: 12, md: 7.2 }}>
           <ContentContainer>
-            <Typography variant='h3' component='h1' gutterBottom>
+            <SubHeadingList>
+              <SubHeadingListItem>Full Stack Developer</SubHeadingListItem>
+              <SubHeadingListItem>Consultant</SubHeadingListItem>
+              <SubHeadingListItem sx={{ marginBottom: '50px' }}>Tinkerer</SubHeadingListItem>
+            </SubHeadingList>
+            {/* <SubHeading variant='h2'>// Full Stack Developer</SubHeading>
+            <SubHeading variant='h2'>// Consultant</SubHeading>
+            <SubHeading variant='h2' sx={{ marginBottom: '50px' }}>
+              // Tinkerer
+            </SubHeading> */}
+            <Typography variant='h3' gutterBottom>
               James Pearce
             </Typography>
-            <Typography variant='h5' component='h2' gutterBottom>
-              Full Stack Developer, Consultant, Tinkerer.
+            {/* <Typography variant='h1' component='h1' gutterBottom>
+              James Pearce
             </Typography>
-            <Typography variant='body1' paragraph>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut doloremque odio ratione eligendi in esse
-              sunt, quisquam suscipit, accusantium cum vero similique eveniet tempore itaque velit quidem neque
-              accusamus tempora?
+            <SubHeading variant='h3' gutterBottom>
+              // Full Stack Developer
+            </SubHeading>
+            <SubHeading variant='h3' gutterBottom>
+              // Consultant
+            </SubHeading>
+            <SubHeading variant='h3' gutterBottom>
+              // Tinkerer
+            </SubHeading> */}
+            <Typography variant='h6' sx={{ marginTop: '1em' }}>
+              Developer and consultant by trade, tinkerer by nature. My passion for technology, creativity, and problem
+              solving has been at the forefront of my career, producing opportunities to work with a variety of clients
+              in development, business analyst, and project management roles. something about being involved end to end
+              to produce better results...
             </Typography>
             <Button variant='contained' color='primary' href='/resume' target='_blank'>
               View Resume
             </Button>
           </ContentContainer>
+        </Grid>
+        <Grid component='div' size={{ xs: 12, md: 4.8 }}>
+          <ImageContainer style={{ backgroundImage: "url('')" }} />
         </Grid>
       </Grid>
     </BannerContainer>
