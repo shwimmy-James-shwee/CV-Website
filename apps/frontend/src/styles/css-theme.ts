@@ -6,24 +6,24 @@ export const darkTheme = createTheme({
     dark: {
       palette: {
         primary: {
-          main: '#ffffff',
-          light: '#000000',
-          dark: '#000000',
-          contrastText: '#000000',
+          main: '#000000', // used for default navbar text and button background color
+          light: '#000000', // not applied to any components currently in use
+          dark: '#000000', // some buttons use this for hover background
+          contrastText: '#ffffff', // some buttons use this for both default and hover text (can force style)
         },
         secondary: {
-          main: '#000000',
-          light: '#000000',
-          dark: '#000000',
-          contrastText: '#ffffff',
+          main: '#27272700', // not applied to any components currently in use
+          light: '#000000', // not applied to any components currently in use
+          dark: '#000000', // not applied to any components currently in use
+          contrastText: '#ffffff', // not applied to any components currently in use
         },
         background: {
-          default: '#000000',
-          paper: '#b4dd13',
+          default: '#00000000', // not applied to any components currently in use
+          paper: '#b4dd13', // several MUI element background
         },
         text: {
-          primary: '#ffffff',
-          secondary: '#ffffff',
+          primary: '#ffffff', // used by the majority of text elements
+          secondary: '#ffffff', // not applied to any components currently in use
           disabled: '#ffffff',
         },
       },

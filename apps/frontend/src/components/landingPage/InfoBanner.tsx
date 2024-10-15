@@ -1,11 +1,9 @@
 import { Button, Typography, Box, Grid2 as Grid } from '@mui/material';
 import { styled } from '@mui/system';
 
-const BannerContainer = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(4),
-  // backgroundColor: theme.palette.background.paper,
-  backgroundColor: theme.palette.primary.main,
-}));
+const BannerContainer = styled(Box)`
+  background-color: var(--mui-palette-background-paper);
+`;
 
 const ImageContainer = styled(Box)({
   width: '100%',

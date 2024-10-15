@@ -4,15 +4,27 @@
 // import Button from '@mui/material/Button';
 
 import React, { useState } from 'react';
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, MenuItem } from '@mui/material';
+import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, MenuItem } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import AdbIcon from '@mui/icons-material/Adb';
+// import AdbIcon from '@mui/icons-material/Adb';
+import { styled } from '@mui/system';
 
 export interface navLinkItemProps {
   label: string;
   url: string;
   hide?: boolean;
 }
+
+const StyledNavBar = styled(AppBar)`
+  background-color: var(--mui-palette-secondary-main) !important;
+`;
+
+const WideScreenNavBox = styled(Box)`
+  /* display: flex; */ // applied through SX below
+  flex-grow: 1;
+  justify-content: space-evenly;
+  width: 80%;
+`;
 
 type NavBarProps = {
   navLinkItems: navLinkItemProps[];
@@ -42,16 +54,6 @@ function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
   //   setTheme(theme);
   // };
 
-  // useEffect(() => {
-  //   // MUI theme swapping is buggy, setting mode and theme state to ensure it works on all browsers
-  //   if (systemMode) {
-  //     setMode(systemMode);
-  //   } else {
-  //     setMode('light');
-  //     setTheme('light');
-  //   }
-  // }, [systemMode]);
-
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -63,10 +65,10 @@ function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
   };
 
   return (
-    <AppBar position='static'>
-      <Container maxWidth='xl'>
+    <StyledNavBar position='static'>
+      <Container maxWidth='lg'>
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant='h6'
             noWrap
@@ -83,7 +85,7 @@ function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
             }}
           >
             James Pearce
-          </Typography>
+          </Typography> */}
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             {/* MOBILE VIEW */}
@@ -119,12 +121,13 @@ function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
                 </MenuItem>
               ))}
               <MenuItem>
-                <Button onClick={changeTheme}>{pageTheme === 'dark' ? 'light' : 'dark'}</Button>
+                <Typography onClick={changeTheme} sx={{ textAlign: 'center' }}>
+                  {pageTheme === 'dark' ? 'light' : 'dark'}
+                </Typography>
               </MenuItem>
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-          {/* DESKTOP VIEW */}
+          {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
           <Typography
             variant='h5'
             noWrap
@@ -137,31 +140,33 @@ function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              // color: 'inherit',
+              color: 'inherit',
               textDecoration: 'none',
             }}
           >
             James Pearce
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+
+          {/* DESKTOP VIEW */}
+          <WideScreenNavBox sx={{ display: { xs: 'none', md: 'flex' } }}>
             {navLinkItems.map((item) => (
-              <Button
+              <MenuItem
                 key={item.label}
                 disabled={item.hide}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, display: 'block' }}
+                // sx={{ my: 2, display: 'block' }}
                 color='primary'
               >
                 {item.label}
-              </Button>
+              </MenuItem>
             ))}
-            <Button onClick={changeTheme} sx={{ my: 2, display: 'block' }}>
+            <MenuItem onClick={changeTheme} sx={{ my: 2, display: 'block' }}>
               {pageTheme === 'dark' ? 'light' : 'dark'}
-            </Button>
-          </Box>
+            </MenuItem>
+          </WideScreenNavBox>
         </Toolbar>
       </Container>
-    </AppBar>
+    </StyledNavBar>
   );
 }
 export default NavBar;
