@@ -58,8 +58,9 @@ const ExtLinkAnchor = styled(NavItemAnchor)`
 `;
 
 const ExtLinkFab = styled(Fab)`
+  opacity: 0.75;
   &:hover {
-    opacity: 0.85;
+    opacity: 1;
     background-color: var(--mui-palette-secondary-main);
     box-shadow: 0 0 10px 10px var(--mui-palette-primary-main);
     z-index: 100;
