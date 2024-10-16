@@ -12,7 +12,7 @@ export const darkTheme = createTheme({
           contrastText: '#ffffff', // some buttons use this for both default and hover text (can force style)
         },
         secondary: {
-          main: '#27272700', // not applied to any components currently in use
+          main: '#272727', // not applied to any components currently in use
           light: '#000000', // not applied to any components currently in use
           dark: '#000000', // not applied to any components currently in use
           contrastText: '#ffffff', // not applied to any components currently in use
@@ -37,7 +37,7 @@ export const lightTheme = createTheme({
     light: {
       palette: {
         primary: {
-          main: '#ffffff',
+          main: '#bbc619',
           light: '#ffffff',
           dark: '#ffffff',
           contrastText: '#000000',
@@ -50,7 +50,7 @@ export const lightTheme = createTheme({
         },
         background: {
           default: '#F7FFF7',
-          paper: '#F7FFF7',
+          paper: '#bbc619',
         },
         text: {
           primary: '#000000',

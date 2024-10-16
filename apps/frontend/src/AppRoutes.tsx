@@ -4,8 +4,9 @@ import LandingPage from './pages/LandingPage';
 import NavBar, { navLinkItemProps } from './components/layout/TopNavBar';
 // import FooterBar from './components/layout/FooterBar';
 // import { loginRequest } from './authConfig';
-import { useContext, useState } from 'react';
-import { UserContext } from './context/UserContext';
+// import { useContext, useState } from 'react';
+import { useState } from 'react';
+// import { UserContext } from './context/UserContext';
 // import UserActivityPage from './pages/UserActivityPage';
 
 // import NotFoundPage from './pages/NotFoundPage';
@@ -28,7 +29,7 @@ import { darkTheme, lightTheme } from './styles/css-theme';
 // `;
 
 function AppRoutes() {
-  const { currentUserData } = useContext(UserContext);
+  // const { currentUserData } = useContext(UserContext);
   // const { currentUserData, userReturnStatus } = useContext(UserContext);
 
   // const handleLoginRedirect = () => {
@@ -69,18 +70,18 @@ function AppRoutes() {
   };
 
   const navLinkItems: navLinkItemProps[] = [
-    { label: 'Home', url: pageUrl.landingPage },
-    { label: 'Projects', url: '' },
+    { label: 'Home', url: '#infoBanner' },
+    { label: 'Projects', url: '#projects' },
     { label: 'Contact Me', url: '' },
-    {
-      label: 'Admin login',
-      url: pageUrl.adminPage,
-    },
-    {
-      label: 'Analytics',
-      url: pageUrl.adminPage,
-      hide: !currentUserData?.isSuperAdmin,
-    },
+    // {
+    //   label: 'Admin login',
+    //   url: pageUrl.adminPage,
+    // },
+    // {
+    //   label: 'Analytics',
+    //   url: pageUrl.adminPage,
+    //   hide: !currentUserData?.isSuperAdmin,
+    // },
   ];
 
   // if (userReturnStatus === UserReturnStatus.LOADING) {

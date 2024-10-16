@@ -2,7 +2,7 @@ import { Button, Typography, Box, Grid2 as Grid } from '@mui/material';
 import { styled } from '@mui/system';
 
 const BannerContainer = styled(Box)`
-  background-color: var(--mui-palette-background-default);
+  background-color: var(--mui-palette-background-background);
   height: 85vh;
 `;
 
@@ -20,6 +20,8 @@ const ContentContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   height: '100%',
   padding: theme.spacing(4),
+  paddingTop: theme.spacing(1),
+  margin: 'auto',
 }));
 
 const SubHeadingList = styled('ul')`
@@ -48,9 +50,9 @@ const SubHeadingListItem = styled('li')`
 
 function InfoBanner() {
   return (
-    <BannerContainer>
+    <BannerContainer id='infoBanner'>
       <Grid container spacing={2}>
-        <Grid component='div' size={{ xs: 12, md: 7.2 }}>
+        <Grid component='div' size={{ xs: 12, lg: 7.5 }}>
           <ContentContainer>
             <SubHeadingList>
               <SubHeadingListItem>Full Stack Developer</SubHeadingListItem>
@@ -88,7 +90,7 @@ function InfoBanner() {
             </Button>
           </ContentContainer>
         </Grid>
-        <Grid component='div' size={{ xs: 12, md: 4.8 }}>
+        <Grid component='div' size={{ xs: 12, lg: 4.5 }}>
           <ImageContainer style={{ backgroundImage: "url('')" }} />
         </Grid>
       </Grid>

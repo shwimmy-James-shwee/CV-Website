@@ -14,7 +14,7 @@ function LandingPage() {
     <LandPageContainer maxWidth='xl'>
       <InfoBanner />
       <Box sx={{ marginTop: '50px' }}>
-        <Typography variant='h4' component='h2' gutterBottom>
+        <Typography variant='h4' component='h2' gutterBottom id='projects'>
           Projects
         </Typography>
         <ProjectCards />
