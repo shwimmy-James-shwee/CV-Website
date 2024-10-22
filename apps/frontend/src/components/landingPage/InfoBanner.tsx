@@ -1,5 +1,6 @@
 import { Button, Typography, Box, Grid2 as Grid } from '@mui/material';
 import { styled } from '@mui/system';
+import { HyperText } from '../toolkit/AnimatedText';
 
 const BannerContainer = styled(Box)`
   background-color: var(--mui-palette-background-background);
@@ -36,15 +37,15 @@ const SubHeadingList = styled('ul')`
   padding-left: 0;
 `;
 
-const SubHeadingListItem = styled('li')`
-  padding-left: 1em;
-  text-indent: -1.2em;
-  font-size: 60px;
-  &:before {
-    content: '//';
-    margin-right: 0.5em;
-  }
-`;
+// const SubHeadingListItem = styled('li')`
+//   padding-left: 1em;
+//   text-indent: -1.2em;
+//   font-size: 60px;
+//   &:before {
+//     content: '//';
+//     margin-right: 0.5em;
+//   }
+// `;
 
 function InfoBanner() {
   return (
@@ -53,9 +54,12 @@ function InfoBanner() {
         <Grid component='div' size={{ xs: 12, lg: 7.5 }}>
           <ContentContainer>
             <SubHeadingList>
-              <SubHeadingListItem>Full Stack Developer</SubHeadingListItem>
+              {/* <SubHeadingListItem>Full Stack Developer</SubHeadingListItem>
               <SubHeadingListItem>Consultant</SubHeadingListItem>
-              <SubHeadingListItem sx={{ marginBottom: '50px' }}>Tinkerer</SubHeadingListItem>
+              <SubHeadingListItem sx={{ marginBottom: '50px' }}>Tinkerer</SubHeadingListItem> */}
+              <HyperText text='Full Stack Developer' />
+              <HyperText text='Consultant' />
+              <HyperText text='Tinkerer' />
             </SubHeadingList>
 
             <Typography variant='h3' gutterBottom>
