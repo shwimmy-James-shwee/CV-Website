@@ -32,6 +32,7 @@ const WideScreenNavBox = styled(Box)`
 const NavItemAnchor = styled('a')`
   text-decoration: none;
   color: inherit;
+  min-height: 100%;
 `;
 
 const ExtLinkWrapper = styled(Box)(({ theme }) => ({
@@ -191,9 +192,19 @@ function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
           {/* DESKTOP VIEW */}
           <WideScreenNavBox sx={{ display: { xs: 'none', md: 'flex' } }}>
             {navLinkItems.map((item) => (
-              <MenuItem key={item.label} disabled={item.hide} onClick={handleCloseNavMenu} color='primary'>
-                <NavItemAnchor href={item.url}>{item.label}</NavItemAnchor>
-              </MenuItem>
+              <>
+                <NavItemAnchor href={item.url}>
+                  <MenuItem
+                    key={item.label}
+                    disabled={item.hide}
+                    onClick={handleCloseNavMenu}
+                    color='primary'
+                    sx={{ minHeight: '100% !important' }}
+                  >
+                    {item.label}
+                  </MenuItem>
+                </NavItemAnchor>
+              </>
             ))}
             <MenuItem onClick={changeTheme} sx={{ my: 2, display: 'block' }}>
               {pageTheme === 'dark' ? 'light' : 'dark'}
