@@ -9,10 +9,6 @@
       "path": "apps/backend",
     },
     {
-      "name": "functions",
-      "path": "apps/functions",
-    },
-    {
       "name": "infrastructure",
       "path": "apps/infrastructure",
     },

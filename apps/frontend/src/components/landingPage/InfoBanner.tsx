@@ -1,6 +1,6 @@
 import { Button, Typography, Box, Grid2 as Grid } from '@mui/material';
 import { styled } from '@mui/system';
-import { HyperText } from '../toolkit/AnimatedText';
+import BoxReveal from '../toolkit/BoxReveal';
 
 const BannerContainer = styled(Box)`
   background-color: var(--mui-palette-background-background);
@@ -37,15 +37,15 @@ const SubHeadingList = styled('ul')`
   padding-left: 0;
 `;
 
-// const SubHeadingListItem = styled('li')`
-//   padding-left: 1em;
-//   text-indent: -1.2em;
-//   font-size: 60px;
-//   &:before {
-//     content: '//';
-//     margin-right: 0.5em;
-//   }
-// `;
+const SubHeadingListItem = styled('li')`
+  padding-left: 1.5em;
+  text-indent: -1.2em;
+  font-size: 60px;
+  &:before {
+    content: '//';
+    margin-right: 0.5em;
+  }
+`;
 
 function InfoBanner() {
   return (
@@ -54,27 +54,41 @@ function InfoBanner() {
         <Grid component='div' size={{ xs: 12, lg: 7.5 }}>
           <ContentContainer>
             <SubHeadingList>
-              {/* <SubHeadingListItem>Full Stack Developer</SubHeadingListItem>
-              <SubHeadingListItem>Consultant</SubHeadingListItem>
-              <SubHeadingListItem sx={{ marginBottom: '50px' }}>Tinkerer</SubHeadingListItem> */}
-              <HyperText text='Full Stack Developer' />
+              <BoxReveal boxColor='var(--mui-palette-primary-main)'>
+                <SubHeadingListItem>Full Stack Developer</SubHeadingListItem>
+              </BoxReveal>
+              <BoxReveal boxColor='var(--mui-palette-primary-main)'>
+                <SubHeadingListItem>Consultant</SubHeadingListItem>
+              </BoxReveal>
+              <BoxReveal boxColor='var(--mui-palette-primary-main)'>
+                <SubHeadingListItem sx={{ marginBottom: '50px' }}>Tinkerer</SubHeadingListItem>
+              </BoxReveal>
+              {/* <HyperText text='Full Stack Developer' />
               <HyperText text='Consultant' />
-              <HyperText text='Tinkerer' />
+              <HyperText text='Tinkerer' /> */}
             </SubHeadingList>
 
-            <Typography variant='h3' gutterBottom>
-              James Pearce
-            </Typography>
+            <BoxReveal boxColor='var(--mui-palette-primary-main)'>
+              <Typography variant='h3' gutterBottom>
+                James Pearce
+              </Typography>
+            </BoxReveal>
 
-            <Typography variant='h6' sx={{ marginTop: '1em' }}>
-              Developer and consultant by trade, tinkerer by nature. My passion for technology, creativity, and problem
-              solving has been at the forefront of my career, producing opportunities to work with a variety of clients
-              in development, business analyst, and project management roles. something about being involved end to end
-              to produce better results...
-            </Typography>
-            <Button variant='contained' color='primary' href='/resume' target='_blank' sx={{ marginTop: '1em' }}>
-              View Resume
-            </Button>
+            <BoxReveal boxColor='var(--mui-palette-primary-main)'>
+              <>
+                <Typography variant='h6' sx={{ marginTop: '1em' }}>
+                  Developer and consultant by trade, tinkerer by nature. My passion for technology, creativity, and
+                  problem solving has been at the forefront of my career, producing opportunities to work with a variety
+                  of clients in development, business analyst, and project management roles. something about being
+                  involved end to end to produce better results...
+                </Typography>
+                {/* </BoxReveal>
+            <BoxReveal boxColor='var(--mui-palette-primary-main)'> */}
+                <Button variant='contained' color='primary' href='/resume' target='_blank' sx={{ marginTop: '1em' }}>
+                  View Resume
+                </Button>
+              </>
+            </BoxReveal>
           </ContentContainer>
         </Grid>
         <Grid component='div' size={{ xs: 12, lg: 4.5 }}>

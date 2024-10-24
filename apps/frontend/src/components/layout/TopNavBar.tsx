@@ -192,19 +192,16 @@ function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
           {/* DESKTOP VIEW */}
           <WideScreenNavBox sx={{ display: { xs: 'none', md: 'flex' } }}>
             {navLinkItems.map((item) => (
-              <>
-                <NavItemAnchor href={item.url}>
-                  <MenuItem
-                    key={item.label}
-                    disabled={item.hide}
-                    onClick={handleCloseNavMenu}
-                    color='primary'
-                    sx={{ minHeight: '100% !important' }}
-                  >
-                    {item.label}
-                  </MenuItem>
-                </NavItemAnchor>
-              </>
+              <NavItemAnchor href={item.url} key={item.label}>
+                <MenuItem
+                  disabled={item.hide}
+                  onClick={handleCloseNavMenu}
+                  color='primary'
+                  sx={{ minHeight: '100% !important' }}
+                >
+                  {item.label}
+                </MenuItem>
+              </NavItemAnchor>
             ))}
             <MenuItem onClick={changeTheme} sx={{ my: 2, display: 'block' }}>
               {pageTheme === 'dark' ? 'light' : 'dark'}
