@@ -1,24 +1,27 @@
 import { Button, Typography, Box, Grid2 as Grid } from '@mui/material';
 import { styled } from '@mui/system';
 import BoxReveal from '../toolkit/BoxReveal';
+import { IconCloud } from '../toolkit/IconGlobe';
 
 const BannerContainer = styled(Box)`
   background-color: var(--mui-palette-background-background);
-  height: 85vh;
+  min-height: 85vh;
+
+  margin-bottom: 50px;
 `;
 
-const ImageContainer = styled(Box)`
-  width: 100%;
+const IconsContainer = styled(Box)`
+  /* width: 100%;
   height: 100%;
   min-height: 400;
-  background-size: cover;
-  background-position: center;
+  margin: auto; */
 `;
 
 const ColumnContainer = styled(Grid)`
   margin-top: auto;
   margin-bottom: auto;
   height: 100%;
+  min-height: inherit;
 `;
 
 const ContentContainer = styled(Box)(({ theme }) => ({
@@ -47,6 +50,31 @@ const SubHeadingListItem = styled('li')`
   }
 `;
 
+const slugs = [
+  'typescript',
+  'javascript',
+  'react',
+  'html5',
+  'css3',
+  'nodedotjs',
+  'express',
+  'nestjs',
+  'prisma',
+  'postgresql',
+  'testinglibrary',
+  'jest',
+  'docker',
+  'git',
+  'github',
+  'visualstudiocode',
+  'figma',
+  'cplusplus',
+  'angular',
+  'microsoftazure',
+  'bootstrap',
+  'mui',
+];
+
 function InfoBanner() {
   return (
     <BannerContainer>
@@ -63,9 +91,6 @@ function InfoBanner() {
               <BoxReveal boxColor='var(--mui-palette-primary-main)'>
                 <SubHeadingListItem sx={{ marginBottom: '50px' }}>Tinkerer</SubHeadingListItem>
               </BoxReveal>
-              {/* <HyperText text='Full Stack Developer' />
-              <HyperText text='Consultant' />
-              <HyperText text='Tinkerer' /> */}
             </SubHeadingList>
 
             <BoxReveal boxColor='var(--mui-palette-primary-main)'>
@@ -74,7 +99,7 @@ function InfoBanner() {
               </Typography>
             </BoxReveal>
 
-            <BoxReveal boxColor='var(--mui-palette-primary-main)'>
+            <BoxReveal boxColor='var(--mui-palette-primary-main)' duration={1}>
               <>
                 <Typography variant='h6' sx={{ marginTop: '1em' }}>
                   Developer and consultant by trade, tinkerer by nature. My passion for technology, creativity, and
@@ -91,8 +116,10 @@ function InfoBanner() {
             </BoxReveal>
           </ContentContainer>
         </Grid>
-        <Grid component='div' size={{ xs: 12, lg: 4.5 }}>
-          <ImageContainer style={{ backgroundImage: "url('')" }} />
+        <Grid component='div' size={{ xs: 12, lg: 4.5 }} sx={{ alignContent: 'center' }}>
+          <IconsContainer>
+            <IconCloud iconSlugs={slugs} />
+          </IconsContainer>
         </Grid>
       </ColumnContainer>
     </BannerContainer>
