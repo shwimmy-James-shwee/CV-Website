@@ -1,5 +1,22 @@
 import { createTheme } from '@mui/material';
 
+// add custom theme var
+declare module '@mui//material/styles' {
+  interface Theme {
+    imageContrast: {
+      primary: string;
+      secondary: string;
+    };
+  }
+  // allow configuration using `createTheme`
+  interface ThemeOptions {
+    imageContrast?: {
+      primary?: string;
+      secondary?: string;
+    };
+  }
+}
+
 export const darkTheme = createTheme({
   cssVariables: true,
   colorSchemes: {
@@ -29,6 +46,10 @@ export const darkTheme = createTheme({
       },
     },
   },
+  imageContrast: {
+    primary: 'brightness(0.8) contrast(2)',
+    secondary: 'grayscale(100%)',
+  },
 });
 
 export const lightTheme = createTheme({
@@ -43,7 +64,7 @@ export const lightTheme = createTheme({
           contrastText: '#000000',
         },
         secondary: {
-          main: '#ffffff',
+          main: '#ebebeb',
           light: '#ffffff',
           dark: '#ffffff',
           contrastText: '#000000',
@@ -59,5 +80,10 @@ export const lightTheme = createTheme({
         },
       },
     },
+  },
+  imageContrast: {
+    // primary: 'grayscale(100%)',
+    primary: 'contrast(1.2)',
+    secondary: 'contrast(90%)',
   },
 });

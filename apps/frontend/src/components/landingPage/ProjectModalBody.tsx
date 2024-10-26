@@ -1,8 +1,9 @@
 // import { Paper, MobileStepper, Button, ImageList, ImageListItem } from '@mui/material';
-import { Box } from '@mui/system';
+import { Box, styled } from '@mui/system';
 
 import { useState } from 'react';
 import { Project } from '@core/db/schema';
+import solutionArch from '../../assets/images/solutionArch.png';
 // import { Button } from '@mui/material';
 
 // const ImageButtonBox = styled(Box)`
@@ -13,6 +14,25 @@ import { Project } from '@core/db/schema';
 //   margin: 50px;
 //   top: 40%;
 // `;
+
+const ProjectModalWrapper = styled('div')`
+  //
+`;
+
+const ProjectModalImageList = styled('div')`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  justify-content: flex-start;
+  align-items: flex-start;
+  height: auto;
+  min-height: 200px;
+  gap: 20px;
+  padding: 20px 0;
+  scroll-behavior: smooth;
+`;
 
 type ProjectModalBodyProps = {
   projectData: Project;
@@ -44,18 +64,18 @@ const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
     }
   };
   return (
-    <div>
+    <ProjectModalWrapper>
       <Box>
         {projectData.Images && (
-          <div className='ProjectModalImageList'>
+          <ProjectModalImageList>
             {projectData.Images.map((image, index) => (
               <div
                 className={`ProjectModalImageItem ${index === activeImage ? 'ProjectModalImageItemSelected' : ''}`}
-                key={index}
+                key={index + image.id}
                 onClick={() => handleImageClick(index)}
               >
                 <img
-                  src={image.imageUrl}
+                  src={solutionArch}
                   alt={`Project ${projectData.id} - Image ${index + 1}`}
                   loading='lazy'
                   className=''
@@ -70,7 +90,7 @@ const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
               <Button onClick={() => setActiveImage(() => (activeImage ? activeImage + 1 : null))}>NEXT</Button>
             )}
           </ImageButtonBox> */}
-          </div>
+          </ProjectModalImageList>
         )}
       </Box>
 
@@ -137,7 +157,7 @@ const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
         harum neque tempora libero, accusantium hic deserunt aliquid nisi maxime laboriosam, recusandae magnam ipsum.
         Perspiciatis, obcaecati.
       </div>
-    </div>
+    </ProjectModalWrapper>
   );
 };
 

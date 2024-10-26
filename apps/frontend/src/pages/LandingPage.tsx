@@ -12,6 +12,21 @@ const LandPageContainer = styled(Container)`
   /* height: fit-content; */
 `;
 
+const ClientContainer = styled(Container)`
+  scroll-snap-align: center;
+  scroll-margin: 100px;
+  /* background-color: var(--mui-palette-secondary-main); */
+  background-image: linear-gradient(
+    var(--mui-palette-background-default),
+    var(--mui-palette-secondary-main),
+    var(--mui-palette-background-default)
+  );
+  padding: 60px;
+  padding-bottom: 100px;
+  margin-top: 50px;
+  margin-bottom: 80px;
+`;
+
 function LandingPage() {
   // const { currentUserData } = useContext(UserContext);
   return (
@@ -19,6 +34,16 @@ function LandingPage() {
       <LandPageContainer maxWidth='xl' id='infoBanner'>
         <InfoBanner />
       </LandPageContainer>
+      <ClientContainer maxWidth={false} id='myClients'>
+        <Container maxWidth='xl'>
+          <Typography variant='h4' component='h2' gutterBottom>
+            Clients
+          </Typography>
+        </Container>
+
+        <MyClients />
+      </ClientContainer>
+
       <LandPageContainer maxWidth='xl' id='projects'>
         {/* <Box sx={{ marginTop: '50px' }}> */}
         {/* <HyperText text='projects' /> */}
@@ -27,8 +52,12 @@ function LandingPage() {
         </Typography>
         <ProjectCards />
 
-        <MyClients />
         {/* </Box> */}
+      </LandPageContainer>
+      <LandPageContainer maxWidth='xl' id='contactMe'>
+        <Typography variant='h4' component='h2' gutterBottom>
+          Contact Me
+        </Typography>
       </LandPageContainer>
     </>
   );

@@ -4,25 +4,14 @@ import WWNZ from '../../assets/images/WWNZ.png';
 import TFF from '../../assets/images/TFF.png';
 import briscoes from '../../assets/images/briscoes.jpg';
 import { styled } from '@mui/system';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
 const MyClientContainer = styled(Box)`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
-  margin-bottom: 100px;
-`;
-
-const MyClientHeading = styled(Typography)`
-  margin-left: auto;
-  padding: 10px;
-  padding-right: 20px;
-  margin-bottom: 0px;
-  background-color: lightblue;
-  text-align: center;
-  width: 10%;
-  border-radius: 40px 40px 0 0;
+  margin-top: 30px;
+  /* margin-bottom: 100px; */
 `;
 
 const ClientImageWrapper = styled(Box)`
@@ -32,22 +21,18 @@ const ClientImageWrapper = styled(Box)`
   justify-content: space-evenly;
   align-items: center;
   gap: 20px;
-  background-color: lightblue;
-  border-radius: 40px 0 40px 40px;
-  height: 150px;
+  /* background-color: lightblue; */
+  /* height: 150px; */
 `;
 
 const ClientImage = styled('img')`
-  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
-  filter: grayscale(100%);
+  -webkit-filter: var(--mui-imageContrast-primary); /* Safari 6.0 - 9.0 */
+  filter: var(--mui-imageContrast-primary);
 `;
 
 function MyClients() {
   return (
     <MyClientContainer>
-      <MyClientHeading variant='h4' gutterBottom>
-        Clients
-      </MyClientHeading>
       <ClientImageWrapper>
         {/* <div className='clients-carousel'> */}
         <ClientImage src={KPMG} alt={'Client KPMG'} style={{ maxHeight: '90px' }} />
