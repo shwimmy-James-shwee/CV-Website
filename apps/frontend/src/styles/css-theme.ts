@@ -23,19 +23,21 @@ export const darkTheme = createTheme({
     dark: {
       palette: {
         primary: {
-          main: '#132a13', // used for default navbar text and button background color
+          // VIVID ACCENT COLORS
+          main: '#132a13', // primary accent color
           light: '#000000', // not applied to any components currently in use
           dark: '#000000', // some buttons use this for hover background
           contrastText: '#ffffff', // some buttons use this for both default and hover text (can force style)
         },
         secondary: {
-          main: '#272727', // not applied to any components currently in use
+          // SUBTLE HIGHLIGHT COLORS
+          main: '#272727', // secondary accent color
           light: '#000000', // not applied to any components currently in use
-          dark: '#000000', // not applied to any components currently in use
+          dark: '#181818', // not applied to any components currently in use
           contrastText: '#ffffff', // not applied to any components currently in use
         },
         background: {
-          default: '#00000000', // not applied to any components currently in use
+          default: '#131313', // not applied to any components currently in use
           paper: '#132a13', // several MUI element background
         },
         text: {

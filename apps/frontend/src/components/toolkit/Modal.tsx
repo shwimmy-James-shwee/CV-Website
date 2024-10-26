@@ -8,10 +8,9 @@ const ModalContainer = styled(Container)`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff; // TODO change to theme color
-  border: 2px solid #000;
-  box-shadow: 24;
-  padding: 20px;
+  background-color: var(--mui-palette-secondary-dark);
+  padding: 0px !important;
+  outline: none;
   max-height: 80vh;
   overflow-y: scroll;
 `;
@@ -22,7 +21,7 @@ function ModalComponent() {
   const { content, size } = modalProps;
   // TODO update close button option to Modal
   return modalIsOpen ? (
-    <Modal open={modalIsOpen} onClose={handleModalClose}>
+    <Modal open={modalIsOpen} onClose={handleModalClose} sx={{ outline: 'none' }}>
       <ModalContainer maxWidth={size}>
         <button
           onClick={handleModalClose}

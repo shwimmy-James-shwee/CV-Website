@@ -35,11 +35,11 @@ function LandingPage() {
         <InfoBanner />
       </LandPageContainer>
       <ClientContainer maxWidth={false} id='myClients'>
-        <Container maxWidth='xl'>
+        {/* <Container maxWidth='xl'>
           <Typography variant='h4' component='h2' gutterBottom>
             Clients
           </Typography>
-        </Container>
+        </Container> */}
 
         <MyClients />
       </ClientContainer>

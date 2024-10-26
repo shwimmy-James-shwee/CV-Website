@@ -78,20 +78,6 @@
 // }
 
 // Project Modal Image bar classes
-.ProjectModalImageList {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  justify-content: flex-start;
-  align-items: flex-start;
-  height: auto;
-  min-height: 200px;
-  gap: 20px;
-  padding: 20px 0;
-  scroll-behavior: smooth;
-}
 
 .ProjectModalImageItem {
   cursor: pointer;
