@@ -82,7 +82,7 @@ function ProjectCards() {
 
   return (
     <>
-      <Grid container spacing={3}>
+      <Grid container spacing={3} sx={{ marginBottom: '40px' }}>
         {projects &&
           projects.map((project: Project) => (
             <Grid component='div' size={{ xs: 12, sm: 6, md: 4 }} key={project.id} className='projectCardsWrapper'>

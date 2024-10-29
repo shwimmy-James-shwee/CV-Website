@@ -48,7 +48,7 @@ const ProjectModalImageList = styled(Container)`
 
 const SubTitleWrapper = styled('div')`
   margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 `;
 
 type ProjectModalBodyProps = {
@@ -145,7 +145,7 @@ const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
         <Typography component='h3' variant='h3'>
           {projectData.title}
         </Typography>
-        <SubTitleWrapper className='project-subtitle-dates'>
+        <SubTitleWrapper>
           <Typography component='h6' variant='h6'>
             Woolworths NZ | 21/02/2023 - 10/06/2023
           </Typography>

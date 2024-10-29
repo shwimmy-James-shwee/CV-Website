@@ -3,6 +3,7 @@ import { Container, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import ProjectCards from '@/components/landingPage/ProjectCards';
 import MyClients from '@/components/landingPage/MyClients';
+import ContactMe from '@/components/landingPage/ContactMe';
 // import { HyperText } from '@/components/toolkit/AnimatedText';
 
 const LandPageContainer = styled(Container)`
@@ -58,6 +59,7 @@ function LandingPage() {
         <Typography variant='h4' component='h2' gutterBottom>
           Contact Me
         </Typography>
+        <ContactMe />
       </LandPageContainer>
     </>
   );

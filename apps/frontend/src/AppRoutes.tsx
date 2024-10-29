@@ -81,7 +81,7 @@ function AppRoutes() {
     // { label: 'Projects', url: '#projects' },
     { label: 'Home', url: 'javascript:document.getElementById("infoBanner").scrollIntoView(true);' }, // workaround as passing #id like above requires a double click in some browsers
     { label: 'Projects', url: 'javascript:document.getElementById("projects").scrollIntoView(true);' },
-    { label: 'Contact Me', url: '' },
+    { label: 'Contact Me', url: 'javascript:document.getElementById("contactMe").scrollIntoView(true);' },
     // {
     //   label: 'Admin login',
     //   url: pageUrl.adminPage,
