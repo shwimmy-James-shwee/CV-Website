@@ -21,13 +21,14 @@ const ClientImageWrapper = styled(Box)`
   justify-content: space-evenly;
   align-items: center;
   gap: 20px;
-  /* background-color: lightblue; */
-  /* height: 150px; */
 `;
 
 const ClientImage = styled('img')`
   -webkit-filter: var(--mui-imageContrast-primary); /* Safari 6.0 - 9.0 */
   filter: var(--mui-imageContrast-primary);
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
 `;
 
 function MyClients() {
@@ -35,12 +36,11 @@ function MyClients() {
     <MyClientContainer>
       <ClientImageWrapper>
         {/* <div className='clients-carousel'> */}
-        <ClientImage src={KPMG} alt={'Client KPMG'} style={{ maxHeight: '90px' }} />
-        <ClientImage src={WWNZ} alt={'Client WWNZ}'} style={{ maxHeight: '70px' }} />
-        <ClientImage src={NZSF} alt={'Client NZSF'} style={{ maxHeight: '120px' }} />
-        <ClientImage src={TFF} alt={'Client TFF'} style={{ maxHeight: '70px' }} />
-        <ClientImage src={briscoes} alt={'Client Briscoes'} style={{ maxHeight: '70px' }} />
-
+        <ClientImage src={KPMG} alt={'Client KPMG'} style={{ width: '200px', maxHeight: '90px' }} />
+        <ClientImage src={WWNZ} alt={'Client WWNZ}'} style={{ width: '250px', maxHeight: '70px' }} />
+        <ClientImage src={NZSF} alt={'Client NZSF'} style={{ width: '250px', maxHeight: '120px' }} />
+        <ClientImage src={TFF} alt={'Client TFF'} style={{ width: '200px', maxHeight: '70px' }} />
+        <ClientImage src={briscoes} alt={'Client Briscoes'} style={{ width: '200px', maxHeight: '70px' }} />
         {/* </div> */}
       </ClientImageWrapper>
     </MyClientContainer>
@@ -48,9 +48,3 @@ function MyClients() {
 }
 
 export default MyClients;
-
-// wwnz x
-// briscoes
-// tff x
-// nzsf x
-// KPMG x

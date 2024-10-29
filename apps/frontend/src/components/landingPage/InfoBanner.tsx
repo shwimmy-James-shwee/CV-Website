@@ -29,7 +29,8 @@ const ContentContainer = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   justifyContent: 'center',
   height: '100%',
-  padding: theme.spacing(4),
+  padding: '0px', // theme.spacing(4),
+  // padding: theme.spacing(4),
   paddingTop: theme.spacing(1),
   margin: 'auto',
 }));
@@ -40,15 +41,22 @@ const SubHeadingList = styled('ul')`
   padding-left: 0;
 `;
 
-const SubHeadingListItem = styled('li')`
+const SubHeadingListItem = styled('li')(
+  ({ theme }) => `
   padding-left: 1.5em;
   text-indent: -1.2em;
   font-size: 60px;
+  ${theme.breakpoints.down('sm')} {
+    padding-left: 1.5em;
+    text-indent: -1.2em;
+    font-size: 40px;
+  }
   &:before {
     content: '//';
     margin-right: 0.5em;
   }
-`;
+`,
+);
 
 const slugs = [
   'typescript',
