@@ -16,13 +16,13 @@ const LandPageContainer = styled(Container)`
 const ClientContainer = styled(Container)`
   scroll-snap-align: center;
   scroll-margin: 100px;
-  /* background-color: var(--mui-palette-secondary-main); */
   background-image: linear-gradient(
     var(--mui-palette-background-default),
-    var(--mui-palette-secondary-main),
+    var(--mui-palette-secondary-dark),
+    var(--mui-palette-secondary-dark),
     var(--mui-palette-background-default)
   );
-  padding: 60px;
+  padding: 100px;
   padding-bottom: 100px;
   margin-top: 50px;
   margin-bottom: 80px;

@@ -32,8 +32,8 @@ export const darkTheme = createTheme({
         secondary: {
           // SUBTLE HIGHLIGHT COLORS
           main: '#272727', // secondary accent color
-          light: '#000000', // not applied to any components currently in use
-          dark: '#181818', // not applied to any components currently in use
+          light: '#272727', // not applied to any components currently in use
+          dark: '#2e2e2e', // not applied to any components currently in use
           contrastText: '#ffffff', // not applied to any components currently in use
         },
         background: {
@@ -49,7 +49,8 @@ export const darkTheme = createTheme({
     },
   },
   imageContrast: {
-    primary: 'brightness(0.8) contrast(2)',
+    primary: 'brightness(0.9) contrast(2)',
+
     secondary: 'grayscale(100%)',
   },
 });
@@ -67,12 +68,12 @@ export const lightTheme = createTheme({
         },
         secondary: {
           main: '#ebebeb',
-          light: '#ffffff',
-          dark: '#ffffff',
+          light: '#eaeaea',
+          dark: '#d3d3d3',
           contrastText: '#000000',
         },
         background: {
-          default: '#F7FFF7',
+          default: '#FFFAF1',
           paper: '#bbc619',
         },
         text: {

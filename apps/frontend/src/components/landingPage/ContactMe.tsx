@@ -10,15 +10,25 @@ const ContactFormWrapper = styled(Box)`
   margin: auto;
   margin-bottom: 50px;
   margin-top: 20px;
-  padding: 50px;
+  padding: 60px;
   border-radius: 10px;
 
-  background-color: var(--mui-palette-secondary-dark);
-  box-shadow: inset 0px 0px 40px 10px var(--mui-palette-background-default);
+  background-color: var(--mui-palette-secondary-light);
+  box-shadow: inset 0px 0px 40px 30px var(--mui-palette-background-default);
 
   &:hover {
-    background-color: var(--mui-palette-secondary-dark);
     box-shadow: 0px 0px 40px 10px var(--mui-palette-background-paper);
+  }
+`;
+
+const FormTextInput = styled(TextField)`
+  & .MuiInputBase-input:-webkit-autofill,
+  & .MuiInputBase-input:-webkit-autofill:hover,
+  & .MuiInputBase-input:-webkit-autofill:focus,
+  & .MuiInputBase-input:-webkit-autofill:active {
+    -webkit-text-fill-color: var(--mui-palette-text-primary);
+    -webkit-box-shadow: 0 0 0 30px var(--mui-palette-secondary-light) inset;
+    transition: background-color 5000s ease-in-out 0s;
   }
 `;
 
@@ -85,12 +95,12 @@ function ContactMe() {
         as possible.
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 2 }}>
-        <TextField required label='Name' name='name' value={formData.name} onChange={handleChange} fullWidth />
-        <TextField label='Company' name='company' value={formData.company} onChange={handleChange} fullWidth />
+        <FormTextInput required label='Name' name='name' value={formData.name} onChange={handleChange} fullWidth />
+        <FormTextInput label='Company' name='company' value={formData.company} onChange={handleChange} fullWidth />
       </Box>
       <FormControl>
         {/* wrap email field in its own form control to track focus to avoid pre-emptively displaying errors */}
-        <TextField
+        <FormTextInput
           required
           label='Email'
           name='email'
@@ -102,7 +112,7 @@ function ContactMe() {
           helperText={emailError ? 'Please enter a valid email address' : ''}
         />
       </FormControl>
-      <TextField
+      <FormTextInput
         required
         fullWidth
         label='Message'

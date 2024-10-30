@@ -4,7 +4,7 @@
 // import Button from '@mui/material/Button';
 
 import React, { useState } from 'react';
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, MenuItem, Fab } from '@mui/material';
+import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, MenuItem, Fab, Switch } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 // import AdbIcon from '@mui/icons-material/Adb';
 import { styled } from '@mui/system';
@@ -67,6 +67,14 @@ const ExtLinkFab = styled(Fab)`
     z-index: 100;
   }
 `;
+
+const ThemeToggleBtn = styled(Switch)`
+  position: absolute;
+  right: 30px;
+  top: 22px;
+  cursor: pointer;
+`;
+
 type NavBarProps = {
   navLinkItems: navLinkItemProps[];
   changeTheme: () => void;
@@ -107,7 +115,7 @@ function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
 
   return (
     <StyledNavBar position='sticky'>
-      <Container maxWidth='lg'>
+      <Container maxWidth='xl'>
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
@@ -162,11 +170,11 @@ function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
                   </NavItemAnchor>
                 </MenuItem>
               ))}
-              <MenuItem>
-                <Typography onClick={changeTheme} sx={{ textAlign: 'center' }}>
-                  {pageTheme === 'dark' ? 'light' : 'dark'}
-                </Typography>
-              </MenuItem>
+              {/* <MenuItem>
+                  <Typography onClick={changeTheme} sx={{ textAlign: 'center' }}>
+                    {pageTheme === 'dark' ? 'light' : 'dark'}
+                  </Typography>
+                </MenuItem> */}
             </Menu>
           </Box>
           {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
@@ -203,11 +211,9 @@ function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
                 </MenuItem>
               </NavItemAnchor>
             ))}
-            <MenuItem onClick={changeTheme} sx={{ my: 2, display: 'block' }}>
-              {pageTheme === 'dark' ? 'light' : 'dark'}
-            </MenuItem>
           </WideScreenNavBox>
         </Toolbar>
+        <ThemeToggleBtn onClick={changeTheme} defaultChecked={pageTheme === 'dark' ? true : false}></ThemeToggleBtn>
       </Container>
       <ExtLinkWrapper>
         <ExtLinkFab color='secondary' aria-label='Linkedin Link' sx={{ margin: '3px' }} size='small'>

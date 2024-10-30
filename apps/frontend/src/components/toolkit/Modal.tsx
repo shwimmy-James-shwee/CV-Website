@@ -8,7 +8,7 @@ const ModalContainer = styled(Container)`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: var(--mui-palette-secondary-dark);
+  background-color: var(--mui-palette-secondary-main);
   padding: 0px !important;
   outline: none;
   max-height: 80vh;

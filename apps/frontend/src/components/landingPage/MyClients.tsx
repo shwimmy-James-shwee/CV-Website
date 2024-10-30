@@ -10,8 +10,6 @@ const MyClientContainer = styled(Box)`
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 30px;
-  /* margin-bottom: 100px; */
 `;
 
 const ClientImageWrapper = styled(Box)`
