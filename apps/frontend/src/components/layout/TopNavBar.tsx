@@ -4,10 +4,23 @@
 // import Button from '@mui/material/Button';
 
 import React, { useState } from 'react';
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, MenuItem, Fab, Switch } from '@mui/material';
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  MenuItem,
+  Fab,
+  Switch,
+  SvgIcon,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 // import AdbIcon from '@mui/icons-material/Adb';
 import { styled } from '@mui/system';
+import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from '@mui/icons-material';
 import linkedinIcon from '../../assets/images/linkedinIcon.png';
 import githubMark from '../../assets/images/githubMark.png';
 
@@ -69,10 +82,33 @@ const ExtLinkFab = styled(Fab)`
 `;
 
 const ThemeToggleBtn = styled(Switch)`
+  cursor: 'pointer';
   position: absolute;
   right: 30px;
-  top: 22px;
-  cursor: pointer;
+  top: 10px;
+
+  width: 75px;
+  height: 50px;
+
+  .MuiSwitch-track {
+    background-color: var(--mui-palette-primary-main) !important;
+    opacity: 1 !important;
+  }
+
+  .Mui-checked {
+    transform: translateX(24px);
+  }
+
+  .MuiSvgIcon-root {
+    font-size: 1.3rem !important;
+    margin: 6px;
+    margin-left: 7px;
+    border-radius: 100%;
+    /* border: 1px solid var(--mui-palette-primary-main); */
+    /* color: var(--mui-palette-primary-main); */
+    /* background-color: var(--mui-palette-secondary-contrastText); */
+    color: var(--mui-palette-primary-dark);
+  }
 `;
 
 type NavBarProps = {
@@ -213,7 +249,12 @@ function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
             ))}
           </WideScreenNavBox>
         </Toolbar>
-        <ThemeToggleBtn onClick={changeTheme} defaultChecked={pageTheme === 'dark' ? true : false}></ThemeToggleBtn>
+        <ThemeToggleBtn
+          onClick={changeTheme}
+          defaultChecked={pageTheme === 'dark' ? true : false}
+          icon={<SvgIcon component={LightModeIcon} />}
+          checkedIcon={<SvgIcon component={DarkModeIcon} />}
+        ></ThemeToggleBtn>
       </Container>
       <ExtLinkWrapper>
         <ExtLinkFab color='secondary' aria-label='Linkedin Link' sx={{ margin: '3px' }} size='small'>
