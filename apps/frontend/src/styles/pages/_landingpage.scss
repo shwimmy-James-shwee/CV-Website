@@ -1,15 +1,4 @@
 // Project Cards
-.projectCards {
-  // background-color: var(--background);
-  height: 100%;
-  cursor: pointer;
-}
-
-.projectCards:hover {
-  box-shadow: 0px 10px 10px #272727;
-  max-height: 1000px;
-}
-
 .projectCardsWrapper {
   min-height: 250px;
   max-height: 250px;
@@ -17,9 +6,28 @@
   transition-delay: 0.2s;
 }
 .projectCardsWrapper:hover {
-  box-shadow: 0px 10px 10px #272727;
+  box-shadow: 0px 10px 10px var(--mui-palette-secondary-dark) !important;
   max-height: 1000px;
 }
+
+.projectCards {
+  height: 100%;
+  cursor: pointer;
+  
+  background: linear-gradient(var(--mui-palette-primary-main), var(--mui-palette-primary-main) 50%, var(--mui-palette-secondary-light) 50%, var(--mui-palette-secondary-light)) !important;
+  background-size: 100% 200% !important;
+  transition: background 0.3s !important;
+  background-position: 100% 100% !important;
+
+}
+
+.projectCards:hover {
+  box-shadow: 0px 10px 10px #272727;
+  max-height: 1000px;
+  background-position: 0% 0% !important;
+}
+
+
 
 // Project Modal Image bar classes
 
@@ -36,7 +44,7 @@
 }
 
 .ProjectModalImageItem:hover {
-  box-shadow: 0px 10px 10px grey;
+  box-shadow: 0px 5px 10px 5px var(--mui-palette-primary-main);
 }
 
 .ProjectModalImageItemSelected {

@@ -26,6 +26,12 @@ const ProjectCardDesc = styled(Typography)`
   height: 145px;
 `;
 
+const ProjectCardHighlightBanner = styled('div')`
+  background-color: var(--mui-palette-primary-main);
+  width: 100%;
+  height: 10px;
+`;
+
 // TODO REMOVE and replace with SCHEMA
 export type testProjectDataType = {
   id: number;
@@ -87,6 +93,7 @@ function ProjectCards() {
           projects.map((project: Project) => (
             <Grid component='div' size={{ xs: 12, sm: 6, md: 4 }} key={project.id} className='projectCardsWrapper'>
               <Card className='projectCards' onClick={() => openProjectModal(project)}>
+                <ProjectCardHighlightBanner />
                 <CardContent>
                   <Box sx={{ position: 'relative' }}>
                     {project.highlighted && <Box sx={{ position: 'absolute', top: 8, right: 8 }}>*</Box>}

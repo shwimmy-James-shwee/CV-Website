@@ -24,7 +24,7 @@ export const darkTheme = createTheme({
       palette: {
         primary: {
           // VIVID ACCENT COLORS
-          main: '#132a13', // primary accent color
+          main: '#d18800', // primary accent color
           light: '#000000', // not applied to any components currently in use
           dark: '#000000', // some buttons use this for hover background
           contrastText: '#ffffff', // some buttons use this for both default and hover text (can force style)
@@ -38,7 +38,7 @@ export const darkTheme = createTheme({
         },
         background: {
           default: '#131313', // not applied to any components currently in use
-          paper: '#132a13', // several MUI element background
+          paper: '#d18800', // several MUI element background
         },
         text: {
           primary: '#ffffff', // used by the majority of text elements

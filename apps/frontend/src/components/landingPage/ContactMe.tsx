@@ -10,14 +10,15 @@ const ContactFormWrapper = styled(Box)`
   margin: auto;
   margin-bottom: 50px;
   margin-top: 20px;
-  padding: 60px;
+  padding: 40px;
   border-radius: 10px;
 
-  background-color: var(--mui-palette-secondary-light);
-  box-shadow: inset 0px 0px 40px 30px var(--mui-palette-background-default);
+  background-color: var(--mui-palette-secondary-dark);
+  transition: all 0.1s ease-in-out;
+  /* box-shadow: inset 0px 0px 40px 30px var(--mui-palette-background-default); */
 
   &:hover {
-    box-shadow: 0px 0px 40px 10px var(--mui-palette-background-paper);
+    box-shadow: 0px 0px 40px 5px var(--mui-palette-background-paper);
   }
 `;
 

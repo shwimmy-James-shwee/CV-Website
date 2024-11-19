@@ -23,8 +23,8 @@ const ProjectContentWrapper = styled(Container)`
 `;
 
 const ProjectImageWrapper = styled(Box)`
-  background-color: var(--mui-palette-secondary-dark);
-  box-shadow: 0px 0px 40px 40px var(--mui-palette-secondary-dark);
+  background-color: var(--mui-palette-secondary-main);
+  box-shadow: 0px 0px 40px 40px var(--mui-palette-secondary-main);
   padding-left: 50px;
   padding-right: 50px;
   padding-top: 20px;
