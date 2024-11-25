@@ -1,11 +1,13 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { pageUrl } from './PageUrls';
 import LandingPage from './pages/LandingPage';
+import AdminPage from './pages/AdminPage';
 import NavBar, { navLinkItemProps } from './components/layout/TopNavBar';
 // import FooterBar from './components/layout/FooterBar';
 // import { loginRequest } from './authConfig';
-import { useContext, useState } from 'react';
-import { UserContext } from './context/UserContext';
+// import { useContext, useState } from 'react';
+import { useState } from 'react';
+// import { UserContext } from './context/UserContext';
 // import UserActivityPage from './pages/UserActivityPage';
 
 // import NotFoundPage from './pages/NotFoundPage';
@@ -20,15 +22,22 @@ import ModalProvider from './components/toolkit/ModalContext';
 import ModalComponent from './components/toolkit/Modal';
 import { ThemeProvider } from '@mui/material';
 import { darkTheme, lightTheme } from './styles/css-theme';
+import { styled } from '@mui/system';
 
 // // this guarantees that the container will always be full width and Row/Col will be contained within it
-// const HighLevelContainer = styled(Container)`
-//   margin: 0;
-//   padding: 0;
-// `;
+const HighLevelContainer = styled('div')`
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-height: 100vh;
+`;
 
 function AppRoutes() {
-  const { currentUserData } = useContext(UserContext);
+  // const { currentUserData } = useContext(UserContext);
   // const { currentUserData, userReturnStatus } = useContext(UserContext);
 
   // const handleLoginRedirect = () => {
@@ -69,18 +78,20 @@ function AppRoutes() {
   };
 
   const navLinkItems: navLinkItemProps[] = [
-    { label: 'Home', url: pageUrl.landingPage },
-    { label: 'Projects', url: '' },
-    { label: 'Contact Me', url: '' },
-    {
-      label: 'Admin login',
-      url: pageUrl.adminPage,
-    },
-    {
-      label: 'Analytics',
-      url: pageUrl.adminPage,
-      hide: !currentUserData?.isSuperAdmin,
-    },
+    // { label: 'Home', url: '#infoBanner' },
+    // { label: 'Projects', url: '#projects' },
+    { label: 'Home', url: 'javascript:document.getElementById("infoBanner").scrollIntoView(true);' }, // workaround as passing #id like above requires a double click in some browsers
+    { label: 'Projects', url: 'javascript:document.getElementById("projects").scrollIntoView(true);' },
+    { label: 'Contact Me', url: 'javascript:document.getElementById("contactMe").scrollIntoView(true);' },
+    // {
+    //   label: 'Admin login',
+    //   url: pageUrl.adminPage,
+    // },
+    // {
+    //   label: 'Analytics',
+    //   url: pageUrl.adminPage,
+    //   hide: !currentUserData?.isSuperAdmin,
+    // },
   ];
 
   // if (userReturnStatus === UserReturnStatus.LOADING) {
@@ -107,7 +118,7 @@ function AppRoutes() {
           {/* <AlertComponent /> */}
           <ModalComponent />
           <Router>
-            <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <HighLevelContainer>
               <NavBar
                 // handleLogin={() => {}}
                 // handleLogout={() => {}}
@@ -117,24 +128,24 @@ function AppRoutes() {
                 pageTheme={stateTheme}
               />
 
-              <div style={{ flex: '1' }}>
-                <Routes>
-                  {/* Public Routes */}
-                  <Route path={pageUrl.landingPage} element={<LandingPage />} />
-                  {/* <Route path={pageUrl.userActivityPage} element={<UserActivityPage />} /> */}
+              {/* <HighLevelContainer style={{ flex: '1' }}> */}
+              <Routes>
+                {/* Public Routes */}
+                <Route path={pageUrl.landingPage} element={<LandingPage />} />
+                {/* <Route path={pageUrl.userActivityPage} element={<UserActivityPage />} /> */}
 
-                  {/* Admin Routes */}
-                  {/* {currentUserData?.roles?.includes(UserRole.ADMINISTRATOR) && (
-                  <Route path={pageUrl.adminPage} element={<AdminPage />} />
-                )} */}
-                  {/* New Routes can be added below */}
+                {/* Admin Routes */}
+                {/* {currentUserData?.roles?.includes(UserRole.ADMINISTRATOR) && ( */}
+                <Route path={pageUrl.adminPage} element={<AdminPage />} />
+                {/* )} */}
+                {/* New Routes can be added below */}
 
-                  {/* New Routes can be added above */}
-                  {/* <Route path='*' element={<NotFoundPage />} /> */}
-                </Routes>
-              </div>
+                {/* New Routes can be added above */}
+                {/* <Route path='*' element={<NotFoundPage />} /> */}
+              </Routes>
+              {/* </HighLevelContainer> */}
               {/* <FooterBar /> */}
-            </div>
+            </HighLevelContainer>
           </Router>
         </ModalProvider>
       </AlertProvider>

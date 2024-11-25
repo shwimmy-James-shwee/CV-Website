@@ -1,25 +1,38 @@
 import { Button, Typography, Box, Grid2 as Grid } from '@mui/material';
 import { styled } from '@mui/system';
+import BoxReveal from '../toolkit/BoxReveal';
+import { IconCloud } from '../toolkit/IconGlobe';
 
 const BannerContainer = styled(Box)`
-  background-color: var(--mui-palette-background-default);
-  height: 85vh;
+  background-color: var(--mui-palette-background-background);
+  min-height: 85vh;
+
+  margin-bottom: 50px;
 `;
 
-const ImageContainer = styled(Box)({
-  width: '100%',
-  height: '100%',
-  minHeight: 400,
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-});
+const IconsContainer = styled(Box)`
+  /* width: 100%;
+  height: 100%;
+  min-height: 400;
+  margin: auto; */
+`;
+
+const ColumnContainer = styled(Grid)`
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 100%;
+  min-height: inherit;
+`;
 
 const ContentContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   height: '100%',
-  padding: theme.spacing(4),
+  padding: '0px', // theme.spacing(4),
+  // padding: theme.spacing(4),
+  paddingTop: theme.spacing(1),
+  margin: 'auto',
 }));
 
 const SubHeadingList = styled('ul')`
@@ -28,70 +41,95 @@ const SubHeadingList = styled('ul')`
   padding-left: 0;
 `;
 
-const SubHeadingListItem = styled('li')`
-  padding-left: 1em;
+const SubHeadingListItem = styled('li')(
+  ({ theme }) => `
+  padding-left: 1.5em;
   text-indent: -1.2em;
   font-size: 60px;
+  ${theme.breakpoints.down('sm')} {
+    padding-left: 1.5em;
+    text-indent: -1.2em;
+    font-size: 40px;
+  }
   &:before {
     content: '//';
     margin-right: 0.5em;
   }
-`;
+`,
+);
 
-// const SubHeading = styled(Typography)(({ theme }) => ({
-//   marginBottom: 0,
-//   // whiteSpace: 'nowrap',
-//   // [theme.breakpoints.down('sm')]: {
-//   //   fontSize: '34px',
-//   // },
-// }));
+const slugs = [
+  'typescript',
+  'javascript',
+  'react',
+  'html5',
+  'css3',
+  'nodedotjs',
+  'express',
+  'nestjs',
+  'prisma',
+  'postgresql',
+  'testinglibrary',
+  'jest',
+  'docker',
+  'git',
+  'github',
+  'visualstudiocode',
+  'figma',
+  'csharp',
+  'angular',
+  'microsoftazure',
+  'bootstrap',
+  'mui',
+];
 
 function InfoBanner() {
   return (
     <BannerContainer>
-      <Grid container spacing={2}>
-        <Grid component='div' size={{ xs: 12, md: 7.2 }}>
+      <ColumnContainer container spacing={2}>
+        <Grid component='div' size={{ xs: 12, lg: 7.5 }}>
           <ContentContainer>
             <SubHeadingList>
-              <SubHeadingListItem>Full Stack Developer</SubHeadingListItem>
-              <SubHeadingListItem>Consultant</SubHeadingListItem>
-              <SubHeadingListItem sx={{ marginBottom: '50px' }}>Tinkerer</SubHeadingListItem>
+              <BoxReveal boxColor='var(--mui-palette-primary-main)'>
+                <SubHeadingListItem>Full Stack Developer</SubHeadingListItem>
+              </BoxReveal>
+              <BoxReveal boxColor='var(--mui-palette-primary-main)'>
+                <SubHeadingListItem>Consultant</SubHeadingListItem>
+              </BoxReveal>
+              <BoxReveal boxColor='var(--mui-palette-primary-main)'>
+                <SubHeadingListItem sx={{ marginBottom: '50px' }}>Tinkerer</SubHeadingListItem>
+              </BoxReveal>
             </SubHeadingList>
-            {/* <SubHeading variant='h2'>// Full Stack Developer</SubHeading>
-            <SubHeading variant='h2'>// Consultant</SubHeading>
-            <SubHeading variant='h2' sx={{ marginBottom: '50px' }}>
-              // Tinkerer
-            </SubHeading> */}
-            <Typography variant='h3' gutterBottom>
-              James Pearce
-            </Typography>
-            {/* <Typography variant='h1' component='h1' gutterBottom>
-              James Pearce
-            </Typography>
-            <SubHeading variant='h3' gutterBottom>
-              // Full Stack Developer
-            </SubHeading>
-            <SubHeading variant='h3' gutterBottom>
-              // Consultant
-            </SubHeading>
-            <SubHeading variant='h3' gutterBottom>
-              // Tinkerer
-            </SubHeading> */}
-            <Typography variant='h6' sx={{ marginTop: '1em' }}>
-              Developer and consultant by trade, tinkerer by nature. My passion for technology, creativity, and problem
-              solving has been at the forefront of my career, producing opportunities to work with a variety of clients
-              in development, business analyst, and project management roles. something about being involved end to end
-              to produce better results...
-            </Typography>
-            <Button variant='contained' color='primary' href='/resume' target='_blank'>
-              View Resume
-            </Button>
+
+            <BoxReveal boxColor='var(--mui-palette-primary-main)'>
+              <Typography variant='h3' gutterBottom>
+                James Pearce
+              </Typography>
+            </BoxReveal>
+
+            <BoxReveal boxColor='var(--mui-palette-primary-main)' duration={1}>
+              <>
+                <Typography variant='h6' sx={{ marginTop: '1em' }}>
+                  Developer and consultant by trade, tinkerer by nature. My passion for technology, creativity, and
+                  problem solving has been at the forefront of my career, producing opportunities to work with a variety
+                  of clients in development, business analyst, and project management roles. something about being
+                  involved end to end to produce better results...
+                </Typography>
+                {/* </BoxReveal>
+            <BoxReveal boxColor='var(--mui-palette-primary-main)'> */}
+                <Button variant='contained' color='primary' href='/resume' target='_blank' sx={{ marginTop: '1em' }}>
+                  View Resume
+                </Button>
+              </>
+            </BoxReveal>
           </ContentContainer>
         </Grid>
-        <Grid component='div' size={{ xs: 12, md: 4.8 }}>
-          <ImageContainer style={{ backgroundImage: "url('')" }} />
+        <Grid component='div' size={{ xs: 12, lg: 4.5 }} sx={{ alignContent: 'center' }}>
+          <IconsContainer>
+            <IconCloud iconSlugs={slugs} />
+          </IconsContainer>
         </Grid>
-      </Grid>
+      </ColumnContainer>
     </BannerContainer>
   );
 }

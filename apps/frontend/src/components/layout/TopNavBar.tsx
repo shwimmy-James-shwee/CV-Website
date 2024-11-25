@@ -4,10 +4,25 @@
 // import Button from '@mui/material/Button';
 
 import React, { useState } from 'react';
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, MenuItem } from '@mui/material';
+import {
+  AppBar,
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Menu,
+  Container,
+  MenuItem,
+  Fab,
+  Switch,
+  SvgIcon,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 // import AdbIcon from '@mui/icons-material/Adb';
 import { styled } from '@mui/system';
+import { DarkMode as DarkModeIcon, LightMode as LightModeIcon } from '@mui/icons-material';
+import linkedinIcon from '../../assets/images/linkedinIcon.png';
+import githubMark from '../../assets/images/githubMark.png';
 
 export interface navLinkItemProps {
   label: string;
@@ -17,6 +32,7 @@ export interface navLinkItemProps {
 
 const StyledNavBar = styled(AppBar)`
   background-color: var(--mui-palette-secondary-main) !important;
+  opacity: 0.9;
 `;
 
 const WideScreenNavBox = styled(Box)`
@@ -24,6 +40,75 @@ const WideScreenNavBox = styled(Box)`
   flex-grow: 1;
   justify-content: space-evenly;
   width: 80%;
+`;
+
+const NavItemAnchor = styled('a')`
+  text-decoration: none;
+  color: inherit;
+  min-height: 100%;
+`;
+
+const ExtLinkWrapper = styled(Box)(({ theme }) => ({
+  position: 'fixed',
+  bottom: '20px',
+  right: '20px',
+
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+    position: 'fixed',
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '20px',
+    bottom: '10px',
+  },
+}));
+
+const ExtLinkAnchor = styled(NavItemAnchor)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+const ExtLinkFab = styled(Fab)`
+  opacity: 0.75;
+  &:hover {
+    opacity: 1;
+    background-color: var(--mui-palette-secondary-main);
+    box-shadow: 0 0 10px 10px var(--mui-palette-primary-main);
+    z-index: 100;
+  }
+`;
+
+const ThemeToggleBtn = styled(Switch)`
+  cursor: 'pointer';
+  position: absolute;
+  right: 30px;
+  top: 10px;
+
+  width: 75px;
+  height: 50px;
+
+  .MuiSwitch-track {
+    background-color: var(--mui-palette-primary-main) !important;
+    opacity: 1 !important;
+  }
+
+  .Mui-checked {
+    transform: translateX(24px);
+  }
+
+  .MuiSvgIcon-root {
+    font-size: 1.3rem !important;
+    margin: 6px;
+    margin-left: 7px;
+    border-radius: 100%;
+    /* border: 1px solid var(--mui-palette-primary-main); */
+    /* color: var(--mui-palette-primary-main); */
+    /* background-color: var(--mui-palette-secondary-contrastText); */
+    color: var(--mui-palette-primary-dark);
+  }
 `;
 
 type NavBarProps = {
@@ -65,8 +150,8 @@ function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
   };
 
   return (
-    <StyledNavBar position='static'>
-      <Container maxWidth='lg'>
+    <StyledNavBar position='sticky'>
+      <Container maxWidth='xl'>
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
@@ -95,7 +180,6 @@ function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
               aria-controls='menu-appbar'
               aria-haspopup='true'
               onClick={handleOpenNavMenu}
-              // color='inherit'
             >
               <MenuIcon />
             </IconButton>
@@ -117,14 +201,16 @@ function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
             >
               {navLinkItems.map((item) => (
                 <MenuItem disabled={item.hide} key={item.label} onClick={(e) => handleCloseNavMenu(e)}>
-                  <Typography sx={{ textAlign: 'center' }}>{item.label}</Typography>
+                  <NavItemAnchor href={item.url}>
+                    <Typography sx={{ textAlign: 'center' }}>{item.label}</Typography>
+                  </NavItemAnchor>
                 </MenuItem>
               ))}
-              <MenuItem>
-                <Typography onClick={changeTheme} sx={{ textAlign: 'center' }}>
-                  {pageTheme === 'dark' ? 'light' : 'dark'}
-                </Typography>
-              </MenuItem>
+              {/* <MenuItem>
+                  <Typography onClick={changeTheme} sx={{ textAlign: 'center' }}>
+                    {pageTheme === 'dark' ? 'light' : 'dark'}
+                  </Typography>
+                </MenuItem> */}
             </Menu>
           </Box>
           {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
@@ -150,22 +236,45 @@ function NavBar({ navLinkItems, changeTheme, pageTheme }: NavBarProps) {
           {/* DESKTOP VIEW */}
           <WideScreenNavBox sx={{ display: { xs: 'none', md: 'flex' } }}>
             {navLinkItems.map((item) => (
-              <MenuItem
-                key={item.label}
-                disabled={item.hide}
-                onClick={handleCloseNavMenu}
-                // sx={{ my: 2, display: 'block' }}
-                color='primary'
-              >
-                {item.label}
-              </MenuItem>
+              <NavItemAnchor href={item.url} key={item.label}>
+                <MenuItem
+                  disabled={item.hide}
+                  onClick={handleCloseNavMenu}
+                  color='primary'
+                  sx={{ minHeight: '100% !important' }}
+                >
+                  {item.label}
+                </MenuItem>
+              </NavItemAnchor>
             ))}
-            <MenuItem onClick={changeTheme} sx={{ my: 2, display: 'block' }}>
-              {pageTheme === 'dark' ? 'light' : 'dark'}
-            </MenuItem>
           </WideScreenNavBox>
         </Toolbar>
+        <ThemeToggleBtn
+          onClick={changeTheme}
+          defaultChecked={pageTheme === 'dark' ? true : false}
+          icon={<SvgIcon component={LightModeIcon} />}
+          checkedIcon={<SvgIcon component={DarkModeIcon} />}
+        ></ThemeToggleBtn>
       </Container>
+      <ExtLinkWrapper>
+        <ExtLinkFab color='secondary' aria-label='Linkedin Link' sx={{ margin: '3px' }} size='small'>
+          <ExtLinkAnchor href='https://www.linkedin.com/in/james-pearce-59b18844' target='_blank'>
+            <img alt='linkedin' src={linkedinIcon} style={{ height: '60px' }} />
+          </ExtLinkAnchor>
+        </ExtLinkFab>
+        <ExtLinkFab color='secondary' aria-label='Github Link' sx={{ margin: '3px', padding: '0px' }} size='small'>
+          <ExtLinkAnchor href='https://github.com/shwimmy-James-shwee' target='_blank'>
+            <img
+              alt='Github'
+              src={githubMark}
+              style={{ height: '36px', backgroundColor: 'white', borderRadius: '100%' }}
+            />
+          </ExtLinkAnchor>
+        </ExtLinkFab>
+        <ExtLinkFab color='secondary' aria-label='CV Link' sx={{ margin: '3px' }} size='small'>
+          <Typography sx={{ fontWeight: 'bold' }}>CV</Typography>
+        </ExtLinkFab>
+      </ExtLinkWrapper>
     </StyledNavBar>
   );
 }
