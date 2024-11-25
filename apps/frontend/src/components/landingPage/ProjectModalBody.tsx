@@ -48,11 +48,13 @@ const ProjectModalImageList = styled(Container)`
   gap: 20px;
   padding: 20px 0;
   scroll-behavior: smooth;
+  border-bottom: 2px solid var(--mui-palette-primary-main);
 `;
 
 const SubTitleWrapper = styled('div')`
   margin-top: 10px;
   margin-bottom: 40px;
+  border-bottom: 2px solid var(--mui-palette-secondary-dark);
 `;
 
 type ProjectModalBodyProps = {
@@ -158,7 +160,7 @@ const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
         </Typography> */}
         </SubTitleWrapper>
 
-        <div className='project-body'>
+        <div>
           <MarkDownRenderer markDownStr={testmarkdown} />
         </div>
       </ProjectContentWrapper>

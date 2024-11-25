@@ -1,6 +1,7 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { pageUrl } from './PageUrls';
 import LandingPage from './pages/LandingPage';
+import AdminPage from './pages/AdminPage';
 import NavBar, { navLinkItemProps } from './components/layout/TopNavBar';
 // import FooterBar from './components/layout/FooterBar';
 // import { loginRequest } from './authConfig';
@@ -134,9 +135,9 @@ function AppRoutes() {
                 {/* <Route path={pageUrl.userActivityPage} element={<UserActivityPage />} /> */}
 
                 {/* Admin Routes */}
-                {/* {currentUserData?.roles?.includes(UserRole.ADMINISTRATOR) && (
-                  <Route path={pageUrl.adminPage} element={<AdminPage />} />
-                )} */}
+                {/* {currentUserData?.roles?.includes(UserRole.ADMINISTRATOR) && ( */}
+                <Route path={pageUrl.adminPage} element={<AdminPage />} />
+                {/* )} */}
                 {/* New Routes can be added below */}
 
                 {/* New Routes can be added above */}

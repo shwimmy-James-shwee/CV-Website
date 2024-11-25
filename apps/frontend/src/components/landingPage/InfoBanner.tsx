@@ -76,7 +76,7 @@ const slugs = [
   'github',
   'visualstudiocode',
   'figma',
-  'cplusplus',
+  'csharp',
   'angular',
   'microsoftazure',
   'bootstrap',

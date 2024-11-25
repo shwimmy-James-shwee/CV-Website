@@ -7,12 +7,20 @@ declare module '@mui//material/styles' {
       primary: string;
       secondary: string;
     };
+
+    additionalColors: {
+      contrastBackground: string;
+    };
   }
   // allow configuration using `createTheme`
   interface ThemeOptions {
     imageContrast?: {
       primary?: string;
       secondary?: string;
+    };
+
+    additionalColors?: {
+      contrastBackground?: string;
     };
   }
 }
@@ -49,12 +57,13 @@ export const darkTheme = createTheme({
     },
   },
   imageContrast: {
-    primary: 'brightness(0.9) contrast(2)',
-
-    secondary: 'grayscale(100%)',
+    primary: 'contrast(1.2)',
+    secondary: 'contrast(90%)',
+  },
+  additionalColors: {
+    contrastBackground: '#dcdbdb',
   },
 });
-
 export const lightTheme = createTheme({
   cssVariables: true,
   colorSchemes: {
@@ -85,8 +94,12 @@ export const lightTheme = createTheme({
     },
   },
   imageContrast: {
-    // primary: 'grayscale(100%)',
+    // primary: 'brightness(0.9) contrast(2)',
+    // secondary: 'grayscale(100%)',
     primary: 'contrast(1.2)',
     secondary: 'contrast(90%)',
+  },
+  additionalColors: {
+    contrastBackground: '#dcdbdb',
   },
 });

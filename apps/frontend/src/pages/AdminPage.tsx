@@ -1,35 +1,52 @@
-// import { Container, Tabs, Tab } from 'react-bootstrap';
-// import { Header } from '../components/banners/Header';
-// import styled from 'styled-components';
-// import BusinessUnitManagement from './admin/BusinessUnitManagement';
-// import UserManagement from './admin/UserManagement';
+import ContactQueries from '@/components/adminPage/ContactQueries';
+import { Container, Tabs, Typography, Box, Tab } from '@mui/material';
+import { styled } from '@mui/system';
+import { useState } from 'react';
 
-// const TabsComponent = styled(Tabs)`
-//   padding-top: 1rem;
-//   .nav-item .nav-link {
-//     color: var(--general-text-color) !important;
-//   }
-// `;
+const AdminPageContainer = styled(Container)`
+  margin-top: 50px;
+`;
 
-// function AdminPage() {
-//   return (
-//     <>
-//       <Header
-//         title={'Portal Administration'}
-//         description='All activity on this page is monitored and actions are traced.'
-//       />
-//       <Container>
-//         <TabsComponent>
-//           <Tab eventKey={'BusinessUnit'} title={'Business Unit'} data-testid='business-unit-tab'>
-//             <BusinessUnitManagement />
-//           </Tab>
-//           <Tab eventKey={'User'} title={'User'} data-testid='user-tab'>
-//             <UserManagement />
-//           </Tab>
-//         </TabsComponent>
-//       </Container>
-//     </>
-//   );
-// }
+const TabWrapper = styled(Box)`
+  margin-top: 10px;
+  width: 100%;
+  border-bottom: 2px solid var(--mui-palette-secondary-dark);
+`;
 
-// export default AdminPage;
+const AdminTab = styled(Tab)`
+  margin-left: 20px;
+  margin-right: 20px;
+`;
+
+function AdminPage() {
+  const [selectedTab, setSelectedTab] = useState(0);
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    event; // eslint-disable-line
+    setSelectedTab(newValue);
+  };
+
+  return (
+    <>
+      <AdminPageContainer>
+        <Typography variant='h3' component='h3'>
+          Admin
+        </Typography>
+        <TabWrapper>
+          <Tabs value={selectedTab} onChange={handleTabChange} centered>
+            <AdminTab label='Manage Projects' />
+            <AdminTab label='Contact Me Queries' />
+            <AdminTab label='Analytics' />
+          </Tabs>
+        </TabWrapper>
+        <Box sx={{ marginTop: '20px' }}>
+          {selectedTab === 0 && <div>Manage Projects</div>}
+          {selectedTab === 1 && <ContactQueries />}
+          {selectedTab === 2 && <div>Manage Projects</div>}
+        </Box>
+      </AdminPageContainer>
+    </>
+  );
+}
+
+export default AdminPage;

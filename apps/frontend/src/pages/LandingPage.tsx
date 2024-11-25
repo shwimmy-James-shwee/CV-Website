@@ -16,16 +16,12 @@ const LandPageContainer = styled(Container)`
 const ClientContainer = styled(Container)`
   scroll-snap-align: center;
   scroll-margin: 100px;
-  background-image: linear-gradient(
-    var(--mui-palette-background-default),
-    var(--mui-palette-secondary-dark),
-    var(--mui-palette-secondary-dark),
-    var(--mui-palette-background-default)
-  );
-  padding: 100px;
-  padding-bottom: 100px;
+  padding: 50px;
+  padding-bottom: 50px;
   margin-top: 50px;
   margin-bottom: 80px;
+  /* border-top: 3px solid var(--mui-palette-secondary-dark); */
+  /* border-bottom: 3px solid var(--mui-palette-secondary-dark); */
 `;
 
 function LandingPage() {
@@ -35,13 +31,8 @@ function LandingPage() {
       <LandPageContainer maxWidth='xl' id='infoBanner'>
         <InfoBanner />
       </LandPageContainer>
-      <ClientContainer maxWidth={false} id='myClients'>
-        {/* <Container maxWidth='xl'>
-          <Typography variant='h4' component='h2' gutterBottom>
-            Clients
-          </Typography>
-        </Container> */}
 
+      <ClientContainer maxWidth={false} id='myClients'>
         <MyClients />
       </ClientContainer>
 

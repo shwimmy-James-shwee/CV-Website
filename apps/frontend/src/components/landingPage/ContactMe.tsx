@@ -13,7 +13,7 @@ const ContactFormWrapper = styled(Box)`
   padding: 40px;
   border-radius: 10px;
 
-  background-color: var(--mui-palette-secondary-dark);
+  background-color: var(--mui-palette-secondary-light);
   transition: all 0.1s ease-in-out;
   /* box-shadow: inset 0px 0px 40px 30px var(--mui-palette-background-default); */
 
