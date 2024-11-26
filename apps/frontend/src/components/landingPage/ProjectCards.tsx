@@ -51,7 +51,6 @@ function ProjectCards() {
   const [projects, setProjects] = useState<Project[] | null>(null);
 
   useEffect(() => {
-    // TODO Fetch projects from API
     if (!projects && !error) {
       execute('GET', API.project.getAll).then((response: Project[]) => {
         if (response) {

@@ -1,4 +1,4 @@
-import { Image, PrismaClient, Project } from '@core/db';
+import { ContactUsNotification, Image, PrismaClient, Project } from '@core/db';
 import { v5 as uuid } from 'uuid';
 
 export const prisma = new PrismaClient();
@@ -245,6 +245,50 @@ async function main() {
           })),
         },
       },
+    });
+  });
+
+  const contactMeQueries = [
+    {
+      id: uuidFromString('contact-me-query-1'),
+      name: 'John Doe',
+      submittedByEmail: 'john.doe@example.com',
+      message: 'I have a question about your services.',
+      company: 'ACME Corp',
+      createdAt: new Date(),
+      sentTimestamp: null,
+    },
+    {
+      id: uuidFromString('contact-me-query-2'),
+      name: 'Jane Smith',
+      submittedByEmail: 'jane.smith@example.com',
+      message: 'I would like to schedule a consultation.',
+      company: null,
+      createdAt: new Date(),
+      sentTimestamp: null,
+    },
+    {
+      id: uuidFromString('contact-me-query-3'),
+      name: 'Alice Johnson',
+      submittedByEmail: 'alice.johnson@example.com',
+      message: 'I am interested in your pricing.',
+      company: 'Tech Solutions Inc',
+      createdAt: new Date(),
+      sentTimestamp: new Date(),
+    },
+    {
+      id: uuidFromString('contact-me-query-4'),
+      name: 'Bob Williams',
+      message: 'I am interested in your pricing.',
+      submittedByEmail: 'bob.williams@',
+      company: null,
+      sentTimestamp: null,
+    },
+  ] as ContactUsNotification[];
+
+  await contactMeQueries.forEach(async (query: ContactUsNotification) => {
+    await prisma.contactUsNotification.create({
+      data: query,
     });
   });
 }
