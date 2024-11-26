@@ -1,4 +1,5 @@
 import ContactQueries from '@/components/adminPage/ContactQueries';
+import ProjectManageTable from '@/components/adminPage/ProjectManageTable';
 import { Container, Tabs, Typography, Box, Tab } from '@mui/material';
 import { styled } from '@mui/system';
 import { useState } from 'react';
@@ -40,7 +41,7 @@ function AdminPage() {
           </Tabs>
         </TabWrapper>
         <Box sx={{ marginTop: '20px' }}>
-          {selectedTab === 0 && <div>Manage Projects</div>}
+          {selectedTab === 0 && <ProjectManageTable />}
           {selectedTab === 1 && <ContactQueries />}
           {selectedTab === 2 && <div>Manage Projects</div>}
         </Box>

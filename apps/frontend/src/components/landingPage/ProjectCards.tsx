@@ -32,18 +32,6 @@ const ProjectCardHighlightBanner = styled('div')`
   height: 10px;
 `;
 
-// TODO REMOVE and replace with SCHEMA
-export type testProjectDataType = {
-  id: number;
-  title: string;
-  description: string;
-  image: string[];
-  // link: string;
-  highlighted: boolean;
-  dateStarted: Date;
-  dateCompleted: Date;
-};
-
 function ProjectCards() {
   const { handleModalOpen } = useContext(ModalContext);
   const { execute, error } = useFetchWithAuth();
@@ -98,7 +86,9 @@ function ProjectCards() {
                     {project.highlighted && <Box sx={{ position: 'absolute', top: 8, right: 8 }}>*</Box>}
                     <CardTextWrapper>
                       <ProjectCardHeader variant='h5'>{project.title}</ProjectCardHeader>
-                      <ProjectCardDesc variant='body1'>{parseProjectDescription(project.description)}</ProjectCardDesc>
+                      <ProjectCardDesc variant='body1'>
+                        {parseProjectDescription(project.shortDescription)}
+                      </ProjectCardDesc>
                     </CardTextWrapper>
                     {project.Images && (
                       <div className='imageListContainer'>

@@ -51,7 +51,7 @@ function ContactQueries() {
           <TableBody>
             {contactQueries ? (
               contactQueries.map((query: ContactUsNotification, index) => (
-                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                <TableRow key={index}>
                   <TableCell>{formatDate(new Date(query.createdAt).toISOString())}</TableCell>
                   <TableCell>{query.name}</TableCell>
                   <TableCell>{query.submittedByEmail}</TableCell>
