@@ -1,13 +1,10 @@
+import useFetchWithAuth from '@/hooks/useFetchWithAuth';
+import { formatDate } from '@/utils/HelperFunctions';
+import { ContactUsNotification } from '@core/db/schema';
+import { API } from '@core/routes';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { styled } from '@mui/system';
-
-interface ContactQuery {
-  dateSubmitted: string;
-  name: string;
-  email: string;
-  company: string;
-  message: string;
-}
+import { useEffect, useState } from 'react';
 
 const QueriesTable = styled(TableContainer)`
   margin-left: 20px;
@@ -16,38 +13,26 @@ const QueriesTable = styled(TableContainer)`
 `;
 
 function ContactQueries() {
-  // Mock data - replace with actual data from API/backend
-  const queries: ContactQuery[] = [
-    {
-      dateSubmitted: '2024-01-20',
-      name: 'John Doe',
-      email: 'john@example.com',
-      company: 'ABC Corp',
-      message: 'Interested in your services',
-    },
-    {
-      dateSubmitted: '2024-01-20',
-      name: 'John Doe',
-      email: 'john@example.com',
-      company: 'ABC Corp',
-      message: 'Interested in your services',
-    },
-    {
-      dateSubmitted: '2024-01-20',
-      name: 'John Doe',
-      email: 'john@example.com',
-      company: 'ABC Corp',
-      message: 'Interested in your services',
-    },
-    // {
-    //   dateSubmitted: '2024-01-20',
-    //   name: 'John Doe',
-    //   email: 'john@example.com',
-    //   company: 'ABC Corp',
-    //   message:
-    //     'lorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsumlorem ipsum',
-    // },
-  ];
+  const { execute, error } = useFetchWithAuth();
+  const [contactQueries, setContactQueries] = useState<ContactUsNotification[] | null>(null);
+
+  useEffect(() => {
+    if (!contactQueries && !error) {
+      execute('GET', API.contact.getAll).then((response: ContactUsNotification[]) => {
+        if (response) {
+          setContactQueries(response);
+        } else if (error) {
+          // eslint-disable-next-line no-console
+          console.log(error);
+          // TODO create info pop up to display to user
+        } else {
+          // eslint-disable-next-line no-console
+          console.log('Something went wrong, please try again later');
+          // TODO create info pop up to display to user
+        }
+      });
+    }
+  }, [execute, contactQueries]);
 
   return (
     <Box sx={{ width: '100%', p: 2 }}>
@@ -60,18 +45,26 @@ function ContactQueries() {
               <TableCell>Email</TableCell>
               <TableCell>Company</TableCell>
               <TableCell>Message</TableCell>
+              <TableCell>Confirmation email sent</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {queries.map((query, index) => (
-              <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell>{query.dateSubmitted}</TableCell>
-                <TableCell>{query.name}</TableCell>
-                <TableCell>{query.email}</TableCell>
-                <TableCell>{query.company}</TableCell>
-                <TableCell>{query.message}</TableCell>
+            {contactQueries ? (
+              contactQueries.map((query: ContactUsNotification, index) => (
+                <TableRow key={index}>
+                  <TableCell>{formatDate(new Date(query.createdAt).toISOString())}</TableCell>
+                  <TableCell>{query.name}</TableCell>
+                  <TableCell>{query.submittedByEmail}</TableCell>
+                  <TableCell>{query.company}</TableCell>
+                  <TableCell>{query.message}</TableCell>
+                  <TableCell>{query.sentTimestamp ? 'Yes' : 'No'}</TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell>No data found</TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </QueriesTable>

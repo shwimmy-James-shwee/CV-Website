@@ -1,4 +1,4 @@
-import { Image, PrismaClient, Project } from '@core/db';
+import { ContactUsNotification, Image, PrismaClient, Project } from '@core/db';
 import { v5 as uuid } from 'uuid';
 
 export const prisma = new PrismaClient();
@@ -31,8 +31,35 @@ async function main() {
     {
       id: '1',
       title: 'Project 1',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+      description: `
+  # A demo of 'react-markdown'
+
+'react-markdown' is a markdown component for React.
+
+👉 Changes are re-rendered as you type.
+
+👈 Try writing some markdown on the left.
+
+## Overview
+
+* Follows [CommonMark](https://commonmark.org)
+* Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)
+* Renders actual React elements instead of using 'dangerouslySetInnerHTML'
+* Lets you define your own components (to render 'MyHeading' instead of 'h1')
+* Has a lot of plugins
+
+## Contents
+
+Here is an example of a plugin in action
+([remark-toc](https://github.com/remarkjs/remark-toc)).
+**This section is replaced by an actual table of contents**.
+
+## Syntax highlighting
+
+Here is an example of a plugin to highlight code:
+['rehype-highlight'](https://github.com/rehypejs/rehype-highlight).
+`,
+      shortDescription: 'A demonstration project showcasing react-markdown capabilities and features',
       highlighted: true,
       dateStarted: new Date('2023-01-01'),
       dateEnded: new Date('2023-06-30'),
@@ -54,11 +81,39 @@ async function main() {
     {
       id: '2',
       title: 'Project 2',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.',
+      description: `
+  # A demo of 'react-markdown'
+
+'react-markdown' is a markdown component for React.
+
+👉 Changes are re-rendered as you type.
+
+👈 Try writing some markdown on the left.
+
+## Overview
+
+* Follows [CommonMark](https://commonmark.org)
+* Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)
+* Renders actual React elements instead of using 'dangerouslySetInnerHTML'
+* Lets you define your own components (to render 'MyHeading' instead of 'h1')
+* Has a lot of plugins
+
+## Contents
+
+Here is an example of a plugin in action
+([remark-toc](https://github.com/remarkjs/remark-toc)).
+**This section is replaced by an actual table of contents**.
+
+## Syntax highlighting
+
+Here is an example of a plugin to highlight code:
+['rehype-highlight'](https://github.com/rehypejs/rehype-highlight).
+`,
+      shortDescription: 'Extended markdown implementation with advanced features and plugins',
       highlighted: false,
       dateStarted: new Date('2023-02-15'),
       dateEnded: new Date('2023-08-31'),
+      client: 'TechCorp Solutions',
       Images: [
         {
           id: '3',
@@ -83,8 +138,35 @@ async function main() {
     {
       id: '3',
       title: 'Project 3',
-      description:
-        'Description of project 3. This innovative project aims to revolutionize the way we approach problem-solving in the digital age. By leveraging cutting-edge technologies and methodologies, we are creating a platform that enhances collaboration, streamlines processes, and delivers unprecedented results for our clients.',
+      description: `
+  # A demo of 'react-markdown'
+
+'react-markdown' is a markdown component for React.
+
+👉 Changes are re-rendered as you type.
+
+👈 Try writing some markdown on the left.
+
+## Overview
+
+* Follows [CommonMark](https://commonmark.org)
+* Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)
+* Renders actual React elements instead of using 'dangerouslySetInnerHTML'
+* Lets you define your own components (to render 'MyHeading' instead of 'h1')
+* Has a lot of plugins
+
+## Contents
+
+Here is an example of a plugin in action
+([remark-toc](https://github.com/remarkjs/remark-toc)).
+**This section is replaced by an actual table of contents**.
+
+## Syntax highlighting
+
+Here is an example of a plugin to highlight code:
+['rehype-highlight'](https://github.com/rehypejs/rehype-highlight).
+`,
+      shortDescription: 'Interactive markdown editor with real-time preview functionality',
       highlighted: true,
       dateStarted: new Date('2023-03-10'),
       dateEnded: new Date('2023-09-15'),
@@ -100,11 +182,39 @@ async function main() {
     {
       id: '4',
       title: 'Project 4',
-      description:
-        'Description of project 4. Our team is developing a groundbreaking solution that addresses the growing challenges in data management and analysis. This project combines advanced machine learning algorithms with intuitive user interfaces to provide actionable insights and drive informed decision-making across various industries.',
+      description: `
+  # A demo of 'react-markdown'
+
+'react-markdown' is a markdown component for React.
+
+👉 Changes are re-rendered as you type.
+
+👈 Try writing some markdown on the left.
+
+## Overview
+
+* Follows [CommonMark](https://commonmark.org)
+* Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)
+* Renders actual React elements instead of using 'dangerouslySetInnerHTML'
+* Lets you define your own components (to render 'MyHeading' instead of 'h1')
+* Has a lot of plugins
+
+## Contents
+
+Here is an example of a plugin in action
+([remark-toc](https://github.com/remarkjs/remark-toc)).
+**This section is replaced by an actual table of contents**.
+
+## Syntax highlighting
+
+Here is an example of a plugin to highlight code:
+['rehype-highlight'](https://github.com/rehypejs/rehype-highlight).
+`,
+      shortDescription: 'Customizable markdown renderer with syntax highlighting support',
       highlighted: false,
       dateStarted: new Date('2023-04-05'),
       dateEnded: new Date('2023-10-20'),
+      client: 'Digital Innovations Ltd',
       Images: [
         {
           id: '7',
@@ -123,8 +233,35 @@ async function main() {
     {
       id: '5',
       title: 'Project 5',
-      description:
-        'Description of project 5. We are pioneering a new approach to sustainable technology development. This project focuses on creating eco-friendly solutions that reduce carbon footprints while maintaining high performance and reliability. Our innovative designs and materials are set to transform the way we think about environmental responsibility in the tech industry.',
+      description: `
+  # A demo of 'react-markdown'
+
+'react-markdown' is a markdown component for React.
+
+👉 Changes are re-rendered as you type.
+
+👈 Try writing some markdown on the left.
+
+## Overview
+
+* Follows [CommonMark](https://commonmark.org)
+* Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)
+* Renders actual React elements instead of using 'dangerouslySetInnerHTML'
+* Lets you define your own components (to render 'MyHeading' instead of 'h1')
+* Has a lot of plugins
+
+## Contents
+
+Here is an example of a plugin in action
+([remark-toc](https://github.com/remarkjs/remark-toc)).
+**This section is replaced by an actual table of contents**.
+
+## Syntax highlighting
+
+Here is an example of a plugin to highlight code:
+['rehype-highlight'](https://github.com/rehypejs/rehype-highlight).
+`,
+      shortDescription: 'Advanced markdown system with plugin architecture and custom components',
       highlighted: true,
       dateStarted: new Date('2023-05-20'),
       dateEnded: new Date('2023-11-30'),
@@ -154,9 +291,11 @@ async function main() {
       title: 'Project 6',
       description:
         'Description of project 6. This ambitious project aims to bridge the gap between virtual and physical realities. By developing advanced augmented reality technologies, we are creating immersive experiences that enhance education, training, and entertainment. Our solutions are poised to revolutionize how we interact with digital content in our daily lives.',
+      shortDescription: 'Innovative AR project bridging virtual and physical realities',
       highlighted: false,
       dateStarted: new Date('2023-06-15'),
       dateEnded: new Date('2023-12-31'),
+      client: 'VR Dynamics Inc',
       Images: [
         {
           id: '12',
@@ -169,8 +308,35 @@ async function main() {
     {
       id: '7',
       title: 'Project 7',
-      description:
-        'Description of project 7. We are at the forefront of developing next-generation cybersecurity solutions. This project combines artificial intelligence and blockchain technology to create robust, adaptive security systems that protect against evolving threats. Our innovative approach is set to redefine the standards of digital security in an increasingly connected world.',
+      description: `
+  # A demo of 'react-markdown'
+
+'react-markdown' is a markdown component for React.
+
+👉 Changes are re-rendered as you type.
+
+👈 Try writing some markdown on the left.
+
+## Overview
+
+* Follows [CommonMark](https://commonmark.org)
+* Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)
+* Renders actual React elements instead of using 'dangerouslySetInnerHTML'
+* Lets you define your own components (to render 'MyHeading' instead of 'h1')
+* Has a lot of plugins
+
+## Contents
+
+Here is an example of a plugin in action
+([remark-toc](https://github.com/remarkjs/remark-toc)).
+**This section is replaced by an actual table of contents**.
+
+## Syntax highlighting
+
+Here is an example of a plugin to highlight code:
+['rehype-highlight'](https://github.com/rehypejs/rehype-highlight).
+`,
+      shortDescription: 'Enhanced markdown editor with CommonMark and GFM support',
       highlighted: true,
       dateStarted: new Date('2023-07-01'),
       dateEnded: new Date('2024-01-15'),
@@ -192,11 +358,39 @@ async function main() {
     {
       id: '8',
       title: 'Project 8',
-      description:
-        'Description of project 8. Our team is developing a revolutionary platform for personalized healthcare management. This project integrates wearable technology, big data analytics, and telemedicine to provide tailored health insights and interventions. We aim to empower individuals to take control of their well-being while improving the efficiency and effectiveness of healthcare delivery.',
+      description: `
+  # A demo of 'react-markdown'
+
+'react-markdown' is a markdown component for React.
+
+👉 Changes are re-rendered as you type.
+
+👈 Try writing some markdown on the left.
+
+## Overview
+
+* Follows [CommonMark](https://commonmark.org)
+* Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)
+* Renders actual React elements instead of using 'dangerouslySetInnerHTML'
+* Lets you define your own components (to render 'MyHeading' instead of 'h1')
+* Has a lot of plugins
+
+## Contents
+
+Here is an example of a plugin in action
+([remark-toc](https://github.com/remarkjs/remark-toc)).
+**This section is replaced by an actual table of contents**.
+
+## Syntax highlighting
+
+Here is an example of a plugin to highlight code:
+['rehype-highlight'](https://github.com/rehypejs/rehype-highlight).
+`,
+      shortDescription: 'Comprehensive markdown solution with extensive plugin ecosystem',
       highlighted: false,
       dateStarted: new Date('2023-08-10'),
       dateEnded: new Date('2024-02-29'),
+      client: 'Global Tech Solutions',
       Images: [
         {
           id: '15',
@@ -225,13 +419,14 @@ async function main() {
       ],
     },
   ] as ProjectWithImages[];
-
   await projectSeedData.forEach(async (project: ProjectWithImages) => {
     await prisma.project.create({
       include: { Images: true },
       data: {
         id: project.id,
         title: project.title,
+        shortDescription: project.shortDescription,
+        client: project.client,
         description: project.description,
         highlighted: project.highlighted,
         dateStarted: project.dateStarted,
@@ -245,6 +440,50 @@ async function main() {
           })),
         },
       },
+    });
+  });
+
+  const contactMeQueries = [
+    {
+      id: uuidFromString('contact-me-query-1'),
+      name: 'John Doe',
+      submittedByEmail: 'john.doe@example.com',
+      message: 'I have a question about your services.',
+      company: 'ACME Corp',
+      createdAt: new Date(),
+      sentTimestamp: null,
+    },
+    {
+      id: uuidFromString('contact-me-query-2'),
+      name: 'Jane Smith',
+      submittedByEmail: 'jane.smith@example.com',
+      message: 'I would like to schedule a consultation.',
+      company: null,
+      createdAt: new Date(),
+      sentTimestamp: null,
+    },
+    {
+      id: uuidFromString('contact-me-query-3'),
+      name: 'Alice Johnson',
+      submittedByEmail: 'alice.johnson@example.com',
+      message: 'I am interested in your pricing.',
+      company: 'Tech Solutions Inc',
+      createdAt: new Date(),
+      sentTimestamp: new Date(),
+    },
+    {
+      id: uuidFromString('contact-me-query-4'),
+      name: 'Bob Williams',
+      message: 'I am interested in your pricing.',
+      submittedByEmail: 'bob.williams@',
+      company: null,
+      sentTimestamp: null,
+    },
+  ] as ContactUsNotification[];
+
+  await contactMeQueries.forEach(async (query: ContactUsNotification) => {
+    await prisma.contactUsNotification.create({
+      data: query,
     });
   });
 }

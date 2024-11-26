@@ -6,6 +6,7 @@ import { Project } from '@core/db/schema';
 import solutionArch from '../../assets/images/solutionArch.png';
 import { Typography, Container } from '@mui/material';
 import { MarkDownRenderer } from '../toolkit/MarkDownUtils';
+import { formatDate } from '@/utils/HelperFunctions';
 // import { Button } from '@mui/material';
 
 // const ImageButtonBox = styled(Box)`
@@ -61,35 +62,6 @@ type ProjectModalBodyProps = {
   projectData: Project;
 };
 
-const testmarkdown = `
-  # A demo of 'react-markdown'
-
-'react-markdown' is a markdown component for React.
-
-👉 Changes are re-rendered as you type.
-
-👈 Try writing some markdown on the left.
-
-## Overview
-
-* Follows [CommonMark](https://commonmark.org)
-* Optionally follows [GitHub Flavored Markdown](https://github.github.com/gfm/)
-* Renders actual React elements instead of using 'dangerouslySetInnerHTML'
-* Lets you define your own components (to render 'MyHeading' instead of 'h1')
-* Has a lot of plugins
-
-## Contents
-
-Here is an example of a plugin in action
-([remark-toc](https://github.com/remarkjs/remark-toc)).
-**This section is replaced by an actual table of contents**.
-
-## Syntax highlighting
-
-Here is an example of a plugin to highlight code:
-['rehype-highlight'](https://github.com/rehypejs/rehype-highlight).
-`;
-
 // const ProjectModalBody = ({ id, title, description, image, highlighted }: testProjectDataType) => {
 const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
   // const theme = useTheme();
@@ -116,6 +88,15 @@ const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
       }, 200);
     }
   };
+
+  const parseSubtitle = (project: Project) => {
+    const clientStr = project.client ? `${projectData.client} |` : '';
+
+    const endDate = project.dateEnded ? formatDate(new Date(project.dateEnded).toLocaleDateString()) : 'Present';
+
+    return `${clientStr} ${formatDate(new Date(project.dateStarted).toLocaleDateString())} - ${endDate}`;
+  };
+
   return (
     <>
       <ProjectImageWrapper>
@@ -135,14 +116,6 @@ const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
                 />
               </div>
             ))}
-            {/* <ImageButtonBox>
-            {activeImage && activeImage > 0 && (
-              <Button onClick={() => setActiveImage(() => (activeImage ? activeImage - 1 : null))}>PREV</Button>
-            )}
-            {activeImage && activeImage < maxImages - 1 && (
-              <Button onClick={() => setActiveImage(() => (activeImage ? activeImage + 1 : null))}>NEXT</Button>
-            )}
-          </ImageButtonBox> */}
           </ProjectModalImageList>
         )}
       </ProjectImageWrapper>
@@ -153,7 +126,7 @@ const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
         </Typography>
         <SubTitleWrapper>
           <Typography component='h6' variant='h6'>
-            Woolworths NZ | 21/02/2023 - 10/06/2023
+            {parseSubtitle(projectData)}
           </Typography>
           {/* <Typography component='h6' variant='h6'>
           21/02/2023 - 10/06/2023
@@ -161,7 +134,7 @@ const ProjectModalBody = ({ projectData }: ProjectModalBodyProps) => {
         </SubTitleWrapper>
 
         <div>
-          <MarkDownRenderer markDownStr={testmarkdown} />
+          <MarkDownRenderer markDownStr={projectData.description} />
         </div>
       </ProjectContentWrapper>
     </>

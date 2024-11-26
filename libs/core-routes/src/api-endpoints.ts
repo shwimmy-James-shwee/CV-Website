@@ -2,6 +2,7 @@ export const PREFIX = {
   user: '/user',
   userActivityLog: '/user-activity-log',
   project: '/project',
+  contact: '/contact',
 };
 
 export const apiVersion = '/api/v1';
@@ -24,11 +25,16 @@ export const ROUTE = {
     byId: '/',
     getAll: '/get-all',
   },
+  contact: {
+    base: PREFIX.contact,
+    getAll: '/get-all',
+  },
 };
 
 const user = ROUTE.user;
 const userActivityLog = ROUTE.userActivityLog;
 const project = ROUTE.project;
+const contact = ROUTE.contact;
 
 // If an endpoint ends in a "/" it implies a param/id should be passed to it
 export const API = {
@@ -52,5 +58,9 @@ export const API = {
     root: apiVersion + project.base, // POST, GET
     byId: apiVersion + project.base + project.byId, // requires ID param
     getAll: apiVersion + project.base + project.getAll, // GET, returns all projects and Images
+  },
+  contact: {
+    root: apiVersion + contact.base, // POST, GET
+    getAll: apiVersion + contact.base + contact.getAll, // GET, returns all contact me requests
   },
 };
