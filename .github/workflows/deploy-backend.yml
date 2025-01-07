@@ -1,7 +1,7 @@
 name: Deploy Backend API
 on:
   push:
-    branches: ['dev', 'qa', 'staging']
+    branches: ['uat']
     paths:
       - 'apps/backend/**'
       - 'libs/**'
@@ -12,10 +12,10 @@ on:
         type: choice
         description: which env to deploy the changes to
         options:
-          - dev
-          # - uat
+          # - dev
+          - uat
           # - main
-        default: dev
+        default: uat
 env:
   NODE_DOCKER_IMAGE: 'node:20-slim'
 jobs:
@@ -103,20 +103,29 @@ jobs:
   deploy:
     name: Deploy Docker
     needs: build
-    runs-on: opch
+    runs-on: ubuntu-22.04
     environment: ${{ (contains(github.ref_type, 'tag') && 'prod') || github.ref_name }}
     env:
-      AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
-      AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
+      # AZURE_CONTAINER_REGISTRY_NAME: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}
+      # AZURE_CONTAINER_REGISTRY: ${{ vars.PROJECT_NAME_ABBREVIATION }}acr${{ vars.ENV }}.azurecr.io
+      DOCKER_USER: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASS: ${{ secrets.DOCKER_PASSWORD }}
     steps:
       - uses: actions/checkout@v3
       - name: Branch name
         run: echo running on branch ${GITHUB_REF##*/} - ${{github.ref_name}} - ${{ github.event.inputs.name }}
 
-      - name: 'Login via Azure CLI'
-        uses: azure/login@v1
+      # - name: 'Login via Azure CLI'
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Step 3: Log in to DockerHub (if pushing to DockerHub)
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
 
       - name: Download API App artifacts
         uses: actions/download-artifact@v4
@@ -130,25 +139,45 @@ jobs:
         run: |
           docker image rm webappapi
 
-      - name: Load And Push Image
+      # - name: Load And Push Image
+      #   run: |
+      #     docker image load --input /tmp/webappapi.tar
+      #     az acr login --name $AZURE_CONTAINER_REGISTRY_NAME
+
+      #     docker tag webappapi $AZURE_CONTAINER_REGISTRY/webappapi:${{ github.run_id }}
+      #     docker tag webappapi $AZURE_CONTAINER_REGISTRY/webappapi
+
+      #     # publish image to acr
+      #     docker push $AZURE_CONTAINER_REGISTRY/webappapi:${{ github.run_id }}
+      #     docker push  $AZURE_CONTAINER_REGISTRY/webappapi
+
+      # - name: Deploy to Staging
+      #   uses: azure/webapps-deploy@v2
+      #   with:
+      #     app-name: '${{ vars.PROJECT_NAME_ABBREVIATION }}-be-${{ vars.ENV }}'
+      #     slot-name: ${{ vars.ENV == 'prod' && 'staging' || 'production' }}
+      #     images: '${{ env.AZURE_CONTAINER_REGISTRY }}/webappapi:${{ github.run_id }}'
+      #     # ${{ github.run_id }}
+
+      - name: Load and Push Docker image to DockerHub
         run: |
           docker image load --input /tmp/webappapi.tar
-          az acr login --name $AZURE_CONTAINER_REGISTRY_NAME
+          docker tag webappapi $DOCKER_USER/webappapi:${{ github.sha }}
+          docker push $DOCKER_USER/webappapi:${{ github.sha }}
 
-          docker tag webappapi $AZURE_CONTAINER_REGISTRY/webappapi:${{ github.run_id }}
-          docker tag webappapi $AZURE_CONTAINER_REGISTRY/webappapi
-
-          # publish image to acr
-          docker push $AZURE_CONTAINER_REGISTRY/webappapi:${{ github.run_id }}
-          docker push  $AZURE_CONTAINER_REGISTRY/webappapi
-
-      - name: Deploy to Staging
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: '${{ vars.PROJECT_NAME_ABBREVIATION }}-be-${{ vars.ENV }}'
-          slot-name: ${{ vars.ENV == 'prod' && 'staging' || 'production' }}
-          images: '${{ env.AZURE_CONTAINER_REGISTRY }}/webappapi:${{ github.run_id }}'
-          # ${{ github.run_id }}
+      - name: Deploy to Oracle Compute Instance
+        env:
+          HOST: ${{ secrets.ORACLE_VM_IP }}
+          USER: ${{ secrets.ORACLE_VM_USER }}
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          ssh -i $PRIVATE_KEY -o StrictHostKeyChecking=no $USER@$HOST << EOF
+            # Pull the latest Docker image (either from DockerHub or local)
+            docker pull webappapi:latest
+            
+            # Run the Docker container (ensure the port is exposed correctly)
+            docker run -d -p 3000:3000 my-node-app
+          EOF
 
       - name: Remove old images/container
         id: remove
