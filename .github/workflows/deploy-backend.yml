@@ -166,12 +166,12 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/webappapi:${{ github.sha }}
 
       - name: Deploy to Oracle Compute Instance
-        env:
-          HOST: ${{ secrets.ORACLE_VM_IP }}
-          USER: ${{ secrets.ORACLE_VM_USER }}
-          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        # env:
+        #   HOST: ${{ secrets.ORACLE_VM_IP }}
+        #   USER: ${{ secrets.ORACLE_VM_USER }}
+        #   PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          ssh -i $PRIVATE_KEY -o StrictHostKeyChecking=no $USER@$HOST << EOF
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no ${{ secrets.ORACLE_VM_USER }}@${{ secrets.ORACLE_VM_IP }} << EOF
             # Pull the latest Docker image (either from DockerHub or local)
             docker pull webappapi:latest
             
