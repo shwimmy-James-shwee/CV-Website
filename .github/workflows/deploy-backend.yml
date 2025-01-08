@@ -171,6 +171,7 @@ jobs:
         #   USER: ${{ secrets.ORACLE_VM_USER }}
         #   PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
+          echo "Deploying to Oracle Compute Instance: ${{ secrets.ORACLE_VM_USER }}@${{ secrets.ORACLE_VM_IP }}"
           ssh -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no ${{ secrets.ORACLE_VM_USER }}@${{ secrets.ORACLE_VM_IP }} << EOF
             # Pull the latest Docker image (either from DockerHub or local)
             docker pull webappapi:latest

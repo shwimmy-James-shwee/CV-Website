@@ -1,9 +1,0 @@
-name: infra-iac
-runtime:
-  name: nodejs
-  options:
-    nodeargs: --max-old-space-size=4096
-config:
-  pulumi:tags:
-    value:
-      pulumi:template: typescript
