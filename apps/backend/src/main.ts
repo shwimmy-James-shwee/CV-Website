@@ -8,6 +8,7 @@ import './config';
 import { readFileSync } from 'fs';
 import * as bodyParser from 'body-parser';
 import { apiVersion } from '@core/routes';
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -49,9 +50,16 @@ async function bootstrap() {
     customSiteTitle: 'API Documentation',
     customfavIcon: './favicon.ico',
   });
-  app.enableCors({
-    origin: 'http://localhost:3000',
-  });
+
+  const corsOptions: CorsOptions = {
+    // origin: 'http://localhost:3000',
+    origin: process.env.NODE_ENV === 'local' ? 'http://localhost:3000' : 'https://jamespearce.dev',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+  };
+
+  app.enableCors(corsOptions);
+
   await app.listen(process.env.APP_PORT || 8080);
 }
 bootstrap();
