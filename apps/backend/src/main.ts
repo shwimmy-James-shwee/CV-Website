@@ -63,7 +63,7 @@ async function bootstrap() {
 
   if (process.env.NODE_ENV === 'production') {
     const httpsOptions = {
-      key: readFileSync('./private-key.pem'),
+      key: readFileSync('./private-key.key'), // inserted during deployment process
       cert: readFileSync('./certificate.pem'),
     };
     await https.createServer(httpsOptions, app.getHttpAdapter().getInstance()).listen(process.env.APP_PORT || 8080);

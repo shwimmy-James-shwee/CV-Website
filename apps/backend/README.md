@@ -20,7 +20,7 @@
 <!-- 8. run 'pnpm build' at repo root-->
 
 9. To setup the database, run `cd apps/backend`, then `pnpm run dev:db:reset` (this applies migrations and seeds)
-10. run "node dist/src/main" (ensure node has permission to bind to a < 1024 port if needed)
+10. run "node dist/src/main" (ensure node has permission to bind to a < 1024 port if needed and that https ssl cert and key are present)
     <!-- 10. run pnpm run start:prod \ -->
     <!-- 10. run pnpm run start -->
 
