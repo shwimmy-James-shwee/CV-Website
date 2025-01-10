@@ -9,12 +9,17 @@ import { readFileSync } from 'fs';
 import * as bodyParser from 'body-parser';
 import { apiVersion } from '@core/routes';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
-import * as https from 'https';
 
 async function bootstrap() {
+  const httpsOptions = {
+    key: readFileSync('./private-key.key'), // inserted during deployment process
+    cert: readFileSync('./certificate.pem'),
+  };
+
   const app = await NestFactory.create(AppModule, {
     cors: true,
     bufferLogs: true,
+    httpsOptions,
   });
 
   app.use(bodyParser.json({ limit: '50mb' }));
@@ -61,15 +66,8 @@ async function bootstrap() {
 
   app.enableCors(corsOptions);
 
-  if (process.env.NODE_ENV === 'production') {
-    const httpsOptions = {
-      key: readFileSync('./private-key.key'), // inserted during deployment process
-      cert: readFileSync('./certificate.pem'),
-    };
-    await https.createServer(httpsOptions, app.getHttpAdapter().getInstance()).listen(process.env.APP_PORT || 8080);
-  } else {
-    await app.listen(process.env.APP_PORT || 8080);
-  }
+  await app.listen(process.env.APP_PORT || 8080);
+
   // eslint-disable-next-line no-console
   console.log(`Application is running on: ${process.env.APP_PORT || 8080}`);
 }
