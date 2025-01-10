@@ -61,5 +61,7 @@ async function bootstrap() {
   app.enableCors(corsOptions);
 
   await app.listen(process.env.APP_PORT || 8080);
+  // eslint-disable-next-line no-console
+  console.log(`Application is running on: ${process.env.APP_PORT || 8080}`);
 }
 bootstrap();
