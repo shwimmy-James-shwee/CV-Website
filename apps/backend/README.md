@@ -20,13 +20,14 @@
 <!-- 8. run 'pnpm build' at repo root-->
 
 9. To setup the database, run `cd apps/backend`, then `pnpm run dev:db:reset` (this applies migrations and seeds)
-10. run pnpm run start:prod \
-<!-- 10. run pnpm run start -->
+10. run "node dist/src/main" (ensure node has permission to bind to a < 1024 port if needed)
+    <!-- 10. run pnpm run start:prod \ -->
+    <!-- 10. run pnpm run start -->
 
 ## troubleshooting deployment:
 
 1. errors on start:prod? - ensure .env.production files are present in the VM in respective folders (ls -a)
-2. server is running but can't connect? - ensure the VMs ports are open with "sudo iptables -nL". If needed add the ports to the firewall with "sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport <port> -j ACCEPT" and "sudo netfilter-persistent save". (8080 and 80 need to be open)
+2. server is running but can't connect? - ensure the VMs ports are open with "sudo iptables -nL". If needed add the ports to the firewall with "sudo iptables -I INPUT 6 -m state --state NEW -p tcp --dport <port> -j ACCEPT" and "sudo netfilter-persistent save". (8080 and 443 need to be open)
 
 ## Key technologies used:
 
